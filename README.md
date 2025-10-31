@@ -20,8 +20,8 @@ It’s designed for performance and simplicity — no configuration beyond a sin
 
 | Feature | Description |
 |----------|-------------|
-| **Enable Magical Hearse** | Toggles whether the automatic cleanup system is active. |
-| **Zero Maintenance** | No setup or dependencies required. |
+| **Enable Magic Hearse** | Toggles whether the automatic cleanup system is active. |
+| **Works Automatically** | No setup or dependencies required. |
 
 
 ---
