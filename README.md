@@ -32,16 +32,16 @@ It’s designed for performance and simplicity — no configuration beyond a sin
 
 1. Scans all citizens with the `HealthProblem` component.  
 2. If a citizen is both **Dead** and **RequiresTransport**, it adds the `Deleted` tag.  
-3. The game engine then removes those entities automatically.  
+3. The game then removes those entities automatically.  
 
-This keeps city cleanup efficient without altering the core simul
-Github repo: https://github.com/River-Mochi/MagicHearse
-[Paradox Mods page](https://mods.paradoxplaza.com/authors/kimosabe1?orderBy=desc&sortBy=best&time=alltime)
+- Github repo: https://github.com/River-Mochi/MagicHearse
+- [Paradox Mods page](https://mods.paradoxplaza.com/authors/kimosabe1?orderBy=desc&sortBy=best&time=alltime)
+
 
 ---
 
 ## 📥 Credits
-- River-Mochi - current author and maintainer
+- River-Mochi - current author/maintainer
 - Thanks to Wayze, the original author and pioneer of Magical Hearse
 - Necko1996 - testing and feedback
 
