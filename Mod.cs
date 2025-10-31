@@ -1,5 +1,5 @@
 ﻿// Mod.cs
-// Entrypoint for Magic Hearse Redux; registers settings, locales, and the ECS cleanup system.
+// Entrypoint: registers settings, locales, and the ECS system.
 
 namespace MagicHearse
 {
@@ -11,8 +11,9 @@ namespace MagicHearse
 
     public sealed class Mod : IMod
     {
+        // single source of truth for name + version
         public const string ModName = "Magic Hearse Redux";
-        public const string ModVersion = "1.3.2";
+        public const string ModVersion = "1.3.2"; // bump when publishing
 
         public static readonly ILog Log =
             LogManager.GetLogger("MagicHearseRedux").SetShowsErrorsInUI(
@@ -23,19 +24,18 @@ namespace MagicHearse
 #endif
             );
 
-        // set in OnLoad, cleared in OnDispose
         public static Setting? Settings;
 
         public void OnLoad(UpdateSystem updateSystem)
         {
             Log.Info($"{ModName} v{ModVersion} OnLoad");
 
-            // create settings first
+            // settings first
             var setting = new Setting(this);
             Settings = setting;
 
-            // register locales (all in Setting.cs)
-            var lm = GameManager.instance != null ? GameManager.instance.localizationManager : null;
+            // register locales
+            var lm = GameManager.instance?.localizationManager;
             if (lm != null)
             {
                 lm.AddSource("en-US", new LocaleEN(setting));
@@ -49,18 +49,19 @@ namespace MagicHearse
                 Log.Warn("LocalizationManager not found; settings UI texts may be missing.");
             }
 
-            // load from: ModsSettings/MagicHearseRedux.coc
+            // load saved settings (file name is in Setting.cs [FileLocation])
             AssetDatabase.global.LoadSettings("MagicHearseRedux", setting, new Setting(this));
 
             // show in Options -> Mods
             setting.RegisterInOptionsUI();
 
-            // schedule ECS system
+            // run the cleanup system in simulation
             updateSystem.UpdateAt<MagicHearseSystem>(SystemUpdatePhase.GameSimulation);
 
-            // honor current toggle
-            var sys = updateSystem.World.GetOrCreateSystemManaged<MagicHearseSystem>();
-            sys.Enabled = setting.EnableMagicHearse;
+            // apply current toggle value
+            updateSystem.World
+                .GetOrCreateSystemManaged<MagicHearseSystem>()
+                .Enabled = setting.EnableMagicHearse;
         }
 
         public void OnDispose()
@@ -70,9 +71,8 @@ namespace MagicHearse
             if (Settings != null)
             {
                 Settings.UnregisterInOptionsUI();
+                Settings = null;
             }
-
-            Settings = null;
         }
     }
 }

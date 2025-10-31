@@ -49,6 +49,7 @@ Hearse drivers out of job seek employment in the shipping industry.
 	<!--Screenshot, can be set multiple times-->
 	<Screenshot Value="Properties/Screenshot10.jpg" />
 	<Screenshot Value="Properties/Screenshot20.jpg" />
+	<Screenshot Value="Properties/Screenshot30.jpg" />
 	<!--Tag, can be set multiple times-->
 	<Tag Value="Code Mod" />
 	<!--Link to the forum post where the mod can be discussed-->
@@ -60,7 +61,7 @@ Hearse drivers out of job seek employment in the shipping industry.
 	<!--Dependency for the mod, can be set multiple times-->
 	<Dependency Id="" />
 	<!--Change log for new version. Single line or multi line. Supports minimal markdown subset-->
-	<ChangeLog>update details, fix typos </ChangeLog>
+	<ChangeLog>update screenshots </ChangeLog>
 	<!--External link. supported types are discord, github, youtube, twitch, x, paypal, patreon-->
 	<ExternalLink Type="discord" Url="https://discord.gg/HTav7ARPs2" />
 	<ExternalLink Type="github" Url="https://github.com/River-Mochi/MagicHearse" />

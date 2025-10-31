@@ -1,5 +1,5 @@
 ﻿// Setting.cs
-// Options UI + all tiny locales for Magic Hearse Redux.
+// Options UI for Magic Hearse Redux (name + version + toggle) with hidden group header.
 
 namespace MagicHearse
 {
@@ -7,14 +7,18 @@ namespace MagicHearse
     using Colossal;
     using Colossal.IO.AssetDatabase;
     using Game.Modding;
+    using Game.Settings;
     using Unity.Entities;
 
-    // Saves to:
-    // ...\ModsSettings\MagicHearseRedux.coc
+    // Saves to: ModsSettings/MagicHearseRedux.coc
     [FileLocation("ModsSettings/MagicHearseRedux")]
+    [SettingsUIGroupOrder(MainTabInfo)]
+    // NOTE: intentionally NO [SettingsUIShowGroupName(...)] so the header bar is hidden
     public sealed class Setting : ModSetting
     {
-        // set in ctor
+        public const string MainTab = "Main";
+        public const string MainTabInfo = "Info";
+
         public static Setting? Instance;
 
         public Setting(IMod mod)
@@ -23,13 +27,18 @@ namespace MagicHearse
             Instance = this;
         }
 
-        // main toggle
+        // --- read-only display from Mod.cs ---
+
+        [SettingsUISection(MainTab, MainTabInfo)]
+        public string ModNameDisplay => Mod.ModName;
+
+        [SettingsUISection(MainTab, MainTabInfo)]
+        public string ModVersionDisplay => Mod.ModVersion;
+
+        // --- actual toggle ---
+
+        [SettingsUISection(MainTab, MainTabInfo)]
         public bool EnableMagicHearse { get; set; } = true;
-
-        // info-only, shown under the checkbox
-        public string ModName { get; set; } = "Magic Hearse Redux";
-
-        public string ModVersion { get; set; } = "1.3.2";
 
         public override void Apply()
         {
@@ -43,8 +52,6 @@ namespace MagicHearse
         public override void SetDefaults()
         {
             EnableMagicHearse = true;
-            ModName = "Magic Hearse Redux";
-            ModVersion = "1.3.2";
         }
     }
 
@@ -66,16 +73,18 @@ namespace MagicHearse
         {
             return new Dictionary<string, string>
             {
+                // panel name in Options -> Modding
                 { m_Setting.GetSettingsLocaleID(), "Magic Hearse Redux" },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.EnableMagicHearse)), "Enable Magic Hearse Redux" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.ModNameDisplay)), "Mod" },
+                { m_Setting.GetOptionDescLocaleID(nameof(Setting.ModNameDisplay)), "Display name of this mod." },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.ModVersionDisplay)), "Version" },
+                { m_Setting.GetOptionDescLocaleID(nameof(Setting.ModVersionDisplay)), "Current build of Magic Hearse Redux." },
+
+                // you wanted this short:
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.EnableMagicHearse)), "Enable Magic" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.EnableMagicHearse)), "Auto removes dead citizens that are waiting for a hearse." },
-
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.ModName)), "Mod" },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.ModName)), "Display name of this mod." },
-
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.ModVersion)), "Version" },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.ModVersion)), "Current build of Magic Hearse Redux." },
             };
         }
 
@@ -104,14 +113,14 @@ namespace MagicHearse
             {
                 { m_Setting.GetSettingsLocaleID(), "Magic Hearse Redux" },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.EnableMagicHearse)), "Activer Magic Hearse Redux" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.ModNameDisplay)), "Mod" },
+                { m_Setting.GetOptionDescLocaleID(nameof(Setting.ModNameDisplay)), "Nom de ce mod." },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.ModVersionDisplay)), "Version" },
+                { m_Setting.GetOptionDescLocaleID(nameof(Setting.ModVersionDisplay)), "Version actuelle de Magic Hearse Redux." },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.EnableMagicHearse)), "Activer Magic" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.EnableMagicHearse)), "Supprime automatiquement les citoyens décédés en attente d’un corbillard." },
-
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.ModName)), "Mod" },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.ModName)), "Nom du mod." },
-
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.ModVersion)), "Version" },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.ModVersion)), "Version actuelle de Magic Hearse Redux." },
             };
         }
 
@@ -140,14 +149,14 @@ namespace MagicHearse
             {
                 { m_Setting.GetSettingsLocaleID(), "Magic Hearse Redux" },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.EnableMagicHearse)), "Activar Magic Hearse Redux" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.ModNameDisplay)), "Mod" },
+                { m_Setting.GetOptionDescLocaleID(nameof(Setting.ModNameDisplay)), "Nombre de este mod." },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.ModVersionDisplay)), "Versión" },
+                { m_Setting.GetOptionDescLocaleID(nameof(Setting.ModVersionDisplay)), "Versión actual de Magic Hearse Redux." },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.EnableMagicHearse)), "Activar Magic" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.EnableMagicHearse)), "Elimina automáticamente a los ciudadanos muertos que esperan un coche fúnebre." },
-
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.ModName)), "Mod" },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.ModName)), "Nombre de este mod." },
-
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.ModVersion)), "Versión" },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.ModVersion)), "Versión actual de Magic Hearse Redux." },
             };
         }
 
@@ -176,14 +185,14 @@ namespace MagicHearse
             {
                 { m_Setting.GetSettingsLocaleID(), "Magic Hearse Redux" },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.EnableMagicHearse)), "Magic Hearse aktivieren" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.ModNameDisplay)), "Mod" },
+                { m_Setting.GetOptionDescLocaleID(nameof(Setting.ModNameDisplay)), "Name dieses Mods." },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.ModVersionDisplay)), "Version" },
+                { m_Setting.GetOptionDescLocaleID(nameof(Setting.ModVersionDisplay)), "Aktuelle Version von Magic Hearse Redux." },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.EnableMagicHearse)), "Magic aktivieren" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.EnableMagicHearse)), "Entfernt automatisch verstorbene Bürger, die auf einen Leichenwagen warten." },
-
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.ModName)), "Mod" },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.ModName)), "Name dieses Mods." },
-
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.ModVersion)), "Version" },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.ModVersion)), "Aktuelle Version von Magic Hearse Redux." },
             };
         }
 
@@ -212,14 +221,14 @@ namespace MagicHearse
             {
                 { m_Setting.GetSettingsLocaleID(), "Magic Hearse Redux 魔法灵车" },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.EnableMagicHearse)), "启用魔法灵车" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.ModNameDisplay)), "模组" },
+                { m_Setting.GetOptionDescLocaleID(nameof(Setting.ModNameDisplay)), "此模组的名称。" },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.ModVersionDisplay)), "版本" },
+                { m_Setting.GetOptionDescLocaleID(nameof(Setting.ModVersionDisplay)), "Magic Hearse Redux 当前版本。" },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.EnableMagicHearse)), "启用 Magic" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.EnableMagicHearse)), "自动清理等待灵车的死亡市民。" },
-
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.ModName)), "模组" },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.ModName)), "此模组的名称。" },
-
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.ModVersion)), "版本" },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.ModVersion)), "Magic Hearse Redux 当前版本。" },
             };
         }
 
