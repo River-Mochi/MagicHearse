@@ -2,10 +2,10 @@
 	<PropertyGroup>
 		<OutputType>Library</OutputType>
 		<Configurations>Debug;Release</Configurations>
-		<Version>1.2.0</Version>
-
+		<Nullable>enable</Nullable>
 		<!--The file where mod information which is required for publishing mod on PDX mods are stored-->
 		<PublishConfigurationPath>Properties\PublishConfiguration.xml</PublishConfigurationPath>
+
 	</PropertyGroup>
 	
 	<!--Imports must be after PropertyGroup block-->

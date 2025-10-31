@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.8.34525.116
+VisualStudioVersion = 17.14.36623.8 d17.14
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MagicalHearse", "MagicalHearse.csproj", "{55CC21E1-F376-4E72-BEAE-6BB332611E82}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MagicHearse", "MagicHearse.csproj", "{1DA978B7-EEBD-04EA-7781-F3E2C3779B5E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{55CC21E1-F376-4E72-BEAE-6BB332611E82}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{55CC21E1-F376-4E72-BEAE-6BB332611E82}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{55CC21E1-F376-4E72-BEAE-6BB332611E82}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{55CC21E1-F376-4E72-BEAE-6BB332611E82}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1DA978B7-EEBD-04EA-7781-F3E2C3779B5E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1DA978B7-EEBD-04EA-7781-F3E2C3779B5E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1DA978B7-EEBD-04EA-7781-F3E2C3779B5E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1DA978B7-EEBD-04EA-7781-F3E2C3779B5E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {C2F230AE-8FD0-42CB-AEE7-B15667615DF1}
+		SolutionGuid = {D70810F7-887E-4BC8-B151-5EC293BB256C}
 	EndGlobalSection
 EndGlobal

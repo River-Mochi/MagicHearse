@@ -1,47 +1,79 @@
-﻿using Colossal.IO.AssetDatabase;
-using Colossal.Logging;
-using Game;
-using Game.Modding;
-using Game.SceneFlow;
+﻿// Mod.cs
+// Entrypoint for Magic Hearse Redux; registers settings, locales, and the ECS cleanup system.
 
-namespace MagicalHearse
+namespace MagicHearse
 {
+    using Colossal.IO.AssetDatabase;
+    using Colossal.Logging;
+    using Game;
+    using Game.Modding;
+    using Game.SceneFlow;
 
-    public class Mod : IMod
+    public sealed class Mod : IMod
     {
-        public static ILog Log = LogManager.GetLogger($"{nameof(MagicalHearse)}.{nameof(Mod)}").SetShowsErrorsInUI(
-#if !DEBUG
-            false
-#else
-            true
-#endif
-        );
+        public const string ModName = "Magic Hearse Redux";
+        public const string ModVersion = "1.3.0";
 
-        public static Setting m_Setting;
+        // Colossal logger only
+        public static readonly ILog Log =
+            LogManager.GetLogger("MagicHearseRedux.Mod").SetShowsErrorsInUI(
+#if DEBUG
+                true
+#else
+                false
+#endif
+            );
+
+        // set in OnLoad, cleared in OnDispose
+        public static Setting? Settings;
 
         public void OnLoad(UpdateSystem updateSystem)
         {
-            Log.Info(nameof(OnLoad));
+            Log.Info($"{ModName} v{ModVersion} OnLoad");
 
-            if (GameManager.instance.modManager.TryGetExecutableAsset(this, out var asset))
-                Log.Info($"Current mod asset at {asset.path}");
+            // create settings first
+            var setting = new Setting(this);
+            Settings = setting;
 
-            m_Setting = new Setting(this);
-            m_Setting.RegisterInOptionsUI();
-            GameManager.instance.localizationManager.AddSource("en-US", new LocaleEN(m_Setting));
-            AssetDatabase.global.LoadSettings(nameof(MagicalHearse), m_Setting, new Setting(this));
-            Setting.Instance = m_Setting;
+            // register locales (all in Setting.cs)
+            var lm = GameManager.instance != null ? GameManager.instance.localizationManager : null;
+            if (lm != null)
+            {
+                lm.AddSource("en-US", new LocaleEN(setting));
+                lm.AddSource("fr-FR", new LocaleFR(setting));
+                lm.AddSource("es-ES", new LocaleES(setting));
+                lm.AddSource("de-DE", new LocaleDE(setting));
+                lm.AddSource("zh-HANS", new LocaleZH(setting));
+            }
+            else
+            {
+                Log.Warn("LocalizationManager not found; settings UI texts may be missing.");
+            }
 
-            updateSystem.UpdateAt<MagicalHearseSystem>(SystemUpdatePhase.GameSimulation);
+            // load from: ModsSettings/MagicHearseRedux.coc
+            AssetDatabase.global.LoadSettings("MagicHearseRedux", setting, new Setting(this));
 
-            updateSystem.World.GetOrCreateSystemManaged<MagicalHearseSystem>().Enabled = m_Setting.EnableMagicalHearse;
+            // show in Options → Mods
+            setting.RegisterInOptionsUI();
+
+            // schedule ECS system
+            updateSystem.UpdateAt<MagicHearseSystem>(SystemUpdatePhase.GameSimulation);
+
+            // honor current toggle
+            var sys = updateSystem.World.GetOrCreateSystemManaged<MagicHearseSystem>();
+            sys.Enabled = setting.EnableMagicHearse;
         }
 
         public void OnDispose()
         {
-            Log.Info(nameof(OnDispose));
-            m_Setting?.UnregisterInOptionsUI();
-            m_Setting = null;
+            Log.Info("OnDispose");
+
+            if (Settings != null)
+            {
+                Settings.UnregisterInOptionsUI();
+            }
+
+            Settings = null;
         }
     }
 }
