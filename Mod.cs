@@ -12,9 +12,8 @@ namespace MagicHearse
     public sealed class Mod : IMod
     {
         public const string ModName = "Magic Hearse Redux";
-        public const string ModVersion = "1.3.0";
+        public const string ModVersion = "1.3.1";
 
-        // Colossal logger only
         public static readonly ILog Log =
             LogManager.GetLogger("MagicHearseRedux.Mod").SetShowsErrorsInUI(
 #if DEBUG
