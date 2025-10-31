@@ -4,19 +4,19 @@
 
 ---
 
-## 🧙‍♂️ Overview
+## Overview
 
 **Magic Hearse Redux** is a mod that instantly removes dead citizens without relying on cemetery or crematorium transport.  
 It’s designed for performance and simplicity — no configuration beyond a single checkbox.
 
-- ✅ Works automatically when enabled  
-- ⚙️ Optional toggle in mod settings  
-- 🚫 No Harmony patches or Reflection used (less likely to break on game updates)
-- 🧩 Fully compatible with other mods  
+- Works automatically when enabled  
+- Optional toggle in mod settings  
+- No Harmony patches or Reflection used (less likely to break on game updates)
+- Fully compatible with other mods  
 
 ---
 
-## ⚙️ Features
+## Features
 
 | Feature | Description |
 |----------|-------------|
@@ -26,7 +26,7 @@ It’s designed for performance and simplicity — no configuration beyond a sin
 
 ---
 
-## 🧠 How It Works
+## How It Works
 
 `MagicHearseSystem` runs a Burst-compiled ECS job that:
 
@@ -40,7 +40,7 @@ It’s designed for performance and simplicity — no configuration beyond a sin
 
 ---
 
-## 📥 Credits
+## Credits
 - River-Mochi - current author/maintainer
 - Thanks to Wayze, the original author and pioneer of Magical Hearse
 - Necko1996 - testing and feedback
