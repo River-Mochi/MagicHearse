@@ -15,7 +15,7 @@ namespace MagicHearse
         public const string ModVersion = "1.3.1";
 
         public static readonly ILog Log =
-            LogManager.GetLogger("MagicHearseRedux.Mod").SetShowsErrorsInUI(
+            LogManager.GetLogger("MagicHearseRedux").SetShowsErrorsInUI(
 #if DEBUG
                 true
 #else
@@ -52,7 +52,7 @@ namespace MagicHearse
             // load from: ModsSettings/MagicHearseRedux.coc
             AssetDatabase.global.LoadSettings("MagicHearseRedux", setting, new Setting(this));
 
-            // show in Options → Mods
+            // show in Options -> Mods
             setting.RegisterInOptionsUI();
 
             // schedule ECS system

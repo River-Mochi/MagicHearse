@@ -11,18 +11,19 @@
 
 ## No More DeathWaves!
 
-- Do you have a city that is overrun with hearses and those annoying hearse notifications?
+- Is your city overrun with hearses annoying hearse notifications?
 - This mod removes death in your cities.
 - No death = no crematoriums, cemeteries, or hearses clogging up the roads.
 
 Citizens will magically disappear upon death.
 
-## How it works:
-Works automatically - just install the mod and enable the checkbox in Options.
+## Features
+- Works automatically - just install the mod and enable the checkbox in Options.
 - Silent operation: enable/disable without restarting your game.
 - Does not use Harmony or Reflection (increases reliability on game patch days).
 - Works with new and existing saves.
 - Safe to remove any time
+- Make sure to **remove** all other Hearse/Deathcare mods to avoid conflicts
 
 ## Outcomes
 
@@ -36,10 +37,10 @@ Hearse drivers out of job seek employment in the shipping industry.
 - French, Spanish, German, Simple Chinese
 
 ## Credits
-River-Mochi - current author and maintainer
-Many Thanks to Wayze, the original author of Magical Hearse
+- River-Mochi - current author/maintainer
+- Many Thanks to Wayze, the original author of Magical Hearse
 (mod redo made with Wayze's blessing)
-Necko1996 - testing and feedback
+- Necko1996 - testing and feedback
 
 
 	</LongDescription>

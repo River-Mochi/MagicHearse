@@ -1,5 +1,5 @@
 ﻿// Setting.cs
-// Options UI + all locales for Magic Hearse Redux.
+// Options UI + all tiny locales for Magic Hearse Redux.
 
 namespace MagicHearse
 {
@@ -29,7 +29,7 @@ namespace MagicHearse
         // info-only, shown under the checkbox
         public string ModName { get; set; } = "Magic Hearse Redux";
 
-        public string ModVersion { get; set; } = "1.3.0";
+        public string ModVersion { get; set; } = "1.3.1";
 
         public override void Apply()
         {
@@ -44,7 +44,7 @@ namespace MagicHearse
         {
             EnableMagicHearse = true;
             ModName = "Magic Hearse Redux";
-            ModVersion = "1.3.0";
+            ModVersion = "1.3.1";
         }
     }
 
@@ -68,7 +68,7 @@ namespace MagicHearse
             {
                 { m_Setting.GetSettingsLocaleID(), "Magic Hearse Redux" },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.EnableMagicHearse)), "Enable Magic Hearse" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.EnableMagicHearse)), "Enable Magic Hearse Redux" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.EnableMagicHearse)), "Deletes dead citizens that are waiting for a hearse." },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.ModName)), "Mod" },
@@ -104,7 +104,7 @@ namespace MagicHearse
             {
                 { m_Setting.GetSettingsLocaleID(), "Magic Hearse Redux" },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.EnableMagicHearse)), "Activer Magic Hearse" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.EnableMagicHearse)), "Activer Magic Hearse Redux" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.EnableMagicHearse)), "Supprime automatiquement les citoyens décédés en attente de corbillard." },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.ModName)), "Mod" },
@@ -140,7 +140,7 @@ namespace MagicHearse
             {
                 { m_Setting.GetSettingsLocaleID(), "Magic Hearse Redux" },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.EnableMagicHearse)), "Activar Magic Hearse" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.EnableMagicHearse)), "Activar Magic Hearse Redux" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.EnableMagicHearse)), "Elimina automáticamente a los ciudadanos muertos que esperan coche fúnebre." },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.ModName)), "Mod" },

@@ -31,7 +31,7 @@ It’s designed for performance and simplicity — no configuration beyond a sin
 `MagicHearseSystem` runs a Burst-compiled ECS job that:
 
 1. Scans all citizens with the `HealthProblem` component.  
-2. If a citizen is both **Dead** and **RequiresTransport**, it adds the `Deleted` tag.  
+2. If a citizen is both Dead and RequiresTransport, a `Deleted` tag is added. 
 3. The game then removes those entities automatically.  
 
 - Github repo: https://github.com/River-Mochi/MagicHearse
@@ -42,7 +42,7 @@ It’s designed for performance and simplicity — no configuration beyond a sin
 
 ## Credits
 - River-Mochi - current author/maintainer
-- Thanks to Wayze, the original author and pioneer of Magical Hearse
+- Thanks to Wayze, the original author and pioneer of "Magical Hearse" mod
 - Necko1996 - testing and feedback
 
 
