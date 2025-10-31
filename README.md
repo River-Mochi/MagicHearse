@@ -6,12 +6,12 @@
 
 ## 🧙‍♂️ Overview
 
-**Magic Hearse** is a lightweight gameplay utility mod that instantly removes dead citizens without relying on cemetery or crematorium transport.  
+**Magic Hearse Redux** is a mod that instantly removes dead citizens without relying on cemetery or crematorium transport.  
 It’s designed for performance and simplicity — no configuration beyond a single checkbox.
 
 - ✅ Works automatically when enabled  
 - ⚙️ Optional toggle in mod settings  
-- 🚫 No Harmony patches  
+- 🚫 No Harmony patches or Reflection used (less likely to break on game updates)
 - 🧩 Fully compatible with other mods  
 
 ---
@@ -22,18 +22,7 @@ It’s designed for performance and simplicity — no configuration beyond a sin
 |----------|-------------|
 | **Enable Magical Hearse** | Toggles whether the automatic cleanup system is active. |
 | **Zero Maintenance** | No setup or dependencies required. |
-| **Safe and Burst-compiled** | Uses Colossal’s ECS `GameSystemBase` and Burst jobs for clean execution. |
 
----
-
-
-## 🧩 Technical Notes
-
-- Built for **Unity 2022.x LTS / DOTS 1.0**  
-- Targets **.NET Framework 4.8** and **C# 9**  
-- Uses **Colossal’s official API** (`Game.Modding`, `Game.Systems`, `Game.Citizens`, etc.)  
-- Logging through Colossal’s `ILog` (no custom logger)  
-- Follows the formatting and style rules from [`general.instructions2.md`](general.instructions2.md)
 
 ---
 
