@@ -54,13 +54,13 @@ Hearse drivers out of job seek employment in the shipping industry.
 	<!--Link to the forum post where the mod can be discussed-->
 	<ForumLink Value=" " />
 	<!--Version of the mod-->
-	<ModVersion Value="1.3.1" />
+	<ModVersion Value="1.3.2" />
 	<!--Recommended version of the base game to use the mod-->
 	<GameVersion Value="1.3.6*" />
 	<!--Dependency for the mod, can be set multiple times-->
 	<Dependency Id="" />
 	<!--Change log for new version. Single line or multi line. Supports minimal markdown subset-->
-	<ChangeLog>Add images, thumbnail </ChangeLog>
+	<ChangeLog>update details, fix typos </ChangeLog>
 	<!--External link. supported types are discord, github, youtube, twitch, x, paypal, patreon-->
 	<ExternalLink Type="discord" Url="https://discord.gg/HTav7ARPs2" />
 	<ExternalLink Type="github" Url="https://github.com/River-Mochi/MagicHearse" />
