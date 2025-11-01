@@ -47,9 +47,9 @@ Hearse drivers out of job seek employment in the shipping industry.
 	<!--Thumbnail-->
 	<Thumbnail Value="Properties/Thumbnail.jpg" />
 	<!--Screenshot, can be set multiple times-->
-	<Screenshot Value="Properties/Screenshot10.jpg" />
-	<Screenshot Value="Properties/Screenshot20.jpg" />
-	<Screenshot Value="Properties/Screenshot30.jpg" />
+	<Screenshot Value="Properties/10image-BeforeSmall.jpg" />
+	<Screenshot Value="Properties/20image-AfterSmall.jpg" />
+	<Screenshot Value="Properties/30image-Options.jpg" />
 	<!--Tag, can be set multiple times-->
 	<Tag Value="Code Mod" />
 	<!--Link to the forum post where the mod can be discussed-->
