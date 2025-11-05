@@ -42,7 +42,7 @@ Mod does not stop death - it's just very fast corpse cleanup.
 
 	</LongDescription>
 	<!--Thumbnail-->
-	<Thumbnail Value="Properties/Thumbnail.jpg" />
+	<Thumbnail Value="Properties/Thumbnail.png" />
 	<!--Screenshot, can be set multiple times-->
 	<Screenshot Value="Properties/10image-BeforeSmall.jpg" />
 	<Screenshot Value="Properties/20image-AfterSmall.jpg" />
