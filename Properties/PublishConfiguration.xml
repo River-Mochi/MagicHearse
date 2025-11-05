@@ -2,46 +2,43 @@
 	<!--Id must be set in order to update existed mod. it is not required for publishing mod for the first time-->
 	<ModId Value="123497" />
 	<!--Name of the mod to display to players-->
-	<DisplayName Value="MAGIC HEARSE REDUX" />
+	<DisplayName Value="Magic Hearse (Redux)" />
 	<!--Short description of the mod-->
 	<ShortDescription Value="Removes death in your cities" />
 	<!--Long description of the mod. Single line or multi line. Supports minimal markdown subset-->
 	<!--LongDescription Value="This is a long description" /-->
-	<LongDescription>## MAGIC HEARSE REDUX
+	<LongDescription>## Magic Hearse (Redux)
 
-## No More DeathWaves!
+## No More Death-Waves!
 
-- Is your city overrun with hearses and annoying hearse notifications?
-- This mod removes death in your cities.
-- No death = no crematoriums, cemeteries, or hearses clogging up the roads.
-
-Citizens will magically disappear upon death.
+- Is your city clogged with hearses and annoying hearse notifications?
+- This mod removes dead bodies; no need for  crematoriums, or traffic from hearse cars.
+- Citizens will magically disappear upon death.
 
 ## Features
-- Works automatically - just install the mod and enable the checkbox in Options.
-- Silent operation: enable/disable without restarting your game.
-- Does not use Harmony or Reflection (increases reliability on game patch days).
-- Works with new and existing saves.
-- Safe to remove any time
-- Make sure to **remove** all other Hearse/Deathcare mods to avoid conflicts
-
-## Outcomes
-
-Hearse drivers out of job seek employment in the shipping industry.
+- Just install the mod (keep the checkbox enabled in Options)
+- Automatic: enable/disable without restarting the game.
+- Remove all other Hearse/Deathcare mods to avoid conflicts!!
+- This mod does not use Harmony or Reflection (increases reliability on game patch days).
+- Safe to remove any time. Works with new and existing saves.
+- Keep the cemeteries for the looks, just know that MHR has you covered.
 
 ## Support and Feedback
 - If the mod works for you, give it a Like!
-- Discord: https://discord.gg/HTav7ARPs2
+- Feedback in Github, Forums, or Cities Skylines Modding Discord
 
 ## Languages
-- French, Spanish, German, Simple Chinese
+- Français French, Deutsch German, Español Spanish, 简体中文 Simplified Chinese
 
 ## Credits
 - River-Mochi - current author/maintainer
-- Many Thanks to Wayze, the original author of Magical Hearse
-(mod redo made with Wayze's blessing)
-- Necko1996 - testing and feedback
+- Many Thanks to Wayze, the original author of Magical Hearse (mod redo made with Wayze's blessing)
+- Necko1996 - testing, screenshots
 
+## How it works
+- If the citizen is flagged as dead and needs transport, it's cleaned up. Looks like magic but the secret is flags. 
+Mod does not stop death - it's just very fast corpse cleanup.
+- Great for your next zombie apocalypse.
 
 	</LongDescription>
 	<!--Thumbnail-->
@@ -61,7 +58,7 @@ Hearse drivers out of job seek employment in the shipping industry.
 	<!--Dependency for the mod, can be set multiple times-->
 	<Dependency Id="" />
 	<!--Change log for new version. Single line or multi line. Supports minimal markdown subset-->
-	<ChangeLog>update screenshots </ChangeLog>
+	<ChangeLog>update thumbnail, details </ChangeLog>
 	<!--External link. supported types are discord, github, youtube, twitch, x, paypal, patreon-->
 	<ExternalLink Type="discord" Url="https://discord.gg/HTav7ARPs2" />
 	<ExternalLink Type="github" Url="https://github.com/River-Mochi/MagicHearse" />
