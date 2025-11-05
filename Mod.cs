@@ -13,7 +13,7 @@ namespace MagicHearse
     {
         // single source of truth for name + version
         public const string ModName = "Magic Hearse Redux";
-        public const string ModVersion = "1.3.2"; // bump when publishing
+        public const string ModVersion = "1.3.3"; // bump when publishing
 
         public static readonly ILog Log =
             LogManager.GetLogger("MagicHearseRedux").SetShowsErrorsInUI(
