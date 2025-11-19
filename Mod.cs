@@ -65,6 +65,7 @@ namespace MagicHearse
                 lm.AddSource("it-IT", new LocaleIT(setting));
                 lm.AddSource("ja-JP", new LocaleJA(setting));
                 lm.AddSource("ko-KR", new LocaleKO(setting));
+                lm.AddSource("tr-TR", new LocaleTR(setting));
                 lm.AddSource("zh-HANS", new LocaleZH(setting));
 
             }
