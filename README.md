@@ -26,7 +26,7 @@ It’s designed for performance and simplicity — no configuration beyond a sin
 
 ## Languages
 - English (en-US), Français French, Deutsch German, Español Spanish, Italiano Italian
-- 한국어 Korean, 日本語 Japanese, 简体中文 (Simplified Chinese)
+- 한국어 Korean, 日本語 Japanese, Türkçe Turkish, 简体中文 (Simplified Chinese)
 
 
 
