@@ -344,4 +344,40 @@ namespace MagicHearse
         {
         }
     }
+
+    // ============================================================
+    // tr-TR
+    // ============================================================
+    public sealed class LocaleTR : IDictionarySource
+    {
+        private readonly Setting m_Setting;
+
+        public LocaleTR(Setting setting)
+        {
+            m_Setting = setting;
+        }
+
+        public IEnumerable<KeyValuePair<string, string>> ReadEntries(
+            IList<IDictionaryEntryError> errors,
+            Dictionary<string, int> indexCounts)
+        {
+            return new Dictionary<string, string>
+            {
+                { m_Setting.GetSettingsLocaleID(), "Magic Hearse Redux" },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.ModNameDisplay)), "Mod" },
+                { m_Setting.GetOptionDescLocaleID(nameof(Setting.ModNameDisplay)), "Bu modun adı." },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.ModVersionDisplay)), "Sürüm" },
+                { m_Setting.GetOptionDescLocaleID(nameof(Setting.ModVersionDisplay)), "Magic Hearse Redux'un mevcut sürümü." },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.EnableMagicHearse)), "Sihri Etkinleştir" },
+                { m_Setting.GetOptionDescLocaleID(nameof(Setting.EnableMagicHearse)), "Cenaze arabası bekleyen ölü vatandaşları otomatik olarak kaldırır." },
+            };
+        }
+
+        public void Unload()
+        {
+        }
+    }
 }
