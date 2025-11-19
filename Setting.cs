@@ -1,4 +1,4 @@
-﻿// Setting.cs
+// Setting.cs
 // Options UI for Magic Hearse Redux (name + version + toggle) with hidden group header.
 
 namespace MagicHearse
@@ -82,7 +82,7 @@ namespace MagicHearse
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.ModVersionDisplay)), "Version" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.ModVersionDisplay)), "Current build of Magic Hearse Redux." },
 
-                // you wanted this short:
+                // short label for the checkbox
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.EnableMagicHearse)), "Enable Magic" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.EnableMagicHearse)), "Auto removes dead citizens that are waiting for a hearse." },
             };
@@ -229,6 +229,114 @@ namespace MagicHearse
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.EnableMagicHearse)), "启用 Magic" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.EnableMagicHearse)), "自动清理等待灵车的死亡市民。" },
+            };
+        }
+
+        public void Unload()
+        {
+        }
+    }
+
+    // ============================================================
+    // it-IT
+    // ============================================================
+    public sealed class LocaleIT : IDictionarySource
+    {
+        private readonly Setting m_Setting;
+
+        public LocaleIT(Setting setting)
+        {
+            m_Setting = setting;
+        }
+
+        public IEnumerable<KeyValuePair<string, string>> ReadEntries(
+            IList<IDictionaryEntryError> errors,
+            Dictionary<string, int> indexCounts)
+        {
+            return new Dictionary<string, string>
+            {
+                { m_Setting.GetSettingsLocaleID(), "Magic Hearse Redux" },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.ModNameDisplay)), "Mod" },
+                { m_Setting.GetOptionDescLocaleID(nameof(Setting.ModNameDisplay)), "Nome di questa mod." },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.ModVersionDisplay)), "Versione" },
+                { m_Setting.GetOptionDescLocaleID(nameof(Setting.ModVersionDisplay)), "Versione attuale di Magic Hearse Redux." },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.EnableMagicHearse)), "Abilita Magic" },
+                { m_Setting.GetOptionDescLocaleID(nameof(Setting.EnableMagicHearse)), "Rimuove automaticamente i cittadini morti in attesa di un carro funebre." },
+            };
+        }
+
+        public void Unload()
+        {
+        }
+    }
+
+    // ============================================================
+    // ja-JP
+    // ============================================================
+    public sealed class LocaleJA : IDictionarySource
+    {
+        private readonly Setting m_Setting;
+
+        public LocaleJA(Setting setting)
+        {
+            m_Setting = setting;
+        }
+
+        public IEnumerable<KeyValuePair<string, string>> ReadEntries(
+            IList<IDictionaryEntryError> errors,
+            Dictionary<string, int> indexCounts)
+        {
+            return new Dictionary<string, string>
+            {
+                { m_Setting.GetSettingsLocaleID(), "Magic Hearse Redux" },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.ModNameDisplay)), "MOD" },
+                { m_Setting.GetOptionDescLocaleID(nameof(Setting.ModNameDisplay)), "このMODの名前です。" },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.ModVersionDisplay)), "バージョン" },
+                { m_Setting.GetOptionDescLocaleID(nameof(Setting.ModVersionDisplay)), "Magic Hearse Redux の現在のビルドです。" },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.EnableMagicHearse)), "マジックを有効にする" },
+                { m_Setting.GetOptionDescLocaleID(nameof(Setting.EnableMagicHearse)), "霊柩車を待っている死亡した市民を自動で削除します。" },
+            };
+        }
+
+        public void Unload()
+        {
+        }
+    }
+
+    // ============================================================
+    // ko-KR
+    // ============================================================
+    public sealed class LocaleKO : IDictionarySource
+    {
+        private readonly Setting m_Setting;
+
+        public LocaleKO(Setting setting)
+        {
+            m_Setting = setting;
+        }
+
+        public IEnumerable<KeyValuePair<string, string>> ReadEntries(
+            IList<IDictionaryEntryError> errors,
+            Dictionary<string, int> indexCounts)
+        {
+            return new Dictionary<string, string>
+            {
+                { m_Setting.GetSettingsLocaleID(), "Magic Hearse Redux" },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.ModNameDisplay)), "모드" },
+                { m_Setting.GetOptionDescLocaleID(nameof(Setting.ModNameDisplay)), "이 모드의 이름입니다." },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.ModVersionDisplay)), "버전" },
+                { m_Setting.GetOptionDescLocaleID(nameof(Setting.ModVersionDisplay)), "Magic Hearse Redux의 현재 빌드입니다." },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.EnableMagicHearse)), "매직 활성화" },
+                { m_Setting.GetOptionDescLocaleID(nameof(Setting.EnableMagicHearse)), "영구차를 기다리는 사망한 시민을 자동으로 정리합니다." },
             };
         }
 

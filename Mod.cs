@@ -1,19 +1,34 @@
-﻿// Mod.cs
+// Mod.cs
 // Entrypoint: registers settings, locales, and the ECS system.
 
 namespace MagicHearse
 {
+    using System.Reflection;
     using Colossal.IO.AssetDatabase;
+    using Colossal.Localization;
     using Colossal.Logging;
     using Game;
     using Game.Modding;
     using Game.SceneFlow;
+    using Game.UI;
 
     public sealed class Mod : IMod
     {
         // single source of truth for name + version
         public const string ModName = "Magic Hearse Redux";
-        public const string ModVersion = "1.3.3"; // bump when publishing
+        public const string ModId = "MagicHearse";
+        public const string ModTag = "[MH]";
+
+        /// <summary>
+        /// Read Version from .csproj (3-part).
+        /// </summary>
+        public static readonly string ModVersion =
+            Assembly.GetExecutingAssembly().GetName().Version?.ToString(3) ?? "1.0.0";
+
+
+        private static bool s_BannerLogged;
+
+        // ----- Logger & public properties ----
 
         public static readonly ILog Log =
             LogManager.GetLogger("MagicHearseRedux").SetShowsErrorsInUI(
@@ -28,21 +43,30 @@ namespace MagicHearse
 
         public void OnLoad(UpdateSystem updateSystem)
         {
-            Log.Info($"{ModName} v{ModVersion} OnLoad");
+            // metadata banner (once)
+            if (!s_BannerLogged)
+            {
+                s_BannerLogged = true;
+                Log.Info($"{ModName} v{ModVersion} OnLoad");
+            }
 
             // settings first
             var setting = new Setting(this);
             Settings = setting;
 
-            // register locales
-            var lm = GameManager.instance?.localizationManager;
+            // Register locales here
+            LocalizationManager? lm = GameManager.instance?.localizationManager;
             if (lm != null)
             {
                 lm.AddSource("en-US", new LocaleEN(setting));
                 lm.AddSource("fr-FR", new LocaleFR(setting));
                 lm.AddSource("es-ES", new LocaleES(setting));
                 lm.AddSource("de-DE", new LocaleDE(setting));
+                lm.AddSource("it-IT", new LocaleIT(setting));
+                lm.AddSource("ja-JP", new LocaleJA(setting));
+                lm.AddSource("ko-KR", new LocaleKO(setting));
                 lm.AddSource("zh-HANS", new LocaleZH(setting));
+
             }
             else
             {

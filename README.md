@@ -24,6 +24,12 @@ It’s designed for performance and simplicity — no configuration beyond a sin
 | **Works Automatically** | No setup or dependencies required. |
 
 
+## Languages
+- English (en-US), Français French, Deutsch German, Español Spanish, Italiano Italian
+- 한국어 Korean, 日本語 Japanese, 简体中文 (Simplified Chinese)
+
+
+
 ---
 
 ## How It Works
@@ -36,7 +42,6 @@ It’s designed for performance and simplicity — no configuration beyond a sin
 
 - Github repo: https://github.com/River-Mochi/MagicHearse
 - [Paradox Mods page](https://mods.paradoxplaza.com/authors/kimosabe1?orderBy=desc&sortBy=best&time=alltime)
-
 
 ---
 

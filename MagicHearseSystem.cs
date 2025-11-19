@@ -1,4 +1,4 @@
-﻿// MagicHearseSystem.cs
+// MagicHearseSystem.cs
 // ECS system that finds dead + waiting citizens and deletes them.
 
 namespace MagicHearse
@@ -40,7 +40,7 @@ namespace MagicHearse
 
         protected override void OnUpdate()
         {
-            var handle = new MagicHearseJob
+            JobHandle handle = new MagicHearseJob
             {
                 m_EntityTypeHandle = SystemAPI.GetEntityTypeHandle(),
                 m_HealthProblemType = SystemAPI.GetComponentTypeHandle<HealthProblem>(true),
@@ -60,12 +60,12 @@ namespace MagicHearse
 
             public void Execute(in ArchetypeChunk chunk, int unfilteredChunkIndex, bool useEnabledMask, in v128 chunkEnabledMask)
             {
-                var citizens = chunk.GetNativeArray(m_EntityTypeHandle);
-                var health = chunk.GetNativeArray(ref m_HealthProblemType);
+                NativeArray<Entity> citizens = chunk.GetNativeArray(m_EntityTypeHandle);
+                NativeArray<HealthProblem> health = chunk.GetNativeArray(ref m_HealthProblemType);
 
                 for (var i = 0; i < citizens.Length; i++)
                 {
-                    var flags = health[i].m_Flags;
+                    HealthProblemFlags flags = health[i].m_Flags;
 
                     var isDeadAndWaiting =
                         (flags & (HealthProblemFlags.Dead | HealthProblemFlags.RequireTransport)) ==
