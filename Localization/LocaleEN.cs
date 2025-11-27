@@ -31,7 +31,8 @@ namespace MagicHearse
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.ModVersionDisplay)), "Current version of Magic Hearse mod." },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.EnableMagicHearse)), "Enable Magic" },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.EnableMagicHearse)), "Auto removes dead citizens that are waiting for a hearse." },
+                { m_Setting.GetOptionDescLocaleID(nameof(Setting.EnableMagicHearse)), "Keep enabled, magic works silently.\n" +
+                "Auto removes dead citizens that are waiting for a hearse." },
 
                 // Links group header + button
                 { "OPTIONS.GROUP[MagicHearse.MagicHearse.Mod.Links]", "Links" },

@@ -64,7 +64,7 @@ namespace MagicHearse
                 }
                 catch (Exception)
                 {
-                    // Silent catch
+                    // Silent catch; worst case, the link just does nothing.
                 }
             }
         }
@@ -73,13 +73,21 @@ namespace MagicHearse
         {
             base.Apply();
 
-            World.DefaultGameObjectInjectionWorld
+            // Guard
+            World world = World.DefaultGameObjectInjectionWorld;
+            if (world == null)
+            {
+                return;
+            }
+
+            world
                 .GetOrCreateSystemManaged<MagicHearseSystem>()
                 .Enabled = EnableMagicHearse;
         }
 
         public override void SetDefaults()
         {
+            // Default: Magic Hearse enabled when the mod is first installed.
             EnableMagicHearse = true;
         }
     }
