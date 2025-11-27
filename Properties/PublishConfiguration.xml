@@ -12,8 +12,8 @@
 ## No More Death-Waves!
 
 - Is your city clogged with hearses and annoying hearse notifications?
-- This mod removes dead bodies; no need for  crematoriums, or traffic from hearse cars.
-- Citizens will magically disappear upon death.
+- This mod removes dead bodies; Citizens will magically disappear upon death.
+- No need for crematoriums, or traffic from hearse cars unless you want them for "looks".
 
 ## Features
 - Just install the mod (keep the checkbox enabled in Options)
@@ -25,15 +25,16 @@
 
 ## Support and Feedback
 - If the mod works for you, give it a Like!
-- Feedback in Github, Forums, or Cities Skylines Modding Discord
+- Feedback in Github, Forums, or Discord links.
 
-## 8 Languages
+## 11 Languages
 - Français French, Deutsch German, Español Spanish, 简体中文 Simplified Chinese
-- Italiano Italian, 한국어 Korean, 日本語 Japanese
+- Italiano Italian, 한국어 Korean, 日本語 Japanese, English
+- 繁體中文 Traditional Chinese, Polski Polish, Português Brazilian
 
 ## Credits
-- River-Mochi - author and maintainer
-- Thanks to Wayze, the original author of Magical Hearse (new mod made with Wayze's blessing)
+- River-Mochi - author
+- Thanks to Wayze, creator of the original Magical Hearse
 - Necko1996 - testing, screenshots
 
 ## How it works
@@ -43,7 +44,7 @@ Mod does not stop death - it's just very fast corpse cleanup.
 
 	</LongDescription>
 	<!--Thumbnail-->
-	<Thumbnail Value="Properties/Thumbnail.png" />
+	<Thumbnail Value="Properties/ThumbnailBulkRates.jpg" />
 	<!--Screenshot, can be set multiple times-->
 	<Screenshot Value="Properties/10image-Options.jpg" />
 	<Screenshot Value="Properties/20image-BeforeSmall.jpg" />
@@ -53,15 +54,15 @@ Mod does not stop death - it's just very fast corpse cleanup.
 	<!--Link to the forum post where the mod can be discussed-->
 	<ForumLink Value="https://forum.paradoxplaza.com/forum/threads/magic-hearse-redux.1865555/" />
 	<!--Version of the mod-->
-	<ModVersion Value="1.3.4" />
+	<ModVersion Value="1.3.5" />
 	<!--Recommended version of the base game to use the mod-->
 	<GameVersion Value="1.4.2*" />
 	<!--Dependency for the mod, can be set multiple times-->
 	<Dependency Id="" />
 	<!--Change log for new version. Single line or multi line. Supports minimal markdown subset-->
 	<ChangeLog>
-* updates for game patch 1.4.2*
-* Adds Italian Korean, Japanese language support.
+* add 繁體中文 Traditional Chinese, Polski Polish, Português Brazilian
+* refactor mod for better organization and localization
 </ChangeLog>
 	<!--External link. supported types are discord, github, youtube, twitch, x, paypal, patreon-->
 	<ExternalLink Type="discord" Url="https://discord.gg/HTav7ARPs2" />

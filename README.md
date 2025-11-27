@@ -23,12 +23,10 @@ It’s designed for performance and simplicity — no configuration beyond a sin
 | **Enable Magic Hearse** | Toggles whether the automatic cleanup system is active. |
 | **Works Automatically** | No setup or dependencies required. |
 
-
-## Languages
-- English (en-US), Français French, Deutsch German, Español Spanish, Italiano Italian
-- 한국어 Korean, 日本語 Japanese, 简体中文 (Simplified Chinese)
-
-
+## 11 Languages
+- Français French, Deutsch German, Español Spanish, 简体中文 Simplified Chinese
+- Italiano Italian, 한국어 Korean, 日本語 Japanese, English
+- 繁體中文 Traditional Chinese, Polski Polish, Português Brazilian
 
 ---
 
@@ -41,7 +39,7 @@ It’s designed for performance and simplicity — no configuration beyond a sin
 3. The game then removes those entities automatically.  
 
 - Github repo: https://github.com/River-Mochi/MagicHearse
-- [Paradox Mods page](https://mods.paradoxplaza.com/authors/kimosabe1?orderBy=desc&sortBy=best&time=alltime)
+- [Paradox Mods page](https://mods.paradoxplaza.com/authors/kimosabe1/cities_skylines_2?games=cities_skylines_2&orderBy=desc&sortBy=best&time=alltime)
 
 ---
 

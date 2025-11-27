@@ -1,16 +1,17 @@
 // Mod.cs
-// Entrypoint: registers settings, locales, and the ECS system.
+// Entrypoint: registers settings/locales/ECS system
 
 namespace MagicHearse
 {
-    using System.Reflection;
-    using Colossal.IO.AssetDatabase;
-    using Colossal.Localization;
-    using Colossal.Logging;
-    using Game;
-    using Game.Modding;
-    using Game.SceneFlow;
-    using Game.UI;
+    using System;                         // Exception
+    using System.Reflection;              // Assembly version number
+    using Colossal;                       // IDictionarySource
+    using Colossal.IO.AssetDatabase;      // AssetDatabase
+    using Colossal.Localization;          // LocalizationManager
+    using Colossal.Logging;               // ILog, LogManager
+    using Game;                           // UpdateSystem, SystemUpdatePhase
+    using Game.Modding;                   // IMod
+    using Game.SceneFlow;                 // GameManager
 
     public sealed class Mod : IMod
     {
@@ -24,7 +25,6 @@ namespace MagicHearse
         /// </summary>
         public static readonly string ModVersion =
             Assembly.GetExecutingAssembly().GetName().Version?.ToString(3) ?? "1.0.0";
-
 
         private static bool s_BannerLogged;
 
@@ -43,46 +43,47 @@ namespace MagicHearse
 
         public void OnLoad(UpdateSystem updateSystem)
         {
-            // metadata banner (once)
+            // One-time banner.
             if (!s_BannerLogged)
             {
                 s_BannerLogged = true;
                 Log.Info($"{ModName} v{ModVersion} OnLoad");
             }
 
+            GameManager? gameManager = GameManager.instance;
+            if (gameManager == null)
+            {
+                Log.Error("GameManager.instance is null in Mod.OnLoad.");
+                return;
+            }
+
             // settings first
             var setting = new Setting(this);
             Settings = setting;
 
-            // Register locales here
-            LocalizationManager? lm = GameManager.instance?.localizationManager;
-            if (lm != null)
-            {
-                lm.AddSource("en-US", new LocaleEN(setting));
-                lm.AddSource("fr-FR", new LocaleFR(setting));
-                lm.AddSource("es-ES", new LocaleES(setting));
-                lm.AddSource("de-DE", new LocaleDE(setting));
-                lm.AddSource("it-IT", new LocaleIT(setting));
-                lm.AddSource("ja-JP", new LocaleJA(setting));
-                lm.AddSource("ko-KR", new LocaleKO(setting));
-                lm.AddSource("zh-HANS", new LocaleZH(setting));
-
-            }
-            else
-            {
-                Log.Warn("LocalizationManager not found; settings UI texts may be missing.");
-            }
+            // Register locales via helper (safer wrapper around LocalizationManager.AddSource)
+            AddLocaleSource("en-US", new LocaleEN(setting));
+            AddLocaleSource("fr-FR", new LocaleFR(setting));
+            AddLocaleSource("es-ES", new LocaleES(setting));
+            AddLocaleSource("de-DE", new LocaleDE(setting));
+            AddLocaleSource("it-IT", new LocaleIT(setting));
+            AddLocaleSource("ja-JP", new LocaleJA(setting));
+            AddLocaleSource("ko-KR", new LocaleKO(setting));
+            AddLocaleSource("zh-HANS", new LocaleZH(setting));
+            AddLocaleSource("pl-PL", new LocalePL(setting));
+            AddLocaleSource("pt-BR", new LocalePT_BR(setting));
+            AddLocaleSource("zh-HANT", new LocaleZH_HANT(setting));
 
             // load saved settings (file name is in Setting.cs [FileLocation])
             AssetDatabase.global.LoadSettings("MagicHearseRedux", setting, new Setting(this));
 
-            // show in Options -> Mods
+            // Show in Options -> Mods
             setting.RegisterInOptionsUI();
 
-            // run the cleanup system in simulation
+            // Run the cleanup system in simulation
             updateSystem.UpdateAt<MagicHearseSystem>(SystemUpdatePhase.GameSimulation);
 
-            // apply current toggle value
+            // Apply current toggle value
             updateSystem.World
                 .GetOrCreateSystemManaged<MagicHearseSystem>()
                 .Enabled = setting.EnableMagicHearse;
@@ -96,6 +97,39 @@ namespace MagicHearse
             {
                 Settings.UnregisterInOptionsUI();
                 Settings = null;
+            }
+        }
+
+        // --------------------------------------------------------------------
+        // Localization helper
+        // --------------------------------------------------------------------
+
+        /// <summary>
+        /// Wrapper around LocalizationManager.AddSource that catches exceptions
+        /// so localization issues can't break mod loading.
+        /// </summary>
+        private static void AddLocaleSource(string localeId, IDictionarySource source)
+        {
+            if (string.IsNullOrEmpty(localeId))
+            {
+                return;
+            }
+
+            LocalizationManager? lm = GameManager.instance?.localizationManager;
+            if (lm == null)
+            {
+                Log.Warn($"AddLocaleSource: No LocalizationManager; cannot add source for '{localeId}'.");
+                return;
+            }
+
+            try
+            {
+                lm.AddSource(localeId, source);
+            }
+            catch (Exception ex)
+            {
+                Log.Warn(
+                    $"AddLocaleSource: AddSource for '{localeId}' failed: {ex.GetType().Name}: {ex.Message}");
             }
         }
     }
