@@ -11,9 +11,9 @@
 
 ## No More Death-Waves!
 
-- Is your city clogged with hearses and annoying hearse notifications?
-- This mod removes dead bodies; Citizens will magically disappear upon death.
-- No need for crematoriums, or traffic from hearse cars unless you want them for "looks".
+- City clogged with hearses and annoying hearse notifications?
+- Citizens magically float away after death.
+- Crematoriums and cemetaries are now optional tourist attractions.
 
 ## Features
 - Just install the mod (keep the checkbox enabled in Options)
@@ -54,15 +54,14 @@ Mod does not stop death - it's just very fast corpse cleanup.
 	<!--Link to the forum post where the mod can be discussed-->
 	<ForumLink Value="https://forum.paradoxplaza.com/forum/threads/magic-hearse-redux.1865555/" />
 	<!--Version of the mod-->
-	<ModVersion Value="1.3.5" />
+	<ModVersion Value="1.3.6" />
 	<!--Recommended version of the base game to use the mod-->
-	<GameVersion Value="1.4.2*" />
+	<GameVersion Value="1.5.*" />
 	<!--Dependency for the mod, can be set multiple times-->
 	<Dependency Id="" />
 	<!--Change log for new version. Single line or multi line. Supports minimal markdown subset-->
 	<ChangeLog>
-* add 繁體中文 Traditional Chinese, Polski Polish, Português Brazilian
-* refactor mod for better organization and localization
+* Update for game patch 1.5.2
 </ChangeLog>
 	<!--External link. supported types are discord, github, youtube, twitch, x, paypal, patreon-->
 	<ExternalLink Type="discord" Url="https://discord.gg/HTav7ARPs2" />
