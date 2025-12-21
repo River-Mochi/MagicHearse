@@ -18,10 +18,9 @@
 ## Features
 - Just install the mod (keep the checkbox enabled in Options)
 - Automatic: enable/disable without restarting the game.
-- Remove all other Hearse/Deathcare mods to avoid conflicts!!
+- Remove all other Hearse/Deathcare mods to avoid conflicts!
 - This mod does not use Harmony or Reflection (increases reliability on game patch days).
 - Safe to remove any time. Works with new and existing saves.
-- Keep the cemeteries for the looks, just know that MHR has you covered.
 
 ## Support and Feedback
 - If the mod works for you, give it a Like!
@@ -34,7 +33,7 @@
 
 ## Credits
 - River-Mochi - author
-- Thanks to Wayze, creator of the original Magical Hearse
+- Thanks to Wayz, creator of the original Magical Hearse
 - Necko1996 - testing, screenshots
 
 ## How it works
@@ -54,15 +53,14 @@ Mod does not stop death - it's just very fast corpse cleanup.
 	<!--Link to the forum post where the mod can be discussed-->
 	<ForumLink Value="https://forum.paradoxplaza.com/forum/threads/magic-hearse-redux.1865555/" />
 	<!--Version of the mod-->
-	<ModVersion Value="1.3.7" />
+	<ModVersion Value="1.3.8" />
 	<!--Recommended version of the base game to use the mod-->
 	<GameVersion Value="1.5.*" />
 	<!--Dependency for the mod, can be set multiple times-->
 	<Dependency Id="" />
 	<!--Change log for new version. Single line or multi line. Supports minimal markdown subset-->
 	<ChangeLog>
-* Update for game patch 1.5.2
-* minor sync for skyve + PDX
+* fix paradox link
 </ChangeLog>
 	<!--External link. supported types are discord, github, youtube, twitch, x, paypal, patreon-->
 	<ExternalLink Type="discord" Url="https://discord.gg/HTav7ARPs2" />
