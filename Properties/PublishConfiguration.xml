@@ -4,68 +4,67 @@
 	<!--Name of the mod to display to players-->
 	<DisplayName Value="Magic Hearse" />
 	<!--Short description of the mod-->
-	<ShortDescription Value="Removes death in your cities - so fast, it's like magic." />
+	<ShortDescription Value="Auto Clean deathcare or tune with Funeral Director " />
 	<!--Long description of the mod. Single line or multi line. Supports minimal markdown subset-->
 	<!--LongDescription Value="This is a long description" /-->
 	<LongDescription>## Magic Hearse + Funeral Director
 
-## No More Death-Waves!
+Two modes (mutually exclusive):
 
-New features: Funeral Director!
+### Option 1: Auto Clean
+- Removes dead citizens instantly when they are waiting for a hearse.
+- Great for death-waves and notification spam.
 
-Option 1 Auto Clean
-- City clogged with hearses and annoying hearse notifications?
-- Citizens magically float away after death.
-- Crematoriums and cemetaries are now optional tourist attractions.
-- Just install the mod (keep the checkbox enabled in Options)
-
-Option 2 Funeral Director
-- Manage processing rates and hearse vehicles directly
+### Option 2: Funeral Director (Self Manage)
+Tune deathcare prefab values:
+  - Processing rate multiplier
+  - Fleet size (max hearses per facility)
+  - Cemetery long-term storage multiplier
 
 ## Features
-- Automatic: enable/disable without restarting the game.
-- Remove all other Hearse/Deathcare mods to avoid conflicts!
-- This mod does not use Harmony or Reflection (increases reliability on game patch days).
-- Safe to remove any time. Works with new and existing saves.
+- Toggle on/off without restarting the game.
+- No Harmony or Reflection (more reliable on patch days).
+- Safe to remove any time.
+- Disable other Hearse mods to avoid conflicts!
 
 ## Support and Feedback
 - If the mod works for you, give it a Like!
-- Feedback in Github, Forums, or Discord links.
-
-## 11 Languages
+- Feedback: GitHub / Forums / Discord.
+- 11 Languages
 
 ## Credits
-- River-Mochi - author
+- River-Mochi: author
 - Thanks to Wayz, creator of the original Magical Hearse
-- Necko1996 - testing, screenshots
+- Necko1996: testing, screenshots
 
 ## How it works
-- If the citizen is flagged as dead and needs transport, it's cleaned up. Looks like magic but the secret is flags. 
-Mod does not stop death - it's just very fast corpse cleanup.
+- If the citizen is flagged as dead and needs transport, it's cleaned up. Looks like magic but the secret is flags.
+- Mod does not stop death - it's just very fast corpse cleanup.
 - Great for your next zombie apocalypse.
 
-	</LongDescription>
-	<!--Thumbnail-->
-	<Thumbnail Value="Properties/ThumbnailBulkRates.jpg" />
-	<!--Screenshot, can be set multiple times-->
-	<Screenshot Value="Properties/10image-Options.jpg" />
-	<Screenshot Value="Properties/20image-BeforeSmall.jpg" />
-	<Screenshot Value="Properties/30image-AfterSmall.jpg" />
-	<!--Tag, can be set multiple times-->
-	<Tag Value="Code Mod" />
-	<!--Link to the forum post where the mod can be discussed-->
-	<ForumLink Value="https://forum.paradoxplaza.com/forum/threads/magic-hearse-redux.1865555/" />
-	<!--Version of the mod-->
-	<ModVersion Value="1.4.0" />
-	<!--Recommended version of the base game to use the mod-->
-	<GameVersion Value="1.5.*" />
-	<!--Dependency for the mod, can be set multiple times-->
-	<Dependency Id="" />
-	<!--Change log for new version. Single line or multi line. Supports minimal markdown subset-->
-	<ChangeLog>
-* fix paradox link
+</LongDescription>
+<!--Thumbnail-->
+<Thumbnail Value="Properties/ThumbnailBulkRates.jpg" />
+<!--Screenshot, can be set multiple times-->
+<Screenshot Value="Properties/10image-Options.jpg" />
+<Screenshot Value="Properties/20image-BeforeSmall.jpg" />
+<Screenshot Value="Properties/30image-AfterSmall.jpg" />
+<!--Tag, can be set multiple times-->
+<Tag Value="Code Mod" />
+<!--Link to the forum post where the mod can be discussed-->
+<ForumLink Value="https://forum.paradoxplaza.com/forum/threads/magic-hearse-redux.1865555/" />
+<!--Version of the mod-->
+<ModVersion Value="1.4.0" />
+<!--Recommended version of the base game to use the mod-->
+<GameVersion Value="1.5.*" />
+<!--Dependency for the mod, can be set multiple times-->
+<Dependency Id="" />
+<!--Change log for new version. Single line or multi line. Supports minimal markdown subset-->
+<ChangeLog>
+* Added Funeral Director mode (Self Manage) with 4 sliders + reset button .
+* Auto Clean magic and Funeral Director are mutually exclusive
 </ChangeLog>
-	<!--External link. supported types are discord, github, youtube, twitch, x, paypal, patreon-->
-	<ExternalLink Type="discord" Url="https://discord.gg/HTav7ARPs2" />
-	<ExternalLink Type="github" Url="https://github.com/River-Mochi/MagicHearse" />
+<!--External link. supported types are discord, github, youtube, twitch, x, paypal, patreon-->
+<ExternalLink Type="discord" Url="https://discord.gg/HTav7ARPs2" />
+<ExternalLink Type="github" Url="https://github.com/River-Mochi/MagicHearse" />
 </Publish>

@@ -11,7 +11,7 @@ namespace MagicHearse
     using Unity.Entities;
     using UnityEngine;
 
-    [FileLocation("ModsSettings/MagicHearse/MagicHearse")]
+    [FileLocation("ModsSettings/MagicHearseRedux")]
     [SettingsUITabOrder(ActionsTab, AboutTab)]
     [SettingsUIGroupOrder(
         AutoCleanGrp,
@@ -98,6 +98,7 @@ namespace MagicHearse
         }
 
         // Sliders (shown only when FD is ON)
+
         [SettingsUISlider(min = 100, max = 500, step = 10, scalarMultiplier = 1, unit = Unit.kPercentage)]
         [SettingsUISection(ActionsTab, SelfManageGrp)]
         [SettingsUIHideByCondition(typeof(Setting), nameof(FuneralDirector), true)]
@@ -134,18 +135,6 @@ namespace MagicHearse
             RequestFdApply();
         }
 
-        [SettingsUISlider(min = 100, max = 500, step = 10, scalarMultiplier = 1, unit = Unit.kPercentage)]
-        [SettingsUISection(ActionsTab, SelfManageGrp)]
-        [SettingsUIHideByCondition(typeof(Setting), nameof(FuneralDirector), true)]
-        [SettingsUISetter(typeof(Setting), nameof(SetHearseCapacityScalar))]
-        public int HearseCapacityScalar { get; set; } = 100;
-
-        private void SetHearseCapacityScalar(int value)
-        {
-            HearseCapacityScalar = value;
-            RequestFdApply();
-        }
-
         // Reset button (only when FD is ON)
         [SettingsUIButton]
         [SettingsUISection(ActionsTab, SelfManageGrp)]
@@ -162,7 +151,6 @@ namespace MagicHearse
                 ProcScalar = 100;
                 FleetScalar = 100;
                 StorageScalar = 100;
-                HearseCapacityScalar = 100;
 
                 RequestFdApply();
             }
@@ -217,7 +205,6 @@ namespace MagicHearse
             ProcScalar = 100;
             FleetScalar = 100;
             StorageScalar = 100;
-            HearseCapacityScalar = 100;
         }
 
         // --------------------------------------------------------------------
@@ -235,17 +222,9 @@ namespace MagicHearse
             // Magic system follows toggle.
             world.GetOrCreateSystemManaged<MagicHearseSystem>().Enabled = m_EnableMagicHearse;
 
-            // FD: if ON, apply once; if OFF, restore once.
+            // FD: if ON apply once; if OFF restore once.
             FuneralDirectorSystem fd = world.GetOrCreateSystemManaged<FuneralDirectorSystem>();
-            if (m_FuneralDirector)
-            {
-                fd.RequestReapplyFromSettings();
-            }
-            else
-            {
-                // Turning FD off should restore vanilla (one pass).
-                fd.RequestReapplyFromSettings();
-            }
+            fd.RequestReapplyFromSettings();
         }
 
         private void RequestFdApply()

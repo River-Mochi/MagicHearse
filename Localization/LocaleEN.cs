@@ -42,7 +42,7 @@ namespace MagicHearse
                 // Self Manage
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.FuneralDirector)), "Funeral Director" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.FuneralDirector)),
-                    "Adjust deathcare capacity and hearse payload." },
+                    "Adjust deathcare facility capacity." },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.ProcScalar)), "Processing rate" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.ProcScalar)),
@@ -55,10 +55,6 @@ namespace MagicHearse
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.StorageScalar)), "Cemetery storage" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.StorageScalar)),
                     "Cemetery storage capacity multiplier." },
-
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.HearseCapacityScalar)), "Hearse capacity" },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.HearseCapacityScalar)),
-                    "Corpses per hearse multiplier." },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.ResetGameDefaults)), "Reset Game Defaults" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.ResetGameDefaults)),
