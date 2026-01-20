@@ -1,9 +1,9 @@
 // File: Systems/FuneralDirectorSystem.cs
-// Funeral Director: one-shot (on-demand) deathcare tuning from Settings sliders.
+// Purpose: One-pass “Self Manage” (Funeral Director) that applies deathcare/hearse multipliers to PREFABS.
 // Notes:
-// - Runs once on city load + once when sliders change.
-// - Caches vanilla values per-entity to avoid compounding multipliers.
-// - Applies FacilityStorageScalar ONLY when DeathcareFacilityData.m_LongTermStorage is true (cemeteries).
+// - Runs only on demand (when settings change or on game load), then disables itself.
+// - Prefab entities are reliably identified by Game.Prefabs.PrefabData (same pattern as DispatchBoss/ASC).
+// - Caches vanilla values once so 100% restores defaults.
 
 namespace MagicHearse
 {
@@ -12,50 +12,51 @@ namespace MagicHearse
     using Game.Prefabs;
     using System;
     using System.Collections.Generic;
-    using Unity.Collections;
     using Unity.Entities;
 
     public sealed partial class FuneralDirectorSystem : GameSystemBase
     {
-        private EntityQuery m_DeathcareFacilityDataQuery;
-        private EntityQuery m_HearseDataQuery;
+        private bool m_Dirty;
 
-        private readonly Dictionary<Entity, DeathcareFacilityData> m_BaseDeathcare =
+        // Cache vanilla baseline so we can re-apply cleanly.
+        private readonly Dictionary<Entity, DeathcareFacilityData> m_DeathcareBase =
             new Dictionary<Entity, DeathcareFacilityData>();
 
-        private readonly Dictionary<Entity, HearseData> m_BaseHearse =
+        private readonly Dictionary<Entity, HearseData> m_HearseBase =
             new Dictionary<Entity, HearseData>();
-
-        private bool m_Dirty;
 
         protected override void OnCreate()
         {
             base.OnCreate();
 
-            // These queries intentionally target prefab-ish data components.
-            // If CS2 changes where these live, we can tighten with additional tags.
-            m_DeathcareFacilityDataQuery = SystemAPI.QueryBuilder()
-                .WithAllRW<DeathcareFacilityData>()
+            // Like DispatchBoss: require PrefabData + component.
+            EntityQuery dcQuery = SystemAPI.QueryBuilder()
+                .WithAll<PrefabData, DeathcareFacilityData>()
                 .Build();
 
-            m_HearseDataQuery = SystemAPI.QueryBuilder()
-                .WithAllRW<HearseData>()
+            EntityQuery hearseQuery = SystemAPI.QueryBuilder()
+                .WithAll<PrefabData, HearseData>()
                 .Build();
 
-            Enabled = false; // on-demand only
+            RequireForUpdate(dcQuery);
+            RequireForUpdate(hearseQuery);
+
+            Enabled = false;
+            Mod.Log.Info("[FD] System created.");
         }
 
         protected override void OnGameLoadingComplete(Purpose purpose, GameMode mode)
         {
             base.OnGameLoadingComplete(purpose, mode);
 
-            Setting? s = Setting.Instance;
-            if (s != null && s.FuneralDirector)
+            Setting? setting = Mod.Settings;
+            if (setting != null && setting.FuneralDirector)
             {
                 RequestReapplyFromSettings();
             }
         }
 
+        /// <summary>Called by Setting setters (and Mod.OnLoad) to do one apply pass.</summary>
         public void RequestReapplyFromSettings()
         {
             m_Dirty = true;
@@ -72,105 +73,133 @@ namespace MagicHearse
 
             m_Dirty = false;
 
-            Setting? s = Setting.Instance;
-            if (s == null || !s.FuneralDirector)
+            Setting? setting = Mod.Settings;
+            if (setting == null)
             {
+                Mod.Log.Warn("[FD] No settings instance; skipping.");
                 Enabled = false;
                 return;
             }
 
-            float processingMul = PercentToScalar(s.ProcessingScalar);
-            float facilityHearseMul = PercentToScalar(s.FacilityHearseScalar);
-            float facilityStorageMul = PercentToScalar(s.FacilityStorageScalar);
-            float hearseCapMul = PercentToScalar(s.HearseCapacityScalar);
+            if (!setting.FuneralDirector)
+            {
+                RestoreVanilla();
+                Enabled = false;
+                return;
+            }
 
-            ApplyDeathcareFacilityData(processingMul, facilityHearseMul, facilityStorageMul);
-            ApplyHearseData(hearseCapMul);
-
+            ApplyMultipliers(setting);
             Enabled = false;
         }
 
-        private void ApplyDeathcareFacilityData(float processingMul, float hearseMul, float storageMul)
+        private void ApplyMultipliers(Setting setting)
         {
-            NativeArray<Entity> entities = m_DeathcareFacilityDataQuery.ToEntityArray(Allocator.Temp);
+            float procScalar = PercentToScalar(setting.ProcScalar);
+            float fleetScalar = PercentToScalar(setting.FleetScalar);
+            float storageScalar = PercentToScalar(setting.StorageScalar);
+            float hearseScalar = PercentToScalar(setting.HearseCapacityScalar);
 
-            for (int i = 0; i < entities.Length; i++)
+            int editedFacilities = 0;
+            int editedHearses = 0;
+            int storageEdited = 0;
+
+            // ---- Deathcare facility prefabs ----
+            foreach ((RefRW<DeathcareFacilityData> dcRef, Entity entity) in SystemAPI
+                         .Query<RefRW<DeathcareFacilityData>>()
+                         .WithAll<PrefabData>()
+                         .WithEntityAccess())
             {
-                Entity e = entities[i];
+                DeathcareFacilityData current = dcRef.ValueRO;
+                CacheDeathcareBaseIfNeeded(entity, current);
 
-                DeathcareFacilityData current = EntityManager.GetComponentData<DeathcareFacilityData>(e);
+                DeathcareFacilityData baseData = m_DeathcareBase[entity];
+                DeathcareFacilityData newData = baseData;
 
-                if (!m_BaseDeathcare.TryGetValue(e, out DeathcareFacilityData baseline))
+                newData.m_ProcessingRate = Max01(baseData.m_ProcessingRate * procScalar);
+                newData.m_HearseCapacity = Max1((int)Math.Round(baseData.m_HearseCapacity * fleetScalar));
+
+                // Apply storage only to long-term storage facilities (cemetery-like).
+                if (baseData.m_LongTermStorage)
                 {
-                    baseline = current;
-                    m_BaseDeathcare.Add(e, baseline);
+                    newData.m_StorageCapacity = Max1((int)Math.Round(baseData.m_StorageCapacity * storageScalar));
+                    storageEdited++;
                 }
 
-                // Start from baseline every time (no compounding).
-                DeathcareFacilityData updated = baseline;
+                dcRef.ValueRW = newData;
+                editedFacilities++;
+            }
 
-                updated.m_ProcessingRate = Math.Max(0.01f, baseline.m_ProcessingRate * processingMul);
+            // ---- Hearse vehicle prefabs ----
+            foreach ((RefRW<HearseData> hdRef, Entity entity) in SystemAPI
+                         .Query<RefRW<HearseData>>()
+                         .WithAll<PrefabData>()
+                         .WithEntityAccess())
+            {
+                HearseData current = hdRef.ValueRO;
+                CacheHearseBaseIfNeeded(entity, current);
 
-                updated.m_HearseCapacity = Math.Max(1, (int)Math.Round(baseline.m_HearseCapacity * hearseMul));
+                HearseData baseData = m_HearseBase[entity];
+                int newCap = Max1((int)Math.Round(baseData.m_CorpseCapacity * hearseScalar));
 
-                // Only apply storage multiplier to cemetery-like facilities.
-                if (baseline.m_LongTermStorage)
+                hdRef.ValueRW = new HearseData(newCap);
+                editedHearses++;
+            }
+
+            Mod.Log.Info(
+                $"[FD] Applied: proc={setting.ProcScalar}% fleet={setting.FleetScalar}% storage={setting.StorageScalar}% hearse={setting.HearseCapacityScalar}% | " +
+                $"deathcareEdited={editedFacilities} (storageEdited={storageEdited}) hearseEdited={editedHearses}");
+        }
+
+        private void RestoreVanilla()
+        {
+            int restoredFacilities = 0;
+            int restoredHearses = 0;
+
+            foreach ((RefRW<DeathcareFacilityData> dcRef, Entity entity) in SystemAPI
+                         .Query<RefRW<DeathcareFacilityData>>()
+                         .WithAll<PrefabData>()
+                         .WithEntityAccess())
+            {
+                if (m_DeathcareBase.TryGetValue(entity, out DeathcareFacilityData baseData))
                 {
-                    updated.m_StorageCapacity = Math.Max(1, (int)Math.Round(baseline.m_StorageCapacity * storageMul));
-                }
-
-                if (!DeathcareEquals(current, updated))
-                {
-                    EntityManager.SetComponentData(e, updated);
+                    dcRef.ValueRW = baseData;
+                    restoredFacilities++;
                 }
             }
 
-            entities.Dispose();
-        }
-
-        private void ApplyHearseData(float capacityMul)
-        {
-            NativeArray<Entity> entities = m_HearseDataQuery.ToEntityArray(Allocator.Temp);
-
-            for (int i = 0; i < entities.Length; i++)
+            foreach ((RefRW<HearseData> hdRef, Entity entity) in SystemAPI
+                         .Query<RefRW<HearseData>>()
+                         .WithAll<PrefabData>()
+                         .WithEntityAccess())
             {
-                Entity e = entities[i];
-
-                HearseData current = EntityManager.GetComponentData<HearseData>(e);
-
-                if (!m_BaseHearse.TryGetValue(e, out HearseData baseline))
+                if (m_HearseBase.TryGetValue(entity, out HearseData baseData))
                 {
-                    baseline = current;
-                    m_BaseHearse.Add(e, baseline);
-                }
-
-                HearseData updated = baseline;
-                updated.m_CorpseCapacity = Math.Max(1, (int)Math.Round(baseline.m_CorpseCapacity * capacityMul));
-
-                if (current.m_CorpseCapacity != updated.m_CorpseCapacity)
-                {
-                    EntityManager.SetComponentData(e, updated);
+                    hdRef.ValueRW = baseData;
+                    restoredHearses++;
                 }
             }
 
-            entities.Dispose();
+            Mod.Log.Info($"[FD] Restored vanilla: deathcare={restoredFacilities} hearse={restoredHearses}");
         }
 
-        private static float PercentToScalar(int percent)
+        private void CacheDeathcareBaseIfNeeded(Entity e, DeathcareFacilityData current)
         {
-            // 100 => 1.0f
-            // Clamp just to be defensive.
-            int p = Math.Max(1, percent);
-            return p / 100f;
+            if (!m_DeathcareBase.ContainsKey(e))
+            {
+                m_DeathcareBase.Add(e, current);
+            }
         }
 
-        private static bool DeathcareEquals(DeathcareFacilityData a, DeathcareFacilityData b)
+        private void CacheHearseBaseIfNeeded(Entity e, HearseData current)
         {
-            return
-                a.m_HearseCapacity == b.m_HearseCapacity
-                && a.m_StorageCapacity == b.m_StorageCapacity
-                && Math.Abs(a.m_ProcessingRate - b.m_ProcessingRate) < 0.0001f
-                && a.m_LongTermStorage == b.m_LongTermStorage;
+            if (!m_HearseBase.ContainsKey(e))
+            {
+                m_HearseBase.Add(e, current);
+            }
         }
+
+        private static float PercentToScalar(int percent) => percent <= 0 ? 0f : (percent / 100f);
+        private static int Max1(int v) => v < 1 ? 1 : v;
+        private static float Max01(float v) => v < 0.01f ? 0.01f : v;
     }
 }

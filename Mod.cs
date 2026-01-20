@@ -1,5 +1,5 @@
 // Mod.cs
-// Entrypoint: registers settings/locales/ECS system
+// Entrypoint: registers settings, locales, ECS system
 
 namespace MagicHearse
 {
@@ -31,7 +31,7 @@ namespace MagicHearse
         // ----- Logger & public properties ----
 
         public static readonly ILog Log =
-            LogManager.GetLogger("MagicHearseRedux").SetShowsErrorsInUI(
+            LogManager.GetLogger("MagicHearse").SetShowsErrorsInUI(
 #if DEBUG
                 true
 #else
@@ -75,24 +75,24 @@ namespace MagicHearse
         //    AddLocaleSource("zh-HANT", new LocaleZH_HANT(setting));
 
             // load saved settings (file name is in Setting.cs [FileLocation])
-            AssetDatabase.global.LoadSettings("MagicHearseRedux", setting, new Setting(this));
+            AssetDatabase.global.LoadSettings("MagicHearse", setting, new Setting(this));
 
             // Show in OptionsUI
             setting.RegisterInOptionsUI();
 
-            // Run the cleanup system in simulation
+            // Prefab edits must run after PrefabUpdate init work.
+            updateSystem.UpdateAfter<FuneralDirectorSystem>(SystemUpdatePhase.PrefabUpdate);
+
+            // Magic cleanup stays in simulation.
             updateSystem.UpdateAt<MagicHearseSystem>(SystemUpdatePhase.GameSimulation);
 
-            // Apply current toggle value Magic Hearse Enabled or disabled
-            updateSystem.World
-                .GetOrCreateSystemManaged<MagicHearseSystem>().Enabled = setting.EnableMagicHearse;
+            updateSystem.World.GetOrCreateSystemManaged<MagicHearseSystem>().Enabled = setting.EnableMagicHearse;
+
             if (setting.FuneralDirector)
             {
                 updateSystem.World.GetOrCreateSystemManaged<FuneralDirectorSystem>()
                     .RequestReapplyFromSettings();
             }
-
-            updateSystem.UpdateAt<FuneralDirectorSystem>(SystemUpdatePhase.GameSimulation);
 
 
         }

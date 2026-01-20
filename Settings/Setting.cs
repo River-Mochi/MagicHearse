@@ -1,8 +1,5 @@
 // File: Settings/Setting.cs
-// Options UI + settings for Magic Hearse Redux (Actions/About tabs).
-// Notes:
-// - Uses SettingsUISetter to react to UI changes.
-// - Does NOT call ApplyAndSave() from sliders; Options UI handles saving normally.
+// Options UI + settings for Magic Hearse (Actions/About tabs).
 
 namespace MagicHearse
 {
@@ -14,88 +11,165 @@ namespace MagicHearse
     using Unity.Entities;
     using UnityEngine;
 
-    [FileLocation("ModsSettings/MagicHearseRedux")]
+    [FileLocation("ModsSettings/MagicHearse/MagicHearse")]
     [SettingsUITabOrder(ActionsTab, AboutTab)]
     [SettingsUIGroupOrder(
-        MagicGrp,
-        FdGrp,
+        AutoCleanGrp,
+        SelfManageGrp,
         AboutInfoGrp,
         AboutLinksGrp)]
     [SettingsUIShowGroupName(
-        MagicGrp,
-        FdGrp,
+        AutoCleanGrp,
+        SelfManageGrp,
         // AboutInfoGrp intentionally omitted so it has no header
         AboutLinksGrp)]
     public sealed class Setting : ModSetting
     {
-        // ---- Tabs ----
+        // ---- TABS ----
         public const string ActionsTab = "Actions";
         public const string AboutTab = "About";
 
-        // ---- Groups ----
-        public const string MagicGrp = "Magic";
-        public const string FdGrp = "FD";
+        // ---- GROUPS ----
+        public const string AutoCleanGrp = "AutoClean";
+        public const string SelfManageGrp = "SelfManage";
         public const string AboutInfoGrp = "AboutInfo";
         public const string AboutLinksGrp = "AboutLinks";
 
         private const string kUrlParadox =
             "https://mods.paradoxplaza.com/authors/River-mochi/cities_skylines_2?games=cities_skylines_2&orderBy=desc&sortBy=best&time=alltime";
 
-        public static Setting? Instance;
+        // Backing fields (so we can enforce mutual exclusivity but still allow both OFF).
+        private bool m_EnableMagicHearse = true;
+        private bool m_FuneralDirector;
 
         public Setting(IMod mod)
             : base(mod)
         {
-            Instance = this;
         }
 
         // --------------------------------------------------------------------
-        // Actions -> Magic
+        // ACTIONS – AUTO CLEAN
         // --------------------------------------------------------------------
 
-        [SettingsUISection(ActionsTab, MagicGrp)]
-        [SettingsUISetter(typeof(Setting), nameof(OnEnableMagicChanged))]
-        public bool EnableMagicHearse { get; set; } = true;
+        [SettingsUISection(ActionsTab, AutoCleanGrp)]
+        [SettingsUISetter(typeof(Setting), nameof(SetEnableMagicHearse))]
+        public bool EnableMagicHearse
+        {
+            get => m_EnableMagicHearse;
+            set => m_EnableMagicHearse = value;
+        }
+
+        private void SetEnableMagicHearse(bool value)
+        {
+            m_EnableMagicHearse = value;
+
+            // If turning Magic ON, force FD OFF.
+            if (value && m_FuneralDirector)
+            {
+                m_FuneralDirector = false;
+            }
+
+            ApplySystemsLive();
+        }
 
         // --------------------------------------------------------------------
-        // Actions -> Funeral Director (Self Manage)
+        // ACTIONS – SELF MANAGE (FD)
         // --------------------------------------------------------------------
 
-        [SettingsUISection(ActionsTab, FdGrp)]
-        [SettingsUISetter(typeof(Setting), nameof(OnFuneralDirectorChanged))]
-        public bool FuneralDirector { get; set; } = false;
+        [SettingsUISection(ActionsTab, SelfManageGrp)]
+        [SettingsUISetter(typeof(Setting), nameof(SetFuneralDirector))]
+        public bool FuneralDirector
+        {
+            get => m_FuneralDirector;
+            set => m_FuneralDirector = value;
+        }
 
-        // Facility: processing rate (100–500%)
+        private void SetFuneralDirector(bool value)
+        {
+            m_FuneralDirector = value;
+
+            // If turning FD ON, force Magic OFF.
+            if (value && m_EnableMagicHearse)
+            {
+                m_EnableMagicHearse = false;
+            }
+
+            ApplySystemsLive();
+        }
+
+        // Sliders (shown only when FD is ON)
         [SettingsUISlider(min = 100, max = 500, step = 10, scalarMultiplier = 1, unit = Unit.kPercentage)]
-        [SettingsUISection(ActionsTab, FdGrp)]
+        [SettingsUISection(ActionsTab, SelfManageGrp)]
         [SettingsUIHideByCondition(typeof(Setting), nameof(FuneralDirector), true)]
-        [SettingsUISetter(typeof(Setting), nameof(OnFdScalarChanged))]
-        public int ProcessingScalar { get; set; } = 100;
+        [SettingsUISetter(typeof(Setting), nameof(SetProcScalar))]
+        public int ProcScalar { get; set; } = 100;
 
-        // Facility: max hearses (fleet size) (100–400%)
+        private void SetProcScalar(int value)
+        {
+            ProcScalar = value;
+            RequestFdApply();
+        }
+
         [SettingsUISlider(min = 100, max = 400, step = 10, scalarMultiplier = 1, unit = Unit.kPercentage)]
-        [SettingsUISection(ActionsTab, FdGrp)]
+        [SettingsUISection(ActionsTab, SelfManageGrp)]
         [SettingsUIHideByCondition(typeof(Setting), nameof(FuneralDirector), true)]
-        [SettingsUISetter(typeof(Setting), nameof(OnFdScalarChanged))]
-        public int FacilityHearseScalar { get; set; } = 100;
+        [SettingsUISetter(typeof(Setting), nameof(SetFleetScalar))]
+        public int FleetScalar { get; set; } = 100;
 
-        // Facility: storage capacity (100–500%)
-        // We apply this to DeathcareFacilityData.m_StorageCapacity, but ONLY when m_LongTermStorage is true (cemeteries).
-        [SettingsUISlider(min = 100, max = 500, step = 10, scalarMultiplier = 1, unit = Unit.kPercentage)]
-        [SettingsUISection(ActionsTab, FdGrp)]
-        [SettingsUIHideByCondition(typeof(Setting), nameof(FuneralDirector), true)]
-        [SettingsUISetter(typeof(Setting), nameof(OnFdScalarChanged))]
-        public int FacilityStorageScalar { get; set; } = 100;
+        private void SetFleetScalar(int value)
+        {
+            FleetScalar = value;
+            RequestFdApply();
+        }
 
-        // Hearse vehicle: body capacity (100–500%)
         [SettingsUISlider(min = 100, max = 500, step = 10, scalarMultiplier = 1, unit = Unit.kPercentage)]
-        [SettingsUISection(ActionsTab, FdGrp)]
+        [SettingsUISection(ActionsTab, SelfManageGrp)]
         [SettingsUIHideByCondition(typeof(Setting), nameof(FuneralDirector), true)]
-        [SettingsUISetter(typeof(Setting), nameof(OnFdScalarChanged))]
+        [SettingsUISetter(typeof(Setting), nameof(SetStorageScalar))]
+        public int StorageScalar { get; set; } = 100;
+
+        private void SetStorageScalar(int value)
+        {
+            StorageScalar = value;
+            RequestFdApply();
+        }
+
+        [SettingsUISlider(min = 100, max = 500, step = 10, scalarMultiplier = 1, unit = Unit.kPercentage)]
+        [SettingsUISection(ActionsTab, SelfManageGrp)]
+        [SettingsUIHideByCondition(typeof(Setting), nameof(FuneralDirector), true)]
+        [SettingsUISetter(typeof(Setting), nameof(SetHearseCapacityScalar))]
         public int HearseCapacityScalar { get; set; } = 100;
 
+        private void SetHearseCapacityScalar(int value)
+        {
+            HearseCapacityScalar = value;
+            RequestFdApply();
+        }
+
+        // Reset button (only when FD is ON)
+        [SettingsUIButton]
+        [SettingsUISection(ActionsTab, SelfManageGrp)]
+        [SettingsUIHideByCondition(typeof(Setting), nameof(FuneralDirector), true)]
+        public bool ResetGameDefaults
+        {
+            set
+            {
+                if (!value)
+                {
+                    return;
+                }
+
+                ProcScalar = 100;
+                FleetScalar = 100;
+                StorageScalar = 100;
+                HearseCapacityScalar = 100;
+
+                RequestFdApply();
+            }
+        }
+
         // --------------------------------------------------------------------
-        // About -> Info (no header)
+        // ABOUT – INFO (no header)
         // --------------------------------------------------------------------
 
         [SettingsUISection(AboutTab, AboutInfoGrp)]
@@ -105,7 +179,7 @@ namespace MagicHearse
         public string AboutVersion => Mod.ModVersion;
 
         // --------------------------------------------------------------------
-        // About -> Links
+        // ABOUT – LINKS
         // --------------------------------------------------------------------
 
         [SettingsUIButton]
@@ -126,30 +200,31 @@ namespace MagicHearse
                 }
                 catch (Exception)
                 {
+                    // Silent catch; worst case the link does nothing.
                 }
             }
         }
 
         // --------------------------------------------------------------------
-        // Defaults
+        // DEFAULTS
         // --------------------------------------------------------------------
 
         public override void SetDefaults()
         {
-            EnableMagicHearse = true;
+            m_EnableMagicHearse = true;
+            m_FuneralDirector = false;
 
-            FuneralDirector = false;
-            ProcessingScalar = 100;
-            FacilityHearseScalar = 100;
-            FacilityStorageScalar = 100;
+            ProcScalar = 100;
+            FleetScalar = 100;
+            StorageScalar = 100;
             HearseCapacityScalar = 100;
         }
 
         // --------------------------------------------------------------------
-        // SettingsUISetter callbacks (CO Options UI)
+        // Live apply helpers
         // --------------------------------------------------------------------
 
-        private static void OnEnableMagicChanged(bool value)
+        private void ApplySystemsLive()
         {
             World world = World.DefaultGameObjectInjectionWorld;
             if (world == null || !world.IsCreated)
@@ -157,37 +232,25 @@ namespace MagicHearse
                 return;
             }
 
-            world
-                .GetOrCreateSystemManaged<MagicHearseSystem>()
-                .Enabled = value;
-        }
+            // Magic system follows toggle.
+            world.GetOrCreateSystemManaged<MagicHearseSystem>().Enabled = m_EnableMagicHearse;
 
-        private static void OnFuneralDirectorChanged(bool value)
-        {
-            World world = World.DefaultGameObjectInjectionWorld;
-            if (world == null || !world.IsCreated)
-            {
-                return;
-            }
-
+            // FD: if ON, apply once; if OFF, restore once.
             FuneralDirectorSystem fd = world.GetOrCreateSystemManaged<FuneralDirectorSystem>();
-
-            if (!value)
+            if (m_FuneralDirector)
             {
-                // Turn off and do nothing else.
-                fd.Enabled = false;
-                return;
+                fd.RequestReapplyFromSettings();
             }
-
-            // Turn on + apply once.
-            fd.RequestReapplyFromSettings();
+            else
+            {
+                // Turning FD off should restore vanilla (one pass).
+                fd.RequestReapplyFromSettings();
+            }
         }
 
-        private static void OnFdScalarChanged(int _)
+        private void RequestFdApply()
         {
-            // Any FD slider change should reapply once (if FD is enabled).
-            Setting? s = Instance;
-            if (s == null || !s.FuneralDirector)
+            if (!m_FuneralDirector)
             {
                 return;
             }
@@ -198,8 +261,7 @@ namespace MagicHearse
                 return;
             }
 
-            world
-                .GetOrCreateSystemManaged<FuneralDirectorSystem>()
+            world.GetOrCreateSystemManaged<FuneralDirectorSystem>()
                 .RequestReapplyFromSettings();
         }
     }
