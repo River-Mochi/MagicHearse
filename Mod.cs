@@ -3,8 +3,6 @@
 
 namespace MagicHearse
 {
-    using System;                         // Exception
-    using System.Reflection;              // Assembly version number
     using Colossal;                       // IDictionarySource
     using Colossal.IO.AssetDatabase;      // AssetDatabase
     using Colossal.Localization;          // LocalizationManager
@@ -12,6 +10,8 @@ namespace MagicHearse
     using Game;                           // UpdateSystem, SystemUpdatePhase
     using Game.Modding;                   // IMod
     using Game.SceneFlow;                 // GameManager
+    using System;                         // Exception
+    using System.Reflection;              // Assembly version number
 
     public sealed class Mod : IMod
     {
@@ -63,16 +63,16 @@ namespace MagicHearse
 
             // Register locales via helper (safer wrapper around LocalizationManager.AddSource)
             AddLocaleSource("en-US", new LocaleEN(setting));
-            AddLocaleSource("fr-FR", new LocaleFR(setting));
-            AddLocaleSource("es-ES", new LocaleES(setting));
-            AddLocaleSource("de-DE", new LocaleDE(setting));
-            AddLocaleSource("it-IT", new LocaleIT(setting));
-            AddLocaleSource("ja-JP", new LocaleJA(setting));
-            AddLocaleSource("ko-KR", new LocaleKO(setting));
-            AddLocaleSource("zh-HANS", new LocaleZH(setting));
-            AddLocaleSource("pl-PL", new LocalePL(setting));
-            AddLocaleSource("pt-BR", new LocalePT_BR(setting));
-            AddLocaleSource("zh-HANT", new LocaleZH_HANT(setting));
+          //  AddLocaleSource("fr-FR", new LocaleFR(setting));
+          //  AddLocaleSource("es-ES", new LocaleES(setting));
+          //  AddLocaleSource("de-DE", new LocaleDE(setting));
+          //  AddLocaleSource("it-IT", new LocaleIT(setting));
+          //  AddLocaleSource("ja-JP", new LocaleJA(setting));
+         //   AddLocaleSource("ko-KR", new LocaleKO(setting));
+         //   AddLocaleSource("zh-HANS", new LocaleZH(setting));
+        //    AddLocaleSource("pl-PL", new LocalePL(setting));
+        //    AddLocaleSource("pt-BR", new LocalePT_BR(setting));
+        //    AddLocaleSource("zh-HANT", new LocaleZH_HANT(setting));
 
             // load saved settings (file name is in Setting.cs [FileLocation])
             AssetDatabase.global.LoadSettings("MagicHearseRedux", setting, new Setting(this));
