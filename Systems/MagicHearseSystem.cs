@@ -15,12 +15,14 @@ namespace MagicHearse
 
     public sealed partial class MagicHearseSystem : GameSystemBase
     {
+
         private EntityQuery m_DeadCitizenQuery;
         private EndFrameBarrier m_EndFrameBarrier = null!; // set in OnCreate
+        public static readonly int UpdatesPerDay = 128;
 
         public override int GetUpdateInterval(SystemUpdatePhase phase)
         {
-            return 64;
+            return 262144 / UpdatesPerDay;  // game contant ticksperday 262144
         }
 
         protected override void OnCreate()
