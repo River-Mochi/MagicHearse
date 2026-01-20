@@ -1,10 +1,10 @@
-// Localization/LocaleEN.cs
+// File: Localization/LocaleEN.cs
 // English en-US for Magic Hearse Redux.
 
 namespace MagicHearse
 {
-    using System.Collections.Generic;
     using Colossal;
+    using System.Collections.Generic;
 
     public sealed class LocaleEN : IDictionarySource
     {
@@ -21,27 +21,56 @@ namespace MagicHearse
         {
             return new Dictionary<string, string>
             {
-                // panel name in Options -> Modding
-                { m_Setting.GetSettingsLocaleID(), "Magic Hearse Redux" },
+                // Options mod name (Options -> Modding)
+                { m_Setting.GetSettingsLocaleID(), Mod.ModName + " " + Mod.ModTag },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.ModNameDisplay)), "Mod" },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.ModNameDisplay)), "Display name of this mod." },
+                // Tabs
+                { m_Setting.GetOptionTabLocaleID(Setting.ActionsTab), "Actions" },
+                { m_Setting.GetOptionTabLocaleID(Setting.AboutTab),   "About"   },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.ModVersionDisplay)), "Version" },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.ModVersionDisplay)), "Current version of Magic Hearse mod." },
+                // Groups
+                { m_Setting.GetOptionGroupLocaleID(Setting.MagicGrp),      "Auto Clean" },
+                { m_Setting.GetOptionGroupLocaleID(Setting.FdGrp),         "Self Manage" },
+                { m_Setting.GetOptionGroupLocaleID(Setting.AboutInfoGrp),  "Mod info" },
+                { m_Setting.GetOptionGroupLocaleID(Setting.AboutLinksGrp), "Links" },
 
+                // Actions -> Auto Clean
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.EnableMagicHearse)), "Enable Magic" },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.EnableMagicHearse)), "Keep enabled, magic works silently.\n" +
-                "Auto removes dead citizens that are waiting for a hearse." },
+                { m_Setting.GetOptionDescLocaleID(nameof(Setting.EnableMagicHearse)),
+                    "Keeps things clean automatically.\nAuto removes dead citizens waiting for a hearse." },
 
-                // Links group header + button
-                { "OPTIONS.GROUP[MagicHearse.MagicHearse.Mod.Links]", "Links" },
+                // Actions -> Self Manage
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.FuneralDirector)), "Funeral Director" },
+                { m_Setting.GetOptionDescLocaleID(nameof(Setting.FuneralDirector)),
+                    "Enable sliders to boost deathcare capacity (no always-on sim cost)." },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.ProcessingScalar)), "Processing rate" },
+                { m_Setting.GetOptionDescLocaleID(nameof(Setting.ProcessingScalar)), "How fast facilities process bodies." },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.FacilityHearseScalar)), "Facility hearse count" },
+                { m_Setting.GetOptionDescLocaleID(nameof(Setting.FacilityHearseScalar)), "Max hearses per cemetery/crematorium." },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.FacilityStorageScalar)), "Cemetery storage" },
+                { m_Setting.GetOptionDescLocaleID(nameof(Setting.FacilityStorageScalar)), "Long-term storage capacity (cemeteries)." },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.HearseCapacityScalar)), "Hearse capacity" },
+                { m_Setting.GetOptionDescLocaleID(nameof(Setting.HearseCapacityScalar)), "How many bodies each hearse can carry." },
+
+                // About -> Info
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.AboutName)), "Mod" },
+                { m_Setting.GetOptionDescLocaleID(nameof(Setting.AboutName)), "Display name of this mod." },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.AboutVersion)), "Version" },
+                { m_Setting.GetOptionDescLocaleID(nameof(Setting.AboutVersion)), "Current version." },
+
+                // About -> Links
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.OpenParadoxMods)), "Paradox Mods" },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.OpenParadoxMods)), "Opens Paradox website for the author's mods." },
+                { m_Setting.GetOptionDescLocaleID(nameof(Setting.OpenParadoxMods)), "Opens the author's Paradox Mods page." },
             };
         }
 
         public void Unload()
-        { }
+        {
+        }
     }
 }

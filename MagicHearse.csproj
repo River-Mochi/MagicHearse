@@ -2,12 +2,18 @@
 	<PropertyGroup>
 		<OutputType>Library</OutputType>
 		<Configurations>Debug;Release</Configurations>
-		<Nullable>enable</Nullable>
 		<!--The file where mod information which is required for publishing mod on PDX mods are stored-->
 		<PublishConfigurationPath>Properties\PublishConfiguration.xml</PublishConfigurationPath>
 
+		<!-- DLL name and default namespace -->
+		<AssemblyName>MagicHearse</AssemblyName>
+		<RootNamespace>MagicHearse</RootNamespace>
+
+		<!-- Enable nullable reference types project-wide -->
+		<Nullable>enable</Nullable>
+
   <!-- Single source of truth for version number -->
-	  <Version>1.3.8</Version>
+	  <Version>1.4.0</Version>
 	<AssemblyVersion>$(Version).0</AssemblyVersion>
 	<FileVersion>$(Version).0</FileVersion>  <!-- for file properties -->
 

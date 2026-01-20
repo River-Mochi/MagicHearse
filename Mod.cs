@@ -16,7 +16,7 @@ namespace MagicHearse
     public sealed class Mod : IMod
     {
         // single source of truth for name + version
-        public const string ModName = "Magic Hearse Redux";
+        public const string ModName = "Magic Hearse";
         public const string ModId = "MagicHearse";
         public const string ModTag = "[MH]";
 
@@ -77,16 +77,24 @@ namespace MagicHearse
             // load saved settings (file name is in Setting.cs [FileLocation])
             AssetDatabase.global.LoadSettings("MagicHearseRedux", setting, new Setting(this));
 
-            // Show in Options -> Mods
+            // Show in OptionsUI
             setting.RegisterInOptionsUI();
 
             // Run the cleanup system in simulation
             updateSystem.UpdateAt<MagicHearseSystem>(SystemUpdatePhase.GameSimulation);
 
-            // Apply current toggle value
+            // Apply current toggle value Magic Hearse Enabled or disabled
             updateSystem.World
-                .GetOrCreateSystemManaged<MagicHearseSystem>()
-                .Enabled = setting.EnableMagicHearse;
+                .GetOrCreateSystemManaged<MagicHearseSystem>().Enabled = setting.EnableMagicHearse;
+            if (setting.FuneralDirector)
+            {
+                updateSystem.World.GetOrCreateSystemManaged<FuneralDirectorSystem>()
+                    .RequestReapplyFromSettings();
+            }
+
+            updateSystem.UpdateAt<FuneralDirectorSystem>(SystemUpdatePhase.GameSimulation);
+
+
         }
 
         public void OnDispose()

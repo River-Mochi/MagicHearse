@@ -39,14 +39,14 @@ It’s designed for performance and simplicity — no configuration beyond a sin
 3. The game then removes those entities automatically.  
 
 - Github repo: https://github.com/River-Mochi/MagicHearse
-- [Paradox Mods page](https://mods.paradoxplaza.com/authors/kimosabe1/cities_skylines_2?games=cities_skylines_2&orderBy=desc&sortBy=best&time=alltime)
+- [Paradox Mods page]("https://mods.paradoxplaza.com/authors/River-mochi/cities_skylines_2?games=cities_skylines_2&orderBy=desc&sortBy=best&time=alltime";)
 
 ---
 
 ## Credits
-- River-Mochi - current author/maintainer
+- River-Mochi:author/maintainer
 - Thanks to Wayze, the original author and pioneer of "Magical Hearse" mod
-- Necko1996 - testing and feedback
+- Necko1996: testing and feedback
 
 
 
