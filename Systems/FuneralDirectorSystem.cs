@@ -1,9 +1,9 @@
 // File: Systems/FuneralDirectorSystem.cs
-// Purpose: One-pass “Self Manage” (Funeral Director) that applies deathcare multipliers to PREFABS.
+// Purpose: “Self Manage” Funeral Director that applies deathcare multipliers to PREFABS.
 // Notes:
 // - Runs only on-demand (when settings change or on game load), then disables itself.
 // - Reads TRUE vanilla baselines from PrefabSystem -> PrefabBase authoring components (NOT PrefabRef data).
-// - Writes to Game.Prefabs.DeathcareFacilityData on prefab entities.
+// - Writes changes to Game.Prefabs.DeathcareFacilityData on prefab entities.
 // - FD OFF restores vanilla (authoring) values.
 
 namespace MagicHearse
@@ -79,8 +79,6 @@ namespace MagicHearse
             }
 
             ApplyMultipliersFromAuthoring(setting);
-
-            // One-pass; no per-frame cost.
             Enabled = false;
         }
 
@@ -108,20 +106,19 @@ namespace MagicHearse
                 DeathcareFacilityData newData = dc.ValueRO;
 
                 // Always start from TRUE vanilla authoring values.
-                float baseRate = authoring.m_ProcessingRate;
-                int baseHearses = authoring.m_HearseCapacity;
-                int baseStorage = authoring.m_StorageCapacity;
-                bool baseLongTerm = authoring.m_LongTermStorage;
+                float baseRate      = authoring.m_ProcessingRate;
+                int baseHearses     = authoring.m_HearseCapacity;
+                int baseStorage     = authoring.m_StorageCapacity;
+                bool baseLongTerm   = authoring.m_LongTermStorage;
 
                 // Processing rate:
-                // - if base is 0, keep 0 (don’t invent processing)
+                // - if base is 0, keep 0 (cemetaries don't have processing like crematoriums).
                 // - otherwise scale, clamp to a tiny minimum so it can’t become 0 by rounding.
                 newData.m_ProcessingRate =
                     baseRate <= 0f ? 0f : math.max(0.01f, baseRate * procScalar);
 
                 // Fleet size (max hearses per facility):
-                // - if base is 0, keep 0
-                // - otherwise scale and clamp to >= 1.
+                // - if base is 0, keep 0; otherwise scale and clamp to >= 1.
                 if (baseHearses <= 0)
                 {
                     newData.m_HearseCapacity = 0;
@@ -133,9 +130,8 @@ namespace MagicHearse
                 }
 
                 // Storage:
-                // - only meaningful for long-term storage facilities
-                // - if base is 0, keep 0
-                // - otherwise scale and clamp to >= 1.
+                // - only for long-term storage facilities (cemetaries)
+                // - if base is 0, keep 0; otherwise scale and clamp to >= 1.
                 newData.m_LongTermStorage = baseLongTerm;
                 if (baseLongTerm)
                 {

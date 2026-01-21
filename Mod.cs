@@ -31,7 +31,7 @@ namespace MagicHearse
         // ----- Logger & public properties ----
 
         public static readonly ILog Log =
-            LogManager.GetLogger("MagicHearse").SetShowsErrorsInUI(
+            LogManager.GetLogger(ModId).SetShowsErrorsInUI(
 #if DEBUG
                 true
 #else
@@ -75,7 +75,7 @@ namespace MagicHearse
             AddLocaleSource("zh-HANT", new LocaleZH_HANT(setting));
 
             // load saved settings (file name is in Setting.cs [FileLocation])
-            AssetDatabase.global.LoadSettings("MagicHearse", setting, new Setting(this));
+            AssetDatabase.global.LoadSettings(ModId, setting, new Setting(this));
 
             // Show in OptionsUI
             setting.RegisterInOptionsUI();
@@ -93,8 +93,6 @@ namespace MagicHearse
                 updateSystem.World.GetOrCreateSystemManaged<FuneralDirectorSystem>()
                     .RequestReapplyFromSettings();
             }
-
-
         }
 
         public void OnDispose()

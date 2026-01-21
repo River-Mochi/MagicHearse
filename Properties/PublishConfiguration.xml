@@ -26,7 +26,7 @@ Tune deathcare prefab values:
 ## Features
 - Toggle on/off without restarting the game.
 - No Harmony or Reflection (more reliable on patch days).
-- Safe to remove any time. Uncheck both toggles turns the mod off.
+- Safe to remove any time. Uncheck both checkboxes turns off the mod.
 - Disable other hearse mods to avoid conflicts!
 - Two options are mutually exclusive (use either Auto clean or self manage).
 - 11 languages

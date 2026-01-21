@@ -38,7 +38,7 @@ namespace MagicHearse
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.EnableMagicHearse)), "Enable Magic" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.EnableMagicHearse)),
                     "Auto removes dead citizens that are waiting for a hearse.\n" +
-                    "Disable both checkboxes if you want to disable the mod without removing it."
+                    "Turn off both checkboxes to disable the mod without removing it."
                     },
 
                 // Self Manage (FD)
