@@ -7,9 +7,7 @@
 	<ShortDescription Value="Auto Clean deathcare or tweak it with Funeral Director" />
 	<!--Long description of the mod. Single line or multi line. Supports minimal markdown subset-->
 	<!--LongDescription Value="This is a long description" /-->
-	<LongDescription>## Magic Hearse + Funeral Director
-
-### No more deathwaves!
+	<LongDescription>## New Funeral Director added
 
 Two modes:
 
@@ -18,10 +16,10 @@ Two modes:
 - Great for death-waves and notification spam.
 
 ### Option 2: Funeral Director (Self Manage)
-Tune deathcare prefab values:
-  - Processing rate multiplier
+Tune deathcare values:
+  - Processing rate
   - Fleet size (max hearses per facility)
-  - Cemetery long-term storage multiplier
+  - Cemetery storage multiplier
 
 ## Features
 - Toggle on/off without restarting the game.
