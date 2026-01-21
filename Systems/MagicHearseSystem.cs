@@ -1,5 +1,9 @@
 // File: Systems/MagicHearseSystem.cs
 // Purpose: Removes dead citizens that are waiting for transport.
+// Notes:
+// - Uses a simple ECS chunk job (no slicing or rolling windows).
+// - Update interval throttles execution to avoid spikes.
+// - Guaranteed to eventually clean all eligible citizens.
 
 namespace MagicHearse
 {
@@ -18,23 +22,20 @@ namespace MagicHearse
         private EntityQuery m_DeadCitizenQuery;
         private EndFrameBarrier m_EndFrameBarrier = null!; // assigned in OnCreate
 
-        public static readonly int UpdatesPerDay = 128;   // 128 = low frequency; increase to clean faster.
-
-        // Lower reduces spike risk, but makes initial cleanup slower.
-        private const int MaxChunksPerUpdate = 32;
-
-        // Rolling window start for chunk slicing.
-        private int m_ChunkStart;
+        // Lower frequency reduces spike risk; increase to clean faster.
+        public static readonly int UpdatesPerDay = 128;
 
         public override int GetUpdateInterval(SystemUpdatePhase phase)
         {
-            return 262144 / UpdatesPerDay; // Game ticksPerDay constant is 262144.
+            // Game ticksPerDay constant is 262144.
+            return 262144 / UpdatesPerDay;
         }
 
         protected override void OnCreate()
         {
             base.OnCreate();
 
+            // Query: dead citizens waiting for transport, not already deleted.
             m_DeadCitizenQuery = SystemAPI.QueryBuilder()
                 .WithAll<Citizen, HealthProblem>()
                 .WithNone<Deleted, Temp>()
@@ -42,39 +43,17 @@ namespace MagicHearse
 
             m_EndFrameBarrier = World.GetOrCreateSystemManaged<EndFrameBarrier>();
 
-            m_ChunkStart = 0;
-
             Mod.Log.Info("MagicHearseSystem created.");
             RequireForUpdate(m_DeadCitizenQuery);
         }
 
         protected override void OnUpdate()
         {
-            int chunkCount = m_DeadCitizenQuery.CalculateChunkCountWithoutFiltering();
-            if (chunkCount <= 0)
-            {
-                m_ChunkStart = 0;
-                return;
-            }
-
-            int sliceStart = m_ChunkStart;
-            int sliceCount = MaxChunksPerUpdate;
-
-            // Wrap the window so repeated updates eventually cover all chunks.
-            m_ChunkStart += sliceCount;
-            if (m_ChunkStart >= chunkCount)
-            {
-                m_ChunkStart = 0;
-            }
-
             JobHandle handle = new MagicHearseJob
             {
                 m_EntityTypeHandle = SystemAPI.GetEntityTypeHandle(),
                 m_HealthProblemType = SystemAPI.GetComponentTypeHandle<HealthProblem>(isReadOnly: true),
                 m_CommandBuffer = m_EndFrameBarrier.CreateCommandBuffer().AsParallelWriter(),
-
-                m_SliceStart = sliceStart,
-                m_SliceEndExclusive = sliceStart + sliceCount,
             }.ScheduleParallel(m_DeadCitizenQuery, Dependency);
 
             m_EndFrameBarrier.AddJobHandleForProducer(handle);
@@ -88,24 +67,12 @@ namespace MagicHearse
             [ReadOnly] public ComponentTypeHandle<HealthProblem> m_HealthProblemType;
             public EntityCommandBuffer.ParallelWriter m_CommandBuffer;
 
-            // Chunk slicing window.
-            [ReadOnly] public int m_SliceStart;
-            [ReadOnly] public int m_SliceEndExclusive;
-
             public void Execute(
                 in ArchetypeChunk chunk,
                 int unfilteredChunkIndex,
                 bool useEnabledMask,
                 in v128 chunkEnabledMask)
             {
-                // Time-slice: skip chunks outside the current window.
-                // Note: unfilteredChunkIndex ordering is stable enough for workload spreading,
-                // but it is not a guarantee of perfect fairness across archetypes.
-                if (unfilteredChunkIndex < m_SliceStart || unfilteredChunkIndex >= m_SliceEndExclusive)
-                {
-                    return;
-                }
-
                 NativeArray<Entity> citizens = chunk.GetNativeArray(m_EntityTypeHandle);
                 NativeArray<HealthProblem> health = chunk.GetNativeArray(ref m_HealthProblemType);
 

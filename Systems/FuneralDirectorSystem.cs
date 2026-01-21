@@ -1,18 +1,18 @@
 // File: Systems/FuneralDirectorSystem.cs
 // Purpose: One-pass “Self Manage” (Funeral Director) that applies deathcare multipliers to PREFABS.
 // Notes:
-// - Runs only on demand (when settings change or on game load), then disables itself.
+// - Runs only on-demand (when settings change or on game load), then disables itself.
 // - Writes to Game.Prefabs.DeathcareFacilityData on prefab entities.
 // - Caches vanilla values once so 100% restores defaults.
 
 namespace MagicHearse
 {
-    using Colossal.Serialization.Entities; // Purpose
-    using Game; // GameSystemBase, GameMode
-    using Game.Prefabs; // DeathcareFacilityData, PrefabData
-    using System.Collections.Generic; // Dictionary
-    using Unity.Entities; // Entity, SystemAPI
-    using Unity.Mathematics; // math.*
+    using Colossal.Serialization.Entities;  // Purpose
+    using Game;                             // GameSystemBase, GameMode
+    using Game.Prefabs;                     // DeathcareFacilityData, PrefabData
+    using System.Collections.Generic;       // Dictionary
+    using Unity.Entities;                   // Entity, SystemAPI
+    using Unity.Mathematics;                // math.*
 
     public sealed partial class FuneralDirectorSystem : GameSystemBase
     {
@@ -45,7 +45,7 @@ namespace MagicHearse
             }
         }
 
-        /// <summary>Called by settings setters to schedule one apply/restore pass.</summary>
+        /// <summary> Called by settings setters to schedule one apply/restore pass.</summary>
         public void RequestReapplyFromSettings()
         {
             m_Dirty = true;

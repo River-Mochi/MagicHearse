@@ -37,28 +37,30 @@ namespace MagicHearse
                 // Auto Clean
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.EnableMagicHearse)), "Enable Magic" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.EnableMagicHearse)),
-                    "Removes dead citizens that are waiting for a hearse." },
+                    "Auto removes dead citizens that are waiting for a hearse.\n" +
+                    "Disable both checkboxes if you want to disable the mod without removing it."
+                    },
 
                 // Self Manage (FD)
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.FuneralDirector)), "Funeral Director" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.FuneralDirector)),
-                    "Scales deathcare facility prefab values (rate, fleet, storage)." },
+                    "Scales deathcare facility values (rate, fleet, storage)." },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.ProcScalar)), "Processing rate" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.ProcScalar)),
-                    "Facility processing speed multiplier." },
+                    "Facility **processing speed** multiplier." },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.FleetScalar)), "Fleet size" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.FleetScalar)),
-                    "Max hearses per facility multiplier." },
+                    "**Maximum hearses** per facility multiplier." },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.StorageScalar)), "Cemetery storage" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.StorageScalar)),
-                    "Cemetery long-term storage capacity multiplier." },
+                    "Increases **Cemetery maximum storage**." },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.ResetGameDefaults)), "Reset sliders" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.ResetGameDefaults)),
-                    "Sets all sliders back to 100% (vanilla defaults)." },
+                    "Sets all sliders back to **100%** (vanilla defaults)." },
 
                 // About
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.AboutName)), "Mod" },
@@ -66,7 +68,7 @@ namespace MagicHearse
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.OpenParadoxMods)), "Paradox Mods" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.OpenParadoxMods)),
-                    "Opens the author’s Paradox Mods page." },
+                    "Opens the author’s Paradox mods page." },
             };
         }
 

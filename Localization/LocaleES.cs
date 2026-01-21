@@ -1,10 +1,10 @@
-// Localization/LocaleES.cs
-// Spanish es-ES for Magic Hearse Redux.
+// File: Localization/LocaleES.cs
+// Purpose: Spanish es-ES locale for Magic Hearse.
 
 namespace MagicHearse
 {
-    using System.Collections.Generic;
-    using Colossal;
+    using Colossal; // IDictionarySource, IDictionaryEntryError
+    using System.Collections.Generic; // IEnumerable, Dictionary, KeyValuePair
 
     public sealed class LocaleES : IDictionarySource
     {
@@ -21,27 +21,58 @@ namespace MagicHearse
         {
             return new Dictionary<string, string>
             {
-                // panel name in Options -> Modding
-                { m_Setting.GetSettingsLocaleID(), "Magic Hearse Redux" },
+                // Options mod name
+                { m_Setting.GetSettingsLocaleID(), Mod.ModName + " " + Mod.ModTag },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.ModNameDisplay)), "Mod" },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.ModNameDisplay)), "Nombre que se muestra para este mod." },
+                // Tabs
+                { m_Setting.GetOptionTabLocaleID(Setting.ActionsTab), "Acciones" },
+                { m_Setting.GetOptionTabLocaleID(Setting.AboutTab), "Acerca de" },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.ModVersionDisplay)), "Versión" },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.ModVersionDisplay)), "Versión actual del mod Magic Hearse." },
+                // Groups
+                { m_Setting.GetOptionGroupLocaleID(Setting.AutoCleanGrp), "Limpieza automática" },
+                { m_Setting.GetOptionGroupLocaleID(Setting.SelfManageGrp), "Gestión manual" },
+                { m_Setting.GetOptionGroupLocaleID(Setting.AboutInfoGrp), "Info del mod" },
+                { m_Setting.GetOptionGroupLocaleID(Setting.AboutLinksGrp), "Enlaces" },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.EnableMagicHearse)), "Activar Magic" },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.EnableMagicHearse)), "Elimina automáticamente a los ciudadanos muertos que están esperando un coche fúnebre." },
+                // Auto Clean
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.EnableMagicHearse)), "Activar magia" },
+                { m_Setting.GetOptionDescLocaleID(nameof(Setting.EnableMagicHearse)),
+                    "Elimina automáticamente ciudadanos muertos que esperan un coche fúnebre.\n" +
+                    "Desactiva ambas casillas para apagar el mod sin eliminarlo."
+                    },
 
-                // Links group header + button
-                { "OPTIONS.GROUP[MagicHearse.MagicHearse.Mod.Links]", "Enlaces" },
+                // Self Manage (FD)
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.FuneralDirector)), "Director funerario" },
+                { m_Setting.GetOptionDescLocaleID(nameof(Setting.FuneralDirector)),
+                    "Escala valores de edificios funerarios (velocidad, flota, almacenamiento)." },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.ProcScalar)), "Velocidad de proceso" },
+                { m_Setting.GetOptionDescLocaleID(nameof(Setting.ProcScalar)),
+                    "Multiplicador de **velocidad de procesamiento**." },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.FleetScalar)), "Tamaño de flota" },
+                { m_Setting.GetOptionDescLocaleID(nameof(Setting.FleetScalar)),
+                    "Multiplicador de **máximo de coches fúnebres**." },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.StorageScalar)), "Almacenamiento del cementerio" },
+                { m_Setting.GetOptionDescLocaleID(nameof(Setting.StorageScalar)),
+                    "Aumenta el **almacenamiento máximo del cementerio**." },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.ResetGameDefaults)), "Restablecer controles" },
+                { m_Setting.GetOptionDescLocaleID(nameof(Setting.ResetGameDefaults)),
+                    "Restablece todos los controles a **100 %** (valores originales)." },
+
+                // About
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.AboutName)), "Mod" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.AboutVersion)), "Versión" },
+
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.OpenParadoxMods)), "Paradox Mods" },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.OpenParadoxMods)), "Abre la página de mods del autor en la web de Paradox." },
+                { m_Setting.GetOptionDescLocaleID(nameof(Setting.OpenParadoxMods)),
+                    "Abre la página del autor en Paradox Mods." },
             };
         }
 
         public void Unload()
-        {
-        }
+        { }
     }
 }

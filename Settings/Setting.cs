@@ -3,24 +3,21 @@
 
 namespace MagicHearse
 {
-    using Colossal.IO.AssetDatabase; // Settings file load/save integration
-    using Game.Modding; // IMod, ModSetting
-    using Game.Settings; // Settings UI attributes
-    using Game.UI; // Unit
-    using System; // Exception
-    using Unity.Entities; // World
-    using UnityEngine; // Application.OpenURL
+    using Colossal.IO.AssetDatabase;    // FileLocation
+    using Game.Modding;                 // IMod, ModSetting
+    using Game.Settings;                // Settings UI attributes
+    using Game.UI;                      // Unit
+    using System;                       // Exception
+    using Unity.Entities;               // World
+    using UnityEngine;                  // Application.OpenURL
 
     [FileLocation("ModsSettings/MagicHearseRedux")]
     [SettingsUITabOrder(ActionsTab, AboutTab)]
     [SettingsUIGroupOrder(
-        AutoCleanGrp,
-        SelfManageGrp,
-        AboutInfoGrp,
-        AboutLinksGrp)]
+        AutoCleanGrp, SelfManageGrp,
+        AboutInfoGrp, AboutLinksGrp)]
     [SettingsUIShowGroupName(
-        AutoCleanGrp,
-        SelfManageGrp,
+        AutoCleanGrp, SelfManageGrp,
         // AboutInfoGrp intentionally omitted so it has no header
         AboutLinksGrp)]
     public sealed class Setting : ModSetting

@@ -1,10 +1,10 @@
-// Localization/LocaleZH_HANT.cs
-// Traditional Chinese zh-HANT for Magic Hearse Redux.
+// File: Localization/LocaleZH_HANT.cs
+// Purpose: Traditional Chinese zh-HANT locale for Magic Hearse.
 
 namespace MagicHearse
 {
-    using System.Collections.Generic;
-    using Colossal;
+    using Colossal; // IDictionarySource, IDictionaryEntryError
+    using System.Collections.Generic; // IEnumerable, Dictionary, KeyValuePair
 
     public sealed class LocaleZH_HANT : IDictionarySource
     {
@@ -21,27 +21,58 @@ namespace MagicHearse
         {
             return new Dictionary<string, string>
             {
-                // panel name in Options -> Modding
-                { m_Setting.GetSettingsLocaleID(), "Magic Hearse Redux 魔法靈車" },
+                // Options mod name
+                { m_Setting.GetSettingsLocaleID(), Mod.ModName + " " + Mod.ModTag },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.ModNameDisplay)), "模組" },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.ModNameDisplay)), "在這裡顯示的模組名稱。" },
+                // Tabs
+                { m_Setting.GetOptionTabLocaleID(Setting.ActionsTab), "操作" },
+                { m_Setting.GetOptionTabLocaleID(Setting.AboutTab), "關於" },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.ModVersionDisplay)), "版本" },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.ModVersionDisplay)), "Magic Hearse 模組目前版本。" },
+                // Groups
+                { m_Setting.GetOptionGroupLocaleID(Setting.AutoCleanGrp), "自動清理" },
+                { m_Setting.GetOptionGroupLocaleID(Setting.SelfManageGrp), "自行管理" },
+                { m_Setting.GetOptionGroupLocaleID(Setting.AboutInfoGrp), "模組資訊" },
+                { m_Setting.GetOptionGroupLocaleID(Setting.AboutLinksGrp), "連結" },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.EnableMagicHearse)), "啟用 Magic" },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.EnableMagicHearse)), "自動清理正在等待靈車的死亡市民。" },
+                // Auto Clean
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.EnableMagicHearse)), "啟用魔法" },
+                { m_Setting.GetOptionDescLocaleID(nameof(Setting.EnableMagicHearse)),
+                    "自動移除正在等待靈車的死亡市民。\n" +
+                    "想在不移除模組的情況下停用，請取消勾選兩個核取方塊。"
+                    },
 
-                // Links group header + button
-                { "OPTIONS.GROUP[MagicHearse.MagicHearse.Mod.Links]", "連結" },
+                // Self Manage (FD)
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.FuneralDirector)), "殯葬主管" },
+                { m_Setting.GetOptionDescLocaleID(nameof(Setting.FuneralDirector)),
+                    "縮放殯葬設施數值（速度、車隊、儲存）。" },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.ProcScalar)), "處理速度" },
+                { m_Setting.GetOptionDescLocaleID(nameof(Setting.ProcScalar)),
+                    "設施**處理速度**倍率。" },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.FleetScalar)), "車隊規模" },
+                { m_Setting.GetOptionDescLocaleID(nameof(Setting.FleetScalar)),
+                    "**每座設施最大靈車數量**倍率。" },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.StorageScalar)), "墓地儲存" },
+                { m_Setting.GetOptionDescLocaleID(nameof(Setting.StorageScalar)),
+                    "提高**墓地最大儲存量**。" },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.ResetGameDefaults)), "重置滑桿" },
+                { m_Setting.GetOptionDescLocaleID(nameof(Setting.ResetGameDefaults)),
+                    "將所有滑桿重置為 **100%**（原版預設）。" },
+
+                // About
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.AboutName)), "模組" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.AboutVersion)), "版本" },
+
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.OpenParadoxMods)), "Paradox Mods" },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.OpenParadoxMods)), "在預設瀏覽器中開啟 Paradox 網站上的作者模組頁面。" },
+                { m_Setting.GetOptionDescLocaleID(nameof(Setting.OpenParadoxMods)),
+                    "開啟作者的 Paradox Mods 頁面。" },
             };
         }
 
         public void Unload()
-        {
-        }
+        { }
     }
 }

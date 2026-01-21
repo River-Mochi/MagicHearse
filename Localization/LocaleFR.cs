@@ -1,10 +1,10 @@
-// Localization/LocaleFR.cs
-// French fr-FR for Magic Hearse Redux.
+// File: Localization/LocaleFR.cs
+// Purpose: French fr-FR locale for Magic Hearse.
 
 namespace MagicHearse
 {
-    using System.Collections.Generic;
-    using Colossal;
+    using Colossal; // IDictionarySource, IDictionaryEntryError
+    using System.Collections.Generic; // IEnumerable, Dictionary, KeyValuePair
 
     public sealed class LocaleFR : IDictionarySource
     {
@@ -21,27 +21,58 @@ namespace MagicHearse
         {
             return new Dictionary<string, string>
             {
-                // panel name in Options -> Modding
-                { m_Setting.GetSettingsLocaleID(), "Magic Hearse Redux" },
+                // Options mod name
+                { m_Setting.GetSettingsLocaleID(), Mod.ModName + " " + Mod.ModTag },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.ModNameDisplay)), "Mod" },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.ModNameDisplay)), "Nom affiché pour ce mod." },
+                // Tabs
+                { m_Setting.GetOptionTabLocaleID(Setting.ActionsTab), "Actions" },
+                { m_Setting.GetOptionTabLocaleID(Setting.AboutTab), "À propos" },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.ModVersionDisplay)), "Version" },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.ModVersionDisplay)), "Version actuelle du mod Magic Hearse." },
+                // Groups
+                { m_Setting.GetOptionGroupLocaleID(Setting.AutoCleanGrp), "Nettoyage auto" },
+                { m_Setting.GetOptionGroupLocaleID(Setting.SelfManageGrp), "Gestion manuelle" },
+                { m_Setting.GetOptionGroupLocaleID(Setting.AboutInfoGrp), "Infos du mod" },
+                { m_Setting.GetOptionGroupLocaleID(Setting.AboutLinksGrp), "Liens" },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.EnableMagicHearse)), "Activer Magic" },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.EnableMagicHearse)), "Supprime automatiquement les citoyens morts qui attendent un corbillard." },
+                // Auto Clean
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.EnableMagicHearse)), "Activer la magie" },
+                { m_Setting.GetOptionDescLocaleID(nameof(Setting.EnableMagicHearse)),
+                    "Supprime automatiquement les citoyens morts en attente d’un corbillard.\n" +
+                    "Désactivez les deux cases pour désactiver le mod sans le supprimer."
+                    },
 
-                // Links group header + button
-                { "OPTIONS.GROUP[MagicHearse.MagicHearse.Mod.Links]", "Liens" },
+                // Self Manage (FD)
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.FuneralDirector)), "Directeur funéraire" },
+                { m_Setting.GetOptionDescLocaleID(nameof(Setting.FuneralDirector)),
+                    "Ajuste les valeurs des bâtiments funéraires (vitesse, flotte, stockage)." },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.ProcScalar)), "Vitesse de traitement" },
+                { m_Setting.GetOptionDescLocaleID(nameof(Setting.ProcScalar)),
+                    "Multiplicateur de **vitesse de traitement**." },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.FleetScalar)), "Taille de la flotte" },
+                { m_Setting.GetOptionDescLocaleID(nameof(Setting.FleetScalar)),
+                    "Multiplicateur du **nombre maximal de corbillards**." },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.StorageScalar)), "Stockage du cimetière" },
+                { m_Setting.GetOptionDescLocaleID(nameof(Setting.StorageScalar)),
+                    "Augmente le **stockage maximal du cimetière**." },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.ResetGameDefaults)), "Réinitialiser les curseurs" },
+                { m_Setting.GetOptionDescLocaleID(nameof(Setting.ResetGameDefaults)),
+                    "Rétablit tous les curseurs à **100 %** (valeurs par défaut)." },
+
+                // About
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.AboutName)), "Mod" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.AboutVersion)), "Version" },
+
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.OpenParadoxMods)), "Paradox Mods" },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.OpenParadoxMods)), "Ouvre le site Paradox avec les mods de l’auteur." },
+                { m_Setting.GetOptionDescLocaleID(nameof(Setting.OpenParadoxMods)),
+                    "Ouvre la page Paradox Mods de l’auteur." },
             };
         }
 
         public void Unload()
-        {
-        }
+        { }
     }
 }

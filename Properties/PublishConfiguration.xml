@@ -66,8 +66,9 @@ Tune deathcare prefab values:
 <Dependency Id="" />
 <!--Change log for new version. Single line or multi line. Supports minimal markdown subset-->
 <ChangeLog>
-* Added Funeral Director mode (Self Manage) with 3 sliders + reset button.
-* Auto Clean magic and Funeral Director are mutually exclusive.
+* Added Funeral Director mode (Self Manage) with 3 sliders and reset button.
+* Auto Clean and Funeral Director are mutually exclusive.
+* Refactor Auto Clean logic for improved performance.
 </ChangeLog>
 <!--External link. supported types are discord, github, youtube, twitch, x, paypal, patreon-->
 <ExternalLink Type="discord" Url="https://discord.gg/HTav7ARPs2" />

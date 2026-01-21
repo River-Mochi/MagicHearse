@@ -1,10 +1,10 @@
-// Localization/LocaleJA.cs
-// Japanese ja-JP for Magic Hearse Redux.
+// File: Localization/LocaleJA.cs
+// Purpose: Japanese ja-JP locale for Magic Hearse.
 
 namespace MagicHearse
 {
-    using System.Collections.Generic;
-    using Colossal;
+    using Colossal; // IDictionarySource, IDictionaryEntryError
+    using System.Collections.Generic; // IEnumerable, Dictionary, KeyValuePair
 
     public sealed class LocaleJA : IDictionarySource
     {
@@ -21,27 +21,58 @@ namespace MagicHearse
         {
             return new Dictionary<string, string>
             {
-                // panel name in Options -> Modding
-                { m_Setting.GetSettingsLocaleID(), "Magic Hearse Redux" },
+                // Options mod name
+                { m_Setting.GetSettingsLocaleID(), Mod.ModName + " " + Mod.ModTag },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.ModNameDisplay)), "MOD" },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.ModNameDisplay)), "このMODの表示名です。" },
+                // Tabs
+                { m_Setting.GetOptionTabLocaleID(Setting.ActionsTab), "操作" },
+                { m_Setting.GetOptionTabLocaleID(Setting.AboutTab), "情報" },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.ModVersionDisplay)), "バージョン" },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.ModVersionDisplay)), "Magic Hearse MOD の現在のバージョンです。" },
+                // Groups
+                { m_Setting.GetOptionGroupLocaleID(Setting.AutoCleanGrp), "自動クリーン" },
+                { m_Setting.GetOptionGroupLocaleID(Setting.SelfManageGrp), "手動管理" },
+                { m_Setting.GetOptionGroupLocaleID(Setting.AboutInfoGrp), "Mod 情報" },
+                { m_Setting.GetOptionGroupLocaleID(Setting.AboutLinksGrp), "リンク" },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.EnableMagicHearse)), "マジックを有効にする" },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.EnableMagicHearse)), "霊柩車を待っている死亡した市民を自動で削除します。" },
+                // Auto Clean
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.EnableMagicHearse)), "マジックを有効化" },
+                { m_Setting.GetOptionDescLocaleID(nameof(Setting.EnableMagicHearse)),
+                    "霊柩車を待っている死亡市民を自動的に削除します。\n" +
+                    "Mod を無効化するには両方のチェックを外してください。"
+                    },
 
-                // Links group header + button
-                { "OPTIONS.GROUP[MagicHearse.MagicHearse.Mod.Links]", "リンク" },
+                // Self Manage (FD)
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.FuneralDirector)), "葬儀ディレクター" },
+                { m_Setting.GetOptionDescLocaleID(nameof(Setting.FuneralDirector)),
+                    "葬儀施設の値を調整します（速度・台数・保管量）。" },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.ProcScalar)), "処理速度" },
+                { m_Setting.GetOptionDescLocaleID(nameof(Setting.ProcScalar)),
+                    "施設の**処理速度**倍率。" },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.FleetScalar)), "車両数" },
+                { m_Setting.GetOptionDescLocaleID(nameof(Setting.FleetScalar)),
+                    "施設ごとの**最大霊柩車数**倍率。" },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.StorageScalar)), "墓地の保管容量" },
+                { m_Setting.GetOptionDescLocaleID(nameof(Setting.StorageScalar)),
+                    "**墓地の最大保管容量**を増やします。" },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.ResetGameDefaults)), "スライダーをリセット" },
+                { m_Setting.GetOptionDescLocaleID(nameof(Setting.ResetGameDefaults)),
+                    "すべてのスライダーを **100%**（デフォルト）に戻します。" },
+
+                // About
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.AboutName)), "Mod" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.AboutVersion)), "バージョン" },
+
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.OpenParadoxMods)), "Paradox Mods" },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.OpenParadoxMods)), "作者のMOD一覧ページを Paradox のサイトで開きます。" },
+                { m_Setting.GetOptionDescLocaleID(nameof(Setting.OpenParadoxMods)),
+                    "作者の Paradox Mods ページを開きます。" },
             };
         }
 
         public void Unload()
-        {
-        }
+        { }
     }
 }
