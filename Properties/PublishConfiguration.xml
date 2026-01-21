@@ -4,7 +4,7 @@
 	<!--Name of the mod to display to players-->
 	<DisplayName Value="Magic Hearse" />
 	<!--Short description of the mod-->
-	<ShortDescription Value="Auto Clean deathcare or tune with Funeral Director " />
+	<ShortDescription Value="Auto Clean deathcare or tweak it with Funeral Director" />
 	<!--Long description of the mod. Single line or multi line. Supports minimal markdown subset-->
 	<!--LongDescription Value="This is a long description" /-->
 	<LongDescription>## Magic Hearse + Funeral Director
@@ -26,10 +26,10 @@ Tune deathcare prefab values:
 ## Features
 - Toggle on/off without restarting the game.
 - No Harmony or Reflection (more reliable on patch days).
-- Safe to remove any time.
-- Disable other Hearse mods to avoid conflicts!
-- Mutually exclusive (either Auto clean or self manage).
-- 11 Languages
+- Safe to remove any time. Uncheck both toggles turns the mod off.
+- Disable other hearse mods to avoid conflicts!
+- Two options are mutually exclusive (use either Auto clean or self manage).
+- 11 languages
 
 ## Support and Feedback
 - If the mod works for you, give it a Like!
@@ -39,6 +39,7 @@ Tune deathcare prefab values:
 - River-Mochi: author
 - Thanks to Wayz, creator of the original Magical Hearse
 - Necko1996: testing, screenshots
+- yenyang: technical consultant
 
 ## How it works
 - If the citizen is flagged as dead and needs transport, it's cleaned up. Looks like magic but the secret is flags.
@@ -65,8 +66,8 @@ Tune deathcare prefab values:
 <Dependency Id="" />
 <!--Change log for new version. Single line or multi line. Supports minimal markdown subset-->
 <ChangeLog>
-* Added Funeral Director mode (Self Manage) with 4 sliders + reset button .
-* Auto Clean magic and Funeral Director are mutually exclusive
+* Added Funeral Director mode (Self Manage) with 3 sliders + reset button.
+* Auto Clean magic and Funeral Director are mutually exclusive.
 </ChangeLog>
 <!--External link. supported types are discord, github, youtube, twitch, x, paypal, patreon-->
 <ExternalLink Type="discord" Url="https://discord.gg/HTav7ARPs2" />

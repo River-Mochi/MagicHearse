@@ -234,19 +234,15 @@ namespace MagicHearse
                 return;
             }
 
-            // Magic system follows toggle.
+            // MagicHearseSystem only needs a toggle update when setting changes.
             if (magicChanged)
             {
                 world.GetOrCreateSystemManaged<MagicHearseSystem>().Enabled = m_EnableMagicHearse;
             }
-            else
-            {
-                // Ensure system exists (no state change) is unnecessary work; avoid.
-            }
 
-            // FD work is targeted:
-            // - FD toggled ON => apply once
-            // - FD toggled OFF (including when Magic ON forces FD OFF) => restore once
+            // FD runs one-shot:
+            // - FD toggled ON => apply scalars once
+            // - FD toggled OFF (including when Magic ON forces FD OFF) => restore vanilla once.
             if (fdChanged)
             {
                 world.GetOrCreateSystemManaged<FuneralDirectorSystem>()
