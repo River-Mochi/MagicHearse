@@ -1,15 +1,15 @@
 // File: Settings/Setting.cs
-// Options UI + settings for Magic Hearse (Actions/About tabs).
+// Purpose: Options UI + settings for Magic Hearse (Actions/About tabs).
 
 namespace MagicHearse
 {
-    using Colossal.IO.AssetDatabase;
-    using Game.Modding;
-    using Game.Settings;
-    using Game.UI;
-    using System;
-    using Unity.Entities;
-    using UnityEngine;
+    using Colossal.IO.AssetDatabase; // Settings file load/save integration
+    using Game.Modding; // IMod, ModSetting
+    using Game.Settings; // Settings UI attributes
+    using Game.UI; // Unit
+    using System; // Exception
+    using Unity.Entities; // World
+    using UnityEngine; // Application.OpenURL
 
     [FileLocation("ModsSettings/MagicHearseRedux")]
     [SettingsUITabOrder(ActionsTab, AboutTab)]
@@ -38,7 +38,7 @@ namespace MagicHearse
         private const string kUrlParadox =
             "https://mods.paradoxplaza.com/authors/River-mochi/cities_skylines_2?games=cities_skylines_2&orderBy=desc&sortBy=best&time=alltime";
 
-        // Backing fields (so we can enforce mutual exclusivity but still allow both OFF).
+        // Backing fields allow mutual exclusivity while still supporting both OFF.
         private bool m_EnableMagicHearse = true;
         private bool m_FuneralDirector;
 
@@ -61,15 +61,17 @@ namespace MagicHearse
 
         private void SetEnableMagicHearse(bool value)
         {
+            bool wasFdOn = m_FuneralDirector;
+
             m_EnableMagicHearse = value;
 
-            // If turning Magic ON, force FD OFF.
+            // Mutual exclusivity: Magic ON forces FD OFF.
             if (value && m_FuneralDirector)
             {
                 m_FuneralDirector = false;
             }
 
-            ApplySystemsLive();
+            ApplySystemsLive(magicChanged: true, fdChanged: wasFdOn != m_FuneralDirector);
         }
 
         // --------------------------------------------------------------------
@@ -86,15 +88,17 @@ namespace MagicHearse
 
         private void SetFuneralDirector(bool value)
         {
+            bool wasMagicOn = m_EnableMagicHearse;
+
             m_FuneralDirector = value;
 
-            // If turning FD ON, force Magic OFF.
+            // Mutual exclusivity: FD ON forces Magic OFF.
             if (value && m_EnableMagicHearse)
             {
                 m_EnableMagicHearse = false;
             }
 
-            ApplySystemsLive();
+            ApplySystemsLive(magicChanged: wasMagicOn != m_EnableMagicHearse, fdChanged: true);
         }
 
         // Sliders (shown only when FD is ON)
@@ -108,7 +112,7 @@ namespace MagicHearse
         private void SetProcScalar(int value)
         {
             ProcScalar = value;
-            RequestFdApply();
+            RequestFdApplyIfEnabled();
         }
 
         [SettingsUISlider(min = 100, max = 400, step = 10, scalarMultiplier = 1, unit = Unit.kPercentage)]
@@ -120,7 +124,7 @@ namespace MagicHearse
         private void SetFleetScalar(int value)
         {
             FleetScalar = value;
-            RequestFdApply();
+            RequestFdApplyIfEnabled();
         }
 
         [SettingsUISlider(min = 100, max = 500, step = 10, scalarMultiplier = 1, unit = Unit.kPercentage)]
@@ -132,7 +136,7 @@ namespace MagicHearse
         private void SetStorageScalar(int value)
         {
             StorageScalar = value;
-            RequestFdApply();
+            RequestFdApplyIfEnabled();
         }
 
         // Reset button (only when FD is ON)
@@ -152,7 +156,7 @@ namespace MagicHearse
                 FleetScalar = 100;
                 StorageScalar = 100;
 
-                RequestFdApply();
+                RequestFdApplyIfEnabled();
             }
         }
 
@@ -211,31 +215,54 @@ namespace MagicHearse
         // Live apply helpers
         // --------------------------------------------------------------------
 
-        private void ApplySystemsLive()
+        private static World? GetWorld()
         {
             World world = World.DefaultGameObjectInjectionWorld;
             if (world == null || !world.IsCreated)
+            {
+                return null;
+            }
+
+            return world;
+        }
+
+        private void ApplySystemsLive(bool magicChanged, bool fdChanged)
+        {
+            World? world = GetWorld();
+            if (world == null)
             {
                 return;
             }
 
             // Magic system follows toggle.
-            world.GetOrCreateSystemManaged<MagicHearseSystem>().Enabled = m_EnableMagicHearse;
+            if (magicChanged)
+            {
+                world.GetOrCreateSystemManaged<MagicHearseSystem>().Enabled = m_EnableMagicHearse;
+            }
+            else
+            {
+                // Ensure system exists (no state change) is unnecessary work; avoid.
+            }
 
-            // FD: if ON apply once; if OFF restore once.
-            FuneralDirectorSystem fd = world.GetOrCreateSystemManaged<FuneralDirectorSystem>();
-            fd.RequestReapplyFromSettings();
+            // FD work is targeted:
+            // - FD toggled ON => apply once
+            // - FD toggled OFF (including when Magic ON forces FD OFF) => restore once
+            if (fdChanged)
+            {
+                world.GetOrCreateSystemManaged<FuneralDirectorSystem>()
+                    .RequestReapplyFromSettings();
+            }
         }
 
-        private void RequestFdApply()
+        private void RequestFdApplyIfEnabled()
         {
             if (!m_FuneralDirector)
             {
                 return;
             }
 
-            World world = World.DefaultGameObjectInjectionWorld;
-            if (world == null || !world.IsCreated)
+            World? world = GetWorld();
+            if (world == null)
             {
                 return;
             }

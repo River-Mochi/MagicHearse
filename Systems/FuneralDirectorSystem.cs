@@ -8,20 +8,17 @@
 namespace MagicHearse
 {
     using Colossal.Serialization.Entities; // Purpose
-    using Game;
-    using Game.Prefabs;
-    using System;
-    using System.Collections.Generic;
-    using Unity.Collections;
-    using Unity.Entities;
+    using Game; // GameSystemBase, GameMode
+    using Game.Prefabs; // DeathcareFacilityData, PrefabData
+    using System.Collections.Generic; // Dictionary
+    using Unity.Entities; // Entity, SystemAPI
+    using Unity.Mathematics; // math.*
 
     public sealed partial class FuneralDirectorSystem : GameSystemBase
     {
         private bool m_Dirty;
 
-        private EntityQuery m_DeathcarePrefabQuery = default;
-
-        // Cache vanilla baseline so we can re-apply cleanly.
+        // Cache vanilla baseline so 100% restores defaults.
         private readonly Dictionary<Entity, DeathcareFacilityData> m_DeathcareBase =
             new Dictionary<Entity, DeathcareFacilityData>();
 
@@ -29,12 +26,7 @@ namespace MagicHearse
         {
             base.OnCreate();
 
-            // IMPORTANT: In CS2, prefab entities are tagged with Unity.Entities.Prefab (NOT Game.Prefabs.PrefabData).
-            m_DeathcarePrefabQuery = SystemAPI.QueryBuilder()
-                .WithAll<Unity.Entities.Prefab, DeathcareFacilityData>()
-                .Build();
-
-            // Start disabled; we enable only for a one-pass apply.
+            // Start disabled; enable only for a one-pass apply/restore.
             Enabled = false;
 
             Mod.Log.Info("[FD] System created.");
@@ -45,7 +37,7 @@ namespace MagicHearse
             base.OnGameLoadingComplete(purpose, mode);
 
             // Apply once on load if FD is enabled.
-            var setting = Mod.Settings;
+            Setting? setting = Mod.Settings;
             if (setting != null && setting.FuneralDirector)
             {
                 Mod.Log.Info("[FD] OnGameLoadingComplete: requesting apply.");
@@ -53,7 +45,7 @@ namespace MagicHearse
             }
         }
 
-        /// <summary>Called by Setting setters (and optionally Mod.OnLoad) to do one apply pass.</summary>
+        /// <summary>Called by settings setters to schedule one apply/restore pass.</summary>
         public void RequestReapplyFromSettings()
         {
             m_Dirty = true;
@@ -71,7 +63,7 @@ namespace MagicHearse
 
             m_Dirty = false;
 
-            var setting = Mod.Settings;
+            Setting? setting = Mod.Settings;
             if (setting == null)
             {
                 Mod.Log.Warn("[FD] No settings instance; skipping.");
@@ -81,7 +73,7 @@ namespace MagicHearse
 
             if (!setting.FuneralDirector)
             {
-                // FD off => restore vanilla values (if we have them cached).
+                // FD off => restore vanilla values (if cached).
                 RestoreVanilla();
                 Enabled = false;
                 return;
@@ -95,40 +87,39 @@ namespace MagicHearse
 
         private void ApplyMultipliers(Setting setting)
         {
-            float procScalar = PercentToScalar(setting.ProcScalar);
-            float fleetScalar = PercentToScalar(setting.FleetScalar);
-            float storageScalar = PercentToScalar(setting.StorageScalar);
+            float procScalar = setting.ProcScalar * 0.01f;
+            float fleetScalar = setting.FleetScalar * 0.01f;
+            float storageScalar = setting.StorageScalar * 0.01f;
 
             int editedFacilities = 0;
 
-            // ---- Deathcare facility prefabs ----
-            using (NativeArray<Entity> prefabs = m_DeathcarePrefabQuery.ToEntityArray(Allocator.Temp))
+            // Deathcare prefab entities are tagged with Game.Prefabs.PrefabData.
+            foreach (var (dc, entity) in SystemAPI
+                         .Query<RefRW<DeathcareFacilityData>>()
+                         .WithAll<PrefabData>()
+                         .WithEntityAccess())
             {
-                for (int i = 0; i < prefabs.Length; i++)
+                CacheDeathcareBaseIfNeeded(entity, dc.ValueRO);
+
+                DeathcareFacilityData baseData = m_DeathcareBase[entity];
+                DeathcareFacilityData newData = baseData;
+
+                // Facility processing rate (avoid writing 0).
+                newData.m_ProcessingRate = math.max(0.01f, baseData.m_ProcessingRate * procScalar);
+
+                // Fleet size (max hearses per facility).
+                int newFleet = (int)math.round(baseData.m_HearseCapacity * fleetScalar);
+                newData.m_HearseCapacity = math.max(1, newFleet);
+
+                // Cemetery storage only (long-term storage).
+                if (baseData.m_LongTermStorage)
                 {
-                    Entity e = prefabs[i];
-
-                    DeathcareFacilityData current = EntityManager.GetComponentData<DeathcareFacilityData>(e);
-                    CacheDeathcareBaseIfNeeded(e, current);
-
-                    DeathcareFacilityData baseData = m_DeathcareBase[e];
-                    DeathcareFacilityData newData = baseData;
-
-                    // Facility processing rate
-                    newData.m_ProcessingRate = Max01(baseData.m_ProcessingRate * procScalar);
-
-                    // Facility fleet size (max hearses per facility)
-                    newData.m_HearseCapacity = Max1((int)Math.Round(baseData.m_HearseCapacity * fleetScalar));
-
-                    // Storage multiplier: apply only to long-term storage (cemetery-like) prefabs.
-                    if (baseData.m_LongTermStorage)
-                    {
-                        newData.m_StorageCapacity = Max1((int)Math.Round(baseData.m_StorageCapacity * storageScalar));
-                    }
-
-                    EntityManager.SetComponentData(e, newData);
-                    editedFacilities++;
+                    int newStorage = (int)math.round(baseData.m_StorageCapacity * storageScalar);
+                    newData.m_StorageCapacity = math.max(1, newStorage);
                 }
+
+                dc.ValueRW = newData;
+                editedFacilities++;
             }
 
             Mod.Log.Info(
@@ -140,22 +131,24 @@ namespace MagicHearse
         {
             int restoredFacilities = 0;
 
-            // Restore deathcare facility prefabs.
-            using (NativeArray<Entity> prefabs = m_DeathcarePrefabQuery.ToEntityArray(Allocator.Temp))
+            foreach (var (dc, entity) in SystemAPI
+                         .Query<RefRW<DeathcareFacilityData>>()
+                         .WithAll<PrefabData>()
+                         .WithEntityAccess())
             {
-                for (int i = 0; i < prefabs.Length; i++)
+                if (m_DeathcareBase.TryGetValue(entity, out DeathcareFacilityData baseData))
                 {
-                    Entity e = prefabs[i];
-                    if (m_DeathcareBase.TryGetValue(e, out var baseData))
-                    {
-                        EntityManager.SetComponentData(e, baseData);
-                        restoredFacilities++;
-                    }
+                    dc.ValueRW = baseData;
+                    restoredFacilities++;
                 }
             }
 
             Mod.Log.Info($"[FD] Restored vanilla: deathcarePrefabs={restoredFacilities}");
         }
+
+        // --------------------------------------------------------------------
+        // Helpers
+        // --------------------------------------------------------------------
 
         private void CacheDeathcareBaseIfNeeded(Entity e, DeathcareFacilityData current)
         {
@@ -164,18 +157,5 @@ namespace MagicHearse
                 m_DeathcareBase.Add(e, current);
             }
         }
-
-        private static float PercentToScalar(int percent)
-        {
-            if (percent <= 0)
-            {
-                return 0f;
-            }
-
-            return percent / 100f;
-        }
-
-        private static int Max1(int v) => v < 1 ? 1 : v;
-        private static float Max01(float v) => v < 0.01f ? 0.01f : v;
     }
 }

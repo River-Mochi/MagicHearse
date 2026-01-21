@@ -22,7 +22,7 @@ namespace MagicHearse
 
         public override int GetUpdateInterval(SystemUpdatePhase phase)
         {
-            return 262144 / UpdatesPerDay;  // game contant ticksperday 262144
+            return 262144 / UpdatesPerDay;  // game contant ticksPerDay = 262144
         }
 
         protected override void OnCreate()

@@ -9,7 +9,9 @@
 	<!--LongDescription Value="This is a long description" /-->
 	<LongDescription>## Magic Hearse + Funeral Director
 
-Two modes (mutually exclusive):
+### No more deathwaves!
+
+Two modes:
 
 ### Option 1: Auto Clean
 - Removes dead citizens instantly when they are waiting for a hearse.
@@ -26,11 +28,12 @@ Tune deathcare prefab values:
 - No Harmony or Reflection (more reliable on patch days).
 - Safe to remove any time.
 - Disable other Hearse mods to avoid conflicts!
+- Mutually exclusive (either Auto clean or self manage).
+- 11 Languages
 
 ## Support and Feedback
 - If the mod works for you, give it a Like!
 - Feedback: GitHub / Forums / Discord.
-- 11 Languages
 
 ## Credits
 - River-Mochi: author
@@ -44,15 +47,16 @@ Tune deathcare prefab values:
 
 </LongDescription>
 <!--Thumbnail-->
-<Thumbnail Value="Properties/ThumbnailBulkRates.jpg" />
+<Thumbnail Value="Properties/Thumbnail20.jpg" />
 <!--Screenshot, can be set multiple times-->
 <Screenshot Value="Properties/10image-Options.jpg" />
-<Screenshot Value="Properties/20image-BeforeSmall.jpg" />
-<Screenshot Value="Properties/30image-AfterSmall.jpg" />
+<Screenshot Value="Properties/20image-OptionsFD.jpg" />	
+<Screenshot Value="Properties/30image-BeforeSmall.jpg" />
+<Screenshot Value="Properties/40image-AfterSmall.jpg" />
 <!--Tag, can be set multiple times-->
 <Tag Value="Code Mod" />
 <!--Link to the forum post where the mod can be discussed-->
-<ForumLink Value="https://forum.paradoxplaza.com/forum/threads/magic-hearse-redux.1865555/" />
+<ForumLink Value="https://forum.paradoxplaza.com/forum/threads/magic-hearse-funeral-director.1865555/" />
 <!--Version of the mod-->
 <ModVersion Value="1.4.0" />
 <!--Recommended version of the base game to use the mod-->
