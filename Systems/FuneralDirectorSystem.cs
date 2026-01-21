@@ -10,8 +10,8 @@ namespace MagicHearse
 {
     using Colossal.Serialization.Entities;  // Purpose
     using Game;                             // GameSystemBase, GameMode
-    using Game.Prefabs;                     // DeathcareFacility (authoring), DeathcareFacilityData, PrefabSystem, PrefabBase
-    using Unity.Entities;                   // Entity, SystemAPI
+    using Game.Prefabs;                     // DeathcareFacility (authoring), PrefabSystem, PrefabBase
+    using Unity.Entities;                   // Entity, PrefabData, SystemAPI
     using Unity.Mathematics;                // math.*
 
     public sealed partial class FuneralDirectorSystem : GameSystemBase
@@ -88,10 +88,10 @@ namespace MagicHearse
             float fleetScalar = setting.FleetScalar * 0.01f;
             float storageScalar = setting.StorageScalar * 0.01f;
 
-            int editedFacilities = 0;
+            int edited = 0;
             int skipped = 0;
 
-            // Deathcare prefab entities are tagged with PrefabData and carry DeathcareFacilityData.
+            // Prefab ECS entities are tagged with PrefabData and carry DeathcareFacilityData.
             foreach (var (dc, entity) in SystemAPI
                          .Query<RefRW<DeathcareFacilityData>>()
                          .WithAll<PrefabData>()
@@ -103,22 +103,29 @@ namespace MagicHearse
                     continue;
                 }
 
-                DeathcareFacilityData newData = dc.ValueRO;
+                // Start from TRUE vanilla authoring values every time (prevents stacking/drift).
+                float baseRate = authoring.m_ProcessingRate;
+                int baseHearses = authoring.m_HearseCapacity;
+                int baseStorage = authoring.m_StorageCapacity;
+                bool baseLongTerm = authoring.m_LongTermStorage;
 
-                // Always start from TRUE vanilla authoring values.
-                float baseRate      = authoring.m_ProcessingRate;
-                int baseHearses     = authoring.m_HearseCapacity;
-                int baseStorage     = authoring.m_StorageCapacity;
-                bool baseLongTerm   = authoring.m_LongTermStorage;
+                DeathcareFacilityData newData = new DeathcareFacilityData
+                {
+                    m_HearseCapacity = baseHearses,
+                    m_StorageCapacity = baseStorage,
+                    m_LongTermStorage = baseLongTerm,
+                    m_ProcessingRate = baseRate,
+                };
 
-                // Processing rate:
-                // - if base is 0, keep 0 (cemetaries don't have processing like crematoriums).
-                // - otherwise scale, clamp to a tiny minimum so it can’t become 0 by rounding.
+                // Processing:
+                // - if vanilla is 0, keep 0 (cemeteries).
+                // - otherwise scale; clamp tiny min so it can't collapse to 0.
                 newData.m_ProcessingRate =
                     baseRate <= 0f ? 0f : math.max(0.01f, baseRate * procScalar);
 
-                // Fleet size (max hearses per facility):
-                // - if base is 0, keep 0; otherwise scale and clamp to >= 1.
+                // Fleet:
+                // - if vanilla is 0, keep 0.
+                // - otherwise scale and clamp >= 1.
                 if (baseHearses <= 0)
                 {
                     newData.m_HearseCapacity = 0;
@@ -130,9 +137,8 @@ namespace MagicHearse
                 }
 
                 // Storage:
-                // - only for long-term storage facilities (cemetaries)
-                // - if base is 0, keep 0; otherwise scale and clamp to >= 1.
-                newData.m_LongTermStorage = baseLongTerm;
+                // - only scale long-term storage facilities.
+                // - keep vanilla storage for non-long-term facilities.
                 if (baseLongTerm)
                 {
                     if (baseStorage <= 0)
@@ -145,24 +151,19 @@ namespace MagicHearse
                         newData.m_StorageCapacity = math.max(1, scaledStorage);
                     }
                 }
-                else
-                {
-                    // For non-long-term facilities, keep vanilla storage.
-                    newData.m_StorageCapacity = baseStorage;
-                }
 
                 dc.ValueRW = newData;
-                editedFacilities++;
+                edited++;
             }
 
             Mod.Log.Info(
                 $"[FD] Applied from authoring: proc={setting.ProcScalar}% fleet={setting.FleetScalar}% storage={setting.StorageScalar}% | " +
-                $"deathcarePrefabs={editedFacilities} skipped={skipped}");
+                $"deathcarePrefabs={edited} skipped={skipped}");
         }
 
         private void RestoreVanillaFromAuthoring()
         {
-            int restoredFacilities = 0;
+            int restored = 0;
             int skipped = 0;
 
             foreach (var (dc, entity) in SystemAPI
@@ -185,26 +186,17 @@ namespace MagicHearse
                     m_ProcessingRate = authoring.m_ProcessingRate,
                 };
 
-                restoredFacilities++;
+                restored++;
             }
 
-            Mod.Log.Info($"[FD] Restored vanilla from authoring: deathcarePrefabs={restoredFacilities} skipped={skipped}");
+            Mod.Log.Info($"[FD] Restored vanilla from authoring: deathcarePrefabs={restored} skipped={skipped}");
         }
-
-        // --------------------------------------------------------------------
-        // Helpers
-        // --------------------------------------------------------------------
 
         private bool TryGetDeathcareAuthoring(Entity prefabEntity, out DeathcareFacility authoring)
         {
             authoring = null!;
 
-            if (m_PrefabSystem == null)
-            {
-                return false;
-            }
-
-            // IMPORTANT: prefabEntity here is the prefab ECS entity (has PrefabData).
+            // prefabEntity here is the prefab ECS entity (has PrefabData).
             if (!m_PrefabSystem.TryGetPrefab(prefabEntity, out PrefabBase prefabBase))
             {
                 return false;
