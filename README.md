@@ -33,10 +33,9 @@ Notes:
 | **Processing rate** | Facility processing speed multiplier |
 | **Fleet size** | Max hearses per facility multiplier |
 | **Cemetery storage** | Cemetery long-term storage capacity multiplier |
-| **Hearse capacity (Alpha)** | Updates hearse capacity on the prefab (not shown in game UI) |
 
 Includes:
-- **Reset Game Defaults** button (sets sliders back to 100%)
+- **Reset Sliders** button (sets sliders back to 100%)
 
 ---
 
@@ -59,8 +58,9 @@ Includes:
 
 ### Funeral Director
 `FuneralDirectorSystem` runs **on demand** (on load / when sliders change):
-- Applies multipliers to **deathcare + hearse prefabs**
+- Applies multipliers to **deathcare facility prefabs** (`DeathcareFacilityData`)
 - No per-frame runtime cost once applied
+- Turning **Funeral Director OFF** restores vanilla prefab values (cached baseline)
 
 ---
 

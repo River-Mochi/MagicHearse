@@ -1,28 +1,34 @@
-// Systems/MagicHearseSystem.cs
-// ECS system that finds dead + waiting citizens and deletes them.
+// File: Systems/MagicHearseSystem.cs
+// Purpose: Removes dead citizens that are waiting for transport.
 
 namespace MagicHearse
 {
-    using Game;
-    using Game.Citizens;
-    using Game.Common;
-    using Game.Tools;
-    using Unity.Burst;
-    using Unity.Burst.Intrinsics;
-    using Unity.Collections;
-    using Unity.Entities;
-    using Unity.Jobs;
+    using Game;                     // GameSystemBase, SystemUpdatePhase
+    using Game.Citizens;            // Citizen, HealthProblem
+    using Game.Common;              // Deleted, Temp
+    using Game.Tools;               // EndFrameBarrier
+    using Unity.Burst;              // BurstCompile
+    using Unity.Burst.Intrinsics;   // v128
+    using Unity.Collections;        // NativeArray, ReadOnly
+    using Unity.Entities;           // EntityQuery, SystemAPI, EntityCommandBuffer
+    using Unity.Jobs;               // JobHandle
 
     public sealed partial class MagicHearseSystem : GameSystemBase
     {
-
         private EntityQuery m_DeadCitizenQuery;
-        private EndFrameBarrier m_EndFrameBarrier = null!; // set in OnCreate
-        public static readonly int UpdatesPerDay = 128;
+        private EndFrameBarrier m_EndFrameBarrier = null!; // assigned in OnCreate
+
+        public static readonly int UpdatesPerDay = 128;     // 128 = very low frequency, increase this to increase speed of cleanup
 
         public override int GetUpdateInterval(SystemUpdatePhase phase)
         {
-            return 262144 / UpdatesPerDay;  // game contant ticksPerDay = 262144
+            return 262144 / UpdatesPerDay;      // Game ticksPerDay constant is 262144.
+        }
+
+        public override int GetUpdateOffset(SystemUpdatePhase phase)
+        {
+            // Spreads workload across frames.
+            return 17;
         }
 
         protected override void OnCreate()
@@ -65,11 +71,11 @@ namespace MagicHearse
                 NativeArray<Entity> citizens = chunk.GetNativeArray(m_EntityTypeHandle);
                 NativeArray<HealthProblem> health = chunk.GetNativeArray(ref m_HealthProblemType);
 
-                for (var i = 0; i < citizens.Length; i++)
+                for (int i = 0; i < citizens.Length; i++)
                 {
                     HealthProblemFlags flags = health[i].m_Flags;
 
-                    var isDeadAndWaiting =
+                    bool isDeadAndWaiting =
                         (flags & (HealthProblemFlags.Dead | HealthProblemFlags.RequireTransport)) ==
                         (HealthProblemFlags.Dead | HealthProblemFlags.RequireTransport);
 
