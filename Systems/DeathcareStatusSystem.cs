@@ -1,5 +1,5 @@
 // File: Systems/DeathcareStatusSystem.cs
-// Purpose: Computes the OptionsUI Status snapshot for Deathcare (no healthcare/patient data).
+// Purpose: Computes the OptionsUI Status snapshot for Deathcare.
 // Notes:
 // - On-demand: called from DeathcareStatus.RefreshIfNeeded().
 // - “Active” means efficiency > 0 (disabled/out of service excluded).
@@ -9,13 +9,13 @@
 namespace MagicHearse
 {
     using Game;                                 // GameSystemBase
-    using Game.Buildings;                       // BuildingUtils, Building, DeathcareFacility, ServiceDispatch, Efficiency
+    using Game.Buildings;                       // BuildingUtils, DeathcareFacility, ServiceDispatch, Efficiency
     using Game.City;                            // StatisticType
-    using Game.Common;                          // Deleted, Temp
+    using Game.Common;                          // Deleted
     using Game.Companies;                       // WorkProvider
     using Game.Prefabs;                         // DeathcareFacilityData, PrefabRef, InstalledUpgrade, UpgradeUtils
     using Game.Simulation;                      // CityStatisticsSystem
-    using Game.Tools;
+    using Game.Tools;                           // Temp
     using System;
     using Unity.Collections;                    // Allocator
     using Unity.Entities;                       // Entity, EntityQuery, ComponentType
@@ -50,15 +50,15 @@ namespace MagicHearse
         public void RefreshNow()
         {
             // Lookups from the System.
-            var prefabRefLookup = GetComponentLookup<PrefabRef>(true);
-            var dcLookup = GetComponentLookup<DeathcareFacilityData>(true);
-            var buildingDcLookup = GetComponentLookup<Game.Buildings.DeathcareFacility>(true);
-            var workProviderLookup = GetComponentLookup<WorkProvider>(true);
+            ComponentLookup<PrefabRef> prefabRefLookup = GetComponentLookup<PrefabRef>(true);
+            ComponentLookup<DeathcareFacilityData> dcLookup = GetComponentLookup<DeathcareFacilityData>(true);
+            ComponentLookup<Game.Buildings.DeathcareFacility> buildingDcLookup = GetComponentLookup<Game.Buildings.DeathcareFacility>(true);
+            ComponentLookup<WorkProvider> workProviderLookup = GetComponentLookup<WorkProvider>(true);
 
-            var upgradesLookup = GetBufferLookup<InstalledUpgrade>(true);
-            var effLookup = GetBufferLookup<Efficiency>(true);
+            BufferLookup<InstalledUpgrade> upgradesLookup = GetBufferLookup<InstalledUpgrade>(true);
+            BufferLookup<Efficiency> effLookup = GetBufferLookup<Efficiency>(true);
 
-            // Deaths/mo. (from game stats / infoview)
+            // Deaths/mo. (from game stats)
             float deathsPerMonth = 0f;
             if (m_CityStats != null)
             {
@@ -74,7 +74,7 @@ namespace MagicHearse
             int totalFacilities = 0;        // facilities regardless of disabled
             int activeFacilities = 0;       // efficiency > 0
 
-            using (var entities = m_DeathcarePlacedQuery.ToEntityArray(Allocator.Temp))
+            using (NativeArray<Entity> entities = m_DeathcarePlacedQuery.ToEntityArray(Allocator.Temp))
             {
                 for (int i = 0; i < entities.Length; i++)
                 {
@@ -95,7 +95,7 @@ namespace MagicHearse
                     }
 
                     // Combine upgrades on the placed building
-                    if (upgradesLookup.TryGetBuffer(e, out var upgrades) && upgrades.Length != 0)
+                    if (upgradesLookup.TryGetBuffer(e, out DynamicBuffer<InstalledUpgrade> upgrades) && upgrades.Length != 0)
                     {
                         UpgradeUtils.CombineStats(ref data, upgrades, ref prefabRefLookup, ref dcLookup);
                     }
@@ -110,9 +110,9 @@ namespace MagicHearse
 
                     totalFacilities++;
 
-                    // Efficiency (disabled/out of service tends to be 0)
+                    // Efficiency (disabled/out-of-service tends to be 0)
                     float efficiency = 1f;
-                    if (effLookup.TryGetBuffer(e, out var effBuf))
+                    if (effLookup.TryGetBuffer(e, out DynamicBuffer<Efficiency> effBuf))
                     {
                         efficiency = BuildingUtils.GetEfficiency(effBuf);
                     }
@@ -124,7 +124,7 @@ namespace MagicHearse
 
                     activeFacilities++;
 
-                    // ACTIVE totals
+                    // Status totals
                     processingRate += efficiency * data.m_ProcessingRate;
                     hearses += data.m_HearseCapacity;
 
@@ -132,7 +132,7 @@ namespace MagicHearse
                     {
                         if (buildingDcLookup.HasComponent(e))
                         {
-                            var b = buildingDcLookup[e];
+                            Game.Buildings.DeathcareFacility b = buildingDcLookup[e];
                             cemeteryUse += b.m_LongTermStoredCount;
                         }
 
@@ -150,10 +150,10 @@ namespace MagicHearse
             DeathcareStatus.LastRefreshUtc = refreshedUtc;
 
             DeathcareStatus.SummaryLine1 =
-                $"deaths: {Format0(deathsPerMonth)} | can handle: {Format0(processingRate)} | updated: {refreshedUtc}";
+                $"Deaths: {Format0(deathsPerMonth)} | Can handle: {Format0(processingRate)} | Updated: {refreshedUtc}";
 
             DeathcareStatus.SummaryLine2 =
-                $"hearses: {Format0(hearses)} | buildings: {activeFacilities} / {totalFacilities} | cemetery: {Format0(cemeteryUse)} / {Format0(cemeteryCapacity)} | max workers: {Format0(maxWorkers)}";
+                $"Hearses: {Format0(hearses)} | Buildings: {activeFacilities} / {totalFacilities} | Cemetery: {Format0(cemeteryUse)} / {Format0(cemeteryCapacity)} | Max workers: {Format0(maxWorkers)}";
         }
 
         private static string FormatUtc(DateTime utc)

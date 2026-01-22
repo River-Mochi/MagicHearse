@@ -1,10 +1,10 @@
 // File: Systems/FuneralDirectorSystem.cs
-// Purpose: “Self Manage” Funeral Director that applies deathcare multipliers to PREFABS.
+// Purpose: “Self Manage” Funeral Director [FD] that applies deathcare multipliers to PREFABS.
 // Notes:
 // - Runs only on-demand (when settings change or on game load), then disables itself.
 // - Reads TRUE vanilla baselines from PrefabSystem -> PrefabBase authoring components (NOT PrefabRef data).
 // - Writes changes to Game.Prefabs.DeathcareFacilityData and WorkplaceData on prefab entities.
-// - FD OFF restores vanilla (authoring) values.
+// - FD OFF auto restores vanilla (authoring) values.
 
 namespace MagicHearse
 {
@@ -92,7 +92,7 @@ namespace MagicHearse
             // ----------------------------------------------------------------
             // 1) DeathcareFacilityData on prefabs
             // ----------------------------------------------------------------
-            foreach (var (dc, entity) in SystemAPI
+            foreach ((RefRW<DeathcareFacilityData> dc, Entity entity) in SystemAPI
                          .Query<RefRW<DeathcareFacilityData>>()
                          .WithAll<PrefabData>()
                          .WithEntityAccess())
@@ -118,11 +118,11 @@ namespace MagicHearse
                     m_ProcessingRate = baseRate,
                 };
 
-                // Processing: scale if vanilla > 0, otherwise keep 0.
+                // Process rate check: scale if vanilla > 0, otherwise keep 0.
                 newData.m_ProcessingRate =
                     baseRate <= 0f ? 0f : math.max(0.01f, baseRate * procScalar);
 
-                // Fleet: scale if vanilla > 0, otherwise keep 0.
+                // Fleet check: scale if vanilla > 0, otherwise keep 0.
                 if (baseHearses <= 0)
                 {
                     newData.m_HearseCapacity = 0;
@@ -154,7 +154,7 @@ namespace MagicHearse
             // ----------------------------------------------------------------
             // 2) WorkplaceData on deathcare prefabs (filter by DeathcareFacilityData)
             // ----------------------------------------------------------------
-            foreach (var (wp, entity) in SystemAPI
+            foreach ((RefRW<WorkplaceData> wp, Entity entity) in SystemAPI
                          .Query<RefRW<WorkplaceData>>()
                          .WithAll<PrefabData, DeathcareFacilityData>()
                          .WithEntityAccess())
@@ -211,7 +211,7 @@ namespace MagicHearse
             // ----------------------------------------------------------------
             // 1) Restore DeathcareFacilityData
             // ----------------------------------------------------------------
-            foreach (var (dc, entity) in SystemAPI
+            foreach ((RefRW<DeathcareFacilityData> dc, Entity entity) in SystemAPI
                          .Query<RefRW<DeathcareFacilityData>>()
                          .WithAll<PrefabData>()
                          .WithEntityAccess())
@@ -236,7 +236,7 @@ namespace MagicHearse
             // ----------------------------------------------------------------
             // 2) Restore WorkplaceData for deathcare prefabs
             // ----------------------------------------------------------------
-            foreach (var (wp, entity) in SystemAPI
+            foreach ((RefRW<WorkplaceData> wp, Entity entity) in SystemAPI
                          .Query<RefRW<WorkplaceData>>()
                          .WithAll<PrefabData, DeathcareFacilityData>()
                          .WithEntityAccess())
@@ -275,7 +275,7 @@ namespace MagicHearse
                 return false;
             }
 
-            // Exactly like the game’s WorkPlaceGlobalMode does it.
+            // done exactly like the game’s WorkPlaceGlobalMode does it.
             return prefabBase.TryGetExactly<Workplace>(out workplace);
         }
     }

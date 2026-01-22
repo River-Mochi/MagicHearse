@@ -11,7 +11,7 @@ namespace MagicHearse
     using Unity.Entities;               // World
     using UnityEngine;                  // Application.OpenURL
 
-    [FileLocation("ModsSettings/MagicHearseRedux")]
+    [FileLocation("ModsSettings/MagicHearse")]
     [SettingsUITabOrder(ActionsTab, AboutTab)]
     [SettingsUIGroupOrder(
         AutoCleanGrp, SelfManageGrp,
@@ -20,7 +20,7 @@ namespace MagicHearse
     [SettingsUIShowGroupName(
         AutoCleanGrp, SelfManageGrp, 
         StatusGrp,  // StatusGrp shown
-                    // AboutInfoGrp intentionally omitted so it has no header
+                    // AboutInfoGrp intentionally omitted to hide header title
         AboutLinksGrp)]
     public sealed class Setting : ModSetting
     {
@@ -65,7 +65,7 @@ namespace MagicHearse
 
             m_EnableMagicHearse = value;
 
-            // Mutual exclusivity: Magic ON forces FD OFF.
+            // Mutually exclusive: Magic ON forces FD OFF.
             if (value && m_FuneralDirector)
             {
                 m_FuneralDirector = false;
@@ -92,7 +92,7 @@ namespace MagicHearse
 
             m_FuneralDirector = value;
 
-            // Mutual exclusivity: FD ON forces Magic OFF.
+            // Mutually exclusive: FD ON forces Magic OFF.
             if (value && m_EnableMagicHearse)
             {
                 m_EnableMagicHearse = false;
@@ -139,7 +139,7 @@ namespace MagicHearse
             RequestFdApplyIfEnabled();
         }
 
-        // NEW: Max Workers slider (FD only)
+        // Max Workers slider (FD only)
         [SettingsUISlider(min = 100, max = 500, step = 10, scalarMultiplier = 1, unit = Unit.kPercentage)]
         [SettingsUISection(ActionsTab, SelfManageGrp)]
         [SettingsUIHideByCondition(typeof(Setting), nameof(FuneralDirector), true)]
@@ -152,7 +152,7 @@ namespace MagicHearse
             RequestFdApplyIfEnabled();
         }
 
-        // Reset button (only when FD is ON)
+        // Reset button (FD only)
         [SettingsUIButton]
         [SettingsUISection(ActionsTab, SelfManageGrp)]
         [SettingsUIHideByCondition(typeof(Setting), nameof(FuneralDirector), true)]

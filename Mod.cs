@@ -62,7 +62,7 @@ const string buildTag = "[DEBUG]";
                 return;
             }
 
-            // settings first
+            // settings first before register.
             var setting = new Setting(this);
             Settings = setting;
 
@@ -79,7 +79,7 @@ const string buildTag = "[DEBUG]";
             AddLocaleSource("pt-BR", new LocalePT_BR(setting));
             AddLocaleSource("zh-HANT", new LocaleZH_HANT(setting));
 
-            // load saved settings (file name is in Setting.cs [FileLocation])
+            // load saved settings (file name in Setting.cs [FileLocation])
             AssetDatabase.global.LoadSettings(ModId, setting, new Setting(this));
 
             // Show in OptionsUI

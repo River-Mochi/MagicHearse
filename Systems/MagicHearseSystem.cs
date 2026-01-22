@@ -1,13 +1,13 @@
 // File: Systems/MagicHearseSystem.cs
 // Purpose: Removes dead citizens that are waiting for transport.
 // Notes:
-// - Uses a simple ECS chunk job (no slicing or rolling windows).
+// - Uses a simple ECS chunk job.
 // - Update interval throttles execution to avoid spikes.
 // - Guaranteed to eventually clean all eligible citizens.
 
 namespace MagicHearse
 {
-   // using Colossal.Serialization.Entities; // Purpose
+   // using Colossal.Serialization.Entities; // Purpose (inline this to avoid ambiguity with Citizens).
     using Game;                     // GameSystemBase, SystemUpdatePhase, GameMode
     using Game.Citizens;            // Citizen, HealthProblem
     using Game.Common;              // Deleted, Temp
@@ -27,9 +27,8 @@ namespace MagicHearse
         public static readonly int UpdatesPerDay = 128;
 
         public override int GetUpdateInterval(SystemUpdatePhase phase)
-        {
-            // Game ticksPerDay constant is 262144.
-            return 262144 / UpdatesPerDay;
+        {        
+            return 262144 / UpdatesPerDay;   // Game ticksPerDay constant = 262144.
         }
 
         protected override void OnCreate()
@@ -44,7 +43,7 @@ namespace MagicHearse
 
             m_EndFrameBarrier = World.GetOrCreateSystemManaged<EndFrameBarrier>();
 
-            Mod.Log.Info("MagicHearseSystem created.");
+            Mod.Log.Info("MH System created.");
             RequireForUpdate(m_DeadCitizenQuery);
         }
 

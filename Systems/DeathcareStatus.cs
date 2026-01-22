@@ -1,7 +1,7 @@
 // File: Systems/DeathcareStatus.cs
 // Purpose: UI-facing cached Status snapshot strings for Options UI.
 // Notes:
-// - Refresh is driven by OptionsUI getters (i.e., only while tab is open).
+// - Refresh is driven by OptionsUI getters (no performance cost, only while tab is open).
 // - Uses explicit state (bool/ticks), NOT string comparisons, so "Idle" etc. are safe.
 // - Cache is invalidated on main-menu <-> in-game transitions.
 
@@ -9,7 +9,7 @@ namespace MagicHearse
 {
     using Game;
     using Game.SceneFlow;          // GameManager
-    using System;
+    using System;                  // DateTime
     using Unity.Entities;          // World
 
     public static class DeathcareStatus
@@ -49,7 +49,7 @@ namespace MagicHearse
                 return;
             }
 
-            var gm = GameManager.instance;
+            GameManager gm = GameManager.instance;
             bool isGame = (gm != null && gm.gameMode.IsGame());
 
             // Detect transitions (main menu -> city, city -> main menu, switching saves, etc.).
@@ -71,7 +71,7 @@ namespace MagicHearse
                 return;
             }
 
-            // In-game: refresh immediately if we have no snapshot yet.
+            // In-game: refresh immediately when there is no snapshot yet.
             if (!s_HasSnapshotThisCity)
             {
                 world.GetOrCreateSystemManaged<DeathcareStatusSystem>().RefreshNow();
@@ -92,7 +92,7 @@ namespace MagicHearse
             s_LastRefreshTicksUtc = nowTicks;
         }
 
-        // Optional manual refresh hook (wire to a button if you ever want).
+        // No-op: optional manual refresh hook (wire to a future button if desired).
         public static void ForceRefreshNow()
         {
             World world = World.DefaultGameObjectInjectionWorld;
