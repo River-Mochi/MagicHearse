@@ -190,7 +190,7 @@ namespace MagicHearse
 
             // Localized status text.
 
-            DeathcareStatus.SummaryLine3 = string.Format(
+            DeathcareStatus.SummaryLine1 = string.Format(
                 T(kLine1Key, "{0} dead waiting | {1} updated"),
                 Format0(deadWaiting), refreshedUtc);
 
@@ -198,13 +198,15 @@ namespace MagicHearse
                 T(kLine2Key, "{0} deaths/month | {1} can be handled"),
                 Format0(deathsPerMonth), Format0(processingRate));
 
-            DeathcareStatus.SummaryLine1 = string.Format(
+            DeathcareStatus.SummaryLine3 = string.Format(
                 T(kLine3Key, "{0} hearses | {1} / {2} buildings | {3} / {4} cemetery use | {5} max workers"),
                 Format0(hearses), activeFacilities, totalFacilities, Format0(cemeteryUse), Format0(cemeteryCapacity), Format0(maxWorkers));
 
         }
 
+        // -----------------------------------------------------------------
         // Helpers
+        // -----------------------------------------------------------------
 
         private static string FormatUtc(DateTime utc)
         {

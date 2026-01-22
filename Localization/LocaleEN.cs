@@ -5,6 +5,7 @@ namespace MagicHearse
 {
     using Colossal; // IDictionarySource, IDictionaryEntryError
     using System.Collections.Generic; // IEnumerable, Dictionary, KeyValuePair
+    using Unity.IO.LowLevel.Unsafe;
 
     /// <summary>
     /// English localization source for Magic Hearse [MH].</summary>
@@ -119,9 +120,10 @@ namespace MagicHearse
                 { "MH_STATUS_NOT_LOADED", "Status not loaded." },
                 { "MH_STATUS_NO_CITY_LOADED", "No city loaded yet." },
 
-                { "MH_STATUS_LINE1", "{0} dead waiting for a hearse | {1} updated" },
-                { "MH_STATUS_LINE2", "{0} deaths | {1} can be handled" },
+                { "MH_STATUS_LINE1", "{0} dead waiting | {1} updated" },
+                { "MH_STATUS_LINE2", "{0} deaths/month | {1} can be handled" },
                 { "MH_STATUS_LINE3", "{0} hearses | {1} / {2} buildings | {3} / {4} cemetery use | {5} max workers" },
+
 
                 // About
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.AboutName)), "Mod" },
