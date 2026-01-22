@@ -186,13 +186,13 @@ namespace MagicHearse
                 }
             }
 
-            var refreshedUtc = FormatUtc(DateTime.UtcNow);
+            var refreshedTime = FormatTime(DateTime.Now);
 
             // Localized status text.
 
             DeathcareStatus.SummaryLine1 = string.Format(
                 T(kLine1Key, "{0} dead waiting | {1} updated"),
-                Format0(deadWaiting), refreshedUtc);
+                Format0(deadWaiting), refreshedTime);
 
             DeathcareStatus.SummaryLine2 = string.Format(
                 T(kLine2Key, "{0} deaths/month | {1} can be handled"),
@@ -208,9 +208,9 @@ namespace MagicHearse
         // Helpers
         // -----------------------------------------------------------------
 
-        private static string FormatUtc(DateTime utc)
+        private static string FormatTime(DateTime now)
         {
-            return utc.ToString("HH:mm:ss");
+            return now.ToString("HH:mm:ss");
         }
 
         private static string Format0(float v)

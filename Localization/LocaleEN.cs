@@ -1,5 +1,5 @@
 // File: Localization/LocaleEN.cs
-// Purpose: English en-US locale for Magic Hearse.
+// English en-US locale for Magic Hearse.
 
 namespace MagicHearse
 {

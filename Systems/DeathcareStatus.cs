@@ -30,7 +30,7 @@ namespace MagicHearse
         private static bool s_WasInGame;
         private static bool s_HasSnapshotThisCity;
         private static bool s_ShowNoCityLoaded;
-        private static long s_LastRefreshTicksUtc;
+        private static long s_LastRefreshTicks;
 
         /// <summary>
         /// Clear cached snapshot so the next getter refreshes (no stale data from city switches).
@@ -40,7 +40,7 @@ namespace MagicHearse
         {
             s_HasSnapshotThisCity = false;
             s_ShowNoCityLoaded = false;
-            s_LastRefreshTicksUtc = 0;
+            s_LastRefreshTicks = 0;
 
             SummaryLine1 = L(kKeyStatusNotLoaded);
             SummaryLine2 = string.Empty;
@@ -54,7 +54,7 @@ namespace MagicHearse
         public static void MarkDirty()
         {
             s_HasSnapshotThisCity = false;
-            s_LastRefreshTicksUtc = 0;
+            s_LastRefreshTicks = 0;
         }
 
         // Called by Setting.cs getters.
@@ -101,20 +101,20 @@ namespace MagicHearse
             {
                 world.GetOrCreateSystemManaged<DeathcareStatusSystem>().RefreshNow();
                 s_HasSnapshotThisCity = true;
-                s_LastRefreshTicksUtc = DateTime.UtcNow.Ticks;
+                s_LastRefreshTicks = DateTime.Now.Ticks;
                 return;
             }
 
             // Throttle refresh while Options UI is open.
-            long nowTicks = DateTime.UtcNow.Ticks;
-            long minNext = s_LastRefreshTicksUtc + TimeSpan.FromSeconds(RefreshIntervalSeconds).Ticks;
+            long nowTicks = DateTime.Now.Ticks;
+            long minNext = s_LastRefreshTicks + TimeSpan.FromSeconds(RefreshIntervalSeconds).Ticks;
             if (nowTicks < minNext)
             {
                 return;
             }
 
             world.GetOrCreateSystemManaged<DeathcareStatusSystem>().RefreshNow();
-            s_LastRefreshTicksUtc = nowTicks;
+            s_LastRefreshTicks = nowTicks;
         }
 
         // Optional manual refresh hook (possible future button).
@@ -128,7 +128,7 @@ namespace MagicHearse
 
             world.GetOrCreateSystemManaged<DeathcareStatusSystem>().RefreshNow();
             s_HasSnapshotThisCity = true;
-            s_LastRefreshTicksUtc = DateTime.UtcNow.Ticks;
+            s_LastRefreshTicks = DateTime.Now.Ticks;
         }
 
         private static string L(string entryId)
