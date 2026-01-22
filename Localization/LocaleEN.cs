@@ -31,11 +31,11 @@ namespace MagicHearse
                 // Groups
                 { m_Setting.GetOptionGroupLocaleID(Setting.AutoCleanGrp), "Auto Clean" },
                 { m_Setting.GetOptionGroupLocaleID(Setting.SelfManageGrp), "Self Manage" },
-                { m_Setting.GetOptionGroupLocaleID(Setting.StatusGrp), "Status totals" },
+                { m_Setting.GetOptionGroupLocaleID(Setting.StatusGrp), "City Status" },
                 { m_Setting.GetOptionGroupLocaleID(Setting.AboutInfoGrp), "Mod info" },
                 { m_Setting.GetOptionGroupLocaleID(Setting.AboutLinksGrp), "Links" },
 
-                // Auto Clean
+                // Auto Clean (magic)
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.EnableMagicHearse)), "Enable Magic" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.EnableMagicHearse)),
                     "**Auto removes** dead citizens that are waiting for a hearse.\n" +
@@ -53,14 +53,12 @@ namespace MagicHearse
                     "**100%** = vanilla game default."
                 },
 
-
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.FleetScalar)), "Fleet size" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.FleetScalar)),
                     "**Maximum hearses** per facility.\n" +
                     "Tip: balance and test as too many could also add to traffic.\n" +
                     "**100%** = vanilla game default."
                 },
-
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.StorageScalar)), "Cemetery storage" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.StorageScalar)),
@@ -71,34 +69,43 @@ namespace MagicHearse
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.WorkersScalar)), "Max workers (see notes)" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.WorkersScalar)),
                     "Scales **Maximum workers** for deathcare facilities.\n" +
-                    "**Notes:**\n" +
-                    "  - max workers only affects new buildings (made after the slider change)\n" +
-                    "**Tip:** just deleting/adding extension buildings also instant updates max workers.\n" +
-                    "**100%** = vanilla game default."
+                     "**100%** = vanilla game default.\n" +
+                    "**Tips:**\n" +
+                    "  - max workers applies to new buildings (made after the slider change).\n" +
+                    "  - trick: just deleting/adding extension buildings also instant updates workers.\n\n" +
+                    "Note: fleet/storage update immediately because they’re prefab stats, but max workers is recalculated " +
+                    "(the game computes it). It updates after the building gets re-processed\n" +
+                    "Therefore, it's simply safer to just replace the building or extension to nudge a refresh" +
+                    "rather than the mod trying to mutate this runtime component."
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.ResetGameDefaults)), "Reset sliders" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.ResetGameDefaults)),
                     "Sets all sliders back to **100%** (vanilla defaults)." },
 
-                // Status fields (keep labels SHORT; left column is narrow!)
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.StatusSummary1)), "Monthly" },
+                // STATUS fields (keep labels SHORT; left column is narrow!
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.StatusSummary1)), "Resources" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.StatusSummary1)),
-                    "Monthly totals from game stats.\n" +
-                    "Good balance to have the **can handle > deaths**\n" +
-                    "...or just enable Magic ;)"
-                    },
-
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.StatusSummary2)), " " },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.StatusSummary2)),   
                     "**Active** (not disabled) deathcare capacity + max workers.\n\n" +
                     "**Notes:**\n" +
-                    "    - includes hearses in maintenance due to low healthcare budget,\n" +
-                    "    - does not inlcude any disabled buildings or hearses.\n" +
-                    "    - max workers only affects <new buildings> (made after the slider change)\n" +
-                    "**Tip:** just deleting/adding an extension building also instant updates max workers.\n"
+                    "  - includes hearses in maintenance\n" +
+                    "  - does not inlcude any diabled building hearses.\n" +
+                    "  - max worker slider applies to <new buildings>\n" +
+                    "  - status scan only happens inside the Options menu so there is no per-frame performance impact on the city.\n"
                 },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.StatusSummary2)), "Monthly" },
+                { m_Setting.GetOptionDescLocaleID(nameof(Setting.StatusSummary2)),
+                    "Monthly totals from game stats.\n" +
+                    "Aim to keep the **can be handled** higher than **deaths/mo.**\n" +
+                    "...or just enable magic :)"
+                    },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.StatusSummary3)), " " },
+                { m_Setting.GetOptionDescLocaleID(nameof(Setting.StatusSummary3)),
+                    "Dead citizens currently waiting for a hearse pickup." },
 
                 // About
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.AboutName)), "Mod" },

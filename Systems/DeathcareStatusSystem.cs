@@ -10,6 +10,7 @@ namespace MagicHearse
 {
     using Game;                                 // GameSystemBase
     using Game.Buildings;                       // BuildingUtils, DeathcareFacility, ServiceDispatch, Efficiency
+    using Game.Citizens;                        // Citizen, HealthProblem, HealthProblemFlags
     using Game.City;                            // StatisticType
     using Game.Common;                          // Deleted
     using Game.Companies;                       // WorkProvider
@@ -17,14 +18,15 @@ namespace MagicHearse
     using Game.Simulation;                      // CityStatisticsSystem
     using Game.Tools;                           // Temp
     using System;
-    using Unity.Collections;                    // Allocator
-    using Unity.Entities;                       // Entity, EntityQuery, ComponentType
+    using Unity.Collections;                    // Allocator, NativeArray
+    using Unity.Entities;                       // Entity, EntityQuery, ComponentType, ArchetypeChunk, ComponentTypeHandle
     using Unity.Mathematics;                    // math
 
     public sealed partial class DeathcareStatusSystem : GameSystemBase
     {
         private CityStatisticsSystem m_CityStats = null!;
         private EntityQuery m_DeathcarePlacedQuery;
+        private EntityQuery m_DeadWaitingQuery;
 
         protected override void OnCreate()
         {
@@ -38,6 +40,13 @@ namespace MagicHearse
                 ComponentType.ReadOnly<Building>(),
                 ComponentType.ReadOnly<ServiceDispatch>(),
                 ComponentType.ReadOnly<PrefabRef>(),
+                ComponentType.Exclude<Temp>(),
+                ComponentType.Exclude<Deleted>());
+
+            // Citizens that *have* HealthProblem (not all citizens). We'll filter flags in code.
+            m_DeadWaitingQuery = GetEntityQuery(
+                ComponentType.ReadOnly<Citizen>(),
+                ComponentType.ReadOnly<HealthProblem>(),
                 ComponentType.Exclude<Temp>(),
                 ComponentType.Exclude<Deleted>());
         }
@@ -146,19 +155,48 @@ namespace MagicHearse
                 }
             }
 
+            // Count dead citizens waiting for transport (Dead + RequireTransport).
+            long deadWaiting = 0;
+            ComponentTypeHandle<HealthProblem> hpType = GetComponentTypeHandle<HealthProblem>(isReadOnly: true);
+
+            using (NativeArray<ArchetypeChunk> chunks = m_DeadWaitingQuery.ToArchetypeChunkArray(Allocator.Temp))
+            {
+                for (int c = 0; c < chunks.Length; c++)
+                {
+                    ArchetypeChunk chunk = chunks[c];
+                    NativeArray<HealthProblem> hp = chunk.GetNativeArray(ref hpType);
+
+                    for (int i = 0; i < hp.Length; i++)
+                    {
+                        HealthProblemFlags flags = hp[i].m_Flags;
+                        bool isDeadAndWaiting =
+                            (flags & (HealthProblemFlags.Dead | HealthProblemFlags.RequireTransport)) ==
+                            (HealthProblemFlags.Dead | HealthProblemFlags.RequireTransport);
+
+                        if (isDeadAndWaiting)
+                        {
+                            deadWaiting++;
+                        }
+                    }
+                }
+            }
+
             var refreshedUtc = FormatUtc(DateTime.UtcNow);
             DeathcareStatus.LastRefreshUtc = refreshedUtc;
 
             DeathcareStatus.SummaryLine1 =
-                $"Deaths: {Format0(deathsPerMonth)} | Can handle: {Format0(processingRate)} | Updated: {refreshedUtc}";
+                $"{Format0(hearses)} hearses | {activeFacilities} / {totalFacilities} buildings | {Format0(cemeteryUse)} / {Format0(cemeteryCapacity)} cemetery use | {Format0(maxWorkers)} max workers";
 
             DeathcareStatus.SummaryLine2 =
-                $"Hearses: {Format0(hearses)} | Buildings: {activeFacilities} / {totalFacilities} | Cemetery: {Format0(cemeteryUse)} / {Format0(cemeteryCapacity)} | Max workers: {Format0(maxWorkers)}";
+                $"{Format0(deathsPerMonth)} deaths | {Format0(processingRate)} can be handled";
+
+            DeathcareStatus.SummaryLine3 =
+                $"{Format0(deadWaiting)} dead waiting | {refreshedUtc} updated";
         }
 
         private static string FormatUtc(DateTime utc)
         {
-            return utc.ToString("HH:mm:ss") + " UTC";
+            return utc.ToString("HH:mm:ss'Z'");
         }
 
         private static string Format0(float v)

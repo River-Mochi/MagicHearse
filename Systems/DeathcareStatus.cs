@@ -18,16 +18,17 @@ namespace MagicHearse
         public static string LastRefreshUtc { get; set; } = "Idle";
         public static string SummaryLine1 { get; set; } = "Status not loaded.";
         public static string SummaryLine2 { get; set; } = string.Empty;
+        public static string SummaryLine3 { get; set; } = string.Empty;
 
-        // Throttle refresh while the Status tab is open.
-        public static int RefreshIntervalSeconds { get; set; } = 5;
+        // Throttle refresh while the Status tab is open. Time update frequency.
+        public static int RefreshIntervalSeconds { get; set; } = 15;
 
         private static bool s_WasInGame;
         private static bool s_HasSnapshotThisCity;
         private static long s_LastRefreshTicksUtc;
 
         /// <summary>
-        /// Clear cached snapshot so the next getter refreshes.
+        /// Clear cached snapshot so the next getter refreshes (no stale data from city switches).
         /// Safe to call from anywhere.
         /// </summary>
         public static void InvalidateCache()
@@ -38,6 +39,17 @@ namespace MagicHearse
             LastRefreshUtc = "Idle";
             SummaryLine1 = "Status not loaded.";
             SummaryLine2 = string.Empty;
+            SummaryLine3 = string.Empty;
+        }
+
+        /// <summary>
+        /// Marks the cached snapshot as stale so the next getter refreshes immediately.
+        /// Does NOT overwrite current UI strings (No text flicker: keep last snapshot until next refresh).
+        /// </summary>
+        public static void MarkDirty()
+        {
+            s_HasSnapshotThisCity = false;
+            s_LastRefreshTicksUtc = 0;
         }
 
         // Called by Setting.cs getters.
@@ -56,7 +68,7 @@ namespace MagicHearse
             if (isGame != s_WasInGame)
             {
                 s_WasInGame = isGame;
-                InvalidateCache();
+                InvalidateCache();  // clears the snapshot and stale numbers from previous context/city.
             }
 
             if (!isGame)
@@ -67,6 +79,7 @@ namespace MagicHearse
                     LastRefreshUtc = FormatUtc(DateTime.UtcNow);
                     SummaryLine1 = "No city loaded yet.";
                     SummaryLine2 = string.Empty;
+                    SummaryLine3 = string.Empty;
                 }
                 return;
             }
@@ -108,7 +121,7 @@ namespace MagicHearse
 
         private static string FormatUtc(DateTime utc)
         {
-            return utc.ToString("HH:mm:ss") + " UTC";
+            return utc.ToString("HH:mm:ss'Z'");
         }
     }
 }

@@ -190,6 +190,11 @@ namespace MagicHearse
             get { DeathcareStatus.RefreshIfNeeded(); return DeathcareStatus.SummaryLine2; }
         }
 
+        [SettingsUISection(ActionsTab, StatusGrp)]
+        public string StatusSummary3
+        {
+            get { DeathcareStatus.RefreshIfNeeded(); return DeathcareStatus.SummaryLine3; }
+        }
 
         // --------------------------------------------------------------------
         // ABOUT – INFO (no header)
@@ -292,7 +297,10 @@ namespace MagicHearse
             }
 
             world.GetOrCreateSystemManaged<FuneralDirectorSystem>()
-                .RequestReapplyFromSettings();
+                .RequestReapplyFromSettings();  
+
+            // When slider used, make status refresh immediately on next UI poll (don't wait for throttle).
+            DeathcareStatus.MarkDirty();
         }
     }
 }

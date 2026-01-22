@@ -35,7 +35,7 @@ const string buildTag = "[DEBUG]";
 
         // ----- Logger & public properties ----
 
-        public static readonly ILog Log =
+        public static readonly ILog s_Log =
             LogManager.GetLogger(ModId).SetShowsErrorsInUI(
 #if DEBUG
                 true
@@ -52,13 +52,13 @@ const string buildTag = "[DEBUG]";
             if (!s_BannerLogged)
             {
                 s_BannerLogged = true;
-                Log.Info($"{ModName} v{ModVersion} OnLoad {buildTag}");
+                s_Log.Info($"{ModName} v{ModVersion} OnLoad {buildTag}");
             }
 
             GameManager? gameManager = GameManager.instance;
             if (gameManager == null)
             {
-                Log.Error("GameManager.instance is null in Mod.OnLoad.");
+                s_Log.Error("GameManager.instance is null in Mod.OnLoad.");
                 return;
             }
 
@@ -103,7 +103,7 @@ const string buildTag = "[DEBUG]";
 
         public void OnDispose()
         {
-            Log.Info("OnDispose");
+            s_Log.Info("OnDispose");
 
             if (Settings != null)
             {
@@ -130,7 +130,7 @@ const string buildTag = "[DEBUG]";
             LocalizationManager? lm = GameManager.instance?.localizationManager;
             if (lm == null)
             {
-                Log.Warn($"AddLocaleSource: No LocalizationManager; cannot add source for '{localeId}'.");
+                s_Log.Warn($"AddLocaleSource: No LocalizationManager; cannot add source for '{localeId}'.");
                 return;
             }
 
@@ -140,7 +140,7 @@ const string buildTag = "[DEBUG]";
             }
             catch (Exception ex)
             {
-                Log.Warn(
+                s_Log.Warn(
                     $"AddLocaleSource: AddSource for '{localeId}' failed: {ex.GetType().Name}: {ex.Message}");
             }
         }

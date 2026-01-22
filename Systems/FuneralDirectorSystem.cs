@@ -11,6 +11,7 @@ namespace MagicHearse
     using Colossal.Serialization.Entities;  // Purpose
     using Game;                             // GameSystemBase, GameMode
     using Game.Prefabs;                     // DeathcareFacility, Workplace, PrefabSystem, PrefabBase
+    using Game.Tools;
     using Unity.Entities;                   // Entity, PrefabData, SystemAPI
     using Unity.Mathematics;                // math.*
 
@@ -27,8 +28,9 @@ namespace MagicHearse
             Enabled = false;
 
             m_PrefabSystem = World.GetOrCreateSystemManaged<PrefabSystem>();
-
-            Mod.Log.Info("[FD] System created.");
+#if DEBUG
+            Mod.s_Log.Info("[FD] System created.");
+#endif
         }
 
         protected override void OnGameLoadingComplete(Purpose purpose, GameMode mode)
@@ -38,7 +40,9 @@ namespace MagicHearse
             Setting? setting = Mod.Settings;
             if (setting != null && setting.FuneralDirector)
             {
-                Mod.Log.Info($"[FD] OnGameLoadingComplete: purpose={purpose}, mode={mode}");
+#if DEBUG
+                Mod.s_Log.Info($"[FD] OnGameLoadingComplete: purpose={purpose}, mode={mode}");
+#endif
                 RequestReapplyFromSettings();
             }
         }
@@ -63,7 +67,7 @@ namespace MagicHearse
             Setting? setting = Mod.Settings;
             if (setting == null)
             {
-                Mod.Log.Warn("[FD] No settings instance; skipping.");
+                Mod.s_Log.Warn("[FD] No settings instance; skipping.");
                 Enabled = false;
                 return;
             }
@@ -276,7 +280,7 @@ namespace MagicHearse
             }
 
             // done exactly like the game’s WorkPlaceGlobalMode does it.
-            return prefabBase.TryGetExactly<Workplace>(out workplace);
+            return prefabBase.TryGetExactly(out workplace);
         }
     }
 }

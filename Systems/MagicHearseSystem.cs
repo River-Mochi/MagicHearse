@@ -42,8 +42,9 @@ namespace MagicHearse
                 .Build();
 
             m_EndFrameBarrier = World.GetOrCreateSystemManaged<EndFrameBarrier>();
-
-            Mod.Log.Info("MH System created.");
+#if DEBUG
+            Mod.s_Log.Info("MH System created.");
+#endif
             RequireForUpdate(m_DeadCitizenQuery);
         }
 
