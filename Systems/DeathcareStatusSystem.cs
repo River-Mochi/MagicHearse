@@ -182,7 +182,6 @@ namespace MagicHearse
             }
 
             var refreshedUtc = FormatUtc(DateTime.UtcNow);
-            DeathcareStatus.LastRefreshUtc = refreshedUtc;
 
             DeathcareStatus.SummaryLine1 =
                 $"{Format0(hearses)} hearses | {activeFacilities} / {totalFacilities} buildings | {Format0(cemeteryUse)} / {Format0(cemeteryCapacity)} cemetery use | {Format0(maxWorkers)} max workers";

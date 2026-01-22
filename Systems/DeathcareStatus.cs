@@ -9,13 +9,12 @@ namespace MagicHearse
 {
     using Game;
     using Game.SceneFlow;          // GameManager
-    using System;                  // DateTime
+    using System;                  // DateTime, TimeSpan
     using Unity.Entities;          // World
 
     public static class DeathcareStatus
     {
         // Public UI strings consumed by Setting.cs getters.
-        public static string LastRefreshUtc { get; set; } = "Idle";
         public static string SummaryLine1 { get; set; } = "Status not loaded.";
         public static string SummaryLine2 { get; set; } = string.Empty;
         public static string SummaryLine3 { get; set; } = string.Empty;
@@ -25,6 +24,7 @@ namespace MagicHearse
 
         private static bool s_WasInGame;
         private static bool s_HasSnapshotThisCity;
+        private static bool s_ShowNoCityLoaded;
         private static long s_LastRefreshTicksUtc;
 
         /// <summary>
@@ -34,9 +34,9 @@ namespace MagicHearse
         public static void InvalidateCache()
         {
             s_HasSnapshotThisCity = false;
+            s_ShowNoCityLoaded = false;
             s_LastRefreshTicksUtc = 0;
 
-            LastRefreshUtc = "Idle";
             SummaryLine1 = "Status not loaded.";
             SummaryLine2 = string.Empty;
             SummaryLine3 = string.Empty;
@@ -68,15 +68,15 @@ namespace MagicHearse
             if (isGame != s_WasInGame)
             {
                 s_WasInGame = isGame;
-                InvalidateCache();  // clears the snapshot and stale numbers from previous context/city.
+                InvalidateCache();
             }
 
             if (!isGame)
             {
                 // In menu: show the message once; do not keep ticking.
-                if (SummaryLine1 == "Status not loaded.")
+                if (!s_ShowNoCityLoaded)
                 {
-                    LastRefreshUtc = FormatUtc(DateTime.UtcNow);
+                    s_ShowNoCityLoaded = true;
                     SummaryLine1 = "No city loaded yet.";
                     SummaryLine2 = string.Empty;
                     SummaryLine3 = string.Empty;
@@ -117,11 +117,6 @@ namespace MagicHearse
             world.GetOrCreateSystemManaged<DeathcareStatusSystem>().RefreshNow();
             s_HasSnapshotThisCity = true;
             s_LastRefreshTicksUtc = DateTime.UtcNow.Ticks;
-        }
-
-        private static string FormatUtc(DateTime utc)
-        {
-            return utc.ToString("HH:mm:ss'Z'");
         }
     }
 }

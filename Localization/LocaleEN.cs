@@ -73,10 +73,10 @@ namespace MagicHearse
                     "**Tips:**\n" +
                     "  - max workers applies to new buildings (made after the slider change).\n" +
                     "  - trick: just deleting/adding extension buildings also instant updates workers.\n\n" +
-                    "Note: fleet/storage update immediately because they’re prefab stats, but max workers is recalculated " +
-                    "(the game computes it). It updates after the building gets re-processed\n" +
-                    "Therefore, it's simply safer to just replace the building or extension to nudge a refresh" +
-                    "rather than the mod trying to mutate this runtime component."
+                    "Dev Note: fleet/storage update instantly (prefab stats). Max workers is different " +
+                    "(the game computes it).\n" +
+                    "It's safer to just replace the building or extension to nudge a refresh " +
+                    "rather than the mod trying to mutate a runtime component."
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.ResetGameDefaults)), "Reset sliders" },
@@ -91,9 +91,10 @@ namespace MagicHearse
                     "**Active** (not disabled) deathcare capacity + max workers.\n\n" +
                     "**Notes:**\n" +
                     "  - includes hearses in maintenance\n" +
-                    "  - does not inlcude any diabled building hearses.\n" +
-                    "  - max worker slider applies to <new buildings>\n" +
-                    "  - status scan only happens inside the Options menu so there is no per-frame performance impact on the city.\n"
+                    "  - does not include any disabled building hearses.\n" +
+                    "  - max workers slider applies to <new buildings>\n" +
+                    "  - status scan only happens when you are in the Options menu and does not run per-frame in the city sim; " +
+                    "the mod was designed with the best city performance in mind.\n"
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.StatusSummary2)), "Monthly" },
