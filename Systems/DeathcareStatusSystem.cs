@@ -20,6 +20,7 @@ namespace MagicHearse
     using System;
     using Unity.Collections;                    // Allocator, NativeArray
     using Unity.Entities;                       // Entity, EntityQuery, ComponentType, ArchetypeChunk, ComponentTypeHandle
+    using Unity.IO.LowLevel.Unsafe;
     using Unity.Mathematics;                    // math
 
     public sealed partial class DeathcareStatusSystem : GameSystemBase
@@ -27,6 +28,10 @@ namespace MagicHearse
         private CityStatisticsSystem m_CityStats = null!;
         private EntityQuery m_DeathcarePlacedQuery;
         private EntityQuery m_DeadWaitingQuery;
+
+        // Custom keys (add to all Locales)
+        private const string kLine2Key = "MH_STATUS_LINE2";
+        private const string kLine3Key = "MH_STATUS_LINE3";
 
         protected override void OnCreate()
         {
@@ -183,19 +188,25 @@ namespace MagicHearse
 
             var refreshedUtc = FormatUtc(DateTime.UtcNow);
 
+
             DeathcareStatus.SummaryLine1 =
                 $"{Format0(hearses)} hearses | {activeFacilities} / {totalFacilities} buildings | {Format0(cemeteryUse)} / {Format0(cemeteryCapacity)} cemetery use | {Format0(maxWorkers)} max workers";
 
-            DeathcareStatus.SummaryLine2 =
-                $"{Format0(deathsPerMonth)} deaths | {Format0(processingRate)} can be handled";
+            DeathcareStatus.SummaryLine2 = string.Format(
+                T(kLine2Key, "{0} deaths | {1} can be handled"),
+                Format0(deathsPerMonth), Format0(processingRate));
 
-            DeathcareStatus.SummaryLine3 =
-                $"{Format0(deadWaiting)} dead waiting | {refreshedUtc} updated";
+            DeathcareStatus.SummaryLine3 = string.Format(
+                T(kLine3Key, "{0} dead | {1} updated"),
+                Format0(deadWaiting), refreshedUtc);
+
         }
 
+
+        // HELPERS
         private static string FormatUtc(DateTime utc)
         {
-            return utc.ToString("HH:mm:ss'Z'");
+            return utc.ToString("HH:mm:ss");
         }
 
         private static string Format0(float v)
@@ -207,5 +218,21 @@ namespace MagicHearse
         {
             return v.ToString("N0");
         }
+
+ 
+        private static string T(string entryId, string englishFallback)
+        {
+            var lm = Game.SceneFlow.GameManager.instance?.localizationManager;
+            var dict = lm?.activeDictionary;
+
+            if (dict != null && dict.TryGetValue(entryId, out string value) && !string.IsNullOrEmpty(value))
+            {
+                return value;
+            }
+
+            return englishFallback;
+
+        }
+
     }
 }

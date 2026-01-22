@@ -2,20 +2,26 @@
 // Purpose: UI-facing cached Status snapshot strings for Options UI.
 // Notes:
 // - Refresh is driven by OptionsUI getters (no performance cost, only while tab is open).
-// - Uses explicit state (bool/ticks), NOT string comparisons, so "Idle" etc. are safe.
+// - Uses explicit state (bool/ticks), NOT string comparisons.
 // - Cache is invalidated on main-menu <-> in-game transitions.
+// - Fixed UI strings are pulled from LocalizationManager.activeDictionary.
 
 namespace MagicHearse
 {
-    using Game;
-    using Game.SceneFlow;          // GameManager
-    using System;                  // DateTime, TimeSpan
-    using Unity.Entities;          // World
+    using Game;                   // GameMode extension: IsGame()
+    using Game.SceneFlow;         // GameManager
+    using System;                 // DateTime, TimeSpan
+    using Unity.Entities;         // World
 
     public static class DeathcareStatus
     {
-        // Public UI strings consumed by Setting.cs getters.
-        public static string SummaryLine1 { get; set; } = "Status not loaded.";
+        // Custom keys (add to all Locales)
+        private const string kKeyStatusNotLoaded = "MH_STATUS_NOT_LOADED";
+        private const string kKeyNoCityLoaded = "MH_STATUS_NO_CITY_LOADED";
+
+
+        // Public UI strings used by Setting.cs getters.
+        public static string SummaryLine1 { get; set; } = string.Empty;
         public static string SummaryLine2 { get; set; } = string.Empty;
         public static string SummaryLine3 { get; set; } = string.Empty;
 
@@ -37,14 +43,14 @@ namespace MagicHearse
             s_ShowNoCityLoaded = false;
             s_LastRefreshTicksUtc = 0;
 
-            SummaryLine1 = "Status not loaded.";
+            SummaryLine1 = L(kKeyStatusNotLoaded);
             SummaryLine2 = string.Empty;
             SummaryLine3 = string.Empty;
         }
 
         /// <summary>
-        /// Marks the cached snapshot as stale so the next getter refreshes immediately.
-        /// Does NOT overwrite current UI strings (No text flicker: keep last snapshot until next refresh).
+        /// Marks the cached snapshot as stale so the next getter refreshes instantly.
+        /// Does NOT overwrite current UI strings (UX: prevents text flicker: keep last snapshot until next refresh).
         /// </summary>
         public static void MarkDirty()
         {
@@ -59,6 +65,11 @@ namespace MagicHearse
             if (world == null || !world.IsCreated)
             {
                 return;
+            }
+            // Initialize placeholder text (localized) before the first city loads.
+            if (string.IsNullOrEmpty(SummaryLine1))
+            {
+                SummaryLine1 = L(kKeyStatusNotLoaded);
             }
 
             GameManager gm = GameManager.instance;
@@ -77,14 +88,14 @@ namespace MagicHearse
                 if (!s_ShowNoCityLoaded)
                 {
                     s_ShowNoCityLoaded = true;
-                    SummaryLine1 = "No city loaded yet.";
+                    SummaryLine1 = L(kKeyNoCityLoaded);
                     SummaryLine2 = string.Empty;
                     SummaryLine3 = string.Empty;
                 }
                 return;
             }
 
-            // In-game: refresh immediately when there is no snapshot yet.
+            // City loaded: refresh instantly when there is no snapshot yet.
             if (!s_HasSnapshotThisCity)
             {
                 world.GetOrCreateSystemManaged<DeathcareStatusSystem>().RefreshNow();
@@ -105,7 +116,7 @@ namespace MagicHearse
             s_LastRefreshTicksUtc = nowTicks;
         }
 
-        // No-op: optional manual refresh hook (wire to a future button if desired).
+        // No-op: optional manual refresh hook (possible future button).
         public static void ForceRefreshNow()
         {
             World world = World.DefaultGameObjectInjectionWorld;
@@ -117,6 +128,20 @@ namespace MagicHearse
             world.GetOrCreateSystemManaged<DeathcareStatusSystem>().RefreshNow();
             s_HasSnapshotThisCity = true;
             s_LastRefreshTicksUtc = DateTime.UtcNow.Ticks;
+        }
+
+        private static string L(string entryId)
+        {
+            // Localize via active dictionary. Fallback = key (debug-visible, avoids hardcoded English here).
+            var lm = GameManager.instance?.localizationManager;
+            var dict = lm?.activeDictionary;
+
+            if (dict != null && dict.TryGetValue(entryId, out string value) && !string.IsNullOrEmpty(value))
+            {
+                return value;
+            }
+
+            return entryId;
         }
     }
 }

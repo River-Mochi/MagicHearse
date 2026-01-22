@@ -6,15 +6,22 @@ namespace MagicHearse
     using Colossal; // IDictionarySource, IDictionaryEntryError
     using System.Collections.Generic; // IEnumerable, Dictionary, KeyValuePair
 
+    /// <summary>
+    /// English localization source for Magic Hearse [MH].</summary>
     public sealed class LocaleEN : IDictionarySource
     {
         private readonly Setting m_Setting;
 
+        /// <summary>
+        /// Constructs the English locale generator.</summary>
+        /// <param name="setting">Settings object used for locale IDs.</param>
         public LocaleEN(Setting setting)
         {
             m_Setting = setting;
         }
 
+        /// <summary>
+        /// Creates all English localization entries for this mod.</summary>
         public IEnumerable<KeyValuePair<string, string>> ReadEntries(
             IList<IDictionaryEntryError> errors,
             Dictionary<string, int> indexCounts)
@@ -86,14 +93,14 @@ namespace MagicHearse
 
                 // STATUS fields (keep labels SHORT; left column is narrow!
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.StatusSummary1)), "Resources" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.StatusSummary1)), " " },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.StatusSummary1)),
                     "**Active** (not disabled) deathcare capacity + max workers.\n\n" +
                     "**Notes:**\n" +
                     "  - includes hearses in maintenance\n" +
                     "  - does not include any disabled building hearses.\n" +
                     "  - max workers slider applies to <new buildings>\n" +
-                    "  - status scan only happens when you are in the Options menu and does not run per-frame in the city sim; " +
+                    "  - status scan only happens when you are in the Options menu and does not run per-frame in the city sim;\n" +
                     "the mod was designed with the best city performance in mind.\n"
                 },
 
@@ -104,9 +111,16 @@ namespace MagicHearse
                     "...or just enable magic :)"
                     },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.StatusSummary3)), " " },
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.StatusSummary3)), "Waiting now" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.StatusSummary3)),
                     "Dead citizens currently waiting for a hearse pickup." },
+
+                // Status text templates 
+                { "MH_STATUS_NOT_LOADED", "Status not loaded." },
+                { "MH_STATUS_NO_CITY_LOADED", "No city loaded yet." },
+                { "MH_STATUS_LINE1", "{0} hearses | {1} / {2} buildings | {3} / {4} cemetery use | {5} max workers" },
+                { "MH_STATUS_LINE2", "{0} deaths | {1} can be handled" },
+                { "MH_STATUS_LINE3", "{0} dead | {1} updated" },
 
                 // About
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.AboutName)), "Mod" },
