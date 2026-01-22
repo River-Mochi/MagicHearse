@@ -93,7 +93,18 @@ namespace MagicHearse
 
                 // STATUS fields (keep labels SHORT; left column is narrow!
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.StatusSummary1)), " " },
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.StatusSummary3)), string.Empty },
+                { m_Setting.GetOptionDescLocaleID(nameof(Setting.StatusSummary3)),
+                    "Dead citizens currently waiting for a hearse pickup." },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.StatusSummary2)), "Monthly" },
+                { m_Setting.GetOptionDescLocaleID(nameof(Setting.StatusSummary2)),
+                    "Monthly totals from game stats.\n" +
+                    "Aim to keep the **can be handled** higher than **deaths/mo.**\n" +
+                    "...or just enable magic :)"
+                },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.StatusSummary1)), string.Empty },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.StatusSummary1)),
                     "**Active** (not disabled) deathcare capacity + max workers.\n\n" +
                     "**Notes:**\n" +
@@ -103,24 +114,14 @@ namespace MagicHearse
                     "  - status scan only happens when you are in the Options menu and does not run per-frame in the city sim;\n" +
                     "the mod was designed with the best city performance in mind.\n"
                 },
-
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.StatusSummary2)), "Monthly" },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.StatusSummary2)),
-                    "Monthly totals from game stats.\n" +
-                    "Aim to keep the **can be handled** higher than **deaths/mo.**\n" +
-                    "...or just enable magic :)"
-                    },
-
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.StatusSummary3)), "Waiting now" },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.StatusSummary3)),
-                    "Dead citizens currently waiting for a hearse pickup." },
-
+         
                 // Status text templates 
                 { "MH_STATUS_NOT_LOADED", "Status not loaded." },
                 { "MH_STATUS_NO_CITY_LOADED", "No city loaded yet." },
-                { "MH_STATUS_LINE1", "{0} hearses | {1} / {2} buildings | {3} / {4} cemetery use | {5} max workers" },
+
+                { "MH_STATUS_LINE1", "{0} dead waiting for a hearse | {1} updated" },
                 { "MH_STATUS_LINE2", "{0} deaths | {1} can be handled" },
-                { "MH_STATUS_LINE3", "{0} dead | {1} updated" },
+                { "MH_STATUS_LINE3", "{0} hearses | {1} / {2} buildings | {3} / {4} cemetery use | {5} max workers" },
 
                 // About
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.AboutName)), "Mod" },

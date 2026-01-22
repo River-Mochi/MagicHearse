@@ -20,7 +20,6 @@ namespace MagicHearse
     using System;
     using Unity.Collections;                    // Allocator, NativeArray
     using Unity.Entities;                       // Entity, EntityQuery, ComponentType, ArchetypeChunk, ComponentTypeHandle
-    using Unity.IO.LowLevel.Unsafe;
     using Unity.Mathematics;                    // math
 
     public sealed partial class DeathcareStatusSystem : GameSystemBase
@@ -29,7 +28,8 @@ namespace MagicHearse
         private EntityQuery m_DeathcarePlacedQuery;
         private EntityQuery m_DeadWaitingQuery;
 
-        // Custom keys (add to all Locales)
+        // Custom keys (add to all Locale*.cs)
+        private const string kLine1Key = "MH_STATUS_LINE1";
         private const string kLine2Key = "MH_STATUS_LINE2";
         private const string kLine3Key = "MH_STATUS_LINE3";
 
@@ -39,7 +39,7 @@ namespace MagicHearse
 
             m_CityStats = World.GetOrCreateSystemManaged<CityStatisticsSystem>();
 
-            // Placed deathcare buildings only. NO Patient requirement.
+            // Placed deathcare buildings only. No Patient requirement.
             m_DeathcarePlacedQuery = GetEntityQuery(
                 ComponentType.ReadOnly<Game.Buildings.DeathcareFacility>(),
                 ComponentType.ReadOnly<Building>(),
@@ -48,7 +48,7 @@ namespace MagicHearse
                 ComponentType.Exclude<Temp>(),
                 ComponentType.Exclude<Deleted>());
 
-            // Citizens that *have* HealthProblem (not all citizens). We'll filter flags in code.
+            // Citizens that have HealthProblem (not all citizens). Flags filtered in code.
             m_DeadWaitingQuery = GetEntityQuery(
                 ComponentType.ReadOnly<Citizen>(),
                 ComponentType.ReadOnly<HealthProblem>(),
@@ -188,22 +188,24 @@ namespace MagicHearse
 
             var refreshedUtc = FormatUtc(DateTime.UtcNow);
 
+            // Localized status text.
 
-            DeathcareStatus.SummaryLine1 =
-                $"{Format0(hearses)} hearses | {activeFacilities} / {totalFacilities} buildings | {Format0(cemeteryUse)} / {Format0(cemeteryCapacity)} cemetery use | {Format0(maxWorkers)} max workers";
+            DeathcareStatus.SummaryLine3 = string.Format(
+                T(kLine1Key, "{0} dead waiting for transport | {1} updated"),
+                Format0(deadWaiting), refreshedUtc);
 
             DeathcareStatus.SummaryLine2 = string.Format(
                 T(kLine2Key, "{0} deaths | {1} can be handled"),
                 Format0(deathsPerMonth), Format0(processingRate));
 
-            DeathcareStatus.SummaryLine3 = string.Format(
-                T(kLine3Key, "{0} dead | {1} updated"),
-                Format0(deadWaiting), refreshedUtc);
+            DeathcareStatus.SummaryLine1 = string.Format(
+                T(kLine3Key, "{0} hearses | {1} / {2} buildings | {3} / {4} cemetery use | {5} max workers"),
+                Format0(hearses), activeFacilities, totalFacilities, Format0(cemeteryUse), Format0(cemeteryCapacity), Format0(maxWorkers));
 
         }
 
+        // Helpers
 
-        // HELPERS
         private static string FormatUtc(DateTime utc)
         {
             return utc.ToString("HH:mm:ss");
@@ -219,7 +221,6 @@ namespace MagicHearse
             return v.ToString("N0");
         }
 
- 
         private static string T(string entryId, string englishFallback)
         {
             var lm = Game.SceneFlow.GameManager.instance?.localizationManager;
@@ -231,8 +232,6 @@ namespace MagicHearse
             }
 
             return englishFallback;
-
         }
-
     }
 }

@@ -1,9 +1,9 @@
 // File: Systems/DeathcareStatus.cs
 // Purpose: UI-facing cached Status snapshot strings for Options UI.
 // Notes:
-// - Refresh is driven by OptionsUI getters (no performance cost, only while tab is open).
-// - Uses explicit state (bool/ticks), NOT string comparisons.
-// - Cache is invalidated on main-menu <-> in-game transitions.
+// - Refresh is driven by OptionsUI getters (only while Options is open).
+// - Uses explicit state (bool/ticks), not string comparisons.
+// - Cache is invalidated on main-menu <-> city transitions.
 // - Fixed UI strings are pulled from LocalizationManager.activeDictionary.
 
 namespace MagicHearse
@@ -15,17 +15,16 @@ namespace MagicHearse
 
     public static class DeathcareStatus
     {
-        // Custom keys (add to all Locales)
+        // Custom keys (add to all Locale*.cs)
         private const string kKeyStatusNotLoaded = "MH_STATUS_NOT_LOADED";
         private const string kKeyNoCityLoaded = "MH_STATUS_NO_CITY_LOADED";
-
 
         // Public UI strings used by Setting.cs getters.
         public static string SummaryLine1 { get; set; } = string.Empty;
         public static string SummaryLine2 { get; set; } = string.Empty;
         public static string SummaryLine3 { get; set; } = string.Empty;
 
-        // Throttle refresh while the Status tab is open. Time update frequency.
+        // Throttle refresh while the Status group is visible in Options UI.
         public static int RefreshIntervalSeconds { get; set; } = 15;
 
         private static bool s_WasInGame;
@@ -50,7 +49,7 @@ namespace MagicHearse
 
         /// <summary>
         /// Marks the cached snapshot as stale so the next getter refreshes instantly.
-        /// Does NOT overwrite current UI strings (UX: prevents text flicker: keep last snapshot until next refresh).
+        /// Does not overwrite current UI strings (prevents text flicker).
         /// </summary>
         public static void MarkDirty()
         {
@@ -66,6 +65,7 @@ namespace MagicHearse
             {
                 return;
             }
+
             // Initialize placeholder text (localized) before the first city loads.
             if (string.IsNullOrEmpty(SummaryLine1))
             {
@@ -92,6 +92,7 @@ namespace MagicHearse
                     SummaryLine2 = string.Empty;
                     SummaryLine3 = string.Empty;
                 }
+
                 return;
             }
 
@@ -104,7 +105,7 @@ namespace MagicHearse
                 return;
             }
 
-            // Throttle refresh while tab is open.
+            // Throttle refresh while Options UI is open.
             long nowTicks = DateTime.UtcNow.Ticks;
             long minNext = s_LastRefreshTicksUtc + TimeSpan.FromSeconds(RefreshIntervalSeconds).Ticks;
             if (nowTicks < minNext)
@@ -116,7 +117,7 @@ namespace MagicHearse
             s_LastRefreshTicksUtc = nowTicks;
         }
 
-        // No-op: optional manual refresh hook (possible future button).
+        // Optional manual refresh hook (possible future button).
         public static void ForceRefreshNow()
         {
             World world = World.DefaultGameObjectInjectionWorld;
@@ -132,15 +133,18 @@ namespace MagicHearse
 
         private static string L(string entryId)
         {
-            // Localize via active dictionary. Fallback = key (debug-visible, avoids hardcoded English here).
+            // Localize via active dictionary. Fallback behavior is handled by CO's locale merge.
             var lm = GameManager.instance?.localizationManager;
             var dict = lm?.activeDictionary;
 
-            if (dict != null && dict.TryGetValue(entryId, out string value) && !string.IsNullOrEmpty(value))
+            if (dict != null &&
+                dict.TryGetValue(entryId, out string value) &&
+                !string.IsNullOrEmpty(value))
             {
                 return value;
             }
 
+            // Last resort: return key (makes missing entries obvious).
             return entryId;
         }
     }

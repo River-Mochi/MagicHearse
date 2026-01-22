@@ -74,7 +74,7 @@ const string buildTag = "[DEBUG]";
             AddLocaleSource("it-IT", new LocaleIT(setting));
             AddLocaleSource("ja-JP", new LocaleJA(setting));
             AddLocaleSource("ko-KR", new LocaleKO(setting));
-            AddLocaleSource("zh-HANS", new LocaleZH(setting));
+            AddLocaleSource("zh-HANS", new LocaleZH_CN(setting));
             AddLocaleSource("pl-PL", new LocalePL(setting));
             AddLocaleSource("pt-BR", new LocalePT_BR(setting));
             AddLocaleSource("zh-HANT", new LocaleZH_HANT(setting));

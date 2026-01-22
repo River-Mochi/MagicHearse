@@ -6,11 +6,11 @@ namespace MagicHearse
     using Colossal; // IDictionarySource, IDictionaryEntryError
     using System.Collections.Generic; // IEnumerable, Dictionary, KeyValuePair
 
-    public sealed class LocaleZH : IDictionarySource
+    public sealed class LocaleZH_CN : IDictionarySource
     {
         private readonly Setting m_Setting;
 
-        public LocaleZH(Setting setting)
+        public LocaleZH_CN(Setting setting)
         {
             m_Setting = setting;
         }
