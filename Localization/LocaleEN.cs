@@ -4,6 +4,7 @@
 namespace MagicHearse
 {
     using Colossal; // IDictionarySource, IDictionaryEntryError
+    using Colossal.IO.AssetDatabase.Internal;
     using System.Collections.Generic; // IEnumerable, Dictionary, KeyValuePair
 
     public sealed class LocaleEN : IDictionarySource
@@ -26,11 +27,13 @@ namespace MagicHearse
 
                 // Tabs
                 { m_Setting.GetOptionTabLocaleID(Setting.ActionsTab), "Actions" },
+                { m_Setting.GetOptionTabLocaleID(Setting.StatusTab), "Status" },
                 { m_Setting.GetOptionTabLocaleID(Setting.AboutTab), "About" },
 
                 // Groups
                 { m_Setting.GetOptionGroupLocaleID(Setting.AutoCleanGrp), "Auto Clean" },
                 { m_Setting.GetOptionGroupLocaleID(Setting.SelfManageGrp), "Self Manage" },
+                { m_Setting.GetOptionGroupLocaleID(Setting.StatusGrp), "Status" },
                 { m_Setting.GetOptionGroupLocaleID(Setting.AboutInfoGrp), "Mod info" },
                 { m_Setting.GetOptionGroupLocaleID(Setting.AboutLinksGrp), "Links" },
 
@@ -39,12 +42,12 @@ namespace MagicHearse
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.EnableMagicHearse)),
                     "Auto removes dead citizens that are waiting for a hearse.\n" +
                     "Turn off both checkboxes to disable the mod without removing it."
-                    },
+                },
 
                 // Self Manage (FD)
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.FuneralDirector)), "Funeral Director" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.FuneralDirector)),
-                    "Scales deathcare facility values (rate, fleet, storage)." },
+                    "Scales deathcare facility values (rate, fleet, storage, workers)." },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.ProcScalar)), "Processing rate" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.ProcScalar)),
@@ -58,9 +61,30 @@ namespace MagicHearse
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.StorageScalar)),
                     "Increases **Cemetery maximum storage** of the main building." },
 
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.WorkersScalar)), "Max workers (new buildings)" },
+                { m_Setting.GetOptionDescLocaleID(nameof(Setting.WorkersScalar)),
+                    "Increases **max workplaces** for deathcare facilities.\n" +
+                    "<Applies to **New** buildings.\n>" +
+                    "Existing buildings must be rebuilt to update the workers component."
+                },
+
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.ResetGameDefaults)), "Reset sliders" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.ResetGameDefaults)),
                     "Sets all sliders back to **100%** (vanilla defaults)." },
+
+                // Status fields (keep labels SHORT; left column is narrow)
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.StatusLastRefreshUtc)), "Last refresh" },
+                { m_Setting.GetOptionDescLocaleID(nameof(Setting.StatusLastRefreshUtc)),
+                    "Updates only while this tab is open." },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.StatusSummary1)), "Totals/month" },
+                { m_Setting.GetOptionDescLocaleID(nameof(Setting.StatusSummary1)),
+                    "Monthly totals (from game stats / infoview)." },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.StatusSummary2)), "Active" },
+                { m_Setting.GetOptionDescLocaleID(nameof(Setting.StatusSummary2)),   
+                    "Active (not disabled) deathcare hearses and buildings." },
+
 
                 // About
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.AboutName)), "Mod" },

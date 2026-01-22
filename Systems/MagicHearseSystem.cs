@@ -7,7 +7,8 @@
 
 namespace MagicHearse
 {
-    using Game;                     // GameSystemBase, SystemUpdatePhase
+   // using Colossal.Serialization.Entities; // Purpose
+    using Game;                     // GameSystemBase, SystemUpdatePhase, GameMode
     using Game.Citizens;            // Citizen, HealthProblem
     using Game.Common;              // Deleted, Temp
     using Game.Tools;               // EndFrameBarrier
@@ -47,6 +48,15 @@ namespace MagicHearse
             RequireForUpdate(m_DeadCitizenQuery);
         }
 
+        protected override void OnGameLoadingComplete(Colossal.Serialization.Entities.Purpose purpose, GameMode mode)
+        {
+            base.OnGameLoadingComplete(purpose, mode);
+
+            // City load complete or city switched:
+            // reset cached Status so OptionsUI will refresh for THIS city.
+            DeathcareStatus.InvalidateCache();
+        }
+
         protected override void OnUpdate()
         {
             JobHandle handle = new MagicHearseJob
@@ -61,7 +71,7 @@ namespace MagicHearse
         }
 
         [BurstCompile]
-        private struct MagicHearseJob : IJobChunk
+        private struct MagicHearseJob : Unity.Entities.IJobChunk
         {
             [ReadOnly] public EntityTypeHandle m_EntityTypeHandle;
             [ReadOnly] public ComponentTypeHandle<HealthProblem> m_HealthProblemType;

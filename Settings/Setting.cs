@@ -1,5 +1,5 @@
 // File: Settings/Setting.cs
-// Purpose: Options UI + settings for Magic Hearse (Actions/About tabs).
+// Purpose: Options UI + settings for Magic Hearse (Actions/Status/About tabs).
 
 namespace MagicHearse
 {
@@ -12,23 +12,27 @@ namespace MagicHearse
     using UnityEngine;                  // Application.OpenURL
 
     [FileLocation("ModsSettings/MagicHearseRedux")]
-    [SettingsUITabOrder(ActionsTab, AboutTab)]
+    [SettingsUITabOrder(ActionsTab, StatusTab, AboutTab)]
     [SettingsUIGroupOrder(
         AutoCleanGrp, SelfManageGrp,
+        StatusGrp,
         AboutInfoGrp, AboutLinksGrp)]
     [SettingsUIShowGroupName(
-        AutoCleanGrp, SelfManageGrp,
-        // AboutInfoGrp intentionally omitted so it has no header
+        AutoCleanGrp, SelfManageGrp, 
+        StatusGrp,  // StatusGrp shown
+                    // AboutInfoGrp intentionally omitted so it has no header
         AboutLinksGrp)]
     public sealed class Setting : ModSetting
     {
         // ---- TABS ----
         public const string ActionsTab = "Actions";
+        public const string StatusTab = "Status";
         public const string AboutTab = "About";
 
         // ---- GROUPS ----
         public const string AutoCleanGrp = "AutoClean";
         public const string SelfManageGrp = "SelfManage";
+        public const string StatusGrp = "Status";
         public const string AboutInfoGrp = "AboutInfo";
         public const string AboutLinksGrp = "AboutLinks";
 
@@ -136,6 +140,19 @@ namespace MagicHearse
             RequestFdApplyIfEnabled();
         }
 
+        // NEW: Max Workers slider (FD only)
+        [SettingsUISlider(min = 100, max = 500, step = 10, scalarMultiplier = 1, unit = Unit.kPercentage)]
+        [SettingsUISection(ActionsTab, SelfManageGrp)]
+        [SettingsUIHideByCondition(typeof(Setting), nameof(FuneralDirector), true)]
+        [SettingsUISetter(typeof(Setting), nameof(SetWorkersScalar))]
+        public int WorkersScalar { get; set; } = 100;
+
+        private void SetWorkersScalar(int value)
+        {
+            WorkersScalar = value;
+            RequestFdApplyIfEnabled();
+        }
+
         // Reset button (only when FD is ON)
         [SettingsUIButton]
         [SettingsUISection(ActionsTab, SelfManageGrp)]
@@ -152,10 +169,34 @@ namespace MagicHearse
                 ProcScalar = 100;
                 FleetScalar = 100;
                 StorageScalar = 100;
+                WorkersScalar = 100;
 
                 RequestFdApplyIfEnabled();
             }
         }
+
+        // --------------------------------------------------------------------
+        // STATUS (OptionsUI-only; refresh happens inside getters)
+        // --------------------------------------------------------------------
+
+        [SettingsUISection(StatusTab, StatusGrp)]
+        public string StatusLastRefreshUtc
+        {
+            get { DeathcareStatus.RefreshIfNeeded(); return DeathcareStatus.LastRefreshUtc; }
+        }
+
+        [SettingsUISection(StatusTab, StatusGrp)]
+        public string StatusSummary1
+        {
+            get { DeathcareStatus.RefreshIfNeeded(); return DeathcareStatus.SummaryLine1; }
+        }
+
+        [SettingsUISection(StatusTab, StatusGrp)]
+        public string StatusSummary2
+        {
+            get { DeathcareStatus.RefreshIfNeeded(); return DeathcareStatus.SummaryLine2; }
+        }
+
 
         // --------------------------------------------------------------------
         // ABOUT – INFO (no header)
@@ -206,6 +247,7 @@ namespace MagicHearse
             ProcScalar = 100;
             FleetScalar = 100;
             StorageScalar = 100;
+            WorkersScalar = 100;
         }
 
         // --------------------------------------------------------------------
@@ -231,15 +273,11 @@ namespace MagicHearse
                 return;
             }
 
-            // MagicHearseSystem only needs a toggle update when setting changes.
             if (magicChanged)
             {
                 world.GetOrCreateSystemManaged<MagicHearseSystem>().Enabled = m_EnableMagicHearse;
             }
 
-            // FD runs one-shot:
-            // - FD toggled ON => apply scalars once
-            // - FD toggled OFF (including when Magic ON forces FD OFF) => restore vanilla once.
             if (fdChanged)
             {
                 world.GetOrCreateSystemManaged<FuneralDirectorSystem>()

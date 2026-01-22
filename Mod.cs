@@ -27,6 +27,11 @@ namespace MagicHearse
             Assembly.GetExecutingAssembly().GetName().Version?.ToString(3) ?? "1.0.0";
 
         private static bool s_BannerLogged;
+#if DEBUG
+const string buildTag = "[DEBUG]";
+#else
+        const string buildTag = "[RELEASE]";
+#endif
 
         // ----- Logger & public properties ----
 
@@ -47,7 +52,7 @@ namespace MagicHearse
             if (!s_BannerLogged)
             {
                 s_BannerLogged = true;
-                Log.Info($"{ModName} v{ModVersion} OnLoad");
+                Log.Info($"{ModName} v{ModVersion} OnLoad {buildTag}");
             }
 
             GameManager? gameManager = GameManager.instance;
@@ -85,6 +90,7 @@ namespace MagicHearse
 
             // Magic cleanup stays in simulation.
             updateSystem.UpdateAt<MagicHearseSystem>(SystemUpdatePhase.GameSimulation);
+
 
             updateSystem.World.GetOrCreateSystemManaged<MagicHearseSystem>().Enabled = setting.EnableMagicHearse;
 

@@ -3,14 +3,14 @@
 // Notes:
 // - Runs only on-demand (when settings change or on game load), then disables itself.
 // - Reads TRUE vanilla baselines from PrefabSystem -> PrefabBase authoring components (NOT PrefabRef data).
-// - Writes changes to Game.Prefabs.DeathcareFacilityData on prefab entities.
+// - Writes changes to Game.Prefabs.DeathcareFacilityData and WorkplaceData on prefab entities.
 // - FD OFF restores vanilla (authoring) values.
 
 namespace MagicHearse
 {
     using Colossal.Serialization.Entities;  // Purpose
     using Game;                             // GameSystemBase, GameMode
-    using Game.Prefabs;                     // DeathcareFacility (authoring), PrefabSystem, PrefabBase
+    using Game.Prefabs;                     // DeathcareFacility, Workplace, PrefabSystem, PrefabBase
     using Unity.Entities;                   // Entity, PrefabData, SystemAPI
     using Unity.Mathematics;                // math.*
 
@@ -23,7 +23,7 @@ namespace MagicHearse
         {
             base.OnCreate();
 
-            // Start disabled; enable only for a one-pass apply/restore.
+            // One-shot system: only enabled for a single apply/restore pass.
             Enabled = false;
 
             m_PrefabSystem = World.GetOrCreateSystemManaged<PrefabSystem>();
@@ -35,11 +35,10 @@ namespace MagicHearse
         {
             base.OnGameLoadingComplete(purpose, mode);
 
-            // Apply once on load if FD is enabled.
             Setting? setting = Mod.Settings;
             if (setting != null && setting.FuneralDirector)
             {
-                Mod.Log.Info("[FD] OnGameLoadingComplete: requesting apply.");
+                Mod.Log.Info($"[FD] OnGameLoadingComplete: purpose={purpose}, mode={mode}");
                 RequestReapplyFromSettings();
             }
         }
@@ -49,7 +48,6 @@ namespace MagicHearse
         {
             m_Dirty = true;
             Enabled = true;
-            Mod.Log.Info("[FD] RequestReapplyFromSettings()");
         }
 
         protected override void OnUpdate()
@@ -72,7 +70,6 @@ namespace MagicHearse
 
             if (!setting.FuneralDirector)
             {
-                // FD off => restore TRUE vanilla values from PrefabBase authoring.
                 RestoreVanillaFromAuthoring();
                 Enabled = false;
                 return;
@@ -87,11 +84,14 @@ namespace MagicHearse
             float procScalar = setting.ProcScalar * 0.01f;
             float fleetScalar = setting.FleetScalar * 0.01f;
             float storageScalar = setting.StorageScalar * 0.01f;
+            float workersScalar = setting.WorkersScalar * 0.01f;
 
             int edited = 0;
             int skipped = 0;
 
-            // Prefab ECS entities are tagged with PrefabData and carry DeathcareFacilityData.
+            // ----------------------------------------------------------------
+            // 1) DeathcareFacilityData on prefabs
+            // ----------------------------------------------------------------
             foreach (var (dc, entity) in SystemAPI
                          .Query<RefRW<DeathcareFacilityData>>()
                          .WithAll<PrefabData>()
@@ -103,12 +103,13 @@ namespace MagicHearse
                     continue;
                 }
 
-                // Start from TRUE vanilla authoring values every time (prevents stacking/drift).
+                // TRUE vanilla authoring values.
                 float baseRate = authoring.m_ProcessingRate;
                 int baseHearses = authoring.m_HearseCapacity;
                 int baseStorage = authoring.m_StorageCapacity;
                 bool baseLongTerm = authoring.m_LongTermStorage;
 
+                // Start from vanilla authoring (prevents stacking/drift).
                 DeathcareFacilityData newData = new DeathcareFacilityData
                 {
                     m_HearseCapacity = baseHearses,
@@ -117,15 +118,11 @@ namespace MagicHearse
                     m_ProcessingRate = baseRate,
                 };
 
-                // Processing:
-                // - if vanilla is 0, keep 0 (cemeteries).
-                // - otherwise scale; clamp tiny min so it can't collapse to 0.
+                // Processing: scale if vanilla > 0, otherwise keep 0.
                 newData.m_ProcessingRate =
                     baseRate <= 0f ? 0f : math.max(0.01f, baseRate * procScalar);
 
-                // Fleet:
-                // - if vanilla is 0, keep 0.
-                // - otherwise scale and clamp >= 1.
+                // Fleet: scale if vanilla > 0, otherwise keep 0.
                 if (baseHearses <= 0)
                 {
                     newData.m_HearseCapacity = 0;
@@ -136,9 +133,7 @@ namespace MagicHearse
                     newData.m_HearseCapacity = math.max(1, scaledHearses);
                 }
 
-                // Storage:
-                // - only scale long-term storage facilities.
-                // - keep vanilla storage for non-long-term facilities.
+                // Storage: only scale long-term storage facilities.
                 if (baseLongTerm)
                 {
                     if (baseStorage <= 0)
@@ -156,9 +151,56 @@ namespace MagicHearse
                 edited++;
             }
 
-            Mod.Log.Info(
-                $"[FD] Applied from authoring: proc={setting.ProcScalar}% fleet={setting.FleetScalar}% storage={setting.StorageScalar}% | " +
-                $"deathcarePrefabs={edited} skipped={skipped}");
+            // ----------------------------------------------------------------
+            // 2) WorkplaceData on deathcare prefabs (filter by DeathcareFacilityData)
+            // ----------------------------------------------------------------
+            foreach (var (wp, entity) in SystemAPI
+                         .Query<RefRW<WorkplaceData>>()
+                         .WithAll<PrefabData, DeathcareFacilityData>()
+                         .WithEntityAccess())
+            {
+                if (!TryGetWorkplaceAuthoring(entity, out Workplace workplace))
+                {
+                    // Some deathcare prefabs may not have Workplace authoring; ignore.
+                    continue;
+                }
+
+                int baseMax = workplace.m_Workplaces;
+                int baseMin = workplace.m_MinimumWorkersLimit;
+
+                WorkplaceData newWp = wp.ValueRO;
+
+                // Baseline from TRUE vanilla authoring.
+                newWp.m_MaxWorkers = baseMax;
+                newWp.m_MinimumWorkersLimit = baseMin;
+
+                // Scale max workers (100–500%).
+                if (baseMax > 0)
+                {
+                    int scaledMax = (int)math.round(baseMax * workersScalar);
+                    newWp.m_MaxWorkers = math.max(1, scaledMax);
+
+                    // Keep min <= max; scale min similarly.
+                    if (baseMin > 0)
+                    {
+                        int scaledMin = (int)math.round(baseMin * workersScalar);
+                        newWp.m_MinimumWorkersLimit = math.clamp(scaledMin, 0, newWp.m_MaxWorkers);
+                    }
+                    else
+                    {
+                        newWp.m_MinimumWorkersLimit = 0;
+                    }
+                }
+                else
+                {
+                    // If vanilla max is 0, keep 0.
+                    newWp.m_MaxWorkers = 0;
+                    newWp.m_MinimumWorkersLimit = 0;
+                }
+
+                wp.ValueRW = newWp;
+            }
+
         }
 
         private void RestoreVanillaFromAuthoring()
@@ -166,6 +208,9 @@ namespace MagicHearse
             int restored = 0;
             int skipped = 0;
 
+            // ----------------------------------------------------------------
+            // 1) Restore DeathcareFacilityData
+            // ----------------------------------------------------------------
             foreach (var (dc, entity) in SystemAPI
                          .Query<RefRW<DeathcareFacilityData>>()
                          .WithAll<PrefabData>()
@@ -177,7 +222,6 @@ namespace MagicHearse
                     continue;
                 }
 
-                // Restore TRUE vanilla authoring values.
                 dc.ValueRW = new DeathcareFacilityData
                 {
                     m_HearseCapacity = authoring.m_HearseCapacity,
@@ -189,21 +233,50 @@ namespace MagicHearse
                 restored++;
             }
 
-            Mod.Log.Info($"[FD] Restored vanilla from authoring: deathcarePrefabs={restored} skipped={skipped}");
+            // ----------------------------------------------------------------
+            // 2) Restore WorkplaceData for deathcare prefabs
+            // ----------------------------------------------------------------
+            foreach (var (wp, entity) in SystemAPI
+                         .Query<RefRW<WorkplaceData>>()
+                         .WithAll<PrefabData, DeathcareFacilityData>()
+                         .WithEntityAccess())
+            {
+                if (!TryGetWorkplaceAuthoring(entity, out Workplace workplace))
+                {
+                    continue;
+                }
+
+                WorkplaceData newWp = wp.ValueRO;
+                newWp.m_MaxWorkers = workplace.m_Workplaces;
+                newWp.m_MinimumWorkersLimit = workplace.m_MinimumWorkersLimit;
+                wp.ValueRW = newWp;
+            }
+
         }
 
         private bool TryGetDeathcareAuthoring(Entity prefabEntity, out DeathcareFacility authoring)
         {
             authoring = null!;
 
-            // prefabEntity here is the prefab ECS entity (has PrefabData).
             if (!m_PrefabSystem.TryGetPrefab(prefabEntity, out PrefabBase prefabBase))
             {
                 return false;
             }
 
-            // Read TRUE vanilla authoring component values.
             return prefabBase.TryGet(out authoring);
+        }
+
+        private bool TryGetWorkplaceAuthoring(Entity prefabEntity, out Workplace workplace)
+        {
+            workplace = null!;
+
+            if (!m_PrefabSystem.TryGetPrefab(prefabEntity, out PrefabBase prefabBase))
+            {
+                return false;
+            }
+
+            // Exactly like the game’s WorkPlaceGlobalMode does it.
+            return prefabBase.TryGetExactly<Workplace>(out workplace);
         }
     }
 }
