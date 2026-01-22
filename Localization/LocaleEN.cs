@@ -93,20 +93,20 @@ namespace MagicHearse
 
                 // STATUS fields (keep labels SHORT; left column is narrow!
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.StatusSummary3)), string.Empty },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.StatusSummary3)),
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.StatusSummary1)), string.Empty },
+                { m_Setting.GetOptionDescLocaleID(nameof(Setting.StatusSummary1)),
                     "Dead citizens currently waiting for a hearse pickup." },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.StatusSummary2)), "Monthly" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.StatusSummary2)), string.Empty },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.StatusSummary2)),
                     "Monthly totals from game stats.\n" +
                     "Aim to keep the **can be handled** higher than **deaths/mo.**\n" +
                     "...or just enable magic :)"
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.StatusSummary1)), string.Empty },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.StatusSummary1)),
-                    "**Active** (not disabled) deathcare capacity + max workers.\n\n" +
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.StatusSummary3)), string.Empty },
+                { m_Setting.GetOptionDescLocaleID(nameof(Setting.StatusSummary3)),
+                    "**Active** (not disabled) building capacities (hearses, buildings, max workers).\n\n" +
                     "**Notes:**\n" +
                     "  - includes hearses in maintenance\n" +
                     "  - does not include any disabled building hearses.\n" +

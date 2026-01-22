@@ -191,11 +191,11 @@ namespace MagicHearse
             // Localized status text.
 
             DeathcareStatus.SummaryLine3 = string.Format(
-                T(kLine1Key, "{0} dead waiting for transport | {1} updated"),
+                T(kLine1Key, "{0} dead waiting | {1} updated"),
                 Format0(deadWaiting), refreshedUtc);
 
             DeathcareStatus.SummaryLine2 = string.Format(
-                T(kLine2Key, "{0} deaths | {1} can be handled"),
+                T(kLine2Key, "{0} deaths/month | {1} can be handled"),
                 Format0(deathsPerMonth), Format0(processingRate));
 
             DeathcareStatus.SummaryLine1 = string.Format(
