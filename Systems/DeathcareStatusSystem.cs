@@ -73,11 +73,7 @@ namespace MagicHearse
             BufferLookup<Efficiency> effLookup = GetBufferLookup<Efficiency>(true);
 
             // Deaths/mo. (from game stats)
-            float deathsPerMonth = 0f;
-            if (m_CityStats != null)
-            {
-                deathsPerMonth = m_CityStats.GetStatisticValue(StatisticType.DeathRate);
-            }
+            float deathsPerMonth = m_CityStats.GetStatisticValue(StatisticType.DeathRate);
 
             float processingRate = 0f;      // ACTIVE: efficiency * processingRate
             long hearses = 0;               // ACTIVE: sum of hearse capacity (with upgrades / FD edits)

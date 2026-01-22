@@ -5,7 +5,6 @@ namespace MagicHearse
 {
     using Colossal; // IDictionarySource, IDictionaryEntryError
     using System.Collections.Generic; // IEnumerable, Dictionary, KeyValuePair
-    using Unity.IO.LowLevel.Unsafe;
 
     /// <summary>
     /// English localization source for Magic Hearse [MH].</summary>

@@ -12,6 +12,7 @@ namespace MagicHearse
     using Game.SceneFlow;         // GameManager
     using System;                 // DateTime, TimeSpan
     using Unity.Entities;         // World
+    using UnityEngine;            // Time
 
     public static class DeathcareStatus
     {
@@ -31,6 +32,7 @@ namespace MagicHearse
         private static bool s_HasSnapshotThisCity;
         private static bool s_ShowNoCityLoaded;
         private static long s_LastRefreshTicks;
+        private static int s_LastUiFrame = -1;
 
         /// <summary>
         /// Clear cached snapshot so the next getter refreshes (no stale data from city switches).
@@ -65,6 +67,13 @@ namespace MagicHearse
             {
                 return;
             }
+
+            int frame = Time.frameCount;
+            if (frame == s_LastUiFrame)
+            {
+                return;
+            }
+            s_LastUiFrame = frame;
 
             // Initialize placeholder text (localized) before the first city loads.
             if (string.IsNullOrEmpty(SummaryLine1))
