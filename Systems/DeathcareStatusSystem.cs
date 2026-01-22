@@ -1,9 +1,10 @@
 // File: Systems/DeathcareStatusSystem.cs
 // Purpose: Computes the OptionsUI Status snapshot for Deathcare (no healthcare/patient data).
 // Notes:
-// - On-demand: called directly from DeathcareStatus.RefreshIfNeeded().
-// - Uses placed buildings + upgrades + efficiency (CO logic style), but DOES NOT require Patient in queries.
-// - Cemetery use/capacity counts ONLY long-term storage facilities.
+// - On-demand: called from DeathcareStatus.RefreshIfNeeded().
+// - “Active” means efficiency > 0 (disabled/out of service excluded).
+// - Shows buildings active/total.
+// - Max workers uses WorkProvider.m_MaxWorkers (game-maintained runtime value).
 
 namespace MagicHearse
 {
@@ -11,8 +12,8 @@ namespace MagicHearse
     using Game.Buildings;                       // BuildingUtils, Building, DeathcareFacility, ServiceDispatch, Efficiency
     using Game.City;                            // StatisticType
     using Game.Common;                          // Deleted, Temp
-    using Game.Prefabs;                         // DeathcareFacilityData, PrefabRef, InstalledUpgrade, UpgradeUtils, PrefabData
-    using Game.SceneFlow;                       // GameManager
+    using Game.Companies;                       // WorkProvider
+    using Game.Prefabs;                         // DeathcareFacilityData, PrefabRef, InstalledUpgrade, UpgradeUtils
     using Game.Simulation;                      // CityStatisticsSystem
     using Game.Tools;
     using System;
@@ -23,9 +24,7 @@ namespace MagicHearse
     public sealed partial class DeathcareStatusSystem : GameSystemBase
     {
         private CityStatisticsSystem m_CityStats = null!;
-
         private EntityQuery m_DeathcarePlacedQuery;
-        private EntityQuery m_DeathcarePrefabQuery;
 
         protected override void OnCreate()
         {
@@ -41,58 +40,39 @@ namespace MagicHearse
                 ComponentType.ReadOnly<PrefabRef>(),
                 ComponentType.Exclude<Temp>(),
                 ComponentType.Exclude<Deleted>());
-
-            // Prefab query used only for "total hearses capacity" (prefab-level, optional).
-            m_DeathcarePrefabQuery = GetEntityQuery(new EntityQueryDesc
-            {
-                All = new ComponentType[]
-                {
-                    ComponentType.ReadOnly<PrefabData>(),
-                    ComponentType.ReadOnly<DeathcareFacilityData>(),
-                },
-            });
         }
 
         protected override void OnUpdate()
         {
-            // No continuous work. This system is invoked on-demand from OptionsUI getters.
-        }
-
-        public void RefreshIfNeeded()
-        {
-            var gm = GameManager.instance;
-            if (gm == null || !gm.gameMode.IsGame())
-            {
-                DeathcareStatus.LastRefreshUtc = FormatUtc(DateTime.UtcNow);
-                DeathcareStatus.SummaryLine1 = "No city loaded yet.";
-                DeathcareStatus.SummaryLine2 = string.Empty;
-                return;
-            }
-
-            RefreshNow();
+            // No continuous work. Invoked on-demand from OptionsUI getters.
         }
 
         public void RefreshNow()
         {
-            // Lookups/buffer lookups fetched from the System (not EntityManager).
+            // Lookups from the System.
             var prefabRefLookup = GetComponentLookup<PrefabRef>(true);
             var dcLookup = GetComponentLookup<DeathcareFacilityData>(true);
+            var buildingDcLookup = GetComponentLookup<Game.Buildings.DeathcareFacility>(true);
+            var workProviderLookup = GetComponentLookup<WorkProvider>(true);
 
             var upgradesLookup = GetBufferLookup<InstalledUpgrade>(true);
             var effLookup = GetBufferLookup<Efficiency>(true);
 
-            // Deaths/mo.
+            // Deaths/mo. (from game stats / infoview)
             float deathsPerMonth = 0f;
             if (m_CityStats != null)
             {
                 deathsPerMonth = m_CityStats.GetStatisticValue(StatisticType.DeathRate);
             }
 
-            float processingRate = 0f;   // efficiency * processingRate
-            float cemeteryUse = 0f;      // stored bodies in long-term storage
-            float cemeteryCapacity = 0f; // long-term storage capacity (with upgrades)
+            float processingRate = 0f;      // ACTIVE: efficiency * processingRate
+            long hearses = 0;               // ACTIVE: sum of hearse capacity (with upgrades / FD edits)
+            long cemeteryUse = 0;           // ACTIVE: stored bodies in long-term storage
+            long cemeteryCapacity = 0;      // ACTIVE: long-term storage capacity (with upgrades / FD edits)
+            long maxWorkers = 0;            // ACTIVE: sum WorkProvider.m_MaxWorkers
 
-            int facilities = 0;
+            int totalFacilities = 0;        // facilities regardless of disabled
+            int activeFacilities = 0;       // efficiency > 0
 
             using (var entities = m_DeathcarePlacedQuery.ToEntityArray(Allocator.Temp))
             {
@@ -100,7 +80,37 @@ namespace MagicHearse
                 {
                     Entity e = entities[i];
 
-                    // Efficiency
+                    if (!prefabRefLookup.HasComponent(e))
+                    {
+                        continue;
+                    }
+
+                    Entity prefab = prefabRefLookup[e].m_Prefab;
+
+                    // Current effective values (not vanilla baseline)
+                    DeathcareFacilityData data = default;
+                    if (dcLookup.HasComponent(prefab))
+                    {
+                        data = dcLookup[prefab];
+                    }
+
+                    // Combine upgrades on the placed building
+                    if (upgradesLookup.TryGetBuffer(e, out var upgrades) && upgrades.Length != 0)
+                    {
+                        UpgradeUtils.CombineStats(ref data, upgrades, ref prefabRefLookup, ref dcLookup);
+                    }
+
+                    bool isFacility =
+                        data.m_ProcessingRate > 0f || data.m_HearseCapacity > 0 || data.m_StorageCapacity > 0;
+
+                    if (!isFacility)
+                    {
+                        continue;
+                    }
+
+                    totalFacilities++;
+
+                    // Efficiency (disabled/out of service tends to be 0)
                     float efficiency = 1f;
                     if (effLookup.TryGetBuffer(e, out var effBuf))
                     {
@@ -112,75 +122,43 @@ namespace MagicHearse
                         continue;
                     }
 
-                    // Prefab data
-                    if (!prefabRefLookup.HasComponent(e))
-                    {
-                        continue;
-                    }
+                    activeFacilities++;
 
-                    Entity prefab = prefabRefLookup[e].m_Prefab;
+                    // ACTIVE totals
+                    processingRate += efficiency * data.m_ProcessingRate;
+                    hearses += data.m_HearseCapacity;
 
-                    DeathcareFacilityData data = default;
-                    if (dcLookup.HasComponent(prefab))
-                    {
-                        data = dcLookup[prefab];
-                    }
-
-                    // Combine upgrades
-                    if (upgradesLookup.TryGetBuffer(e, out var upgrades) && upgrades.Length != 0)
-                    {
-                        UpgradeUtils.CombineStats(ref data, upgrades, ref prefabRefLookup, ref dcLookup);
-                    }
-
-                    // Count as a facility if it has any deathcare stats.
-                    if (data.m_ProcessingRate > 0f || data.m_HearseCapacity > 0 || data.m_StorageCapacity > 0)
-                    {
-                        facilities++;
-                    }
-
-                    // Cemetery use/capacity only for long-term storage facilities
                     if (data.m_LongTermStorage)
                     {
-                        var b = EntityManager.GetComponentData<Game.Buildings.DeathcareFacility>(e);
-                        cemeteryUse += b.m_LongTermStoredCount;
+                        if (buildingDcLookup.HasComponent(e))
+                        {
+                            var b = buildingDcLookup[e];
+                            cemeteryUse += b.m_LongTermStoredCount;
+                        }
+
                         cemeteryCapacity += data.m_StorageCapacity;
                     }
 
-                    // Total processing
-                    processingRate += efficiency * data.m_ProcessingRate;
+                    if (workProviderLookup.HasComponent(e))
+                    {
+                        maxWorkers += workProviderLookup[e].m_MaxWorkers;
+                    }
                 }
             }
 
-            long hearses = GetPrefabTotalHearses();
-
-            DeathcareStatus.LastRefreshUtc = FormatUtc(DateTime.UtcNow);
+            var refreshedUtc = FormatUtc(DateTime.UtcNow);
+            DeathcareStatus.LastRefreshUtc = refreshedUtc;
 
             DeathcareStatus.SummaryLine1 =
-                $"deaths: {Format0(deathsPerMonth)} | can handle: {Format0(processingRate)}";
+                $"deaths: {Format0(deathsPerMonth)} | can handle: {Format0(processingRate)} | updated: {refreshedUtc}";
 
             DeathcareStatus.SummaryLine2 =
-                $"hearses: {Format0(hearses)} | facilities: {facilities} | cemetery: {Format0(cemeteryUse)} / {Format0(cemeteryCapacity)}";
-        }
-
-        private long GetPrefabTotalHearses()
-        {
-            long total = 0;
-
-            using (var dcData = m_DeathcarePrefabQuery.ToComponentDataArray<DeathcareFacilityData>(Allocator.Temp))
-            {
-                for (int i = 0; i < dcData.Length; i++)
-                {
-                    total += dcData[i].m_HearseCapacity;
-                }
-            }
-
-            return total;
+                $"hearses: {Format0(hearses)} | buildings: {activeFacilities} / {totalFacilities} | cemetery: {Format0(cemeteryUse)} / {Format0(cemeteryCapacity)} | max workers: {Format0(maxWorkers)}";
         }
 
         private static string FormatUtc(DateTime utc)
         {
-            // Time only; stable looking while you stare at it.
-            return utc.ToString("HH:mm:s") + " UTC";
+            return utc.ToString("HH:mm:ss") + " UTC";
         }
 
         private static string Format0(float v)

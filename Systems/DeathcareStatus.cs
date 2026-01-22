@@ -2,8 +2,8 @@
 // Purpose: UI-facing cached Status snapshot strings for Options UI.
 // Notes:
 // - Refresh is driven by OptionsUI getters (i.e., only while tab is open).
-// - Handles main-menu -> city-load transition automatically (no stuck "No city loaded yet.").
-// - Throttled to avoid expensive refresh spam.
+// - Uses explicit state (bool/ticks), NOT string comparisons, so "Idle" etc. are safe.
+// - Cache is invalidated on main-menu <-> in-game transitions.
 
 namespace MagicHearse
 {
@@ -14,13 +14,31 @@ namespace MagicHearse
 
     public static class DeathcareStatus
     {
+        // Public UI strings consumed by Setting.cs getters.
         public static string LastRefreshUtc { get; set; } = "Idle";
         public static string SummaryLine1 { get; set; } = "Status not loaded.";
         public static string SummaryLine2 { get; set; } = string.Empty;
 
         // Throttle refresh while the Status tab is open.
-        private const int RefreshIntervalSeconds = 15;
+        public static int RefreshIntervalSeconds { get; set; } = 5;
+
+        private static bool s_WasInGame;
+        private static bool s_HasSnapshotThisCity;
         private static long s_LastRefreshTicksUtc;
+
+        /// <summary>
+        /// Clear cached snapshot so the next getter refreshes.
+        /// Safe to call from anywhere.
+        /// </summary>
+        public static void InvalidateCache()
+        {
+            s_HasSnapshotThisCity = false;
+            s_LastRefreshTicksUtc = 0;
+
+            LastRefreshUtc = "Idle";
+            SummaryLine1 = "Status not loaded.";
+            SummaryLine2 = string.Empty;
+        }
 
         // Called by Setting.cs getters.
         public static void RefreshIfNeeded()
@@ -34,35 +52,35 @@ namespace MagicHearse
             var gm = GameManager.instance;
             bool isGame = (gm != null && gm.gameMode.IsGame());
 
+            // Detect transitions (main menu -> city, city -> main menu, switching saves, etc.).
+            if (isGame != s_WasInGame)
+            {
+                s_WasInGame = isGame;
+                InvalidateCache();
+            }
+
             if (!isGame)
             {
-                // Update once when in main menu / no city loaded.
-                if (LastRefreshUtc == "Idle" || SummaryLine1 == "Status not loaded.")
+                // In menu: show the message once; do not keep ticking.
+                if (SummaryLine1 == "Status not loaded.")
                 {
-                    s_LastRefreshTicksUtc = DateTime.UtcNow.Ticks;
-                    LastRefreshUtc = FormatUtc(new DateTime(s_LastRefreshTicksUtc, DateTimeKind.Utc));
+                    LastRefreshUtc = FormatUtc(DateTime.UtcNow);
                     SummaryLine1 = "No city loaded yet.";
                     SummaryLine2 = string.Empty;
                 }
                 return;
             }
 
-            // We are in-game now. If we previously wrote the main-menu message,
-            // treat that as "invalid" so we don't get stuck forever.
-            if (SummaryLine1 == "No city loaded yet.")
-            {
-                InvalidateCache();
-            }
-
-            // If there are Idle refreshed for this city/session, do it now.
-            if (LastRefreshUtc == "Idle" || SummaryLine1 == "Status not loaded.")
+            // In-game: refresh immediately if we have no snapshot yet.
+            if (!s_HasSnapshotThisCity)
             {
                 world.GetOrCreateSystemManaged<DeathcareStatusSystem>().RefreshNow();
+                s_HasSnapshotThisCity = true;
                 s_LastRefreshTicksUtc = DateTime.UtcNow.Ticks;
                 return;
             }
 
-            // Otherwise refresh only if the throttle window has passed.
+            // Throttle refresh while tab is open.
             long nowTicks = DateTime.UtcNow.Ticks;
             long minNext = s_LastRefreshTicksUtc + TimeSpan.FromSeconds(RefreshIntervalSeconds).Ticks;
             if (nowTicks < minNext)
@@ -74,7 +92,7 @@ namespace MagicHearse
             s_LastRefreshTicksUtc = nowTicks;
         }
 
-        // Optional manual refresh hook (you can wire to a button later if you want).
+        // Optional manual refresh hook (wire to a button if you ever want).
         public static void ForceRefreshNow()
         {
             World world = World.DefaultGameObjectInjectionWorld;
@@ -84,20 +102,12 @@ namespace MagicHearse
             }
 
             world.GetOrCreateSystemManaged<DeathcareStatusSystem>().RefreshNow();
+            s_HasSnapshotThisCity = true;
             s_LastRefreshTicksUtc = DateTime.UtcNow.Ticks;
-        }
-
-        public static void InvalidateCache()
-        {
-            LastRefreshUtc = "Idle";
-            SummaryLine1 = "Status not loaded.";
-            SummaryLine2 = string.Empty;
-            s_LastRefreshTicksUtc = 0;
         }
 
         private static string FormatUtc(DateTime utc)
         {
-            // Seconds only (no milliseconds).
             return utc.ToString("HH:mm:ss") + " UTC";
         }
     }

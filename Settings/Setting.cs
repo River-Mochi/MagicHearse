@@ -12,7 +12,7 @@ namespace MagicHearse
     using UnityEngine;                  // Application.OpenURL
 
     [FileLocation("ModsSettings/MagicHearseRedux")]
-    [SettingsUITabOrder(ActionsTab, StatusTab, AboutTab)]
+    [SettingsUITabOrder(ActionsTab, AboutTab)]
     [SettingsUIGroupOrder(
         AutoCleanGrp, SelfManageGrp,
         StatusGrp,
@@ -26,7 +26,6 @@ namespace MagicHearse
     {
         // ---- TABS ----
         public const string ActionsTab = "Actions";
-        public const string StatusTab = "Status";
         public const string AboutTab = "About";
 
         // ---- GROUPS ----
@@ -176,22 +175,16 @@ namespace MagicHearse
         }
 
         // --------------------------------------------------------------------
-        // STATUS (OptionsUI-only; refresh happens inside getters)
+        // ACTIONS – STATUS
         // --------------------------------------------------------------------
 
-        [SettingsUISection(StatusTab, StatusGrp)]
-        public string StatusLastRefreshUtc
-        {
-            get { DeathcareStatus.RefreshIfNeeded(); return DeathcareStatus.LastRefreshUtc; }
-        }
-
-        [SettingsUISection(StatusTab, StatusGrp)]
+        [SettingsUISection(ActionsTab, StatusGrp)]
         public string StatusSummary1
         {
             get { DeathcareStatus.RefreshIfNeeded(); return DeathcareStatus.SummaryLine1; }
         }
 
-        [SettingsUISection(StatusTab, StatusGrp)]
+        [SettingsUISection(ActionsTab, StatusGrp)]
         public string StatusSummary2
         {
             get { DeathcareStatus.RefreshIfNeeded(); return DeathcareStatus.SummaryLine2; }
