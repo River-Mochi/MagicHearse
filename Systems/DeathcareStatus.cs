@@ -48,8 +48,8 @@ namespace MagicHearse
         }
 
         /// <summary>
-        /// Marks the cached snapshot as stale so the next getter refreshes instantly.
-        /// Does not overwrite current UI strings (prevents text flicker).
+        /// Marks the snapshot stale so the next getter refreshes.
+        /// Keeps the current text string until refresh (avoids text flicker).
         /// </summary>
         public static void MarkDirty()
         {
