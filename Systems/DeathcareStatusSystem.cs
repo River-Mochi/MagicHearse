@@ -1,10 +1,10 @@
 // File: Systems/DeathcareStatusSystem.cs
-// Purpose: Computes the OptionsUI Status snapshot for Deathcare.
+// Purpose: ECS scanner for OptionsUI Status report.
 // Notes:
 // - On-demand: called from DeathcareStatus.RefreshIfNeeded().
-// - “Active” means efficiency > 0 (disabled/out of service excluded).
-// - Shows buildings active/total.
+// - “Active” means efficiency > 0 (exclude disabled/out of service).
 // - Max workers uses WorkProvider.m_MaxWorkers (game-maintained runtime value).
+// - Returns raw numbers (no localization / formatting here).
 
 namespace MagicHearse
 {
@@ -17,21 +17,62 @@ namespace MagicHearse
     using Game.Prefabs;                         // DeathcareFacilityData, PrefabRef, InstalledUpgrade, UpgradeUtils
     using Game.Simulation;                      // CityStatisticsSystem
     using Game.Tools;                           // Temp
-    using System;
+    using System;                               // DateTime
     using Unity.Collections;                    // Allocator, NativeArray
     using Unity.Entities;                       // Entity, EntityQuery, ComponentType, ArchetypeChunk, ComponentTypeHandle
     using Unity.Mathematics;                    // math
 
     public sealed partial class DeathcareStatusSystem : GameSystemBase
     {
+        public readonly struct Snapshot
+        {
+            public readonly float DeathsPerMonth;
+            public readonly float ProcessingRate;
+
+            public readonly long Hearses;
+            public readonly long CemeteryUse;
+            public readonly long CemeteryCapacity;
+            public readonly long MaxWorkers;
+
+            public readonly int ActiveFacilities;
+            public readonly int TotalFacilities;
+
+            public readonly long DeadWaiting;
+
+            public readonly DateTime SnapshotTimeLocal;
+
+            public Snapshot(
+                float deathsPerMonth,
+                float processingRate,
+                long hearses,
+                long cemeteryUse,
+                long cemeteryCapacity,
+                long maxWorkers,
+                int activeFacilities,
+                int totalFacilities,
+                long deadWaiting,
+                DateTime snapshotTimeLocal)
+            {
+                DeathsPerMonth = deathsPerMonth;
+                ProcessingRate = processingRate;
+
+                Hearses = hearses;
+                CemeteryUse = cemeteryUse;
+                CemeteryCapacity = cemeteryCapacity;
+                MaxWorkers = maxWorkers;
+
+                ActiveFacilities = activeFacilities;
+                TotalFacilities = totalFacilities;
+
+                DeadWaiting = deadWaiting;
+
+                SnapshotTimeLocal = snapshotTimeLocal;
+            }
+        }
+
         private CityStatisticsSystem m_CityStats = null!;
         private EntityQuery m_DeathcarePlacedQuery;
         private EntityQuery m_DeadWaitingQuery;
-
-        // Custom keys (add to all Locale*.cs)
-        private const string kLine1Key = "MH_STATUS_LINE1";
-        private const string kLine2Key = "MH_STATUS_LINE2";
-        private const string kLine3Key = "MH_STATUS_LINE3";
 
         protected override void OnCreate()
         {
@@ -61,9 +102,9 @@ namespace MagicHearse
             // No continuous work. Invoked on-demand from OptionsUI getters.
         }
 
-        public void RefreshNow()
+        public Snapshot BuildSnapshot()
         {
-            // Lookups from the System.
+            // Lookups from the system.
             ComponentLookup<PrefabRef> prefabRefLookup = GetComponentLookup<PrefabRef>(true);
             ComponentLookup<DeathcareFacilityData> dcLookup = GetComponentLookup<DeathcareFacilityData>(true);
             ComponentLookup<Game.Buildings.DeathcareFacility> buildingDcLookup = GetComponentLookup<Game.Buildings.DeathcareFacility>(true);
@@ -72,13 +113,13 @@ namespace MagicHearse
             BufferLookup<InstalledUpgrade> upgradesLookup = GetBufferLookup<InstalledUpgrade>(true);
             BufferLookup<Efficiency> effLookup = GetBufferLookup<Efficiency>(true);
 
-            // Deaths/mo. (from game stats)
+            // Deaths/month from game stats (CityStatisticsSystem exists from OnCreate).
             float deathsPerMonth = m_CityStats.GetStatisticValue(StatisticType.DeathRate);
 
             float processingRate = 0f;      // ACTIVE: efficiency * processingRate
-            long hearses = 0;               // ACTIVE: sum of hearse capacity (with upgrades / FD edits)
+            long hearses = 0;               // ACTIVE: sum hearse capacity
             long cemeteryUse = 0;           // ACTIVE: stored bodies in long-term storage
-            long cemeteryCapacity = 0;      // ACTIVE: long-term storage capacity (with upgrades / FD edits)
+            long cemeteryCapacity = 0;      // ACTIVE: long-term storage capacity
             long maxWorkers = 0;            // ACTIVE: sum WorkProvider.m_MaxWorkers
 
             int totalFacilities = 0;        // facilities regardless of disabled
@@ -97,14 +138,13 @@ namespace MagicHearse
 
                     Entity prefab = prefabRefLookup[e].m_Prefab;
 
-                    // Current effective values (not vanilla baseline)
+                    // Effective values (prefab stats + upgrades).
                     DeathcareFacilityData data = default;
                     if (dcLookup.HasComponent(prefab))
                     {
                         data = dcLookup[prefab];
                     }
 
-                    // Combine upgrades on the placed building
                     if (upgradesLookup.TryGetBuffer(e, out DynamicBuffer<InstalledUpgrade> upgrades) && upgrades.Length != 0)
                     {
                         UpgradeUtils.CombineStats(ref data, upgrades, ref prefabRefLookup, ref dcLookup);
@@ -120,7 +160,7 @@ namespace MagicHearse
 
                     totalFacilities++;
 
-                    // Efficiency (disabled/out-of-service tends to be 0)
+                    // Efficiency (disabled/out-of-service tends to be 0).
                     float efficiency = 1f;
                     if (effLookup.TryGetBuffer(e, out DynamicBuffer<Efficiency> effBuf))
                     {
@@ -134,7 +174,6 @@ namespace MagicHearse
 
                     activeFacilities++;
 
-                    // Status totals
                     processingRate += efficiency * data.m_ProcessingRate;
                     hearses += data.m_HearseCapacity;
 
@@ -182,54 +221,12 @@ namespace MagicHearse
                 }
             }
 
-            var refreshedTime = FormatTime(DateTime.Now);
-
-            // Localized status text.
-
-            DeathcareStatus.SummaryLine1 = string.Format(
-                T(kLine1Key, "{0} dead waiting | {1} updated"),
-                Format0(deadWaiting), refreshedTime);
-
-            DeathcareStatus.SummaryLine2 = string.Format(
-                T(kLine2Key, "{0} deaths/month | {1} can be handled"),
-                Format0(deathsPerMonth), Format0(processingRate));
-
-            DeathcareStatus.SummaryLine3 = string.Format(
-                T(kLine3Key, "{0} hearses | {1} / {2} buildings | {3} / {4} cemetery use | {5} max workers"),
-                Format0(hearses), activeFacilities, totalFacilities, Format0(cemeteryUse), Format0(cemeteryCapacity), Format0(maxWorkers));
-
-        }
-
-        // -----------------------------------------------------------------
-        // Helpers
-        // -----------------------------------------------------------------
-
-        private static string FormatTime(DateTime now)
-        {
-            return now.ToString("HH:mm:ss");
-        }
-
-        private static string Format0(float v)
-        {
-            return ((long)math.round(v)).ToString("N0");
-        }
-
-        private static string Format0(long v)
-        {
-            return v.ToString("N0");
-        }
-
-        private static string T(string entryId, string englishFallback)
-        {
-            var lm = Game.SceneFlow.GameManager.instance?.localizationManager;
-            var dict = lm?.activeDictionary;
-
-            if (dict != null && dict.TryGetValue(entryId, out string value) && !string.IsNullOrEmpty(value))
-            {
-                return value;
-            }
-
-            return englishFallback;
+            return new Snapshot(
+                deathsPerMonth: deathsPerMonth, processingRate: processingRate,
+                hearses: hearses, cemeteryUse: cemeteryUse, cemeteryCapacity: cemeteryCapacity, maxWorkers: maxWorkers,
+                activeFacilities: activeFacilities, totalFacilities: totalFacilities,
+                deadWaiting: deadWaiting,
+                snapshotTimeLocal: DateTime.Now);
         }
     }
 }
