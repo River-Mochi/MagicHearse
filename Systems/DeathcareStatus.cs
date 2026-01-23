@@ -10,9 +10,9 @@ namespace MagicHearse
 {
     using Game;                   // GameMode extension: IsGame()
     using Game.SceneFlow;         // GameManager
-    using System;                 // DateTime, TimeSpan, Math
+    using System;                 // DateTime, TimeSpan, Math, FormatException
     using Unity.Entities;         // World
-    using UnityEngine;            // Time.frameCount
+    using UnityEngine;            // Time.frameCount, Debug
 
     public static class DeathcareStatus
     {
@@ -26,16 +26,26 @@ namespace MagicHearse
         internal const string KeyLine2 = "MH_STATUS_LINE2";
         internal const string KeyLine3 = "MH_STATUS_LINE3";
 
-        // -----------------------------------------------------------------
+        // --------------------------------------------------------------------------
         // English fallbacks (player-facing)
-        // -----------------------------------------------------------------
+        // IMPORTANT: placeholders must match the arg lists in BuildAndApplySnapshot().
+        // --------------------------------------------------------------------------
 
         private const string FallbackStatusNotLoaded = "Status not loaded.";
         private const string FallbackNoCityLoaded = "No city loaded yet.";
 
-        private const string FallbackLine1 = "{0} dead waiting | [{1}] updated";
-        private const string FallbackLine2 = "{0} deaths/month | {1} can be handled";
-        private const string FallbackLine3 = "{0} hearses | {1} / {2} buildings | {3} / {4} cemetery use | {5} max workers";
+        // Line1 expects: {0}=deadWaiting, {1}=deaths/mo, {2}=canHandled, {3}=time
+        private const string FallbackLine1 =
+            "{0} dead waiting • {1} deaths/month • {2} can be handled • updated {3}";
+
+        // Line2 expects: {0}=deaths/mo, {1}=canHandled
+        private const string FallbackLine2 =
+            "{0} deaths/month | {1} can be handled";
+
+        // Line3 expects: {0}=hearses, {1}=activeFacilities, {2}=totalFacilities,
+        //                {3}=cemUse, {4}=cemCap, {5}=maxWorkers
+        private const string FallbackLine3 =
+            "{0} hearses | {1} / {2} buildings | {3} / {4} cemetery use | {5} max workers";
 
         // -----------------------------------------------------------------
         // Public UI strings used by Setting.cs getters
@@ -43,6 +53,7 @@ namespace MagicHearse
 
         // Throttle refresh while the Status group is visible in Options UI.
         public static int RefreshIntervalSeconds { get; set; } = 15;
+
         public static string SummaryLine1 { get; private set; } = string.Empty;
         public static string SummaryLine2 { get; private set; } = string.Empty;
         public static string SummaryLine3 { get; private set; } = string.Empty;
@@ -56,6 +67,9 @@ namespace MagicHearse
         private static bool s_ShowNoCityLoadedOnce;
         private static long s_LastRefreshTicksUtc;
         private static int s_LastUiFrame = -1;
+
+        // One-time diagnostics: don’t spam logs every frame if a locale string is broken.
+        private static bool s_LoggedBadFormat;
 
         /// <summary>
         /// Clears cached snapshot so the next getter refreshes (prevents stale data after city switches).
@@ -140,7 +154,7 @@ namespace MagicHearse
                 return;
             }
 
-            // Throttle refresh while Options UI is open.
+            // Throttle refresh while Options UI is open (UTC = no DST weirdness).
             long nowTicksUtc = DateTime.UtcNow.Ticks;
             long minNext = s_LastRefreshTicksUtc + TimeSpan.FromSeconds(RefreshIntervalSeconds).Ticks;
             if (nowTicksUtc < minNext)
@@ -152,7 +166,7 @@ namespace MagicHearse
             s_LastRefreshTicksUtc = nowTicksUtc;
         }
 
-        // Optional manual refresh hook (future button).
+        // No-op: manual refresh hook (possible future button).
         public static void ForceRefreshNow()
         {
             World world = World.DefaultGameObjectInjectionWorld;
@@ -175,32 +189,41 @@ namespace MagicHearse
             DeathcareStatusSystem sys = world.GetOrCreateSystemManaged<DeathcareStatusSystem>();
             DeathcareStatusSystem.Snapshot snap = sys.BuildSnapshot();
 
-            // Local time label only (no UTC/Z semantics shown to players).
+            // UX Local time string for players (do not use for throttling, it has DST).
             string refreshedTime = FormatTime(snap.SnapshotTimeLocal);
 
-            SummaryLine1 = string.Format(
-                L(KeyLine1, FallbackLine1),
-                Format0(snap.DeadWaiting),
-                refreshedTime);
+            // Safe formatting so a bad locale string cannot crash Options UI.
+            SummaryLine1 = FormatOrFallback(
+                key: KeyLine1,
+                localizedFormat: L(KeyLine1, FallbackLine1),
+                fallbackFormat: FallbackLine1,
+                Format0(snap.DeadWaiting),       // {0}
+                Format0(snap.DeathsPerMonth),    // {1}
+                Format0(snap.ProcessingRate),    // {2}
+                refreshedTime);                  // {3}
 
-            SummaryLine2 = string.Format(
-                L(KeyLine2, FallbackLine2),
-                Format0(snap.DeathsPerMonth),
-                Format0(snap.ProcessingRate));
+            SummaryLine2 = FormatOrFallback(
+                key: KeyLine2,
+                localizedFormat: L(KeyLine2, FallbackLine2),
+                fallbackFormat: FallbackLine2,
+                Format0(snap.DeathsPerMonth),    // {0}
+                Format0(snap.ProcessingRate));   // {1}
 
-            SummaryLine3 = string.Format(
-                L(KeyLine3, FallbackLine3),
-                Format0(snap.Hearses),
-                snap.ActiveFacilities,
-                snap.TotalFacilities,
-                Format0(snap.CemeteryUse),
-                Format0(snap.CemeteryCapacity),
-                Format0(snap.MaxWorkers));
+            SummaryLine3 = FormatOrFallback(
+                key: KeyLine3,
+                localizedFormat: L(KeyLine3, FallbackLine3),
+                fallbackFormat: FallbackLine3,
+                Format0(snap.Hearses),           // {0}
+                snap.ActiveFacilities,           // {1}
+                snap.TotalFacilities,            // {2}
+                Format0(snap.CemeteryUse),       // {3}
+                Format0(snap.CemeteryCapacity),  // {4}
+                Format0(snap.MaxWorkers));       // {5}
         }
 
         private static string L(string entryId, string englishFallback)
         {
-            // Localize via active dictionary. Fallback is English for resilience.
+            // Localize via active dictionary with English fallback.
             var lm = GameManager.instance?.localizationManager;
             var dict = lm?.activeDictionary;
 
@@ -212,6 +235,43 @@ namespace MagicHearse
             }
 
             return englishFallback;
+        }
+
+        // -----------------------------------------------------------------
+        // Helpers
+        // -----------------------------------------------------------------
+
+        private static string FormatOrFallback(string key, string localizedFormat, string fallbackFormat, params object[] args)
+        {
+            try
+            {
+                return string.Format(localizedFormat, args);
+            }
+            catch (FormatException ex)
+            {
+                // If a locale string has wrong {n} placeholders, never crash the UI.
+                if (!s_LoggedBadFormat)
+                {
+                    s_LoggedBadFormat = true;
+
+                    Debug.LogError(
+                        "[MH] Status format error. " +
+                        "A locale string has wrong {n} placeholders. " +
+                        $"Key={key} Args={args.Length} Format='{localizedFormat}'");
+                    Debug.LogException(ex);
+                }
+
+                // Try the English fallback (should be correct).
+                try
+                {
+                    return string.Format(fallbackFormat, args);
+                }
+                catch
+                {
+                    // Worst case: return something readable and safe.
+                    return fallbackFormat;
+                }
+            }
         }
 
         private static string FormatTime(DateTime dt)

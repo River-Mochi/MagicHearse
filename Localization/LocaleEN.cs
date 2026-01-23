@@ -45,25 +45,24 @@ namespace MagicHearse
                 // Auto Clean (magic)
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.EnableMagicHearse)), "Enable Magic" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.EnableMagicHearse)),
-                    "**Auto removes** dead citizens that are waiting for a hearse.\n" +
+                    "**Auto removes dead citizens** that are waiting for a hearse.\n" +
                     "Turn off both checkboxes to disable the mod without removing it."
                 },
 
                 // Self Manage (FD)
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.FuneralDirector)), "Funeral Director" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.FuneralDirector)),
-                    "Scales **facility values** (rate, fleet, storage, workers)." },
+                    "Scales **facility** values (rate, fleet, storage, workers)." },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.ProcScalar)), "Processing rate" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.ProcScalar)),
-                    "**Facility processing speed**.\n" +
+                    "**Facility processing speed**\n" +
                     "**100%** = vanilla game default."
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.FleetScalar)), "Fleet size" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.FleetScalar)),
                     "**Maximum hearses** per facility.\n" +
-                    "Tip: balance and test as too many could also add to traffic.\n" +
                     "**100%** = vanilla game default."
                 },
 
@@ -78,11 +77,11 @@ namespace MagicHearse
                     "Scales **Maximum workers** for deathcare facilities.\n" +
                      "**100%** = vanilla game default.\n" +
                     "**Tips:**\n" +
-                    "  - max workers applies to new buildings (made after the slider change).\n" +
-                    "  - trick: just deleting/adding extension buildings also instant updates workers.\n\n" +
+                    "    - Max workers applies to new buildings (made after the slider change).\n" +
+                    "    - Trick: just deleting/adding extension buildings also instant updates workers.\n\n" +
                     "Dev Note: fleet/storage update instantly (prefab stats). Max workers is different " +
                     "(the game computes it).\n" +
-                    "It's safer to just replace the building or extension to nudge a refresh " +
+                    "It's safer to just replace the building (or extension) to poke a refresh " +
                     "rather than the mod trying to mutate a runtime component."
                 },
 
@@ -95,18 +94,18 @@ namespace MagicHearse
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.StatusSummary1)), string.Empty },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.StatusSummary1)),
-                    "Dead citizens currently waiting for a hearse pickup." },
+                    "**Dead citizens waiting** for a hearse pickup."
+                },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.StatusSummary2)), string.Empty },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.StatusSummary2)),
-                    "Monthly totals from game stats.\n" +
-                    "Aim to keep the **can be handled** higher than **deaths/mo.**\n" +
-                    "...or just enable magic :)"
+                    "**Monthly totals** from game stats.\n" +
+                    "Aim to keep **can be handled** 🡅 higher than **deaths/mo.**"
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.StatusSummary3)), string.Empty },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.StatusSummary3)),
-                    "**Active** (not disabled) building capacities (hearses, buildings, max workers).\n\n" +
+                    "**Active building** capacities (hearses, buildings, max workers).\n\n" +
                     "**Notes:**\n" +
                     "  - includes hearses in maintenance\n" +
                     "  - does not include any disabled building hearses.\n" +
@@ -119,9 +118,9 @@ namespace MagicHearse
                 { "MH_STATUS_NOT_LOADED", "Status not loaded." },
                 { "MH_STATUS_NO_CITY_LOADED", "No city loaded yet." },
 
-                { "MH_STATUS_LINE1", "{0} dead waiting | [{1}] updated" },
+                { "MH_STATUS_LINE1", "{0} dead waiting • {1} deaths/month • {2} can be handled • updated {3}" },
                 { "MH_STATUS_LINE2", "{0} deaths/month | {1} can be handled" },
-                { "MH_STATUS_LINE3", "{0} hearses | {1} / {2} buildings | {3} / {4} cemetery use | {5} max workers" },
+                { "MH_STATUS_LINE3", "{0} 🚙 hearses | {1} / {2} 🏛 buildings | {3} / {4} \U0001FAA6 ⚰️ cemetery use | {5} 👥 max workers" },
 
 
                 // About
