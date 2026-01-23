@@ -20,7 +20,6 @@ namespace MagicHearse
     using System;                               // DateTime
     using Unity.Collections;                    // Allocator, NativeArray
     using Unity.Entities;                       // Entity, EntityQuery, ComponentType, ArchetypeChunk, ComponentTypeHandle
-    using Unity.Mathematics;                    // math
 
     public sealed partial class DeathcareStatusSystem : GameSystemBase
     {

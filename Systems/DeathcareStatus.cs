@@ -33,7 +33,7 @@ namespace MagicHearse
         private const string FallbackStatusNotLoaded = "Status not loaded.";
         private const string FallbackNoCityLoaded = "No city loaded yet.";
 
-        private const string FallbackLine1 = "{0} dead waiting | {1} updated";
+        private const string FallbackLine1 = "{0} dead waiting | [{1}] updated";
         private const string FallbackLine2 = "{0} deaths/month | {1} can be handled";
         private const string FallbackLine3 = "{0} hearses | {1} / {2} buildings | {3} / {4} cemetery use | {5} max workers";
 
@@ -41,12 +41,11 @@ namespace MagicHearse
         // Public UI strings used by Setting.cs getters
         // -----------------------------------------------------------------
 
+        // Throttle refresh while the Status group is visible in Options UI.
+        public static int RefreshIntervalSeconds { get; set; } = 15;
         public static string SummaryLine1 { get; private set; } = string.Empty;
         public static string SummaryLine2 { get; private set; } = string.Empty;
         public static string SummaryLine3 { get; private set; } = string.Empty;
-
-        // Throttle refresh while the Status group is visible in Options UI.
-        public static int RefreshIntervalSeconds { get; set; } = 15;
 
         // -----------------------------------------------------------------
         // Cache state
@@ -93,7 +92,7 @@ namespace MagicHearse
                 return;
             }
 
-            // Frame guard: Setting.cs may call this 3x per UI draw.
+            // Frame guard: prevents Setting.cs from calling this 3x per UI draw.
             int frame = Time.frameCount;
             if (frame == s_LastUiFrame)
             {
