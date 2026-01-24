@@ -1,8 +1,9 @@
 // File: Utils/LogUtil.cs
-// Shared version 0.3.1
+// Shared version 0.3.2
 // Purpose:
 // - WarnOnce: prevents repeated WARN spam in hot paths
 // - TryLog: lazy message construction inside try/catch
+// Safety goals: never throw back into gameplay/mod loading
 
 namespace CS2HonuShared
 {
@@ -12,7 +13,7 @@ namespace CS2HonuShared
 
     public static class LogUtil
     {
-        // Each mod is a separate assembly; one static set per mod is fine.
+        // Each mod is a separate assembly; one static set per mod.
         private static readonly HashSet<string> s_WarnOnceKeys =
             new HashSet<string>(StringComparer.Ordinal);
 
@@ -69,14 +70,24 @@ namespace CS2HonuShared
             catch (Exception ex)
             {
                 // Message factory failed; best effort log, never throw.
-                try { log.Log(Level.Error, "Log message factory threw: " + ex.GetType().Name + ": " + ex.Message, ex); }
-                catch { }
+                try
+                {
+                    // Use WARN so severity is not escalated.
+                    log.Log(Level.Warn, "Log message factory threw: " + ex.GetType().Name + ": " + ex.Message, ex);
+                }
+                catch
+                {
+                    // Logging must never throw back into gameplay/mod loading.
+                }
+
                 return;
             }
 
             try
             {
-                log.Log(level, message, exception ?? null!);
+                // Colossal ILog.Log takes an Exception parameter; pass null safely.
+                Exception exToLog = exception ?? null!;
+                log.Log(level, message, exToLog);
             }
             catch
             {

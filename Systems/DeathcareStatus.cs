@@ -30,7 +30,7 @@ namespace MagicHearse
         // English fallbacks (placeholders must match BuildAndApplySnapshot arg lists)
         private const string FallbackStatusNotLoaded = "Status not loaded.";
         private const string FallbackNoCityLoaded = "No city loaded.";
-        private const string FallbackStatsNotAvail = "Open a city and let the simulation run.";
+        private const string FallbackStatsNotAvail = "No city, No Stats ¯\\_(ツ)_/¯";
         private const string FallbackLine1 = "{0} dead waiting | updated {1}";
         private const string FallbackLine2 = "{0} deaths/mo | {1} cremation max/mo | {2} / {3} cemetery use";
         private const string FallbackLine3 = "{0} hearses | {1} / {2} buildings | {3} empty graves | {4} max workers";

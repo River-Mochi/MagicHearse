@@ -74,7 +74,7 @@ namespace MagicHearse
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.FleetScalar)),
                     "**Maximum hearses** per facility.\n" +
                     "**100%** = vanilla game default.\n" +
-                    "[o_o] note: too many hearses may affect traffic depending on death rate."
+                    "**[o_o]** too many hearses may affect traffic depending on death rate."
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.StorageScalar)), "Cemetery storage" },
@@ -88,17 +88,18 @@ namespace MagicHearse
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.ControlWorkers)),
                     "Compatibility toggle:\n" +
                     "**Enable [✓]** to increase the number of workers.\n" +
-                    "[o_o] note: Leave OFF if you want **ConfigXML** mod to control deathcare workers."
+                    "**[o_o]** Leave OFF if you want **ConfigXML** mod to control deathcare workers."
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.WorkersScalar)), "Max workers" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.WorkersScalar)),
                     "**Increases maximum workers** allowed.\n" +
                     "**100%** = vanilla game default.\n\n" +
-                    "**[o_o] Tips**\n" +
+                    "**Tips [o_o]**\n" +
                     "**New buildings** get increased values (because building refresh needed).\n" +
                     "▪ Easier: adding or deleting an extension can also refresh.\n\n" +
-                    "(tech talk: work places is a game computed component -=<not> like other sliders=-; new building is safest way to refresh this type over mutating runtime (danger))"
+                    "▪ tech talk: work places is a game computed component\n" +
+                    "<==not like other sliders==>; new building is safest way to refresh this type over mutating runtime (danger))"
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.ResetGameDefaults)), "Reset sliders" },
@@ -131,7 +132,7 @@ namespace MagicHearse
                 // Status text templates
                 { "MH_STATUS_NOT_LOADED", "Status not loaded." },
                 { "MH_STATUS_NO_CITY_LOADED", "No city loaded." },
-                { "MH_STATUS_STATS_NOT_AVAIL", "Open a city and let the simulation run." },
+                { "MH_STATUS_STATS_NOT_AVAIL", "No city, No Stats ¯\\_(ツ)_/¯" },
 
                 { "MH_STATUS_LINE1", "{0} dead waiting | updated {1}" },
                 { "MH_STATUS_LINE2", "{0} deaths/mo | {1} cremation max/mo | {2} / {3} cemetery use" },
