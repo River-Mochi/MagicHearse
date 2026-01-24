@@ -3,7 +3,7 @@
 // Purpose:
 // - WarnOnce: prevents repeated WARN spam in hot paths
 // - TryLog: lazy message construction inside try/catch
-// Safety goals: never throw back into gameplay/mod loading
+// - Popup-safe: if messageFactory throws, log WITHOUT passing an Exception object (avoid UI popups)
 
 namespace CS2HonuShared
 {
@@ -50,6 +50,11 @@ namespace CS2HonuShared
             return true;
         }
 
+        /// <summary>
+        /// Safe logging wrapper:
+        /// - Only evaluates messageFactory if the level is enabled
+        /// - Never throws outward (even if messageFactory or the logger throws)
+        /// </summary>
         public static void TryLog(ILog log, Level level, Func<string> messageFactory, Exception? exception = null)
         {
             if (log == null || messageFactory == null)
@@ -63,6 +68,7 @@ namespace CS2HonuShared
             }
 
             string message;
+
             try
             {
                 message = messageFactory() ?? string.Empty;
@@ -70,10 +76,13 @@ namespace CS2HonuShared
             catch (Exception ex)
             {
                 // Message factory failed; best effort log, never throw.
+                // IMPORTANT: do NOT pass the Exception object into log.Log here,
+                // because that can surface as an in-game error popup.
                 try
                 {
-                    // Use WARN so severity is not escalated.
-                    log.Log(Level.Warn, "Log message factory threw: " + ex.GetType().Name + ": " + ex.Message, ex);
+                    string safe =
+                        "Log message factory threw: " + ex.GetType().Name + ": " + ex.Message;
+                    log.Log(Level.Warn, safe, null!);
                 }
                 catch
                 {
@@ -85,9 +94,9 @@ namespace CS2HonuShared
 
             try
             {
-                // Colossal ILog.Log takes an Exception parameter; pass null safely.
-                Exception exToLog = exception ?? null!;
-                log.Log(level, message, exToLog);
+                // If caller provided an exception, log it.
+                // (Call sites should only pass exceptions when they truly want them recorded.)
+                log.Log(level, message, exception ?? null!);
             }
             catch
             {
