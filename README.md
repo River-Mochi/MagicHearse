@@ -1,20 +1,20 @@
-﻿# Magic Hearse
+﻿# Magic Hearse + Undertaker + HR + Status Report
 
 > Two modes:
 > **Auto Clean** removes dead citizens instantly, or
-> **Funeral Director** lets you tune deathcare capacity.
+> **Undertaker** lets you tune deathcare capacity.
 
 ---
 
 ## Overview
 
-**Magic Hearse** helps with deathcare overload in two different ways:
+**Magic Hearse** helps with deathcare overload in two ways:
 
-- **Auto Clean (Magic)**: instantly removes dead citizens waiting for a hearse.
-- **Funeral Director (Self Manage)**: scales deathcare prefab values (rates, fleet size, storage, hearse capacity).
+- **Auto Clean (Magic):** instantly removes dead citizens waiting for a hearse.
+- **Funeral Director (Self Manage):** scales **deathcare facility prefabs** (processing, fleet, storage, and optional max workers).
 
 Notes:
-- **Auto Clean and Funeral Director are mutually exclusive** (enabling one disables the other).
+- **Auto Clean and Funeral Director are mutually exclusive** (turning one on turns the other off).
 - No Harmony patches or reflection.
 - Works with new and existing saves.
 
@@ -25,42 +25,50 @@ Notes:
 ### Option 1: Auto Clean
 | Feature | Description |
 |---|---|
-| **Enable Magic** | Instantly removes dead citizens waiting for a hearse. |
+| **Enable Magic** | Removes citizens flagged **Dead + RequireTransport**. |
 
 ### Option 2: Funeral Director (Self Manage)
 | Slider | What it changes |
 |---|---|
-| **Processing rate** | Facility processing speed multiplier |
+| **Processing rate** | Crematorium processing speed multiplier |
 | **Fleet size** | Max hearses per facility multiplier |
-| **Cemetery storage** | Cemetery long-term storage capacity multiplier |
+| **Cemetery storage** | Long-term storage capacity multiplier |
+| **Max workers** | (Optional) scales max workers for deathcare facilities |
 
 Includes:
 - **Reset Sliders** button (sets sliders back to 100%)
 
+**Worker note:** worker increases appear on **new buildings**. Deleting/adding an extension usually forces a refresh.
+
+---
+
+## City Status (Options menu)
+
+A lightweight status report in the Options UI:
+- **Dead waiting** (needs hearse pickup)
+- **Deaths/month** vs **Cremation max/mo**
+- **Active assets:** hearses, buildings, cemetery use, empty graves, max workers
+
+Performance note: status scanning happens **only while Options is open** (refresh ~ every 15 seconds).
+
 ---
 
 ## Languages
-11 languages supported (when locale files are enabled):
+11 languages supported:
 - Français, Deutsch, Español, Italiano, English
-- 日本語, 한국어, Polski
-- Português (Brazil)
-- 简体中文, 繁體中文
+- 日本語, 한국어, Polski, Português (Brasil), 简体中文, 繁體中文
 
 ---
 
-## How It Works
+## How It Works (short)
 
 ### Auto Clean
-`MagicHearseSystem` runs an ECS job that:
-1. Scans citizens with `HealthProblem`
-2. If a citizen is `Dead` and `RequireTransport`, it adds `Deleted`
-3. The game removes those entities automatically
+`MagicHearseSystem` scans citizens with `HealthProblem` flags **Dead + RequireTransport**, then adds `Deleted`.
 
 ### Funeral Director
 `FuneralDirectorSystem` runs **on demand** (on load / when sliders change):
-- Applies multipliers to **deathcare facility prefabs** (`DeathcareFacilityData`)
-- No per-frame runtime cost once applied
-- Turning **Funeral Director OFF** restores vanilla prefab values (cached baseline)
+- Applies multipliers to prefab components
+- Turning **Funeral Director OFF** restores vanilla values from authoring data
 
 ---
 

@@ -18,9 +18,8 @@ namespace MagicHearse
         StatusGrp,
         AboutInfoGrp, AboutLinksGrp)]
     [SettingsUIShowGroupName(
-        AutoCleanGrp, SelfManageGrp, 
-        StatusGrp,  // StatusGrp shown
-                    // AboutInfoGrp intentionally omitted to hide header title
+        AutoCleanGrp, SelfManageGrp,
+        StatusGrp,
         AboutLinksGrp)]
     public sealed class Setting : ModSetting
     {
@@ -42,10 +41,17 @@ namespace MagicHearse
         private bool m_EnableMagicHearse = true;
         private bool m_FuneralDirector;
 
+        // Workers control is a sub-toggle INSIDE FD.
+        // Default OFF to avoid surprise conflicts with ConfigXML or other building mods.
+        private bool m_ControlWorkers = false;
+
         public Setting(IMod mod)
             : base(mod)
         {
         }
+
+        // Helper for UI conditions (keeps WorkersScalar hidden unless FD + toggle are ON).
+        public bool WorkersControlEnabled => m_FuneralDirector && m_ControlWorkers;
 
         // --------------------------------------------------------------------
         // ACTIONS – AUTO CLEAN
@@ -101,7 +107,7 @@ namespace MagicHearse
             ApplySystemsLive(magicChanged: wasMagicOn != m_EnableMagicHearse, fdChanged: true);
         }
 
-        // Sliders (shown only when FD is ON)
+        // Sliders + toggles (shown only when FD is ON)
 
         [SettingsUISlider(min = 100, max = 500, step = 10, scalarMultiplier = 1, unit = Unit.kPercentage)]
         [SettingsUISection(ActionsTab, SelfManageGrp)]
@@ -139,10 +145,27 @@ namespace MagicHearse
             RequestFdApplyIfEnabled();
         }
 
-        // Max Workers slider (FD only)
-        [SettingsUISlider(min = 100, max = 500, step = 10, scalarMultiplier = 1, unit = Unit.kPercentage)]
+        // Workers compatibility plan:
+        // - FD is the master switch for prefab scaling.
+        // - ControlWorkers decides whether MH touches WorkplaceData at all.
         [SettingsUISection(ActionsTab, SelfManageGrp)]
         [SettingsUIHideByCondition(typeof(Setting), nameof(FuneralDirector), true)]
+        [SettingsUISetter(typeof(Setting), nameof(SetControlWorkers))]
+        public bool ControlWorkers
+        {
+            get => m_ControlWorkers;
+            set => m_ControlWorkers = value;
+        }
+
+        private void SetControlWorkers(bool value)
+        {
+            m_ControlWorkers = value;
+            RequestFdApplyIfEnabled(); // schedules apply/restore pass (workers ownership logic lives in FD system)
+        }
+
+        [SettingsUISlider(min = 100, max = 500, step = 10, scalarMultiplier = 1, unit = Unit.kPercentage)]
+        [SettingsUISection(ActionsTab, SelfManageGrp)]
+        [SettingsUIHideByCondition(typeof(Setting), nameof(WorkersControlEnabled), true)]
         [SettingsUISetter(typeof(Setting), nameof(SetWorkersScalar))]
         public int WorkersScalar { get; set; } = 100;
 
@@ -152,7 +175,6 @@ namespace MagicHearse
             RequestFdApplyIfEnabled();
         }
 
-        // Reset button (FD only)
         [SettingsUIButton]
         [SettingsUISection(ActionsTab, SelfManageGrp)]
         [SettingsUIHideByCondition(typeof(Setting), nameof(FuneralDirector), true)]
@@ -175,25 +197,37 @@ namespace MagicHearse
         }
 
         // --------------------------------------------------------------------
-        // ACTIONS – STATUS
+        // ACTIONS – STATUS (getters must never throw)
         // --------------------------------------------------------------------
 
         [SettingsUISection(ActionsTab, StatusGrp)]
         public string StatusSummary1
         {
-            get { DeathcareStatus.RefreshIfNeeded(); return DeathcareStatus.SummaryLine1; }
+            get
+            {
+                try { DeathcareStatus.RefreshIfNeeded(); } catch { }
+                return DeathcareStatus.SummaryLine1 ?? string.Empty;
+            }
         }
 
         [SettingsUISection(ActionsTab, StatusGrp)]
         public string StatusSummary2
         {
-            get { DeathcareStatus.RefreshIfNeeded(); return DeathcareStatus.SummaryLine2; }
+            get
+            {
+                try { DeathcareStatus.RefreshIfNeeded(); } catch { }
+                return DeathcareStatus.SummaryLine2 ?? string.Empty;
+            }
         }
 
         [SettingsUISection(ActionsTab, StatusGrp)]
         public string StatusSummary3
         {
-            get { DeathcareStatus.RefreshIfNeeded(); return DeathcareStatus.SummaryLine3; }
+            get
+            {
+                try { DeathcareStatus.RefreshIfNeeded(); } catch { }
+                return DeathcareStatus.SummaryLine3 ?? string.Empty;
+            }
         }
 
         // --------------------------------------------------------------------
@@ -241,6 +275,8 @@ namespace MagicHearse
         {
             m_EnableMagicHearse = true;
             m_FuneralDirector = false;
+
+            m_ControlWorkers = false;
 
             ProcScalar = 100;
             FleetScalar = 100;
@@ -297,9 +333,9 @@ namespace MagicHearse
             }
 
             world.GetOrCreateSystemManaged<FuneralDirectorSystem>()
-                .RequestReapplyFromSettings();  
+                .RequestReapplyFromSettings();
 
-            // When slider used, make status refresh immediately on next UI poll (don't wait for throttle).
+            // When sliders/toggles change, refresh status immediately on next UI poll (don't wait for throttle).
             DeathcareStatus.MarkDirty();
         }
     }

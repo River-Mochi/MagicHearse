@@ -7,7 +7,6 @@
 
 namespace MagicHearse
 {
-   // using Colossal.Serialization.Entities; // Purpose (inline this to avoid ambiguity with Citizens).
     using Game;                     // GameSystemBase, SystemUpdatePhase, GameMode
     using Game.Citizens;            // Citizen, HealthProblem
     using Game.Common;              // Deleted, Temp
@@ -24,27 +23,29 @@ namespace MagicHearse
         private EndFrameBarrier m_EndFrameBarrier = null!; // assigned in OnCreate
 
         // Lower frequency reduces spike risk; increase to clean faster.
-        public static readonly int UpdatesPerDay = 128;
+        public const int UpdatesPerDay = 128;
 
         public override int GetUpdateInterval(SystemUpdatePhase phase)
-        {        
-            return 262144 / UpdatesPerDay;   // Game ticksPerDay constant = 262144.
+        {
+            // Game ticksPerDay constant = 262144.
+            return 262144 / UpdatesPerDay;
         }
 
         protected override void OnCreate()
         {
             base.OnCreate();
 
-            // Query: dead citizens waiting for transport, not already deleted.
             m_DeadCitizenQuery = SystemAPI.QueryBuilder()
                 .WithAll<Citizen, HealthProblem>()
                 .WithNone<Deleted, Temp>()
                 .Build();
 
             m_EndFrameBarrier = World.GetOrCreateSystemManaged<EndFrameBarrier>();
+
 #if DEBUG
-            Mod.s_Log.Info("MH System created.");
+            Mod.Log(() => "MH System created.");
 #endif
+
             RequireForUpdate(m_DeadCitizenQuery);
         }
 
@@ -83,6 +84,9 @@ namespace MagicHearse
                 bool useEnabledMask,
                 in v128 chunkEnabledMask)
             {
+                _ = useEnabledMask;
+                _ = chunkEnabledMask;
+
                 NativeArray<Entity> citizens = chunk.GetNativeArray(m_EntityTypeHandle);
                 NativeArray<HealthProblem> health = chunk.GetNativeArray(ref m_HealthProblemType);
 

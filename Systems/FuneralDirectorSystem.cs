@@ -4,21 +4,30 @@
 // - Runs only on-demand (when settings change or on game load), then disables itself.
 // - Reads TRUE vanilla baselines from PrefabSystem -> PrefabBase authoring components (NOT PrefabRef data).
 // - Writes changes to Game.Prefabs.DeathcareFacilityData and WorkplaceData on prefab entities.
-// - FD OFF auto restores vanilla (authoring) values.
+// - Workers control is optional (Setting.ControlWorkers).
+// - When workers control turns OFF (or FD turns OFF), restore workers ONLY if current values still match MH’s last-applied values.
+//   If values differ, assume another mod owns workers now -> leave it alone.
 
 namespace MagicHearse
 {
     using Colossal.Serialization.Entities;  // Purpose
     using Game;                             // GameSystemBase, GameMode
     using Game.Prefabs;                     // DeathcareFacility, Workplace, PrefabSystem, PrefabBase
-    using Game.Tools;
-    using Unity.Entities;                   // Entity, PrefabData, SystemAPI
+    using Unity.Collections;                // Allocator
+    using Unity.Entities;                   // Entity, PrefabData, IComponentData, EntityCommandBuffer, SystemAPI
     using Unity.Mathematics;                // math.*
 
     public sealed partial class FuneralDirectorSystem : GameSystemBase
     {
         private bool m_Dirty;
         private PrefabSystem m_PrefabSystem = null!; // assigned in OnCreate
+
+        // Marker: MH’s last applied worker values (survives restarts/saves).
+        private struct MHWorkplaceMarker : IComponentData
+        {
+            public int MaxWorkers;
+            public int MinWorkers;
+        }
 
         protected override void OnCreate()
         {
@@ -28,8 +37,9 @@ namespace MagicHearse
             Enabled = false;
 
             m_PrefabSystem = World.GetOrCreateSystemManaged<PrefabSystem>();
+
 #if DEBUG
-            Mod.s_Log.Info("[FD] System created.");
+            Mod.Log(() => "[FD] System created.");
 #endif
         }
 
@@ -41,7 +51,7 @@ namespace MagicHearse
             if (setting != null && setting.FuneralDirector)
             {
 #if DEBUG
-                Mod.s_Log.Info($"[FD] OnGameLoadingComplete: purpose={purpose}, mode={mode}");
+                Mod.Log(() => $"[FD] OnGameLoadingComplete: purpose={purpose}, mode={mode}");
 #endif
                 RequestReapplyFromSettings();
             }
@@ -67,20 +77,32 @@ namespace MagicHearse
             Setting? setting = Mod.Settings;
             if (setting == null)
             {
-                Mod.s_Log.Warn("[FD] No settings instance; skipping.");
+                Mod.Warn(() => "[FD] No settings instance; skipping.");
                 Enabled = false;
                 return;
             }
 
-            if (!setting.FuneralDirector)
+            try
             {
-                RestoreVanillaFromAuthoring();
-                Enabled = false;
-                return;
+                if (!setting.FuneralDirector)
+                {
+                    RestoreVanillaFromAuthoring();
+                }
+                else
+                {
+                    ApplyMultipliersFromAuthoring(setting);
+                }
             }
-
-            ApplyMultipliersFromAuthoring(setting);
-            Enabled = false;
+            catch (System.Exception ex)
+            {
+                // FD must never crash the game; worst case, it fails silently + warns once.
+                Mod.WarnOnce("MH_FD_EXCEPTION", () =>
+                    $"[FD] Apply/restore failed: {ex.GetType().Name}: {ex.Message}");
+            }
+            finally
+            {
+                Enabled = false;
+            }
         }
 
         private void ApplyMultipliersFromAuthoring(Setting setting)
@@ -88,13 +110,12 @@ namespace MagicHearse
             float procScalar = setting.ProcScalar * 0.01f;
             float fleetScalar = setting.FleetScalar * 0.01f;
             float storageScalar = setting.StorageScalar * 0.01f;
+
+            bool controlWorkers = setting.ControlWorkers;
             float workersScalar = setting.WorkersScalar * 0.01f;
 
-            int edited = 0;
-            int skipped = 0;
-
             // ----------------------------------------------------------------
-            // 1) DeathcareFacilityData on prefabs
+            // 1) DeathcareFacilityData on prefabs (always when FD is ON)
             // ----------------------------------------------------------------
             foreach ((RefRW<DeathcareFacilityData> dc, Entity entity) in SystemAPI
                          .Query<RefRW<DeathcareFacilityData>>()
@@ -103,17 +124,14 @@ namespace MagicHearse
             {
                 if (!TryGetDeathcareAuthoring(entity, out DeathcareFacility authoring))
                 {
-                    skipped++;
                     continue;
                 }
 
-                // TRUE vanilla authoring values.
                 float baseRate = authoring.m_ProcessingRate;
                 int baseHearses = authoring.m_HearseCapacity;
                 int baseStorage = authoring.m_StorageCapacity;
                 bool baseLongTerm = authoring.m_LongTermStorage;
 
-                // Start from vanilla authoring (prevents stacking/drift).
                 DeathcareFacilityData newData = new DeathcareFacilityData
                 {
                     m_HearseCapacity = baseHearses,
@@ -122,11 +140,10 @@ namespace MagicHearse
                     m_ProcessingRate = baseRate,
                 };
 
-                // Process rate check: scale if vanilla > 0, otherwise keep 0.
-                newData.m_ProcessingRate =
-                    baseRate <= 0f ? 0f : math.max(0.01f, baseRate * procScalar);
+                // Processing rate: scale if vanilla > 0, otherwise keep 0.
+                newData.m_ProcessingRate = baseRate <= 0f ? 0f : math.max(0.01f, baseRate * procScalar);
 
-                // Fleet check: scale if vanilla > 0, otherwise keep 0.
+                // Fleet: scale if vanilla > 0, otherwise keep 0.
                 if (baseHearses <= 0)
                 {
                     newData.m_HearseCapacity = 0;
@@ -152,69 +169,103 @@ namespace MagicHearse
                 }
 
                 dc.ValueRW = newData;
-                edited++;
             }
 
             // ----------------------------------------------------------------
-            // 2) WorkplaceData on deathcare prefabs (filter by DeathcareFacilityData)
+            // 2) WorkplaceData on deathcare prefabs (optional, compatibility toggle)
+            //    Use ECB for marker add/remove so enumeration stays safe.
             // ----------------------------------------------------------------
-            foreach ((RefRW<WorkplaceData> wp, Entity entity) in SystemAPI
-                         .Query<RefRW<WorkplaceData>>()
-                         .WithAll<PrefabData, DeathcareFacilityData>()
-                         .WithEntityAccess())
+            EntityCommandBuffer ecb = new EntityCommandBuffer(Allocator.Temp);
+
+            if (controlWorkers)
             {
-                if (!TryGetWorkplaceAuthoring(entity, out Workplace workplace))
+                foreach ((RefRW<WorkplaceData> wp, Entity entity) in SystemAPI
+                             .Query<RefRW<WorkplaceData>>()
+                             .WithAll<PrefabData, DeathcareFacilityData>()
+                             .WithEntityAccess())
                 {
-                    // Some deathcare prefabs may not have Workplace authoring; ignore.
-                    continue;
-                }
-
-                int baseMax = workplace.m_Workplaces;
-                int baseMin = workplace.m_MinimumWorkersLimit;
-
-                WorkplaceData newWp = wp.ValueRO;
-
-                // Baseline from TRUE vanilla authoring.
-                newWp.m_MaxWorkers = baseMax;
-                newWp.m_MinimumWorkersLimit = baseMin;
-
-                // Scale max workers (100–500%).
-                if (baseMax > 0)
-                {
-                    int scaledMax = (int)math.round(baseMax * workersScalar);
-                    newWp.m_MaxWorkers = math.max(1, scaledMax);
-
-                    // Keep min <= max; scale min similarly.
-                    if (baseMin > 0)
+                    if (!TryGetWorkplaceAuthoring(entity, out Workplace workplace))
                     {
-                        int scaledMin = (int)math.round(baseMin * workersScalar);
-                        newWp.m_MinimumWorkersLimit = math.clamp(scaledMin, 0, newWp.m_MaxWorkers);
+                        continue;
+                    }
+
+                    int baseMax = workplace.m_Workplaces;
+                    int baseMin = workplace.m_MinimumWorkersLimit;
+
+                    WorkplaceData newWp = wp.ValueRO;
+
+                    newWp.m_MaxWorkers = baseMax;
+                    newWp.m_MinimumWorkersLimit = baseMin;
+
+                    if (baseMax > 0)
+                    {
+                        int scaledMax = (int)math.round(baseMax * workersScalar);
+                        newWp.m_MaxWorkers = math.max(1, scaledMax);
+
+                        if (baseMin > 0)
+                        {
+                            int scaledMin = (int)math.round(baseMin * workersScalar);
+                            newWp.m_MinimumWorkersLimit = math.clamp(scaledMin, 0, newWp.m_MaxWorkers);
+                        }
+                        else
+                        {
+                            newWp.m_MinimumWorkersLimit = 0;
+                        }
                     }
                     else
                     {
+                        newWp.m_MaxWorkers = 0;
                         newWp.m_MinimumWorkersLimit = 0;
                     }
-                }
-                else
-                {
-                    // If vanilla max is 0, keep 0.
-                    newWp.m_MaxWorkers = 0;
-                    newWp.m_MinimumWorkersLimit = 0;
-                }
 
-                wp.ValueRW = newWp;
+                    wp.ValueRW = newWp;
+
+                    MHWorkplaceMarker marker = new MHWorkplaceMarker
+                    {
+                        MaxWorkers = newWp.m_MaxWorkers,
+                        MinWorkers = newWp.m_MinimumWorkersLimit,
+                    };
+
+                    if (SystemAPI.HasComponent<MHWorkplaceMarker>(entity))
+                    {
+                        ecb.SetComponent(entity, marker);
+                    }
+                    else
+                    {
+                        ecb.AddComponent(entity, marker);
+                    }
+                }
+            }
+            else
+            {
+                foreach ((RefRW<WorkplaceData> wp, RefRO<MHWorkplaceMarker> marker, Entity entity) in SystemAPI
+                             .Query<RefRW<WorkplaceData>, RefRO<MHWorkplaceMarker>>()
+                             .WithAll<PrefabData, DeathcareFacilityData>()
+                             .WithEntityAccess())
+                {
+                    WorkplaceData current = wp.ValueRO;
+
+                    bool stillMatchesMh =
+                        current.m_MaxWorkers == marker.ValueRO.MaxWorkers &&
+                        current.m_MinimumWorkersLimit == marker.ValueRO.MinWorkers;
+
+                    if (stillMatchesMh && TryGetWorkplaceAuthoring(entity, out Workplace workplace))
+                    {
+                        current.m_MaxWorkers = workplace.m_Workplaces;
+                        current.m_MinimumWorkersLimit = workplace.m_MinimumWorkersLimit;
+                        wp.ValueRW = current;
+                    }
+
+                    ecb.RemoveComponent<MHWorkplaceMarker>(entity);
+                }
             }
 
+            ecb.Playback(EntityManager);
+            ecb.Dispose();
         }
 
         private void RestoreVanillaFromAuthoring()
         {
-            int restored = 0;
-            int skipped = 0;
-
-            // ----------------------------------------------------------------
-            // 1) Restore DeathcareFacilityData
-            // ----------------------------------------------------------------
             foreach ((RefRW<DeathcareFacilityData> dc, Entity entity) in SystemAPI
                          .Query<RefRW<DeathcareFacilityData>>()
                          .WithAll<PrefabData>()
@@ -222,7 +273,6 @@ namespace MagicHearse
             {
                 if (!TryGetDeathcareAuthoring(entity, out DeathcareFacility authoring))
                 {
-                    skipped++;
                     continue;
                 }
 
@@ -233,29 +283,33 @@ namespace MagicHearse
                     m_LongTermStorage = authoring.m_LongTermStorage,
                     m_ProcessingRate = authoring.m_ProcessingRate,
                 };
-
-                restored++;
             }
 
-            // ----------------------------------------------------------------
-            // 2) Restore WorkplaceData for deathcare prefabs
-            // ----------------------------------------------------------------
-            foreach ((RefRW<WorkplaceData> wp, Entity entity) in SystemAPI
-                         .Query<RefRW<WorkplaceData>>()
+            EntityCommandBuffer ecb = new EntityCommandBuffer(Allocator.Temp);
+
+            foreach ((RefRW<WorkplaceData> wp, RefRO<MHWorkplaceMarker> marker, Entity entity) in SystemAPI
+                         .Query<RefRW<WorkplaceData>, RefRO<MHWorkplaceMarker>>()
                          .WithAll<PrefabData, DeathcareFacilityData>()
                          .WithEntityAccess())
             {
-                if (!TryGetWorkplaceAuthoring(entity, out Workplace workplace))
+                WorkplaceData current = wp.ValueRO;
+
+                bool stillMatchesMh =
+                    current.m_MaxWorkers == marker.ValueRO.MaxWorkers &&
+                    current.m_MinimumWorkersLimit == marker.ValueRO.MinWorkers;
+
+                if (stillMatchesMh && TryGetWorkplaceAuthoring(entity, out Workplace workplace))
                 {
-                    continue;
+                    current.m_MaxWorkers = workplace.m_Workplaces;
+                    current.m_MinimumWorkersLimit = workplace.m_MinimumWorkersLimit;
+                    wp.ValueRW = current;
                 }
 
-                WorkplaceData newWp = wp.ValueRO;
-                newWp.m_MaxWorkers = workplace.m_Workplaces;
-                newWp.m_MinimumWorkersLimit = workplace.m_MinimumWorkersLimit;
-                wp.ValueRW = newWp;
+                ecb.RemoveComponent<MHWorkplaceMarker>(entity);
             }
 
+            ecb.Playback(EntityManager);
+            ecb.Dispose();
         }
 
         private bool TryGetDeathcareAuthoring(Entity prefabEntity, out DeathcareFacility authoring)
@@ -279,7 +333,6 @@ namespace MagicHearse
                 return false;
             }
 
-            // done exactly like the game’s WorkPlaceGlobalMode does it.
             return prefabBase.TryGetExactly(out workplace);
         }
     }
