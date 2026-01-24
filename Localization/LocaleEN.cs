@@ -99,7 +99,7 @@ namespace MagicHearse
                     "**Tips**\n" +
                     "▪ Adding/removing an extension usually also refreshes.\n\n" +
                     "**[o_o]** Tech talk: work places is a game computed component\n" +
-                    "<==not like other sliders==>; a new building is a safe way to refresh this over attempts at runtime mutations (danger)."
+                    "<==not like other sliders==>; a new building is a safer/easier way to refresh this over modding runtime mutations (danger)."
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.ResetGameDefaults)), "Reset sliders" },
