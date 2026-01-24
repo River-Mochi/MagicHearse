@@ -128,7 +128,8 @@ namespace MagicHearse
                 // Status text templates
                 { "MH_STATUS_NOT_LOADED", "Status nicht geladen." },
                 { "MH_STATUS_NO_CITY_LOADED", "Noch keine Stadt geladen." },
-                { "MH_STATUS_STATS_NOT_AVAIL", "Stats noch nicht verfügbar. Stadt öffnen und die Simulation laufen lassen." },
+                { "MH_STATUS_STATS_NOT_AVAIL", "Keine Stadt... ¯\\_(ツ)_/¯ ...Keine Stats" },
+
 
                 { "MH_STATUS_LINE1", "{0} Tote warten | aktualisiert {1}" },
                 { "MH_STATUS_LINE2", "{0} Tode/Monat | {1} Kremation max/Monat | {2} / {3} Friedhof belegt" },

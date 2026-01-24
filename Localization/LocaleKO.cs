@@ -127,7 +127,8 @@ namespace MagicHearse
                 // Status text templates
                 { "MH_STATUS_NOT_LOADED", "상태가 로드되지 않았습니다." },
                 { "MH_STATUS_NO_CITY_LOADED", "아직 도시가 로드되지 않았습니다." },
-                { "MH_STATUS_STATS_NOT_AVAIL", "통계가 아직 없습니다. 도시를 열고 시뮬레이션을 조금 돌려주세요." },
+                { "MH_STATUS_STATS_NOT_AVAIL", "도시 없음... ¯\\_(ツ)_/¯ ...통계 없음" },
+
 
                 { "MH_STATUS_LINE1", "{0} 사망 대기 | 업데이트 {1}" },
                 { "MH_STATUS_LINE2", "{0} 사망/월 | {1} 화장 최대/월 | {2} / {3} 묘지 사용" },

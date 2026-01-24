@@ -128,7 +128,8 @@ namespace MagicHearse
                 // Status text templates
                 { "MH_STATUS_NOT_LOADED", "状态未加载。" },
                 { "MH_STATUS_NO_CITY_LOADED", "尚未加载城市。" },
-                { "MH_STATUS_STATS_NOT_AVAIL", "统计暂不可用。打开城市并让模拟运行一会儿。" },
+                { "MH_STATUS_STATS_NOT_AVAIL", "没有城市... ¯\\_(ツ)_/¯ ...没有统计" },
+
 
                 { "MH_STATUS_LINE1", "{0} 死亡等待 | 更新 {1}" },
                 { "MH_STATUS_LINE2", "{0} 死亡/月 | {1} 火葬 最大/月 | {2} / {3} 墓地占用" },
