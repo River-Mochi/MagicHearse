@@ -74,7 +74,7 @@ namespace MagicHearse
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.FleetScalar)),
                     "**Maximum hearses** per facility.\n" +
                     "**100%** = vanilla game default.\n" +
-                    "**[o_o]** too many hearses may affect traffic depending on death rate."
+                    "**[o_o]** Too many hearses may affect traffic depending on death rate."
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.StorageScalar)), "Cemetery storage" },
@@ -96,9 +96,9 @@ namespace MagicHearse
                     "**Increases maximum workers** allowed.\n" +
                     "**100%** = vanilla game default.\n\n" +
                     "Applies to **New Buildings**.\n" +
-                    "**Tips [o_o]**\n" +
+                    "**Tips**\n" +
                     "▪ Adding/removing an extension usually also refreshes.\n\n" +
-                    "Tech talk: work places is a game computed component\n" +
+                    "**[o_o]** Tech talk: work places is a game computed component\n" +
                     "<==not like other sliders==>; a new building is a safe way to refresh this over attempts at runtime mutations (danger)."
                 },
 
