@@ -59,7 +59,8 @@ namespace MagicHearse
                 // Self Manage (FD)
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.FuneralDirector)), "Funeral Director" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.FuneralDirector)),
-                    "Scales **facility** values (rate, fleet, storage).\n" +
+                    "Self manage everything.\n" +
+                    "**Scale values:** rate, fleet, storage.\n" +
                     "Optional: **increase workers** too."
                 },
 
@@ -72,7 +73,8 @@ namespace MagicHearse
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.FleetScalar)), "Fleet size" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.FleetScalar)),
                     "**Maximum hearses** per facility.\n" +
-                    "**100%** = vanilla game default."
+                    "**100%** = vanilla game default.\n" +
+                    "[o_o] note: too many hearses may affect traffic depending on death rate."
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.StorageScalar)), "Cemetery storage" },
@@ -84,18 +86,19 @@ namespace MagicHearse
                 // Workers compatibility toggle
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.ControlWorkers)), "Control max workers" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.ControlWorkers)),
-                    "Enable for **Funeral Director** to increase the number of workers.\n" +
-                    "Leave OFF if you want **ConfigXML** (or another mod) to control deathcare workers."
+                    "Compatibility toggle:\n" +
+                    "**Enable [✓]** to increase the number of workers.\n" +
+                    "[o_o] note: Leave OFF if you want **ConfigXML** mod to control deathcare workers."
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.WorkersScalar)), "Max workers" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.WorkersScalar)),
-                    "**Scales the total maximum workers**.\n" +
+                    "**Increases maximum workers** allowed.\n" +
                     "**100%** = vanilla game default.\n\n" +
                     "**[o_o] Tips**\n" +
-                    "  - new values only appears on **new buildings**.\n" +
-                    "  - adding or deleting an extension can also refresh the values.\n\n" +
-                    "  - (work places is a game computed component (not like the other sliders) which is why a new building is needed to safely reinitialize values.)"
+                    "**New buildings** get increased values (because building refresh needed).\n" +
+                    "▪ Easier: adding or deleting an extension can also refresh.\n\n" +
+                    "(tech talk: work places is a game computed component -=<not> like other sliders=-; new building is safest way to refresh this type over mutating runtime (danger))"
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.ResetGameDefaults)), "Reset sliders" },
@@ -113,16 +116,16 @@ namespace MagicHearse
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.StatusSummary2)),
                      "**Monthly totals** from game stats.\n" +
                      "**Cremation max/mo** = game's Handling/mo. info panel.\n" +
-                     "This is the maximum bodies that could be processed by all crematoriums per month."
+                     "This is the maximum bodies that could be processed by crematoriums per month."
                  },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.StatusSummary3)), "Assets" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.StatusSummary3)),
-                    "**Active building** capacities (hearses, buildings, max workers).\n\n" +
+                    "**Active building capacities:** total hearses, buildings, max workers.\n\n" +
                     "**Notes:**\n" +
-                    "  - includes hearses that are still in maintenance (due to low budget).\n" +
-                    "  - does not include any disabled building hearses.\n" +
-                    "  - status scan only runs when you are in the Options menu or use a slider; does not run per-frame in the city so essentially no performance impact:)"
+                    "▪ Includes hearses that are still in maintenance (due to low budget).\n" +
+                    "▪ Does not include any disabled building hearses.\n" +
+                    "▪ Status scan only runs when you are in the Options menu or use a slider; does not run per-frame in the city so essentially no performance impact :)"
                 },
 
                 // Status text templates

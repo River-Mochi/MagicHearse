@@ -44,9 +44,9 @@ namespace MagicHearse
 
         public void OnLoad(UpdateSystem updateSystem)
         {
-            if (!s_BannerLogged)
+            if (!s_BannerLogged)      
             {
-                s_BannerLogged = true;
+                s_BannerLogged = true;  // makes it a one-time log banner
                 Log(() => $"{ModName} v{ModVersion} OnLoad {buildTag}");
             }
 
