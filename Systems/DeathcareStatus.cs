@@ -43,7 +43,6 @@ namespace MagicHearse
         // Cache state
         private static bool s_WasInGame;
         private static bool s_HasSnapshotThisCity;
-        private static bool s_ShowNoCityLoadedOnce;
         private static long s_LastRefreshTicksUtc;
         private static int s_LastUiFrame = -1;
 
@@ -51,7 +50,6 @@ namespace MagicHearse
         public static void InvalidateCache()
         {
             s_HasSnapshotThisCity = false;
-            s_ShowNoCityLoadedOnce = false;
             s_LastRefreshTicksUtc = 0;
             s_LastUiFrame = -1;
 
