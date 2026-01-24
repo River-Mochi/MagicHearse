@@ -95,18 +95,18 @@ namespace MagicHearse
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.WorkersScalar)),
                     "**Increases maximum workers** allowed.\n" +
                     "**100%** = vanilla game default.\n\n" +
+                    "Applies to **New Buildings**.\n" +
                     "**Tips [o_o]**\n" +
-                    "**New buildings** get increased values (because building refresh needed).\n" +
-                    "▪ Easier: adding or deleting an extension can also refresh.\n\n" +
-                    "▪ tech talk: work places is a game computed component\n" +
-                    "<==not like other sliders==>; new building is safest way to refresh this type over mutating runtime (danger))"
+                    "▪ Adding/removing an extension usually also refreshes.\n\n" +
+                    "Tech talk: work places is a game computed component\n" +
+                    "<==not like other sliders==>; a new building is a safe way to refresh this over attempts at runtime mutations (danger)."
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.ResetGameDefaults)), "Reset sliders" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.ResetGameDefaults)),
                     "Sets all sliders back to **100%** (vanilla defaults)." },
 
-                // STATUS fields (keep labels SHORT; left column is narrow!
+                // STATUS fields (SHORT labels; left column is narrow!)
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.StatusSummary1)), "Hearse Needed" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.StatusSummary1)),
