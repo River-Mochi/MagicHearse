@@ -77,6 +77,7 @@ Tune deathcare values:
 <Dependency Id="" />
 <!--Change log for new version. Single line or multi line. Supports minimal markdown subset-->
 <ChangeLog>
+* Update Self Manage features and UX.
 * Added Max Workers control.
 * Added Compatibility toggle (works with other worker tuning mods)
 * Added Status report for major deathcare stats.
