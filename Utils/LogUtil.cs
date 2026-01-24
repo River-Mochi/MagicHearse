@@ -94,8 +94,8 @@ namespace CS2HonuShared
 
             try
             {
-                // If caller provided an exception, log it.
-                // (Call sites should only pass exceptions when they truly want them recorded.)
+                // Attach an Exception only when it's a real one.
+                // Attaching Exceptions can trigger the in-game error popup.
                 log.Log(level, message, exception ?? null!);
             }
             catch

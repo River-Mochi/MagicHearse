@@ -39,7 +39,7 @@ namespace MagicHearse
             m_PrefabSystem = World.GetOrCreateSystemManaged<PrefabSystem>();
 
 #if DEBUG
-            Mod.Log(() => "[FD] System created.");
+            Mod.LogSafe(() => "[FD] System created.");
 #endif
         }
 
@@ -51,7 +51,7 @@ namespace MagicHearse
             if (setting != null && setting.FuneralDirector)
             {
 #if DEBUG
-                Mod.Log(() => $"[FD] OnGameLoadingComplete: purpose={purpose}, mode={mode}");
+                Mod.LogSafe(() => $"[FD] OnGameLoadingComplete: purpose={purpose}, mode={mode}");
 #endif
                 RequestReapplyFromSettings();
             }
@@ -77,7 +77,7 @@ namespace MagicHearse
             Setting? setting = Mod.Settings;
             if (setting == null)
             {
-                Mod.Warn(() => "[FD] No settings instance; skipping.");
+                Mod.WarnSafe(() => "[FD] No settings instance; skipping.");
                 Enabled = false;
                 return;
             }

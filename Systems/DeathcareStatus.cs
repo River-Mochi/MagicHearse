@@ -29,8 +29,8 @@ namespace MagicHearse
 
         // English fallbacks (placeholders must match BuildAndApplySnapshot arg lists)
         private const string FallbackStatusNotLoaded = "Status not loaded.";
-        private const string FallbackNoCityLoaded = "No city loaded.";
-        private const string FallbackStatsNotAvail = "No city, No Stats ¯\\_(ツ)_/¯";
+        private const string FallbackNoCityLoaded   = "No city loaded.";
+        private const string FallbackStatsNotAvail  = "No city ¯\\_(ツ)_/¯ No stats ";
         private const string FallbackLine1 = "{0} dead waiting | updated {1}";
         private const string FallbackLine2 = "{0} deaths/mo | {1} cremation max/mo | {2} / {3} cemetery use";
         private const string FallbackLine3 = "{0} hearses | {1} / {2} buildings | {3} empty graves | {4} max workers";
@@ -98,19 +98,13 @@ namespace MagicHearse
             {
                 s_WasInGame = isGame;
                 InvalidateCache();
-            }
+            }    
 
             if (!isGame)
             {
-                // Menu: print "no city loaded" once.
-                if (!s_ShowNoCityLoadedOnce)
-                {
-                    s_ShowNoCityLoadedOnce = true;
-                    SummaryLine1 = Localize(KeyNoCityLoaded, FallbackNoCityLoaded);
-                    SummaryLine2 = Localize(KeyStatsNotAvail, FallbackStatsNotAvail);
-                    SummaryLine3 = string.Empty;
-                }
-
+                SummaryLine1 = Localize(KeyNoCityLoaded, FallbackNoCityLoaded);
+                SummaryLine2 = Localize(KeyStatsNotAvail, FallbackStatsNotAvail);
+                SummaryLine3 = string.Empty;
                 return;
             }
 

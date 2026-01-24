@@ -47,12 +47,12 @@ namespace MagicHearse
             if (!s_BannerLogged)      
             {
                 s_BannerLogged = true;  // makes it a one-time log banner
-                Log(() => $"{ModName} v{ModVersion} OnLoad {buildTag}");
+                LogSafe(() => $"{ModName} v{ModVersion} OnLoad {buildTag}");
             }
 
             if (GameManager.instance == null)   // Is game running (not a city check)
             {
-                Warn(() => "GameManager.instance is null in Mod.OnLoad.");
+                WarnSafe(() => "GameManager.instance is null in Mod.OnLoad.");
                 return;
             }
 
@@ -80,7 +80,7 @@ namespace MagicHearse
             }
             catch (Exception ex)
             {
-                Warn(() => $"Settings/UI init failed: {ex.GetType().Name}: {ex.Message}");
+                WarnSafe(() => $"Settings/UI init failed: {ex.GetType().Name}: {ex.Message}");
             }
 
             // System scheduling/init (best-effort).
@@ -99,25 +99,26 @@ namespace MagicHearse
             }
             catch (Exception ex)
             {
-                Warn(() => $"System scheduling/init failed: {ex.GetType().Name}: {ex.Message}");
+                WarnSafe(() => $"System scheduling/init failed: {ex.GetType().Name}: {ex.Message}");
             }
         }
 
         public void OnDispose()
         {
-            Log(() => "OnDispose");
+            LogSafe(() => "OnDispose");
 
             if (Settings != null)
             {
                 try { Settings.UnregisterInOptionsUI(); }
-                catch (Exception ex) { Warn(() => $"UnregisterInOptionsUI failed: {ex.GetType().Name}: {ex.Message}"); }
+                catch (Exception ex) { WarnSafe(() => $"UnregisterInOptionsUI failed: {ex.GetType().Name}: {ex.Message}"); }
 
                 Settings = null;
             }
         }
 
-        public static void Log(Func<string> messageFactory) => LogUtil.TryLog(s_Log, Level.Info, messageFactory);
-        public static void Warn(Func<string> messageFactory) => LogUtil.TryLog(s_Log, Level.Warn, messageFactory);
+        // LogUtil Helpers
+        public static void LogSafe(Func<string> messageFactory) => LogUtil.TryLog(s_Log, Level.Info, messageFactory);
+        public static void WarnSafe(Func<string> messageFactory) => LogUtil.TryLog(s_Log, Level.Warn, messageFactory);
         public static void WarnOnce(string key, Func<string> messageFactory) => LogUtil.WarnOnce(s_Log, key, messageFactory);
 
         private static void AddLocaleSource(string localeId, IDictionarySource source)
@@ -130,14 +131,14 @@ namespace MagicHearse
             LocalizationManager? lm = GameManager.instance?.localizationManager;
             if (lm == null)
             {
-                Warn(() => $"AddLocaleSource: No LocalizationManager; cannot add source for '{localeId}'.");
+                WarnSafe(() => $"AddLocaleSource: No LocalizationManager; cannot add source for '{localeId}'.");
                 return;
             }
 
             try { lm.AddSource(localeId, source); }
             catch (Exception ex)
             {
-                Warn(() => $"AddLocaleSource: AddSource for '{localeId}' failed: {ex.GetType().Name}: {ex.Message}");
+                WarnSafe(() => $"AddLocaleSource: AddSource for '{localeId}' failed: {ex.GetType().Name}: {ex.Message}");
             }
         }
     }

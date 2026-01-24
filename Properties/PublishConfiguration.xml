@@ -57,12 +57,14 @@ Tune deathcare values:
 
 </LongDescription>
 <!--Thumbnail-->
-<Thumbnail Value="Properties/Thumbnail20.jpg" />
+<Thumbnail Value="Properties/Thumbnail-AllNew.jpg" />
 <!--Screenshot, can be set multiple times-->
 <Screenshot Value="Properties/10image-Options.jpg" />
-<Screenshot Value="Properties/20image-OptionsFD.jpg" />	
-<Screenshot Value="Properties/30image-BeforeSmall.jpg" />
-<Screenshot Value="Properties/40image-AfterSmall.jpg" />
+<Screenshot Value="Properties/20image-OptionsFD.jpg" />
+<Screenshot Value="Properties/30image-Status.jpg" />
+<Screenshot Value="Properties/40image-Before.jpg" />
+<Screenshot Value="Properties/50image-After.jpg" />
+<Screenshot Value="Properties/60image-11Languages.jpg" />
 <!--Tag, can be set multiple times-->
 <Tag Value="Code Mod" />
 <!--Link to the forum post where the mod can be discussed-->

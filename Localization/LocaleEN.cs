@@ -132,7 +132,7 @@ namespace MagicHearse
                 // Status text templates
                 { "MH_STATUS_NOT_LOADED", "Status not loaded." },
                 { "MH_STATUS_NO_CITY_LOADED", "No city loaded." },
-                { "MH_STATUS_STATS_NOT_AVAIL", "No city, No Stats ¯\\_(ツ)_/¯" },
+                { "MH_STATUS_STATS_NOT_AVAIL", "No city ¯\\_(ツ)_/¯ No stats" },
 
                 { "MH_STATUS_LINE1", "{0} dead waiting | updated {1}" },
                 { "MH_STATUS_LINE2", "{0} deaths/mo | {1} cremation max/mo | {2} / {3} cemetery use" },
