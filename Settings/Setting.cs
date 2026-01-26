@@ -145,6 +145,18 @@ namespace MagicHearse
             RequestFdApplyIfEnabled();
         }
 
+        [SettingsUISlider(min = 100, max = 200, step = 10, scalarMultiplier = 1, unit = Unit.kPercentage)]
+        [SettingsUISection(ActionsTab, SelfManageGrp)]
+        [SettingsUIHideByCondition(typeof(Setting), nameof(FuneralDirector), true)]
+        [SettingsUISetter(typeof(Setting), nameof(SetHearseSpeedScalar))]
+        public int HearseSpeedScalar { get; set; } = 100;
+
+        private void SetHearseSpeedScalar(int value)
+        {
+            HearseSpeedScalar = value;
+            RequestFdApplyIfEnabled();
+        }
+
         // Workers compatibility plan:
         // - FD is the master switch for prefab scaling.
         // - ControlWorkers decides whether MH touches WorkplaceData at all.
@@ -190,6 +202,7 @@ namespace MagicHearse
                 ProcScalar = 100;
                 FleetScalar = 100;
                 StorageScalar = 100;
+                HearseSpeedScalar = 100;
                 WorkersScalar = 100;
 
                 RequestFdApplyIfEnabled();
@@ -281,6 +294,7 @@ namespace MagicHearse
             ProcScalar = 100;
             FleetScalar = 100;
             StorageScalar = 100;
+            HearseSpeedScalar = 100;
             WorkersScalar = 100;
         }
 

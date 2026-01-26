@@ -23,8 +23,8 @@ namespace MagicHearse
             public readonly float DeathsPerMonth;
             public readonly float ProcessingRate;
 
-            public readonly long Hearses;          // your current total (slots)
-            public readonly long WorkingHearses;   // new: non-parked vehicles
+            public readonly long Hearses;          // current total (slots)
+            public readonly long WorkingHearses;   // non-parked vehicles
 
             public readonly long CemeteryUse;
             public readonly long CemeteryCapacity;

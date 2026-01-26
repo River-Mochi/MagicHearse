@@ -83,6 +83,14 @@ namespace MagicHearse
                     "**100%** = vanilla game default."
                 },
 
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.HearseSpeedScalar)), "Hearse speed" },
+                { m_Setting.GetOptionDescLocaleID(nameof(Setting.HearseSpeedScalar)),
+                    "**Increases hearse max speed**.\n" +
+                    "**100%** = vanilla game default.\n" +
+                    "<Road speed limits still apply>.\n\n" +
+                    "Also scales acceleration/braking (gentle) so the new top speed is actually reachable."
+                },
+
                 // Workers compatibility toggle
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.ControlWorkers)), "Control max workers" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.ControlWorkers)),

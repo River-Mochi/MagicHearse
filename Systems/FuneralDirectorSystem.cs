@@ -4,15 +4,16 @@
 // - Runs only on-demand (when settings change or on game load), then disables itself.
 // - Reads TRUE vanilla baselines from PrefabSystem -> PrefabBase authoring components (NOT PrefabRef data).
 // - Writes changes to Game.Prefabs.DeathcareFacilityData and WorkplaceData on prefab entities.
+// - Optional Hearse vehicle speed via prefab CarData
 // - Workers control is optional (Setting.ControlWorkers).
 // - When workers control turns OFF (or FD turns OFF), restore workers ONLY if current values still match MH’s last-applied values.
-//   If values differ, assume another mod owns workers now -> leave it alone.
+//   If values differ, assume another mod owns workers now -> leave it and don't restore to vanilla.
 
 namespace MagicHearse
 {
     using Colossal.Serialization.Entities;  // Purpose
     using Game;                             // GameSystemBase, GameMode
-    using Game.Prefabs;                     // DeathcareFacility, Workplace, PrefabSystem, PrefabBase
+    using Game.Prefabs;                     // DeathcareFacility, Workplace, PrefabSystem, PrefabBase, CarData, DeathcareFacilityData, HearseData, CarPrefab
     using Unity.Collections;                // Allocator
     using Unity.Entities;                   // Entity, PrefabData, IComponentData, EntityCommandBuffer, SystemAPI
     using Unity.Mathematics;                // math.*
@@ -111,6 +112,8 @@ namespace MagicHearse
             float fleetScalar = setting.FleetScalar * 0.01f;
             float storageScalar = setting.StorageScalar * 0.01f;
 
+            float hearseSpeedScalar = math.clamp(setting.HearseSpeedScalar * 0.01f, 1f, 2f);
+
             bool controlWorkers = setting.ControlWorkers;
             float workersScalar = setting.WorkersScalar * 0.01f;
 
@@ -170,6 +173,12 @@ namespace MagicHearse
 
                 dc.ValueRW = newData;
             }
+
+            // ----------------------------------------------------------------
+            // 1b) Hearse vehicle tuning on prefabs (speed/accel/brake)
+            //     This is the stable global knob (NOT CarNavigation).
+            // ----------------------------------------------------------------
+            ApplyHearseCarTuningFromAuthoring(hearseSpeedScalar);
 
             // ----------------------------------------------------------------
             // 2) WorkplaceData on deathcare prefabs (optional, compatibility toggle)
@@ -285,6 +294,9 @@ namespace MagicHearse
                 };
             }
 
+            // Restore hearse vehicle tuning back to vanilla authoring.
+            ApplyHearseCarTuningFromAuthoring(1f);
+
             EntityCommandBuffer ecb = new EntityCommandBuffer(Allocator.Temp);
 
             foreach ((RefRW<WorkplaceData> wp, RefRO<MHWorkplaceMarker> marker, Entity entity) in SystemAPI
@@ -312,9 +324,46 @@ namespace MagicHearse
             ecb.Dispose();
         }
 
+        private void ApplyHearseCarTuningFromAuthoring(float speedScalar)
+        {
+            // Heuristic: scale accel/brake by sqrt(speed) so top-speed increases don’t create extreme launch/stop behavior.
+            // For “same 0->top time” and “same stopping distance,” change sqrt(...) to speedScalar.
+            float accelBrakeScalar = math.sqrt(math.max(0.01f, speedScalar));
+
+            foreach ((RefRW<CarData> car, Entity entity) in SystemAPI
+                         .Query<RefRW<CarData>>()
+                         .WithAll<PrefabData, HearseData>()
+                         .WithEntityAccess())
+            {
+                if (!TryGetCarPrefab(entity, out CarPrefab carPrefab))
+                {
+                    continue;
+                }
+
+                CarData newCar = car.ValueRO;
+
+                // Authoring max speed in km/h; prefab CarData uses m/s (SE shows 150 -> 41.66667).
+                float baseMaxSpeedMs = carPrefab.m_MaxSpeed * (1f / 3.6f);
+
+                newCar.m_MaxSpeed = baseMaxSpeedMs <= 0f
+                    ? 0f
+                    : math.max(0.01f, baseMaxSpeedMs * speedScalar);
+
+                newCar.m_Acceleration = carPrefab.m_Acceleration <= 0f
+                    ? 0f
+                    : carPrefab.m_Acceleration * accelBrakeScalar;
+
+                newCar.m_Braking = carPrefab.m_Braking <= 0f
+                    ? 0f
+                    : carPrefab.m_Braking * accelBrakeScalar;
+
+                car.ValueRW = newCar;
+            }
+        }
+
         private bool TryGetDeathcareAuthoring(Entity prefabEntity, out DeathcareFacility authoring)
         {
-            authoring = null!;
+            authoring = default;
 
             if (!m_PrefabSystem.TryGetPrefab(prefabEntity, out PrefabBase prefabBase))
             {
@@ -326,7 +375,7 @@ namespace MagicHearse
 
         private bool TryGetWorkplaceAuthoring(Entity prefabEntity, out Workplace workplace)
         {
-            workplace = null!;
+            workplace = default;
 
             if (!m_PrefabSystem.TryGetPrefab(prefabEntity, out PrefabBase prefabBase))
             {
@@ -334,6 +383,19 @@ namespace MagicHearse
             }
 
             return prefabBase.TryGetExactly(out workplace);
+        }
+
+        private bool TryGetCarPrefab(Entity prefabEntity, out CarPrefab carPrefab)
+        {
+            carPrefab = null!;
+
+            if (!m_PrefabSystem.TryGetPrefab(prefabEntity, out PrefabBase prefabBase))
+            {
+                return false;
+            }
+
+            carPrefab = prefabBase as CarPrefab;
+            return carPrefab != null;
         }
     }
 }
