@@ -118,11 +118,13 @@ namespace MagicHearse
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.StatusSummary3)), "Risorse" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.StatusSummary3)),
-                    "Capacità dei **edifici attivi** (carri funebri, edifici, lavoratori max).\n\n" +
+                    "**Capacità degli edifici attivi:** totale carri funebri, edifici, max lavoratori.\n\n" +
                     "**Note:**\n" +
-                    "  - include anche i carri funebri ancora in manutenzione (budget basso).\n" +
-                    "  - non include i carri funebri di edifici disattivati.\n" +
-                    "  - la scansione stato gira solo nel menu Opzioni o usando uno slider; non per-frame in città, quindi impatto prestazioni praticamente zero :)"
+                    "▪ Carri funebri: attivi (non parcheggiati) / capacità totale*\n" +
+                    "▪ *Capacità totale = somma degli slot carri funebri degli edifici attivi (efficienza > 0).\n" +
+                    "  Può includere carri funebri parcheggiati/non disponibili.\n" +
+                    "▪ La scansione stato gira solo con Opzioni aperto (o dopo una modifica).\n" +
+                    "  Non gira per frame in città: impatto minimo."
                 },
 
                 // Status text templates
@@ -132,7 +134,7 @@ namespace MagicHearse
 
                 { "MH_STATUS_LINE1", "{0} morti in attesa | agg. {1}" },
                 { "MH_STATUS_LINE2", "{0} morti/mese | {1} cremazione max/mese | {2} / {3} uso cimitero" },
-                { "MH_STATUS_LINE3", "{0} carri funebri | {1} / {2} edifici | {3} tombe libere | {4} lavoratori max" },
+                { "MH_STATUS_LINE3", "{0} / {1} carri funebri | {2} / {3} edifici | {4} tombe libere | {5} lavoratori max" },
 
                 // About
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.AboutName)), "Mod" },

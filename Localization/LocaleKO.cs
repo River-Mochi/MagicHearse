@@ -117,11 +117,13 @@ namespace MagicHearse
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.StatusSummary3)), "자산" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.StatusSummary3)),
-                    "**가동 중인 건물** 용량(영구차, 건물 수, 최대 근로자).\n\n" +
-                    "**메모:**\n" +
-                    "  - 예산이 낮아 정비 중인 영구차도 포함됩니다.\n" +
-                    "  - 비활성화된 건물의 영구차는 포함하지 않습니다.\n" +
-                    "  - 상태 스캔은 옵션 메뉴 또는 슬라이더 사용 시에만 실행되며, 도시에서 매 프레임 돌지 않아 성능 영향은 사실상 거의 없어요 :)"
+                    "**활성 건물 용량:** 영구차 총량, 건물 수, 최대 근로자.\n\n" +
+                    "**참고:**\n" +
+                    "▪ 영구차: 활동 중(주차 제외) / 총 용량*\n" +
+                    "▪ *총 용량 = 활성 건물(효율 > 0)의 영구차 슬롯 합.\n" +
+                    "  주차/사용 불가 상태의 영구차도 포함될 수 있어요.\n" +
+                    "▪ 상태 스캔은 옵션 메뉴가 열려 있을 때(또는 설정 변경 후)만 실행.\n" +
+                    "  도시에서 매 프레임 돌지 않아 성능 영향은 아주 작습니다."
                 },
 
                 // Status text templates
@@ -132,7 +134,7 @@ namespace MagicHearse
 
                 { "MH_STATUS_LINE1", "{0} 사망 대기 | 업데이트 {1}" },
                 { "MH_STATUS_LINE2", "{0} 사망/월 | {1} 화장 최대/월 | {2} / {3} 묘지 사용" },
-                { "MH_STATUS_LINE3", "{0} 영구차 | {1} / {2} 건물 | {3} 빈 무덤 | {4} 최대 근로자" },
+                { "MH_STATUS_LINE3", "{0} / {1} 영구차 | {2} / {3} 건물 | {4} 빈 무덤 | {5} 최대 근로자" },
 
                 // About
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.AboutName)), "모드" },

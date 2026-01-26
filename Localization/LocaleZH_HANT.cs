@@ -117,11 +117,13 @@ namespace MagicHearse
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.StatusSummary3)), "資產" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.StatusSummary3)),
-                    "**運作中的建築**容量（靈車、建築數量、最大工人）。\n\n" +
+                    "**啟用中建築容量：** 靈車總容量、建築數、最大員工。\n\n" +
                     "**說明：**\n" +
-                    "  - 包含仍在維護中的靈車（可能因為預算太低）。\n" +
-                    "  - 不包含已停用建築的靈車。\n" +
-                    "  - 狀態掃描只會在選項選單或你調整滑桿時執行；不會在城市裡逐幀跑，所以幾乎沒有效能影響 :)"
+                    "▪ 靈車：在勤（不含停放）/ 總容量*\n" +
+                    "▪ *總容量 = 啟用中建築（效率 > 0）的靈車槽位總和。\n" +
+                    "  可能包含停放/暫時不可用的靈車。\n" +
+                    "▪ 狀態掃描只會在開啟「選項」時執行（或變更設定後）。\n" +
+                    "  不會在城市裡每幀執行，效能影響很小。"
                 },
 
 
@@ -133,7 +135,7 @@ namespace MagicHearse
 
                 { "MH_STATUS_LINE1", "{0} 死亡等待 | 更新 {1}" },
                 { "MH_STATUS_LINE2", "{0} 死亡/月 | {1} 火葬 最大/月 | {2} / {3} 墓地占用" },
-                { "MH_STATUS_LINE3", "{0} 靈車 | {1} / {2} 建築 | {3} 空墓位 | {4} 最大員工" },
+                { "MH_STATUS_LINE3", "{0} / {1} 靈車 | {2} / {3} 建築 | {4} 空墓位 | {5} 最大員工" },
 
                 // About
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.AboutName)), "Mod" },

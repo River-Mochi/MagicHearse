@@ -117,13 +117,14 @@ namespace MagicHearse
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.StatusSummary3)), "资产" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.StatusSummary3)),
-                    "**运行中的建筑**容量（灵车、建筑数量、最大工人）。\n\n" +
+                    "**活动建筑容量：** 灵车总容量、建筑数量、最大员工。\n\n" +
                     "**说明：**\n" +
-                    "  - 包括仍在维护中的灵车（可能因为预算太低）。\n" +
-                    "  - 不包括已禁用建筑的灵车。\n" +
-                    "  - 状态扫描只会在选项菜单里或你调滑杆时运行；不会在城市里逐帧运行，所以几乎没有性能影响 :)"
+                    "▪ 灵车：在岗（不含停放）/ 总容量*\n" +
+                    "▪ *总容量 = 活动建筑（效率 > 0）的灵车槽位总和。\n" +
+                    "  可能包含停放/暂不可用的灵车。\n" +
+                    "▪ 状态扫描只在打开“选项”时运行（或修改设置后）。\n" +
+                    "  不会在城市里每帧运行，性能影响很小。"
                 },
-
 
                 // Status text templates
                 { "MH_STATUS_NOT_LOADED", "状态未加载。" },
@@ -133,7 +134,7 @@ namespace MagicHearse
 
                 { "MH_STATUS_LINE1", "{0} 死亡等待 | 更新 {1}" },
                 { "MH_STATUS_LINE2", "{0} 死亡/月 | {1} 火葬 最大/月 | {2} / {3} 墓地占用" },
-                { "MH_STATUS_LINE3", "{0} 灵车 | {1} / {2} 建筑 | {3} 空墓位 | {4} 最大员工" },
+                { "MH_STATUS_LINE3", "{0} / {1} 灵车 | {2} / {3} 建筑 | {4} 空墓位 | {5} 最大员工" },
 
                 // About
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.AboutName)), "Mod" },

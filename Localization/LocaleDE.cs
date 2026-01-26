@@ -118,11 +118,13 @@ namespace MagicHearse
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.StatusSummary3)), "Assets" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.StatusSummary3)),
-                    "**Aktive Gebäude**: Kapazitäten (Leichenwagen, Gebäude, max. Arbeiter).\n\n" +
+                    "**Kapazitäten aktiver Gebäude:** Gesamt-Leichenwagen, Gebäude, max. Mitarbeiter.\n\n" +
                     "**Hinweise:**\n" +
-                    "  - enthält auch Leichenwagen, die noch in Wartung sind (wegen niedrigem Budget).\n" +
-                    "  - enthält keine Leichenwagen von deaktivierten Gebäuden.\n" +
-                    "  - Status-Scan läuft nur im Optionsmenü oder wenn du einen Slider nutzt; nicht pro Frame in der Stadt, also praktisch kein Performance-Impact:)"
+                    "▪ Leichenwagen: aktiv (nicht geparkt) / Gesamtkapazität*\n" +
+                    "▪ *Gesamtkapazität = Summe der Leichenwagen-Slots aktiver Gebäude (Effizienz > 0).\n" +
+                    "  Kann auch geparkte/nicht verfügbare Leichenwagen enthalten.\n" +
+                    "▪ Status-Scan läuft nur, wenn das Optionsmenü offen ist (oder nach einer Änderung).\n" +
+                    "  Läuft nicht pro Frame in der Stadt – Performance-Impact ist minimal."
                 },
 
                 // Status text templates
@@ -133,7 +135,7 @@ namespace MagicHearse
 
                 { "MH_STATUS_LINE1", "{0} Tote warten | aktualisiert {1}" },
                 { "MH_STATUS_LINE2", "{0} Tode/Monat | {1} Kremation max/Monat | {2} / {3} Friedhof belegt" },
-                { "MH_STATUS_LINE3", "{0} Leichenwagen | {1} / {2} Gebäude | {3} freie Gräber | {4} max. Arbeiter" },
+                { "MH_STATUS_LINE3", "{0} / {1} Leichenwagen | {2} / {3} Gebäude | {4} freie Gräber | {5} max. Arbeiter" },
 
                 // About
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.AboutName)), "Mod" },

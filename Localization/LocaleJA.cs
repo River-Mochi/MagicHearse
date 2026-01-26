@@ -117,11 +117,13 @@ namespace MagicHearse
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.StatusSummary3)), "資産" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.StatusSummary3)),
-                    "**稼働中の建物**の能力（霊柩車／建物数／最大労働者）。\n\n" +
-                    "**メモ：**\n" +
-                    "  - 予算不足でメンテ中の霊柩車も含みます。\n" +
-                    "  - 無効化された建物の霊柩車は含みません。\n" +
-                    "  - ステータス確認はオプション画面かスライダー操作時のみ。街で毎フレーム動かないので、実質パフォーマンス影響ほぼゼロ :)"
+                    "**稼働中の建物の容量:** 霊柩車の合計、建物数、最大従業員数。\n\n" +
+                    "**メモ:**\n" +
+                    "▪ 霊柩車: 稼働中（駐車中は除外）/ 総容量*\n" +
+                    "▪ *総容量 = 稼働中の建物（効率 > 0）の霊柩車スロット合計。\n" +
+                    "  駐車中/利用不可の霊柩車も含まれる場合があります。\n" +
+                    "▪ ステータススキャンはオプションを開いている間（または設定変更後）のみ実行。\n" +
+                    "  街中で毎フレームは動かないので負荷はほぼありません。"
                 },
 
 
@@ -132,7 +134,7 @@ namespace MagicHearse
 
                 { "MH_STATUS_LINE1", "{0} 死亡待ち | 更新 {1}" },
                 { "MH_STATUS_LINE2", "{0} 死亡/月 | {1} 火葬 最大/月 | {2} / {3} 墓地使用" },
-                { "MH_STATUS_LINE3", "{0} 霊柩車 | {1} / {2} 建物 | {3} 空き墓 | {4} 最大労働者" },
+                { "MH_STATUS_LINE3", "{0} / {1} 霊柩車 | {2} / {3} 建物 | {4} 空き墓 | {5} 最大労働者" },
 
                 // About
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.AboutName)), "Mod" },

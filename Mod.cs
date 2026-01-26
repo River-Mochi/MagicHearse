@@ -116,10 +116,10 @@ namespace MagicHearse
             }
         }
 
-        // LogUtil Helpers
-        public static void LogSafe(Func<string> messageFactory) => LogUtil.TryLog(s_Log, Level.Info, messageFactory);
-        public static void WarnSafe(Func<string> messageFactory) => LogUtil.TryLog(s_Log, Level.Warn, messageFactory);
-        public static void WarnOnce(string key, Func<string> messageFactory) => LogUtil.WarnOnce(s_Log, key, messageFactory);
+        // LogUtils Helpers
+        public static void LogSafe(Func<string> messageFactory) => LogUtils.TryLog(s_Log, Level.Info, messageFactory);
+        public static void WarnSafe(Func<string> messageFactory) => LogUtils.TryLog(s_Log, Level.Warn, messageFactory);
+        public static void WarnOnce(string key, Func<string> messageFactory) => LogUtils.WarnOnce(s_Log, key, messageFactory);
 
         private static void AddLocaleSource(string localeId, IDictionarySource source)
         {

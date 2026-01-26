@@ -33,7 +33,7 @@ namespace MagicHearse
         private const string FallbackStatsNotAvail  = "No city... ¯\\_(ツ)_/¯ ...No stats";
         private const string FallbackLine1 = "{0} dead waiting | updated {1}";
         private const string FallbackLine2 = "{0} deaths/mo | {1} cremation max/mo | {2} / {3} cemetery use";
-        private const string FallbackLine3 = "{0} hearses | {1} / {2} buildings | {3} empty graves | {4} max workers";
+        private const string FallbackLine3 = "{0} / {1} hearses | {2} / {3} buildings | {4} empty graves | {5} max workers";
 
         // Public UI strings read by Setting.cs getters
         public static string SummaryLine1 { get; private set; } = string.Empty;
@@ -179,11 +179,12 @@ namespace MagicHearse
             SummaryLine3 = SafeFormat(
                 KeyLine3,
                 fallbackFormat: FallbackLine3,
-                Format0(snap.Hearses),      // {0}
-                snap.ActiveFacilities,      // {1}
-                snap.TotalFacilities,       // {2}
-                Format0(emptyGraves),       // {3}
-                Format0(snap.MaxWorkers));  // {4}
+                Format0(snap.WorkingHearses),   // {0}
+                Format0(snap.Hearses),          // {1}
+                snap.ActiveFacilities,          // {2}
+                snap.TotalFacilities,           // {3}
+                Format0(emptyGraves),           // {4}
+                Format0(snap.MaxWorkers));      // {5}
         }
 
         // ---- helpers (kept minimal, but safe) ----

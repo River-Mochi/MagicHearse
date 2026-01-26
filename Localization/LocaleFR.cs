@@ -118,11 +118,13 @@ namespace MagicHearse
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.StatusSummary3)), "Ressources" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.StatusSummary3)),
-                    "Capacités des **bâtiments actifs** (corbillards, bâtiments, ouvriers max).\n\n" +
+                    "**Capacités des bâtiments actifs :** total corbillards, bâtiments, employés max.\n\n" +
                     "**Notes :**\n" +
-                    "  - inclut aussi les corbillards encore en maintenance (budget trop bas).\n" +
-                    "  - n’inclut pas les corbillards des bâtiments désactivés.\n" +
-                    "  - le scan de statut tourne seulement dans le menu Options ou via un slider ; pas par frame en ville, donc impact perf quasi nul :)"
+                    "▪ Corbillards : actifs (non garés) / capacité totale*\n" +
+                    "▪ *Capacité totale = somme des emplacements de corbillards des bâtiments actifs (efficacité > 0).\n" +
+                    "  Peut inclure des corbillards garés/indisponibles.\n" +
+                    "▪ Le scan d’état ne tourne que quand Options est ouvert (ou après un changement).\n" +
+                    "  Pas d’exécution par frame en ville : impact minime."
                 },
 
                 // Status text templates
@@ -132,7 +134,7 @@ namespace MagicHearse
 
                 { "MH_STATUS_LINE1", "{0} morts en attente | maj {1}" },
                 { "MH_STATUS_LINE2", "{0} décès/mois | {1} crémation max/mois | {2} / {3} usage cimetière" },
-                { "MH_STATUS_LINE3", "{0} corbillards | {1} / {2} bâtiments | {3} tombes libres | {4} employés max" },
+                { "MH_STATUS_LINE3", "{0} / {1} corbillards | {2} / {3} bâtiments | {4} tombes libres | {5} employés max" },
 
                 // About
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.AboutName)), "Mod" },

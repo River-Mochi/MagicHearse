@@ -52,7 +52,8 @@ Tune deathcare values:
 - If the citizen is flagged as dead and needs transport, it's cleaned up. Looks like magic but the secret is flags.
 - Mod does not stop death - it's just very fast corpse cleanup.
 - Status scan is essentially no performance impact :) since it only runs in the Options menu, not in the city.
-- Mod can be safely removed. Buildings retain new worker numbers until rebuilt; all new buildings will have standard worker numbers.
+- Mod can be safely removed. If you only used Auto - Magic, nothing persists done. If you used sliders, rate/fleet/storage values fallback to vanilla.
+ If you used max workers, existing building retains the higher workers, any new building or using add/remove extensions/upgrades will be vanilla worker values.
   - set all sliders to 100% and uncheck Funeral Director for faster reset, but it's not required.
 
 </LongDescription>

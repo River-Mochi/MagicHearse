@@ -118,11 +118,13 @@ namespace MagicHearse
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.StatusSummary3)), "Recursos" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.StatusSummary3)),
-                    "Capacidades de **edificios activos** (coches fúnebres, edificios, trabajadores máx).\n\n" +
+                    "**Capacidades de edificios activos:** total de coches fúnebres, edificios, máx. empleados.\n\n" +
                     "**Notas:**\n" +
-                    "  - incluye coches fúnebres que siguen en mantenimiento (por presupuesto bajo).\n" +
-                    "  - no incluye coches fúnebres de edificios desactivados.\n" +
-                    "  - el escaneo de estado solo corre en Opciones o al usar un deslizador; no va por frame en la ciudad, así que casi sin impacto en rendimiento :)"
+                    "▪ Coches fúnebres: activos (no aparcados) / capacidad total*\n" +
+                    "▪ *Capacidad total = suma de plazas de coche fúnebre en edificios activos (eficiencia > 0).\n" +
+                    "  Puede incluir coches fúnebres aparcados/no disponibles.\n" +
+                    "▪ El escaneo de estado solo corre con Opciones abierto (o tras cambiar un ajuste).\n" +
+                    "  No corre por frame en la ciudad, impacto mínimo."
                 },
 
 
@@ -134,7 +136,7 @@ namespace MagicHearse
 
                 { "MH_STATUS_LINE1", "{0} muertos esperando | act. {1}" },
                 { "MH_STATUS_LINE2", "{0} muertes/mes | {1} cremación máx/mes | {2} / {3} uso cementerio" },
-                { "MH_STATUS_LINE3", "{0} coches fúnebres | {1} / {2} edificios | {3} tumbas libres | {4} trabajadores máx." },
+                { "MH_STATUS_LINE3", "{0} / {1} coches fúnebres | {2} / {3} edificios | {4} tumbas libres | {5} trabajadores máx." },
 
                 // About
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.AboutName)), "Mod" },

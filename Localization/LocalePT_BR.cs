@@ -118,11 +118,13 @@ namespace MagicHearse
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.StatusSummary3)), "Recursos" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.StatusSummary3)),
-                    "Capacidades dos **prédios ativos** (carros funerários, prédios, trabalhadores máx).\n\n" +
+                    "**Capacidades dos prédios ativos:** total de carros funerários, prédios, máx. trabalhadores.\n\n" +
                     "**Notas:**\n" +
-                    "  - inclui carros funerários ainda em manutenção (por orçamento baixo).\n" +
-                    "  - não inclui carros funerários de prédios desativados.\n" +
-                    "  - a varredura de status só roda no menu Opções ou ao usar um slider; não roda por frame na cidade, então impacto de desempenho é praticamente zero :)"
+                    "▪ Carros funerários: ativos (não estacionados) / capacidade total*\n" +
+                    "▪ *Capacidade total = soma dos slots de carro funerário em prédios ativos (eficiência > 0).\n" +
+                    "  Pode incluir carros funerários estacionados/indisponíveis.\n" +
+                    "▪ A varredura de status só roda com Opções aberto (ou após mudar uma configuração).\n" +
+                    "  Não roda por frame na cidade: impacto bem pequeno."
                 },
 
                 // Status text templates
@@ -133,7 +135,7 @@ namespace MagicHearse
 
                 { "MH_STATUS_LINE1", "{0} mortos esperando | att {1}" },
                 { "MH_STATUS_LINE2", "{0} mortes/mês | {1} cremação máx/mês | {2} / {3} uso do cemitério" },
-                { "MH_STATUS_LINE3", "{0} carros funerários | {1} / {2} prédios | {3} covas livres | {4} trabalhadores máx." },
+                { "MH_STATUS_LINE3", "{0} / {1} carros funerários | {2} / {3} prédios | {4} covas livres | {5} trabalhadores máx." },
 
                 // About
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.AboutName)), "Mod" },

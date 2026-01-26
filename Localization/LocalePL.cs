@@ -118,11 +118,13 @@ namespace MagicHearse
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.StatusSummary3)), "Zasoby" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.StatusSummary3)),
-                    "Pojemności **aktywnych budynków** (karawany, budynki, max pracownicy).\n\n" +
+                    "**Pojemności aktywnych budynków:** łączna liczba karawanów, budynki, maks. pracownicy.\n\n" +
                     "**Uwagi:**\n" +
-                    "  - zawiera też karawany wciąż w serwisie (przez niski budżet).\n" +
-                    "  - nie zawiera karawan z wyłączonych budynków.\n" +
-                    "  - skan statusu działa tylko w menu Opcje albo przy użyciu suwaka; nie działa co klatkę w mieście, więc praktycznie brak wpływu na wydajność :)"
+                    "▪ Karawany: aktywne (niezaparkowane) / całkowita pojemność*\n" +
+                    "▪ *Całkowita pojemność = suma slotów karawanów w aktywnych budynkach (wydajność > 0).\n" +
+                    "  Może obejmować karawany zaparkowane/niedostępne.\n" +
+                    "▪ Skan statusu działa tylko przy otwartych Opcjach (albo po zmianie ustawień).\n" +
+                    "  Nie działa co klatkę w mieście – wpływ na wydajność jest minimalny."
                 },
 
                 // Status text templates
@@ -133,7 +135,7 @@ namespace MagicHearse
 
                 { "MH_STATUS_LINE1", "{0} zmarłych czeka | akt. {1}" },
                 { "MH_STATUS_LINE2", "{0} zgony/mies. | {1} kremacje max/mies. | {2} / {3} użycie cmentarza" },
-                { "MH_STATUS_LINE3", "{0} karawanów | {1} / {2} budynków | {3} wolnych grobów | {4} max pracowników" },
+                { "MH_STATUS_LINE3", "{0} / {1} karawanów | {2} / {3} budynków | {4} wolnych grobów | {5} max pracowników" },
 
                 // About
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.AboutName)), "Mod" },
