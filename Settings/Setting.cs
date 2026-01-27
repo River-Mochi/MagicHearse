@@ -145,7 +145,7 @@ namespace MagicHearse
             RequestFdApplyIfEnabled();
         }
 
-        [SettingsUISlider(min = 100, max = 200, step = 10, scalarMultiplier = 1, unit = Unit.kPercentage)]
+        [SettingsUISlider(min = 100, max = 1000, step = 10, scalarMultiplier = 1, unit = Unit.kPercentage)]
         [SettingsUISection(ActionsTab, SelfManageGrp)]
         [SettingsUIHideByCondition(typeof(Setting), nameof(FuneralDirector), true)]
         [SettingsUISetter(typeof(Setting), nameof(SetHearseSpeedScalar))]

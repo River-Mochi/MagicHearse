@@ -4,7 +4,9 @@
 namespace MagicHearse
 {
     using Colossal; // IDictionarySource, IDictionaryEntryError
+    using Game.Net;
     using System.Collections.Generic; // IEnumerable, Dictionary, KeyValuePair
+    using UnityEngine;
 
     /// <summary>
     /// English localization source for Magic Hearse [MH].</summary>
@@ -88,7 +90,10 @@ namespace MagicHearse
                     "**Increases hearse max speed**.\n" +
                     "**100%** = vanilla game default.\n" +
                     "<Road speed limits still apply>.\n\n" +
-                    "Also scales acceleration/braking (gentle) so the new top speed is actually reachable."
+                    "Also scales acceleration/braking (gentle) so the new top speed does not create extreme launch/stop behavior.\n" +
+                    "Note: even if the hearse’s max speed is increased, its actual driving speed is basically:\n" +
+                    "(vehicle max, road speed limit, AI safe speed, traffic)"
+
                 },
 
                 // Workers compatibility toggle

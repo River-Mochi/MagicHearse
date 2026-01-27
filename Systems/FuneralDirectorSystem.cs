@@ -112,7 +112,7 @@ namespace MagicHearse
             float fleetScalar = setting.FleetScalar * 0.01f;
             float storageScalar = setting.StorageScalar * 0.01f;
 
-            float hearseSpeedScalar = math.clamp(setting.HearseSpeedScalar * 0.01f, 1f, 2f);
+            float hearseSpeedScalar = math.clamp(setting.HearseSpeedScalar * 0.01f, 1f, 10f); // Double 200% =2f
 
             bool controlWorkers = setting.ControlWorkers;
             float workersScalar = setting.WorkersScalar * 0.01f;
@@ -174,16 +174,15 @@ namespace MagicHearse
                 dc.ValueRW = newData;
             }
 
-            // ----------------------------------------------------------------
-            // 1b) Hearse vehicle tuning on prefabs (speed/accel/brake)
-            //     This is the stable global knob (NOT CarNavigation).
-            // ----------------------------------------------------------------
+            // --------------------------------------------------------------------
+            // 1b) Global knob Hearse vehicle tuning on prefabs (speed/accel/brake)  
+            // --------------------------------------------------------------------
             ApplyHearseCarTuningFromAuthoring(hearseSpeedScalar);
 
-            // ----------------------------------------------------------------
-            // 2) WorkplaceData on deathcare prefabs (optional, compatibility toggle)
+            // ----------------------------------------------------------------------
+            // 2) WorkplaceData on deathcare prefabs (optional compatibility toggle)
             //    Use ECB for marker add/remove so enumeration stays safe.
-            // ----------------------------------------------------------------
+            // ----------------------------------------------------------------------
             EntityCommandBuffer ecb = new EntityCommandBuffer(Allocator.Temp);
 
             if (controlWorkers)
@@ -326,7 +325,7 @@ namespace MagicHearse
 
         private void ApplyHearseCarTuningFromAuthoring(float speedScalar)
         {
-            // Heuristic: scale accel/brake by sqrt(speed) so top-speed increases don’t create extreme launch/stop behavior.
+            // Heuristic: scale accel/brake by sqrt(speedScalar) so higher top speed does not create extreme launch/stop behavior.
             // For “same 0->top time” and “same stopping distance,” change sqrt(...) to speedScalar.
             float accelBrakeScalar = math.sqrt(math.max(0.01f, speedScalar));
 
@@ -343,6 +342,7 @@ namespace MagicHearse
                 CarData newCar = car.ValueRO;
 
                 // Authoring max speed in km/h; prefab CarData uses m/s (SE shows 150 -> 41.66667).
+                // conversion km/h → m/s: divide by 3.6 and  m/s → km/h: multiply by 3.6
                 float baseMaxSpeedMs = carPrefab.m_MaxSpeed * (1f / 3.6f);
 
                 newCar.m_MaxSpeed = baseMaxSpeedMs <= 0f
@@ -363,7 +363,7 @@ namespace MagicHearse
 
         private bool TryGetDeathcareAuthoring(Entity prefabEntity, out DeathcareFacility authoring)
         {
-            authoring = default;
+            authoring = default!;
 
             if (!m_PrefabSystem.TryGetPrefab(prefabEntity, out PrefabBase prefabBase))
             {
@@ -375,7 +375,7 @@ namespace MagicHearse
 
         private bool TryGetWorkplaceAuthoring(Entity prefabEntity, out Workplace workplace)
         {
-            workplace = default;
+            workplace = default!;
 
             if (!m_PrefabSystem.TryGetPrefab(prefabEntity, out PrefabBase prefabBase))
             {
@@ -387,15 +387,20 @@ namespace MagicHearse
 
         private bool TryGetCarPrefab(Entity prefabEntity, out CarPrefab carPrefab)
         {
-            carPrefab = null!;
+            carPrefab = default!;
 
             if (!m_PrefabSystem.TryGetPrefab(prefabEntity, out PrefabBase prefabBase))
             {
                 return false;
             }
 
-            carPrefab = prefabBase as CarPrefab;
-            return carPrefab != null;
+            if (prefabBase is CarPrefab car)
+            {
+                carPrefab = car;
+                return true;
+            }
+
+            return false;
         }
     }
 }
