@@ -3,18 +3,18 @@
 
 namespace MagicHearse
 {
-    using Colossal;
-    using Colossal.IO.AssetDatabase;
-    using Colossal.Localization;
-    using Colossal.Logging;
-    using CS2HonuShared;
-    using Game;
-    using Game.Modding;
-    using Game.SceneFlow;
-    using System;
-    using System.Reflection;
+    using Colossal;                  // IDictionarySource
+    using Colossal.IO.AssetDatabase; // AssetDatabase.LoadSettings
+    using Colossal.Localization;     // LocalizationManager
+    using Colossal.Logging;          // ILog, LogManager
+    using CS2HonuShared;             // LogUtils
+    using Game;                      // UpdateSystem, SystemUpdatePhase
+    using Game.Modding;              // IMod
+    using Game.SceneFlow;            // GameManager
+    using System;                    // Exception, Func<T>
+    using System.Reflection;         // Assembly only for version number
 
-    public sealed class Mod : IMod
+        public sealed class Mod : IMod
     {
         public const string ModName = "Magic Hearse";
         public const string ModId = "MagicHearse";

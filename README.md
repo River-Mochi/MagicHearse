@@ -1,4 +1,4 @@
-﻿# Magic Hearse + Undertaker + HR + Status Report
+﻿# Magic Hearse + Funeral Director + HR Dept + Status Report
 
 > Two modes:
 > **Auto Clean** removes dead citizens instantly, or
@@ -81,4 +81,6 @@ Performance note: status scanning happens **only while Options is open** (refres
 ## Credits
 - River-Mochi: author/maintainer
 - Thanks to Wayze, creator of the original “Magical Hearse”
+- yenyang: technical consultant
 - Necko1996: testing and feedback
+- StarQ: general tech advisory

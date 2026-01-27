@@ -7,7 +7,7 @@
 
 namespace MagicHearse
 {
-    using Game;                   // GameMode extension: IsGame()
+    using Game;                   // IsGame()
     using Game.SceneFlow;         // GameManager
     using System;                 // DateTime, TimeSpan, Math, Exception, FormatException
     using Unity.Entities;         // World

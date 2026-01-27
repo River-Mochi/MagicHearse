@@ -3,54 +3,77 @@
 
 namespace MagicHearse
 {
-    using Colossal.IO.AssetDatabase;    // FileLocation
-    using Game.Modding;                 // IMod, ModSetting
-    using Game.Settings;                // Settings UI attributes
-    using Game.UI;                      // Unit
-    using System;                       // Exception
-    using Unity.Entities;               // World
-    using UnityEngine;                  // Application.OpenURL
+    using Colossal.IO.AssetDatabase; // FileLocation
+    using Game.Modding;              // IMod, ModSetting
+    using Game.Settings;             // Settings UI attributes
+    using Game.UI;                   // Unit
+    using System;                    // Exception
+    using UnityEngine;               // Application.OpenURL
 
-    [FileLocation("ModsSettings/MagicHearse")]
+    [FileLocation("ModsSettings/MagicHearse")]  // persistent settings file
     [SettingsUITabOrder(ActionsTab, AboutTab)]
     [SettingsUIGroupOrder(
-        AutoCleanGrp, SelfManageGrp,
-        StatusGrp,
+        AutoCleanGrp, SelfManageGrp, AdvancedGrp, StatusGrp,
         AboutInfoGrp, AboutLinksGrp)]
     [SettingsUIShowGroupName(
-        AutoCleanGrp, SelfManageGrp,
-        StatusGrp,
-        AboutLinksGrp)]
-    public sealed class Setting : ModSetting
+        AutoCleanGrp, SelfManageGrp, AdvancedGrp,
+        StatusGrp, AboutLinksGrp)]
+    public sealed partial class Setting : ModSetting
     {
         // ---- TABS ----
         public const string ActionsTab = "Actions";
         public const string AboutTab = "About";
 
-        // ---- GROUPS ----
+        // ---- GROUPS (ACTIONS) ----
         public const string AutoCleanGrp = "AutoClean";
         public const string SelfManageGrp = "SelfManage";
+        public const string AdvancedGrp = "Advanced";
         public const string StatusGrp = "Status";
+
+        // ---- GROUPS (ABOUT) ----
         public const string AboutInfoGrp = "AboutInfo";
         public const string AboutLinksGrp = "AboutLinks";
+
+        // ---- TUNABLE CONSTANTS ----
+        private const int kDefaultPercent = 100;
+
+        private const int kProcMin = 100;
+        private const int kProcMax = 500;
+        private const int kProcStep = 10;
+
+        private const int kFleetMin = 100;
+        private const int kFleetMax = 400;
+        private const int kFleetStep = 10;
+
+        private const int kStorageMin = 100;
+        private const int kStorageMax = 500;
+        private const int kStorageStep = 10;
+
+        private const int kHearseSpeedMin = 100;
+        private const int kHearseSpeedMax = 1000;
+        private const int kHearseSpeedStep = 10;
+
+        private const int kWorkersMin = 100;
+        private const int kWorkersMax = 500;
+        private const int kWorkersStep = 10;
 
         private const string kUrlParadox =
             "https://mods.paradoxplaza.com/authors/River-mochi/cities_skylines_2?games=cities_skylines_2&orderBy=desc&sortBy=best&time=alltime";
 
-        // Backing fields allow mutual exclusivity while still supporting both OFF.
+        // ---- BACKING FIELDS ----
         private bool m_EnableMagicHearse = true;
         private bool m_FuneralDirector;
 
-        // Workers control is a sub-toggle INSIDE FD.
+        // Workers control is a sub-toggle inside FD.
         // Default OFF to avoid surprise conflicts with ConfigXML or other building mods.
-        private bool m_ControlWorkers = false;
+        private bool m_ControlWorkers;
 
         public Setting(IMod mod)
             : base(mod)
         {
         }
 
-        // Helper for UI conditions (keeps WorkersScalar hidden unless FD + toggle are ON).
+        // UI condition helper: WorkersScalar only visible when FD + ControlWorkers are ON.
         public bool WorkersControlEnabled => m_FuneralDirector && m_ControlWorkers;
 
         // --------------------------------------------------------------------
@@ -65,21 +88,6 @@ namespace MagicHearse
             set => m_EnableMagicHearse = value;
         }
 
-        private void SetEnableMagicHearse(bool value)
-        {
-            bool wasFdOn = m_FuneralDirector;
-
-            m_EnableMagicHearse = value;
-
-            // Mutually exclusive: Magic ON forces FD OFF.
-            if (value && m_FuneralDirector)
-            {
-                m_FuneralDirector = false;
-            }
-
-            ApplySystemsLive(magicChanged: true, fdChanged: wasFdOn != m_FuneralDirector);
-        }
-
         // --------------------------------------------------------------------
         // ACTIONS – SELF MANAGE (FD)
         // --------------------------------------------------------------------
@@ -92,100 +100,29 @@ namespace MagicHearse
             set => m_FuneralDirector = value;
         }
 
-        private void SetFuneralDirector(bool value)
-        {
-            bool wasMagicOn = m_EnableMagicHearse;
-
-            m_FuneralDirector = value;
-
-            // Mutually exclusive: FD ON forces Magic OFF.
-            if (value && m_EnableMagicHearse)
-            {
-                m_EnableMagicHearse = false;
-            }
-
-            ApplySystemsLive(magicChanged: wasMagicOn != m_EnableMagicHearse, fdChanged: true);
-        }
-
-        // Sliders + toggles (shown only when FD is ON)
-
-        [SettingsUISlider(min = 100, max = 500, step = 10, scalarMultiplier = 1, unit = Unit.kPercentage)]
+        [SettingsUISlider(min = kProcMin, max = kProcMax, step = kProcStep, scalarMultiplier = 1, unit = Unit.kPercentage)]
         [SettingsUISection(ActionsTab, SelfManageGrp)]
         [SettingsUIHideByCondition(typeof(Setting), nameof(FuneralDirector), true)]
         [SettingsUISetter(typeof(Setting), nameof(SetProcScalar))]
-        public int ProcScalar { get; set; } = 100;
+        public int ProcScalar { get; set; } = kDefaultPercent;
 
-        private void SetProcScalar(int value)
-        {
-            ProcScalar = value;
-            RequestFdApplyIfEnabled();
-        }
-
-        [SettingsUISlider(min = 100, max = 400, step = 10, scalarMultiplier = 1, unit = Unit.kPercentage)]
+        [SettingsUISlider(min = kFleetMin, max = kFleetMax, step = kFleetStep, scalarMultiplier = 1, unit = Unit.kPercentage)]
         [SettingsUISection(ActionsTab, SelfManageGrp)]
         [SettingsUIHideByCondition(typeof(Setting), nameof(FuneralDirector), true)]
         [SettingsUISetter(typeof(Setting), nameof(SetFleetScalar))]
-        public int FleetScalar { get; set; } = 100;
+        public int FleetScalar { get; set; } = kDefaultPercent;
 
-        private void SetFleetScalar(int value)
-        {
-            FleetScalar = value;
-            RequestFdApplyIfEnabled();
-        }
-
-        [SettingsUISlider(min = 100, max = 500, step = 10, scalarMultiplier = 1, unit = Unit.kPercentage)]
+        [SettingsUISlider(min = kStorageMin, max = kStorageMax, step = kStorageStep, scalarMultiplier = 1, unit = Unit.kPercentage)]
         [SettingsUISection(ActionsTab, SelfManageGrp)]
         [SettingsUIHideByCondition(typeof(Setting), nameof(FuneralDirector), true)]
         [SettingsUISetter(typeof(Setting), nameof(SetStorageScalar))]
-        public int StorageScalar { get; set; } = 100;
+        public int StorageScalar { get; set; } = kDefaultPercent;
 
-        private void SetStorageScalar(int value)
-        {
-            StorageScalar = value;
-            RequestFdApplyIfEnabled();
-        }
-
-        [SettingsUISlider(min = 100, max = 1000, step = 10, scalarMultiplier = 1, unit = Unit.kPercentage)]
+        [SettingsUISlider(min = kHearseSpeedMin, max = kHearseSpeedMax, step = kHearseSpeedStep, scalarMultiplier = 1, unit = Unit.kPercentage)]
         [SettingsUISection(ActionsTab, SelfManageGrp)]
         [SettingsUIHideByCondition(typeof(Setting), nameof(FuneralDirector), true)]
         [SettingsUISetter(typeof(Setting), nameof(SetHearseSpeedScalar))]
-        public int HearseSpeedScalar { get; set; } = 100;
-
-        private void SetHearseSpeedScalar(int value)
-        {
-            HearseSpeedScalar = value;
-            RequestFdApplyIfEnabled();
-        }
-
-        // Workers compatibility plan:
-        // - FD is the master switch for prefab scaling.
-        // - ControlWorkers decides whether MH touches WorkplaceData at all.
-        [SettingsUISection(ActionsTab, SelfManageGrp)]
-        [SettingsUIHideByCondition(typeof(Setting), nameof(FuneralDirector), true)]
-        [SettingsUISetter(typeof(Setting), nameof(SetControlWorkers))]
-        public bool ControlWorkers
-        {
-            get => m_ControlWorkers;
-            set => m_ControlWorkers = value;
-        }
-
-        private void SetControlWorkers(bool value)
-        {
-            m_ControlWorkers = value;
-            RequestFdApplyIfEnabled(); // schedules apply/restore pass (workers ownership logic lives in FD system)
-        }
-
-        [SettingsUISlider(min = 100, max = 500, step = 10, scalarMultiplier = 1, unit = Unit.kPercentage)]
-        [SettingsUISection(ActionsTab, SelfManageGrp)]
-        [SettingsUIHideByCondition(typeof(Setting), nameof(WorkersControlEnabled), true)]
-        [SettingsUISetter(typeof(Setting), nameof(SetWorkersScalar))]
-        public int WorkersScalar { get; set; } = 100;
-
-        private void SetWorkersScalar(int value)
-        {
-            WorkersScalar = value;
-            RequestFdApplyIfEnabled();
-        }
+        public int HearseSpeedScalar { get; set; } = kDefaultPercent;
 
         [SettingsUIButton]
         [SettingsUISection(ActionsTab, SelfManageGrp)]
@@ -199,15 +136,34 @@ namespace MagicHearse
                     return;
                 }
 
-                ProcScalar = 100;
-                FleetScalar = 100;
-                StorageScalar = 100;
-                HearseSpeedScalar = 100;
-                WorkersScalar = 100;
+                ProcScalar = kDefaultPercent;
+                FleetScalar = kDefaultPercent;
+                StorageScalar = kDefaultPercent;
+                HearseSpeedScalar = kDefaultPercent;
+                WorkersScalar = kDefaultPercent;
 
                 RequestFdApplyIfEnabled();
             }
         }
+
+        // --------------------------------------------------------------------
+        // ACTIONS – ADVANCED (Workers compatibility)
+        // --------------------------------------------------------------------
+
+        [SettingsUISection(ActionsTab, AdvancedGrp)]
+        [SettingsUIHideByCondition(typeof(Setting), nameof(FuneralDirector), true)]
+        [SettingsUISetter(typeof(Setting), nameof(SetControlWorkers))]
+        public bool ControlWorkers
+        {
+            get => m_ControlWorkers;
+            set => m_ControlWorkers = value;
+        }
+
+        [SettingsUISlider(min = kWorkersMin, max = kWorkersMax, step = kWorkersStep, scalarMultiplier = 1, unit = Unit.kPercentage)]
+        [SettingsUISection(ActionsTab, AdvancedGrp)]
+        [SettingsUIHideByCondition(typeof(Setting), nameof(WorkersControlEnabled), true)]
+        [SettingsUISetter(typeof(Setting), nameof(SetWorkersScalar))]
+        public int WorkersScalar { get; set; } = kDefaultPercent;
 
         // --------------------------------------------------------------------
         // ACTIONS – STATUS (getters must never throw)
@@ -291,66 +247,11 @@ namespace MagicHearse
 
             m_ControlWorkers = false;
 
-            ProcScalar = 100;
-            FleetScalar = 100;
-            StorageScalar = 100;
-            HearseSpeedScalar = 100;
-            WorkersScalar = 100;
-        }
-
-        // --------------------------------------------------------------------
-        // Live apply helpers
-        // --------------------------------------------------------------------
-
-        private static World? GetWorld()
-        {
-            World world = World.DefaultGameObjectInjectionWorld;
-            if (world == null || !world.IsCreated)
-            {
-                return null;
-            }
-
-            return world;
-        }
-
-        private void ApplySystemsLive(bool magicChanged, bool fdChanged)
-        {
-            World? world = GetWorld();
-            if (world == null)
-            {
-                return;
-            }
-
-            if (magicChanged)
-            {
-                world.GetOrCreateSystemManaged<MagicHearseSystem>().Enabled = m_EnableMagicHearse;
-            }
-
-            if (fdChanged)
-            {
-                world.GetOrCreateSystemManaged<FuneralDirectorSystem>()
-                    .RequestReapplyFromSettings();
-            }
-        }
-
-        private void RequestFdApplyIfEnabled()
-        {
-            if (!m_FuneralDirector)
-            {
-                return;
-            }
-
-            World? world = GetWorld();
-            if (world == null)
-            {
-                return;
-            }
-
-            world.GetOrCreateSystemManaged<FuneralDirectorSystem>()
-                .RequestReapplyFromSettings();
-
-            // When sliders/toggles change, refresh status immediately on next UI poll (don't wait for throttle).
-            DeathcareStatus.MarkDirty();
+            ProcScalar = kDefaultPercent;
+            FleetScalar = kDefaultPercent;
+            StorageScalar = kDefaultPercent;
+            HearseSpeedScalar = kDefaultPercent;
+            WorkersScalar = kDefaultPercent;
         }
     }
 }

@@ -4,9 +4,7 @@
 namespace MagicHearse
 {
     using Colossal; // IDictionarySource, IDictionaryEntryError
-    using Game.Net;
     using System.Collections.Generic; // IEnumerable, Dictionary, KeyValuePair
-    using UnityEngine;
 
     /// <summary>
     /// English localization source for Magic Hearse [MH].</summary>
@@ -45,14 +43,15 @@ namespace MagicHearse
                 { m_Setting.GetOptionTabLocaleID(Setting.AboutTab), "About" },
 
                 // Groups
-                { m_Setting.GetOptionGroupLocaleID(Setting.AutoCleanGrp), "Auto Clean" },
-                { m_Setting.GetOptionGroupLocaleID(Setting.SelfManageGrp), "Self Manage" },
-                { m_Setting.GetOptionGroupLocaleID(Setting.StatusGrp), "Status" },
-                { m_Setting.GetOptionGroupLocaleID(Setting.AboutInfoGrp), "Mod info" },
-                { m_Setting.GetOptionGroupLocaleID(Setting.AboutLinksGrp), "Links" },
+                { m_Setting.GetOptionGroupLocaleID(Setting.AutoCleanGrp),   "Auto Clean" },
+                { m_Setting.GetOptionGroupLocaleID(Setting.SelfManageGrp),  "Self Manage" },
+                { m_Setting.GetOptionGroupLocaleID(Setting.AdvancedGrp),    "Advanced" },
+                { m_Setting.GetOptionGroupLocaleID(Setting.StatusGrp),      "Status" },
+                { m_Setting.GetOptionGroupLocaleID(Setting.AboutInfoGrp),   "Mod info" },
+                { m_Setting.GetOptionGroupLocaleID(Setting.AboutLinksGrp),  "Links" },
 
                 // Auto Clean (magic)
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.EnableMagicHearse)), "Enable Magic" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.EnableMagicHearse)), "Enable Magic Clean" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.EnableMagicHearse)),
                     "**Auto removes dead citizens** that are waiting for a hearse.\n" +
                     "Turn off both checkboxes to disable the mod without removing it."
@@ -137,9 +136,10 @@ namespace MagicHearse
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.StatusSummary3)),
                     "**Active building capacities:** total hearses, buildings, max workers.\n\n" +
                     "**Notes:**\n" +
-                    "▪ Hearse: (active not parked) / (Total*)\n" +
-                    "▪ *Total hearse: includes hearse in maintenance (due to low service budget), \n" +
-                    " and does not include any disabled building hearses.\n" +
+                    "▪ Hearse: Active-not parked / (Total* hearses)\n" +
+                    "▪ *Total hearse:" +
+                    "=== includes hearse in maintenance (e.g. low service budget), \n" +
+                    "=== does not include any disabled building hearses.\n" +
                     "▪ Status scan runs only while Options is open (or you use a slider); does not run per-frame in the city, so basically no performance impact :)"
                 },
 

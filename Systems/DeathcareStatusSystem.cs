@@ -2,19 +2,21 @@
 
 namespace MagicHearse
 {
-    using Game;
-    using Game.Buildings;
-    using Game.Citizens;
-    using Game.City;
-    using Game.Common;                  // Deleted, Owner
-    using Game.Companies;
-    using Game.Prefabs;
-    using Game.Simulation;
-    using Game.Tools;
-    using Game.Vehicles;                // Hearse, ParkedCar
-    using System;
-    using Unity.Collections;
-    using Unity.Entities;
+    using Game;                 // GameSystemBase
+    using Game.Buildings;       // Building, DeathcareFacility, BuildingUtils
+    using Game.Citizens;        // Citizen, HealthProblem, HealthProblemFlags
+    using Game.City;            // StatisticType (DeathRate)
+    using Game.Common;          // Deleted, Owner
+    using Game.Companies;       // WorkProvider, ServiceDispatch
+    using Game.Prefabs;         // PrefabRef, DeathcareFacilityData, InstalledUpgrade, UpgradeUtils
+    using Game.Simulation;      // CityStatisticsSystem
+    using Game.Tools;           // Temp
+    using Game.Vehicles;        // Hearse, ParkedCar
+    using System;               // DateTime
+    using Unity.Collections;    // NativeArray, Allocator
+    using Unity.Entities;       // Entity, EntityQuery, lookups, buffers, chunks
+
+
 
     public sealed partial class DeathcareStatusSystem : GameSystemBase
     {
