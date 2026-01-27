@@ -18,12 +18,13 @@ Two modes:
 
 ### Option 2: Funeral Director (self manage)
 
-Tune deathcare values:
+Tune deathcare values (applies instantly):
 - Processing rate (crematoriums)
 - Fleet size (max hearses per facility)
 - Cemetery storage multiplier
+- Hearse Speed (pedal to the metal)
   
-- **Max Workers** tuning (place a new building or add/remove an extension refreshes values).
+- Advanced **Max Workers** (place a new building or add/remove an extension refreshes values).
 - Compatibility Toggle ✅ turn OFF workers if you prefer to use ConfigXML mod for worker numbers.
    
 ## NEW Bonus Status Report
@@ -32,7 +33,7 @@ Tune deathcare values:
 
 ## Features
 - Toggle on/off without restarting the game.
-- Safe to remove any time. Uncheck both checkboxes turns off the mod.
+- Safe to remove any time. Uncheck both boxes to disable everything.
 - Disable other hearse mods to avoid conflicts!
 - No Harmony or reflection (more reliable on patch days).
 - Use either Auto clean or Self manage (mutually exclusive).

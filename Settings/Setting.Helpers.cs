@@ -31,7 +31,7 @@ namespace MagicHearse
                 return;
             }
 
-            if (magicChanged)  // Toggle MagicHearseSystem without waiting for reload.
+            if (magicChanged)  // Enable immediately without needing a restart.
             {
                 world.GetOrCreateSystemManaged<MagicHearseSystem>().Enabled = m_EnableMagicHearse;
             }

@@ -2,7 +2,7 @@
 
 > Two modes:
 > **Auto Clean** removes dead citizens instantly, or
-> **Undertaker** lets you tune deathcare capacity.
+> **Funeral Director** lets you tune deathcare capacity.
 
 ---
 
@@ -33,12 +33,13 @@ Notes:
 | **Processing rate** | Crematorium processing speed multiplier |
 | **Fleet size** | Max hearses per facility multiplier |
 | **Cemetery storage** | Long-term storage capacity multiplier |
-| **Max workers** | (Optional) scales max workers for deathcare facilities |
+| **Hearse Speed** | Speed multiplier (road limits still apply) |
+| **Max workers** | (Advanced) scales max workers for deathcare facilities, requires new buildings |
 
 Includes:
 - **Reset Sliders** button (sets sliders back to 100%)
 
-**Worker note:** worker increases appear on **new buildings**. Deleting/adding an extension usually forces a refresh.
+**Worker note:** worker increases appear on **new buildings**. Tip: deleting/adding an extension usually also works.
 
 ---
 
