@@ -43,65 +43,82 @@ namespace MagicHearse
                 { m_Setting.GetOptionTabLocaleID(Setting.AboutTab), "정보" },
 
                 // Groups
-                { m_Setting.GetOptionGroupLocaleID(Setting.AutoCleanGrp), "자동 정리" },
-                { m_Setting.GetOptionGroupLocaleID(Setting.SelfManageGrp), "자체 관리" },
-                { m_Setting.GetOptionGroupLocaleID(Setting.StatusGrp), "상태" },
-                { m_Setting.GetOptionGroupLocaleID(Setting.AboutInfoGrp), "모드 정보" },
-                { m_Setting.GetOptionGroupLocaleID(Setting.AboutLinksGrp), "링크" },
+                { m_Setting.GetOptionGroupLocaleID(Setting.AutoCleanGrp),   "자동 정리" },
+                { m_Setting.GetOptionGroupLocaleID(Setting.SelfManageGrp),  "수동 관리" },
+                { m_Setting.GetOptionGroupLocaleID(Setting.AdvancedGrp),    "고급" },
+                { m_Setting.GetOptionGroupLocaleID(Setting.StatusGrp),      "상태" },
+                { m_Setting.GetOptionGroupLocaleID(Setting.AboutInfoGrp),   "모드 정보" },
+                { m_Setting.GetOptionGroupLocaleID(Setting.AboutLinksGrp),  "링크" },
 
                 // Auto Clean (magic)
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.EnableMagicHearse)), "마법 활성화" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.EnableMagicHearse)), "마법 정리 활성화" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.EnableMagicHearse)),
-                    "영구차를 기다리는 **사망 시민을 자동 제거**합니다.\n" +
-                    "두 체크를 모두 끄면 제거 없이 모드를 비활성화할 수 있어요."
+                    "영구차를 기다리는 **사망 시민을 자동으로 제거**합니다.\n" +
+                    "두 체크박스를 모두 OFF로 하면, 모드를 제거하지 않고 비활성화할 수 있습니다."
                 },
 
                 // Self Manage (FD)
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.FuneralDirector)), "장의사" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.FuneralDirector)),
-                    "**시설** 값(처리, 차량, 보관)을 조절합니다.\n" +
-                    "선택: **근로자도 증가**."
+                    "모든 것을 수동으로 관리합니다.\n" +
+                    "**스케일 값:** 처리, 차량, 저장.\n" +
+                    "선택: **근로자 수**도 증가."
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.ProcScalar)), "처리 속도" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.ProcScalar)),
                     "**시설 처리 속도** (화장)\n" +
-                    "**100%** = 바닐라 기본."
+                    "**100%** = 바닐라 기본값."
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.FleetScalar)), "차량 수" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.FleetScalar)),
                     "시설당 **영구차 최대 수**.\n" +
-                    "**100%** = 바닐라 기본."
+                    "**100%** = 바닐라 기본값.\n" +
+                    "**[o_o]** 영구차가 너무 많으면 사망률에 따라 교통에 영향을 줄 수 있습니다."
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.StorageScalar)), "묘지 보관" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.StorageScalar)), "묘지 저장" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.StorageScalar)),
-                    "메인 건물의 **묘지 보관 용량**.\n" +
-                    "**100%** = 바닐라 기본."
+                    "메인 건물의 **묘지 저장 용량**.\n" +
+                    "**100%** = 바닐라 기본값."
+                },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.HearseSpeedScalar)), "영구차 속도" },
+                { m_Setting.GetOptionDescLocaleID(nameof(Setting.HearseSpeedScalar)),
+                    "**영구차 최고 속도를 증가**합니다.\n" +
+                    "**100%** = 바닐라 기본값.\n" +
+                    "<도로 제한 속도는 그대로 적용>。\n\n" +
+                    "가속/제동(부드럽게)도 함께 스케일되어, 최고속 증가가 과격한 출발/정지로 이어지지 않게 합니다.\n" +
+                    "참고: 최고 속도를 올려도 실제 주행 속도는 대략 다음에 의해 결정됩니다:\n" +
+                    "(차량 최대, 도로 제한, AI 안전 속도, 교통)"
+
                 },
 
                 // Workers compatibility toggle
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.ControlWorkers)), "최대 근로자 제어" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.ControlWorkers)),
-                    "**장의사**가 근로자 수까지 늘리게 하려면 ON.\n" +
-                    "**ConfigXML**(또는 다른 모드)이 근로자를 관리하게 하려면 OFF."
+                    "호환성 토글:\n" +
+                    "**[✓] 활성화**하면 근로자 수가 증가합니다.\n" +
+                    "**[o_o]** 장례 시설 근로자를 **ConfigXML** 모드가 제어하길 원하면 OFF로 두세요."
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.WorkersScalar)), "최대 근로자" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.WorkersScalar)),
-                    "사망 관련 시설의 **최대 근로자**를 조절합니다.\n" +
-                    "**100%** = 바닐라 기본.\n\n" +
-                    "**[o_o] 팁**\n" +
-                    "  - **새 건물**에 적용됩니다.\n" +
-                    "  - 확장 추가/삭제로 갱신되는 경우가 많아요."
+                    "허용되는 **최대 근로자 수**를 증가합니다.\n" +
+                    "**100%** = 바닐라 기본값.\n\n" +
+                    "**새 건물**에 적용됩니다.\n" +
+                    "**팁**\n" +
+                    "▪ 확장 추가/제거는 보통 갱신도 유도합니다.\n\n" +
+                    "**[o_o]** 기술 메모: 일자리 슬롯(직무 자리)은 게임이 계산하는 컴포넌트입니다\n" +
+                    "<==다른 슬라이더처럼 동작하지 않음==>; 런타임에서 모드가 직접 변경하는 것(위험)보다 새 건물을 짓는 방식이 더 안전/쉬운 갱신 방법입니다."
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.ResetGameDefaults)), "슬라이더 초기화" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.ResetGameDefaults)), "슬라이더 리셋" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.ResetGameDefaults)),
-                    "모든 슬라이더를 **100%**(바닐라 기본)로 되돌립니다." },
+                    "모든 슬라이더를 **100%**(바닐라 기본값)로 되돌립니다." },
 
-                // STATUS fields (keep labels SHORT; left column is narrow!
+                // STATUS fields (SHORT labels; left column is narrow!)
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.StatusSummary1)), "영구차 필요" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.StatusSummary1)),
@@ -110,29 +127,29 @@ namespace MagicHearse
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.StatusSummary2)), "물량" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.StatusSummary2)),
-                     "게임 통계의 **월간 합계**입니다.\n" +
-                     "**화장 최대/월** = 게임 정보 패널의 Handling/월.\n" +
-                     "모든 화장장이 한 달에 처리할 수 있는 시신 수의 최대치입니다."
-                },
+                     "게임 통계의 **월간 합계**.\n" +
+                     "**화장 최대/월** = 게임 Handling/월 정보 패널.\n" +
+                     "이는 화장장이 한 달에 처리할 수 있는 최대 시신 수입니다."
+                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.StatusSummary3)), "자산" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.StatusSummary3)),
-                    "**활성 건물 용량:** 영구차 총량, 건물 수, 최대 근로자.\n\n" +
+                    "**활성 건물 용량:** 영구차 합계, 건물 수, 최대 근로자.\n\n" +
                     "**참고:**\n" +
-                    "▪ 영구차: 활동 중(주차 제외) / 총 용량*\n" +
-                    "▪ *총 용량 = 활성 건물(효율 > 0)의 영구차 슬롯 합.\n" +
-                    "  주차/사용 불가 상태의 영구차도 포함될 수 있어요.\n" +
-                    "▪ 상태 스캔은 옵션 메뉴가 열려 있을 때(또는 설정 변경 후)만 실행.\n" +
-                    "  도시에서 매 프레임 돌지 않아 성능 영향은 아주 작습니다."
+                    "▪ 영구차: 활성(주차 아님) / (총합* 영구차)\n" +
+                    "▪ *총합 영구차:" +
+                    "=== 정비 중 영구차 포함(예: 서비스 예산 낮음), \n" +
+                    "=== 비활성화된 건물의 영구차는 포함하지 않음.\n" +
+                    "▪ 상태 스캔은 Options가 열려 있을 때(또는 슬라이더를 사용할 때)만 실행됩니다; " +
+                    "도시에서 매 프레임 실행되지 않으므로 성능 영향은 사실상 거의 없습니다 :)"
                 },
 
                 // Status text templates
-                { "MH_STATUS_NOT_LOADED", "상태가 로드되지 않았습니다." },
-                { "MH_STATUS_NO_CITY_LOADED", "아직 도시가 로드되지 않았습니다." },
+                { "MH_STATUS_NOT_LOADED", "상태를 불러오지 못했습니다." },
+                { "MH_STATUS_NO_CITY_LOADED", "도시가 로드되지 않았습니다." },
                 { "MH_STATUS_STATS_NOT_AVAIL", "도시 없음... ¯\\_(ツ)_/¯ ...통계 없음" },
 
-
-                { "MH_STATUS_LINE1", "{0} 사망 대기 | 업데이트 {1}" },
+                { "MH_STATUS_LINE1", "{0} 사망자 대기 | 업데이트 {1}" },
                 { "MH_STATUS_LINE2", "{0} 사망/월 | {1} 화장 최대/월 | {2} / {3} 묘지 사용" },
                 { "MH_STATUS_LINE3", "{0} / {1} 영구차 | {2} / {3} 건물 | {4} 빈 무덤 | {5} 최대 근로자" },
 

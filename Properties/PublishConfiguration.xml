@@ -22,7 +22,7 @@ Tune deathcare values (applies instantly):
 - Processing rate (crematoriums)
 - Fleet size (max hearses per facility)
 - Cemetery storage multiplier
-- Hearse Speed (pedal to the metal)
+- Hearse Speed (recommend turn off city policy on highway speed if you use this)
   
 - Advanced **Max Workers** (place a new building or add/remove an extension refreshes values).
 - Compatibility Toggle ✅ turn OFF workers if you prefer to use ConfigXML mod for worker numbers.

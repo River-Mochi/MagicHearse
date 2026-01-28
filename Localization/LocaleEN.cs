@@ -140,7 +140,8 @@ namespace MagicHearse
                     "▪ *Total hearse:" +
                     "=== includes hearse in maintenance (e.g. low service budget), \n" +
                     "=== does not include any disabled building hearses.\n" +
-                    "▪ Status scan runs only while Options is open (or you use a slider); does not run per-frame in the city, so basically no performance impact :)"
+                    "▪ Status scan runs only while Options is open (or you use a slider); " +
+                    "does not run per-frame in the city, so basically no performance impact :)"
                 },
 
                 // Status text templates

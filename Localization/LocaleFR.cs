@@ -43,97 +43,114 @@ namespace MagicHearse
                 { m_Setting.GetOptionTabLocaleID(Setting.AboutTab), "À propos" },
 
                 // Groups
-                { m_Setting.GetOptionGroupLocaleID(Setting.AutoCleanGrp), "Nettoyage auto" },
-                { m_Setting.GetOptionGroupLocaleID(Setting.SelfManageGrp), "Gestion" },
-                { m_Setting.GetOptionGroupLocaleID(Setting.StatusGrp), "Statut" },
-                { m_Setting.GetOptionGroupLocaleID(Setting.AboutInfoGrp), "Infos du mod" },
-                { m_Setting.GetOptionGroupLocaleID(Setting.AboutLinksGrp), "Liens" },
+                { m_Setting.GetOptionGroupLocaleID(Setting.AutoCleanGrp),   "Nettoyage auto" },
+                { m_Setting.GetOptionGroupLocaleID(Setting.SelfManageGrp),  "Gestion autonome" },
+                { m_Setting.GetOptionGroupLocaleID(Setting.AdvancedGrp),    "Avancé" },
+                { m_Setting.GetOptionGroupLocaleID(Setting.StatusGrp),      "Statut" },
+                { m_Setting.GetOptionGroupLocaleID(Setting.AboutInfoGrp),   "Infos du mod" },
+                { m_Setting.GetOptionGroupLocaleID(Setting.AboutLinksGrp),  "Liens" },
 
                 // Auto Clean (magic)
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.EnableMagicHearse)), "Activer la magie" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.EnableMagicHearse)), "Activer le nettoyage magique" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.EnableMagicHearse)),
-                    "**Supprime automatiquement les morts**\n" +
-                    "qui attendent un corbillard.\n" +
+                    "**Supprime automatiquement les citoyens morts** qui attendent un corbillard.\n" +
                     "Désactivez les deux cases pour couper le mod sans le retirer."
                 },
 
                 // Self Manage (FD)
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.FuneralDirector)), "Directeur funéraire" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.FuneralDirector)),
-                    "Ajuste les valeurs des **bâtiments** (vitesse, flotte, stockage).\n" +
-                    "Optionnel : **augmenter les employés**."
+                    "Tout gérer soi-même.\n" +
+                    "**Valeurs d'échelle :** rythme, flotte, stockage.\n" +
+                    "Optionnel : **augmenter les employés** aussi."
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.ProcScalar)), "Taux de traitement" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.ProcScalar)), "Vitesse de traitement" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.ProcScalar)),
-                    "**Vitesse de traitement** (crémations)\n" +
-                    "**100%** = valeur vanilla."
+                    "**Vitesse de traitement des établissements** (crémations)\n" +
+                    "**100%** = valeur vanilla du jeu."
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.FleetScalar)), "Taille de la flotte" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.FleetScalar)),
-                    "**Nombre max de corbillards** par bâtiment.\n" +
-                    "**100%** = valeur vanilla."
+                    "**Corbillards maximum** par établissement.\n" +
+                    "**100%** = valeur vanilla du jeu.\n" +
+                    "**[o_o]** Trop de corbillards peut affecter le trafic selon le taux de décès."
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.StorageScalar)), "Stockage du cimetière" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.StorageScalar)),
-                    "**Capacité du cimetière** (bâtiment principal).\n" +
-                    "**100%** = valeur vanilla."
+                    "**Capacité de stockage du cimetière** pour le bâtiment principal.\n" +
+                    "**100%** = valeur vanilla du jeu."
+                },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.HearseSpeedScalar)), "Vitesse du corbillard" },
+                { m_Setting.GetOptionDescLocaleID(nameof(Setting.HearseSpeedScalar)),
+                    "**Augmente la vitesse max du corbillard**.\n" +
+                    "**100%** = valeur vanilla du jeu.\n" +
+                    "<Les limites de vitesse routières s'appliquent toujours>.\n\n" +
+                    "Met aussi à l'échelle l'accélération/le freinage (doux) pour éviter des départs/arrêts extrêmes.\n" +
+                    "Note : même si la vitesse max du corbillard est augmentée, sa vitesse réelle est grosso modo :\n" +
+                    "(max du véhicule, limite de vitesse, vitesse sûre de l'IA, trafic)"
+
                 },
 
                 // Workers compatibility toggle
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.ControlWorkers)), "Contrôler les employés max" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.ControlWorkers)),
-                    "Activez pour que le **Directeur funéraire** augmente le nombre d’employés.\n" +
-                    "Laissez OFF si vous voulez que **ConfigXML** (ou un autre mod) gère les employés."
+                    "Interrupteur de compatibilité :\n" +
+                    "**Activer [✓]** pour augmenter le nombre d'employés.\n" +
+                    "**[o_o]** Laisser OFF si **ConfigXML** doit gérer les employés des services funéraires."
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.WorkersScalar)), "Employés max" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.WorkersScalar)),
-                    "Ajuste le **maximum d’employés** des bâtiments de décès.\n" +
-                    "**100%** = valeur vanilla.\n\n" +
-                    "**[o_o] Astuces**\n" +
-                    "  - S’applique aux **nouveaux bâtiments**.\n" +
-                    "  - Ajouter/supprimer une extension force souvent une mise à jour."
+                    "**Augmente le maximum d'employés** autorisés.\n" +
+                    "**100%** = valeur vanilla du jeu.\n\n" +
+                    "S'applique aux **Nouveaux bâtiments**.\n" +
+                    "**Astuces**\n" +
+                    "▪ Ajouter/supprimer une extension rafraîchit souvent aussi.\n\n" +
+                    "**[o_o]** Note technique : les postes de travail (emplois) sont un composant calculé par le jeu\n" +
+                    "<==pas comme les autres curseurs==>; un nouveau bâtiment est un moyen plus sûr/simple de rafraîchir cela que des mutations runtime via mod (danger)."
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.ResetGameDefaults)), "Réinitialiser" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.ResetGameDefaults)), "Réinitialiser les curseurs" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.ResetGameDefaults)),
                     "Remet tous les curseurs à **100%** (valeurs vanilla)." },
 
-                // STATUS fields (keep labels SHORT; left column is narrow!
+                // STATUS fields (SHORT labels; left column is narrow!)
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.StatusSummary1)), "Corbillard requis" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.StatusSummary1)),
-                    "**Morts en attente** d’un corbillard."
+                    "**Citoyens morts en attente** d'un ramassage par corbillard."
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.StatusSummary2)), "Volume" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.StatusSummary2)),
-                     "**Totaux mensuels** des stats du jeu.\n" +
-                     "**Crémation max/mois** = l’info « Handling/mois » du jeu.\n" +
-                     "C’est le maximum de corps que tous les crématoriums pourraient traiter par mois."
-                },
+                     "**Totaux mensuels** depuis les stats du jeu.\n" +
+                     "**Crémation max/mo** = panneau d'info « Handling/mo » du jeu.\n" +
+                     "C'est le nombre maximum de corps pouvant être traités par les crématoriums par mois."
+                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.StatusSummary3)), "Ressources" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.StatusSummary3)),
                     "**Capacités des bâtiments actifs :** total corbillards, bâtiments, employés max.\n\n" +
-                    "**Notes :**\n" +
-                    "▪ Corbillards : actifs (non garés) / capacité totale*\n" +
-                    "▪ *Capacité totale = somme des emplacements de corbillards des bâtiments actifs (efficacité > 0).\n" +
-                    "  Peut inclure des corbillards garés/indisponibles.\n" +
-                    "▪ Le scan d’état ne tourne que quand Options est ouvert (ou après un changement).\n" +
-                    "  Pas d’exécution par frame en ville : impact minime."
+                    "**Notes:**\n" +
+                    "▪ Corbillard : Actif-non garé / (Total* corbillards)\n" +
+                    "▪ *Total corbillard:" +
+                    "=== inclut les corbillards en maintenance (ex : budget de service faible), \n" +
+                    "=== n'inclut pas les corbillards des bâtiments désactivés.\n" +
+                    "▪ Le scan de statut tourne seulement quand Options est ouvert (ou quand un curseur est utilisé); " +
+                    "ne tourne pas frame par frame en ville, donc impact perf quasi nul :)"
                 },
 
                 // Status text templates
                 { "MH_STATUS_NOT_LOADED", "Statut non chargé." },
                 { "MH_STATUS_NO_CITY_LOADED", "Aucune ville chargée." },
-                { "MH_STATUS_STATS_NOT_AVAIL", "Pas de ville... ¯\\_(ツ)_/¯...Pas de stats" },
+                { "MH_STATUS_STATS_NOT_AVAIL", "Pas de ville... ¯\\_(ツ)_/¯ ...Pas de stats" },
 
-                { "MH_STATUS_LINE1", "{0} morts en attente | maj {1}" },
-                { "MH_STATUS_LINE2", "{0} décès/mois | {1} crémation max/mois | {2} / {3} usage cimetière" },
+                { "MH_STATUS_LINE1", "{0} morts en attente | mis à jour {1}" },
+                { "MH_STATUS_LINE2", "{0} décès/mo | {1} crémation max/mo | {2} / {3} usage cimetière" },
                 { "MH_STATUS_LINE3", "{0} / {1} corbillards | {2} / {3} bâtiments | {4} tombes libres | {5} employés max" },
 
                 // About
@@ -144,7 +161,7 @@ namespace MagicHearse
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.OpenParadoxMods)), "Paradox Mods" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.OpenParadoxMods)),
-                    "Ouvre la page Paradox Mods de l’auteur." },
+                    "Ouvre la page Paradox Mods de l'auteur." },
             };
         }
 
