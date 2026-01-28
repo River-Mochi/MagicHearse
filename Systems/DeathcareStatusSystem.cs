@@ -74,7 +74,6 @@ namespace MagicHearse
         private EntityQuery m_DeathcarePlacedQuery;
         private EntityQuery m_DeadWaitingQuery;
 
-        // NEW
         private EntityQuery m_HearseQuery;
 
         protected override void OnCreate()
@@ -124,7 +123,7 @@ namespace MagicHearse
 
             float processingRate = 0f;
             long hearses = 0;
-            long workingHearses = 0; // NEW
+            long workingHearses = 0;
             long cemeteryUse = 0;
             long cemeteryCapacity = 0;
             long maxWorkers = 0;
@@ -186,7 +185,7 @@ namespace MagicHearse
                 }
             }
 
-            // NEW: Count “working” hearses = Hearse without ParkedCar,
+            // Count “working” hearses = Hearse without ParkedCar,
             // and only if the owner building is active (efficiency > 0).
             ComponentLookup<Owner> ownerLookup = GetComponentLookup<Owner>(true);
             ComponentLookup<ParkedCar> parkedLookup = GetComponentLookup<ParkedCar>(true);

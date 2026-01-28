@@ -83,7 +83,7 @@ namespace MagicHearse
                 WarnSafe(() => $"Settings/UI init failed: {ex.GetType().Name}: {ex.Message}");
             }
 
-            // System scheduling/init (best-effort).
+            // System scheduling/init.
             try
             {
                 updateSystem.UpdateAfter<FuneralDirectorSystem>(SystemUpdatePhase.PrefabUpdate);

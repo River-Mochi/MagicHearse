@@ -187,7 +187,7 @@ namespace MagicHearse
                 Format0(snap.MaxWorkers));      // {5}
         }
 
-        // ---- helpers (kept minimal, but safe) ----
+        // ---- Helpers -------
 
         private static string Localize(string entryId, string fallback)
         {
