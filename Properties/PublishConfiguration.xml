@@ -7,7 +7,7 @@
 	<ShortDescription Value="Auto clean deathcare, or tune it with Funeral Director; Bonus Status report." />
 	<!--Long description of the mod. Single line or multi line. Supports minimal markdown subset-->
 	<!--LongDescription Value="This is a long description" /-->
-	<LongDescription>## Magic Hearse + New Funeral Director
+	<LongDescription>### Magic Hearse + New Funeral Director + HR Dept. + Status report
 
 Two modes:
 
@@ -19,10 +19,11 @@ Two modes:
 ### Option 2: Funeral Director (self manage)
 
 Tune deathcare values (applies instantly):
+
 - Processing rate (crematoriums)
 - Fleet size (max hearses per facility)
 - Cemetery storage multiplier
-- Hearse Speed (pedal to the metal)
+- Hearse speed (pedal to the metal)
   
 - Advanced **Max Workers** (place a new building or add/remove an extension refreshes values).
 - Compatibility Toggle ✅ turn OFF workers if you prefer to use ConfigXML mod for worker numbers.
@@ -80,9 +81,8 @@ Tune deathcare values (applies instantly):
 <Dependency Id="" />
 <!--Change log for new version. Single line or multi line. Supports minimal markdown subset-->
 <ChangeLog>
-* Add Hearse vehicle Speed control.
-* Update Advanced features and UX.
-* Added Compatibility toggle (works with other worker tuning mods)
+* Add Hearse speed control.
+* Updated advanced features and UX.
 * Updated all Locale files for new features.
 </ChangeLog>
 <!--External link. supported types are discord, github, youtube, twitch, x, paypal, patreon-->
