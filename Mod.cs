@@ -72,7 +72,7 @@ namespace MagicHearse
             AddLocaleSource("pt-BR", new LocalePT_BR(setting));
             AddLocaleSource("zh-HANT", new LocaleZH_HANT(setting));
 
-            // Settings + Options UI (best-effort; defaults are fine).
+            // Settings + Options UI
             try
             {
                 AssetDatabase.global.LoadSettings(ModId, setting, new Setting(this));
@@ -83,7 +83,7 @@ namespace MagicHearse
                 WarnSafe(() => $"Settings/UI init failed: {ex.GetType().Name}: {ex.Message}");
             }
 
-            // System scheduling/init (best-effort).
+            // System scheduling/init.
             try
             {
                 updateSystem.UpdateAfter<FuneralDirectorSystem>(SystemUpdatePhase.PrefabUpdate);
