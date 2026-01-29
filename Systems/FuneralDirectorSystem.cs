@@ -4,26 +4,25 @@
 // - Runs only on-demand (when settings change or on game load), then disables itself.
 // - Reads TRUE vanilla baselines from PrefabSystem -> PrefabBase authoring components (NOT PrefabRef data).
 // - Writes changes to Game.Prefabs.DeathcareFacilityData and WorkplaceData on prefab entities.
-// - Workers control is extra optional.
-// - Instance-side worker limits are derived/cached by the game; this system optionally performs a one-shot recompute
-//   for placed deathcare buildings (WorkProvider.m_MaxWorkers) using the same WorkplaceData + InstalledUpgrade logic.
+// - Workers control is optional; placed-building worker cache can be recomputed one-shot via WorkProvider.m_MaxWorkers.
 
 namespace MagicHearse
 {
     using Colossal.Serialization.Entities;   // Purpose
     using Game;                              // GameSystemBase, GameMode
-    using Game.Common;                       // Deleted, Owner
-    using Game.Companies;                    // WorkProvider
-    using Game.Prefabs;                      // DeathcareFacility, Workplace, PrefabSystem, PrefabBase, CarData, DeathcareFacilityData, HearseData, CarPrefab, PrefabRef, WorkplaceData
-    using Game.Tools;                        // Temp
+    using Game.Prefabs;                      // PrefabSystem, PrefabBase, authoring components, prefab components
     using Unity.Collections;                 // Allocator
-    using Unity.Entities;                    // Entity, PrefabData, IComponentData, EntityCommandBuffer, SystemAPI
+    using Unity.Entities;                    // Entity, EntityQuery, ComponentType, EntityCommandBuffer, SystemAPI, RefRW/RefRO, IComponentData
     using Unity.Mathematics;                 // math.*
 
     public sealed partial class FuneralDirectorSystem : GameSystemBase
     {
         private bool m_Dirty;
         private PrefabSystem m_PrefabSystem = null!; // assigned in OnCreate
+
+        private EntityQuery m_PlacedDeathcareQuery;
+        private EntityQuery m_PlacedDeathcareMarkedQuery;
+        private EntityQuery m_HearseCarPrefabQuery;
 
         // Marker: MH’s last applied worker values on prefab entities.
         private struct MHWorkplaceMarker : IComponentData
@@ -43,7 +42,50 @@ namespace MagicHearse
             base.OnCreate();
 
             Enabled = false;
+
             m_PrefabSystem = World.GetOrCreateSystemManaged<PrefabSystem>();
+
+            // Placed deathcare (buildings + upgrades) used for one-shot recompute.
+            m_PlacedDeathcareQuery = GetEntityQuery(new EntityQueryDesc
+            {
+                All = new[]
+                {
+                    ComponentType.ReadOnly<Game.Buildings.DeathcareFacility>(),
+                    ComponentType.ReadOnly<Game.Prefabs.PrefabRef>(),
+                },
+                None = new[]
+                {
+                    ComponentType.ReadOnly<Game.Tools.Temp>(),
+                    ComponentType.ReadOnly<Game.Common.Deleted>(),
+                },
+            });
+
+            // Placed deathcare owners touched by MH (marker lives on owner entity).
+            m_PlacedDeathcareMarkedQuery = GetEntityQuery(new EntityQueryDesc
+            {
+                All = new[]
+                {
+                    ComponentType.ReadOnly<MHWorkProviderMarker>(),
+                    ComponentType.ReadOnly<Game.Buildings.DeathcareFacility>(),
+                    ComponentType.ReadOnly<Game.Prefabs.PrefabRef>(),
+                },
+                None = new[]
+                {
+                    ComponentType.ReadOnly<Game.Tools.Temp>(),
+                    ComponentType.ReadOnly<Game.Common.Deleted>(),
+                },
+            });
+
+            // Hearse car prefab entities to tune.
+            m_HearseCarPrefabQuery = GetEntityQuery(new EntityQueryDesc
+            {
+                All = new[]
+                {
+                    ComponentType.ReadOnly<Game.Prefabs.PrefabData>(),
+                    ComponentType.ReadOnly<Game.Prefabs.HearseData>(),
+                    ComponentType.ReadWrite<Game.Prefabs.CarData>(),
+                },
+            });
 
 #if DEBUG
             Mod.LogSafe(() => "[FD] System created.");
@@ -122,13 +164,13 @@ namespace MagicHearse
             bool controlWorkers = setting.ControlWorkers;
             float workersScalar = setting.WorkersScalar * 0.01f;
 
-            // 1) DeathcareFacilityData on prefabs
-            foreach ((RefRW<DeathcareFacilityData> dc, Entity entity) in SystemAPI
-                         .Query<RefRW<DeathcareFacilityData>>()
-                         .WithAll<PrefabData>()
+            // 1) DeathcareFacilityData on PREFABS
+            foreach ((RefRW<Game.Prefabs.DeathcareFacilityData> dc, Entity entity) in SystemAPI
+                         .Query<RefRW<Game.Prefabs.DeathcareFacilityData>>()
+                         .WithAll<Game.Prefabs.PrefabData>()
                          .WithEntityAccess())
             {
-                if (!TryGetDeathcareAuthoring(entity, out DeathcareFacility authoring))
+                if (!TryGetDeathcareAuthoring(entity, out Game.Prefabs.DeathcareFacility authoring))
                 {
                     continue;
                 }
@@ -138,7 +180,7 @@ namespace MagicHearse
                 int baseStorage = authoring.m_StorageCapacity;
                 bool baseLongTerm = authoring.m_LongTermStorage;
 
-                DeathcareFacilityData newData = new DeathcareFacilityData
+                Game.Prefabs.DeathcareFacilityData newData = new Game.Prefabs.DeathcareFacilityData
                 {
                     m_HearseCapacity = baseHearses,
                     m_StorageCapacity = baseStorage,
@@ -174,20 +216,20 @@ namespace MagicHearse
                 dc.ValueRW = newData;
             }
 
-            // 1b) Hearse vehicle tuning on prefabs
+            // 1b) Hearse vehicle tuning on PREFABS (query via EntityQuery to keep SystemAPI in one file)
             ApplyHearseCarTuningFromAuthoring(hearseSpeedScalar);
 
-            // 2) WorkplaceData on deathcare prefabs (optional)
+            // 2) WorkplaceData on deathcare PREFABS (optional)
             EntityCommandBuffer ecb = new EntityCommandBuffer(Allocator.Temp);
 
             if (controlWorkers)
             {
-                foreach ((RefRW<WorkplaceData> wp, Entity entity) in SystemAPI
-                             .Query<RefRW<WorkplaceData>>()
-                             .WithAll<PrefabData, DeathcareFacilityData>()
+                foreach ((RefRW<Game.Prefabs.WorkplaceData> wp, Entity entity) in SystemAPI
+                             .Query<RefRW<Game.Prefabs.WorkplaceData>>()
+                             .WithAll<Game.Prefabs.PrefabData, Game.Prefabs.DeathcareFacilityData>()
                              .WithEntityAccess())
                 {
-                    if (!TryGetWorkplaceAuthoring(entity, out Workplace workplace))
+                    if (!TryGetWorkplaceAuthoring(entity, out Game.Prefabs.Workplace workplace))
                     {
                         continue;
                     }
@@ -195,7 +237,7 @@ namespace MagicHearse
                     int baseMax = workplace.m_Workplaces;
                     int baseMin = workplace.m_MinimumWorkersLimit;
 
-                    WorkplaceData newWp = wp.ValueRO;
+                    Game.Prefabs.WorkplaceData newWp = wp.ValueRO;
 
                     newWp.m_MaxWorkers = baseMax;
                     newWp.m_MinimumWorkersLimit = baseMin;
@@ -239,23 +281,23 @@ namespace MagicHearse
                     }
                 }
 
-                // Instant one-shot recompute for placed deathcare buildings.
+                // One-shot recompute for placed deathcare buildings (WorkProvider.m_MaxWorkers).
                 ApplyInstantWorkersToPlacedDeathcare(ref ecb);
             }
             else
             {
-                foreach ((RefRW<WorkplaceData> wp, RefRO<MHWorkplaceMarker> marker, Entity entity) in SystemAPI
-                             .Query<RefRW<WorkplaceData>, RefRO<MHWorkplaceMarker>>()
-                             .WithAll<PrefabData, DeathcareFacilityData>()
+                foreach ((RefRW<Game.Prefabs.WorkplaceData> wp, RefRO<MHWorkplaceMarker> marker, Entity entity) in SystemAPI
+                             .Query<RefRW<Game.Prefabs.WorkplaceData>, RefRO<MHWorkplaceMarker>>()
+                             .WithAll<Game.Prefabs.PrefabData, Game.Prefabs.DeathcareFacilityData>()
                              .WithEntityAccess())
                 {
-                    WorkplaceData current = wp.ValueRO;
+                    Game.Prefabs.WorkplaceData current = wp.ValueRO;
 
                     bool stillMatchesMh =
                         current.m_MaxWorkers == marker.ValueRO.MaxWorkers &&
                         current.m_MinimumWorkersLimit == marker.ValueRO.MinWorkers;
 
-                    if (stillMatchesMh && TryGetWorkplaceAuthoring(entity, out Workplace workplace))
+                    if (stillMatchesMh && TryGetWorkplaceAuthoring(entity, out Game.Prefabs.Workplace workplace))
                     {
                         current.m_MaxWorkers = workplace.m_Workplaces;
                         current.m_MinimumWorkersLimit = workplace.m_MinimumWorkersLimit;
@@ -275,17 +317,17 @@ namespace MagicHearse
 
         private void RestoreVanillaFromAuthoring()
         {
-            foreach ((RefRW<DeathcareFacilityData> dc, Entity entity) in SystemAPI
-                         .Query<RefRW<DeathcareFacilityData>>()
-                         .WithAll<PrefabData>()
+            foreach ((RefRW<Game.Prefabs.DeathcareFacilityData> dc, Entity entity) in SystemAPI
+                         .Query<RefRW<Game.Prefabs.DeathcareFacilityData>>()
+                         .WithAll<Game.Prefabs.PrefabData>()
                          .WithEntityAccess())
             {
-                if (!TryGetDeathcareAuthoring(entity, out DeathcareFacility authoring))
+                if (!TryGetDeathcareAuthoring(entity, out Game.Prefabs.DeathcareFacility authoring))
                 {
                     continue;
                 }
 
-                dc.ValueRW = new DeathcareFacilityData
+                dc.ValueRW = new Game.Prefabs.DeathcareFacilityData
                 {
                     m_HearseCapacity = authoring.m_HearseCapacity,
                     m_StorageCapacity = authoring.m_StorageCapacity,
@@ -298,18 +340,18 @@ namespace MagicHearse
 
             EntityCommandBuffer ecb = new EntityCommandBuffer(Allocator.Temp);
 
-            foreach ((RefRW<WorkplaceData> wp, RefRO<MHWorkplaceMarker> marker, Entity entity) in SystemAPI
-                         .Query<RefRW<WorkplaceData>, RefRO<MHWorkplaceMarker>>()
-                         .WithAll<PrefabData, DeathcareFacilityData>()
+            foreach ((RefRW<Game.Prefabs.WorkplaceData> wp, RefRO<MHWorkplaceMarker> marker, Entity entity) in SystemAPI
+                         .Query<RefRW<Game.Prefabs.WorkplaceData>, RefRO<MHWorkplaceMarker>>()
+                         .WithAll<Game.Prefabs.PrefabData, Game.Prefabs.DeathcareFacilityData>()
                          .WithEntityAccess())
             {
-                WorkplaceData current = wp.ValueRO;
+                Game.Prefabs.WorkplaceData current = wp.ValueRO;
 
                 bool stillMatchesMh =
                     current.m_MaxWorkers == marker.ValueRO.MaxWorkers &&
                     current.m_MinimumWorkersLimit == marker.ValueRO.MinWorkers;
 
-                if (stillMatchesMh && TryGetWorkplaceAuthoring(entity, out Workplace workplace))
+                if (stillMatchesMh && TryGetWorkplaceAuthoring(entity, out Game.Prefabs.Workplace workplace))
                 {
                     current.m_MaxWorkers = workplace.m_Workplaces;
                     current.m_MinimumWorkersLimit = workplace.m_MinimumWorkersLimit;
@@ -319,250 +361,17 @@ namespace MagicHearse
                 ecb.RemoveComponent<MHWorkplaceMarker>(entity);
             }
 
-            // Restore instance-side workers only for buildings previously touched by MH.
             RestoreInstantWorkersOnPlacedDeathcare(ref ecb);
 
             ecb.Playback(EntityManager);
             ecb.Dispose();
         }
 
-        private void ApplyInstantWorkersToPlacedDeathcare(ref EntityCommandBuffer ecb)
-        {
-            ComponentLookup<Owner> ownerLookup = GetComponentLookup<Owner>(true);
-
-            ComponentLookup<WorkProvider> workProviderRO = GetComponentLookup<WorkProvider>(true);
-            ComponentLookup<PrefabRef> prefabRefLookup = GetComponentLookup<PrefabRef>(true);
-            ComponentLookup<Deleted> deletedLookup = GetComponentLookup<Deleted>(true);
-            ComponentLookup<WorkplaceData> workplaceDataLookup = GetComponentLookup<WorkplaceData>(true);
-            BufferLookup<Game.Buildings.InstalledUpgrade> upgradesLookup = GetBufferLookup<Game.Buildings.InstalledUpgrade>(true);
-
-            int touched = 0;
-
-            foreach ((RefRO<PrefabRef> prefabRef, Entity e) in SystemAPI
-                         .Query<RefRO<PrefabRef>>()
-                         .WithAll<Game.Buildings.DeathcareFacility>()
-                         .WithNone<Temp, Deleted>()
-                         .WithEntityAccess())
-            {
-                Entity ownerEntity = e;
-                if (ownerLookup.HasComponent(e))
-                {
-                    ownerEntity = ownerLookup[e].m_Owner;
-                }
-
-                if (deletedLookup.HasComponent(ownerEntity))
-                {
-                    continue;
-                }
-
-                Entity prefabEntity = prefabRef.ValueRO.m_Prefab;
-
-                int maxWorkers = ComputeCityServiceWorkplaceMaxWorkers(
-                    ownerEntity,
-                    prefabEntity,
-                    ref prefabRefLookup,
-                    ref upgradesLookup,
-                    ref deletedLookup,
-                    ref workplaceDataLookup);
-
-                if (maxWorkers <= 0)
-                {
-                    continue;
-                }
-
-                if (workProviderRO.TryGetComponent(ownerEntity, out WorkProvider existing))
-                {
-                    WorkProvider updated = existing;
-                    updated.m_MaxWorkers = maxWorkers;
-                    ecb.SetComponent(ownerEntity, updated);
-
-                    MHWorkProviderMarker marker = new MHWorkProviderMarker { MaxWorkers = maxWorkers };
-                    if (SystemAPI.HasComponent<MHWorkProviderMarker>(ownerEntity))
-                    {
-                        ecb.SetComponent(ownerEntity, marker);
-                    }
-                    else
-                    {
-                        ecb.AddComponent(ownerEntity, marker);
-                    }
-
-                    touched++;
-                }
-                else
-                {
-                    // Adding WorkProvider is uncommon for city service buildings; keep minimal but safe.
-                    ecb.AddComponent(ownerEntity, new WorkProvider
-                    {
-                        m_MaxWorkers = maxWorkers,
-                        m_EfficiencyCooldown = 0
-                    });
-
-                    MHWorkProviderMarker marker = new MHWorkProviderMarker { MaxWorkers = maxWorkers };
-                    ecb.AddComponent(ownerEntity, marker);
-
-                    touched++;
-                }
-            }
-
-#if DEBUG
-            if (touched > 0)
-            {
-                Mod.LogSafe(() => $"[FD] Instant workers updated {touched} placed deathcare buildings.");
-            }
-#endif
-        }
-
-        private void RestoreInstantWorkersOnPlacedDeathcare(ref EntityCommandBuffer ecb)
-        {
-            ComponentLookup<Owner> ownerLookup = GetComponentLookup<Owner>(true);
-
-            ComponentLookup<WorkProvider> workProviderRO = GetComponentLookup<WorkProvider>(true);
-            ComponentLookup<PrefabRef> prefabRefLookup = GetComponentLookup<PrefabRef>(true);
-            ComponentLookup<Deleted> deletedLookup = GetComponentLookup<Deleted>(true);
-            ComponentLookup<WorkplaceData> workplaceDataLookup = GetComponentLookup<WorkplaceData>(true);
-            BufferLookup<Game.Buildings.InstalledUpgrade> upgradesLookup = GetBufferLookup<Game.Buildings.InstalledUpgrade>(true);
-
-            foreach ((RefRO<MHWorkProviderMarker> marker, RefRO<PrefabRef> prefabRef, Entity e) in SystemAPI
-                         .Query<RefRO<MHWorkProviderMarker>, RefRO<PrefabRef>>()
-                         .WithAll<Game.Buildings.DeathcareFacility>()
-                         .WithNone<Temp, Deleted>()
-                         .WithEntityAccess())
-            {
-                Entity ownerEntity = e;
-                if (ownerLookup.HasComponent(e))
-                {
-                    ownerEntity = ownerLookup[e].m_Owner;
-                }
-
-                if (!workProviderRO.TryGetComponent(ownerEntity, out WorkProvider current))
-                {
-                    ecb.RemoveComponent<MHWorkProviderMarker>(ownerEntity);
-                    continue;
-                }
-
-                if (current.m_MaxWorkers != marker.ValueRO.MaxWorkers)
-                {
-                    ecb.RemoveComponent<MHWorkProviderMarker>(ownerEntity);
-                    continue;
-                }
-
-                Entity prefabEntity = prefabRef.ValueRO.m_Prefab;
-
-                int maxWorkers = ComputeCityServiceWorkplaceMaxWorkers(
-                    ownerEntity,
-                    prefabEntity,
-                    ref prefabRefLookup,
-                    ref upgradesLookup,
-                    ref deletedLookup,
-                    ref workplaceDataLookup);
-
-                WorkProvider updated = current;
-                updated.m_MaxWorkers = maxWorkers;
-                ecb.SetComponent(ownerEntity, updated);
-
-                ecb.RemoveComponent<MHWorkProviderMarker>(ownerEntity);
-            }
-        }
-
-        private static int ComputeCityServiceWorkplaceMaxWorkers(
-            Entity ownerEntity,
-            Entity prefabEntity,
-            ref ComponentLookup<PrefabRef> prefabRefs,
-            ref BufferLookup<Game.Buildings.InstalledUpgrade> installedUpgrades,
-            ref ComponentLookup<Deleted> deleteds,
-            ref ComponentLookup<WorkplaceData> workplaceDatas)
-        {
-            if (deleteds.HasComponent(ownerEntity))
-            {
-                return 0;
-            }
-
-            if (!workplaceDatas.HasComponent(prefabEntity))
-            {
-                return 0;
-            }
-
-            int result = workplaceDatas[prefabEntity].m_MaxWorkers;
-
-            if (!installedUpgrades.HasBuffer(ownerEntity))
-            {
-                return result;
-            }
-
-            int minWorkers = workplaceDatas[prefabEntity].m_MinimumWorkersLimit == 0
-                ? result
-                : workplaceDatas[prefabEntity].m_MinimumWorkersLimit;
-
-            DynamicBuffer<Game.Buildings.InstalledUpgrade> upgrades = installedUpgrades[ownerEntity];
-
-            for (int i = 0; i < upgrades.Length; i++)
-            {
-                Entity upgradeEntity = upgrades[i].m_Upgrade;
-
-                if (!prefabRefs.HasComponent(upgradeEntity))
-                {
-                    continue;
-                }
-
-                if (deleteds.HasComponent(upgradeEntity))
-                {
-                    continue;
-                }
-
-                Entity upgradePrefab = prefabRefs[upgradeEntity].m_Prefab;
-
-                if (!workplaceDatas.HasComponent(upgradePrefab))
-                {
-                    continue;
-                }
-
-                minWorkers += workplaceDatas[upgradePrefab].m_MinimumWorkersLimit;
-                result += workplaceDatas[upgradePrefab].m_MaxWorkers;
-            }
-
-            _ = minWorkers;
-            return result;
-        }
-
-        private void ApplyHearseCarTuningFromAuthoring(float speedScalar)
-        {
-            float accelBrakeScalar = math.sqrt(math.max(0.01f, speedScalar));
-
-            foreach ((RefRW<CarData> car, Entity entity) in SystemAPI
-                         .Query<RefRW<CarData>>()
-                         .WithAll<PrefabData, HearseData>()
-                         .WithEntityAccess())
-            {
-                if (!TryGetCarPrefab(entity, out CarPrefab carPrefab))
-                {
-                    continue;
-                }
-
-                CarData newCar = car.ValueRO;
-
-                float baseMaxSpeedMs = carPrefab.m_MaxSpeed * (1f / 3.6f);
-
-                newCar.m_MaxSpeed = baseMaxSpeedMs <= 0f
-                    ? 0f
-                    : math.max(0.01f, baseMaxSpeedMs * speedScalar);
-
-                newCar.m_Acceleration = carPrefab.m_Acceleration <= 0f
-                    ? 0f
-                    : carPrefab.m_Acceleration * accelBrakeScalar;
-
-                newCar.m_Braking = carPrefab.m_Braking <= 0f
-                    ? 0f
-                    : carPrefab.m_Braking * accelBrakeScalar;
-
-                car.ValueRW = newCar;
-            }
-        }
-
-        private bool TryGetDeathcareAuthoring(Entity prefabEntity, out DeathcareFacility authoring)
+        private bool TryGetDeathcareAuthoring(Entity prefabEntity, out Game.Prefabs.DeathcareFacility authoring)
         {
             authoring = default!;
 
-            if (!m_PrefabSystem.TryGetPrefab(prefabEntity, out PrefabBase prefabBase))
+            if (!m_PrefabSystem.TryGetPrefab(prefabEntity, out Game.Prefabs.PrefabBase prefabBase))
             {
                 return false;
             }
@@ -570,34 +379,16 @@ namespace MagicHearse
             return prefabBase.TryGet(out authoring);
         }
 
-        private bool TryGetWorkplaceAuthoring(Entity prefabEntity, out Workplace workplace)
+        private bool TryGetWorkplaceAuthoring(Entity prefabEntity, out Game.Prefabs.Workplace workplace)
         {
             workplace = default!;
 
-            if (!m_PrefabSystem.TryGetPrefab(prefabEntity, out PrefabBase prefabBase))
+            if (!m_PrefabSystem.TryGetPrefab(prefabEntity, out Game.Prefabs.PrefabBase prefabBase))
             {
                 return false;
             }
 
             return prefabBase.TryGetExactly(out workplace);
-        }
-
-        private bool TryGetCarPrefab(Entity prefabEntity, out CarPrefab carPrefab)
-        {
-            carPrefab = default!;
-
-            if (!m_PrefabSystem.TryGetPrefab(prefabEntity, out PrefabBase prefabBase))
-            {
-                return false;
-            }
-
-            if (prefabBase is CarPrefab car)
-            {
-                carPrefab = car;
-                return true;
-            }
-
-            return false;
         }
     }
 }
