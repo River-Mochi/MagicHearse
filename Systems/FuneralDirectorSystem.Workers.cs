@@ -14,9 +14,9 @@ namespace MagicHearse
 
     public sealed partial class FuneralDirectorSystem
     {
-        private void ApplyInstantWorkersToPlacedDeathcare(ref EntityCommandBuffer ecb)
+        private void RefreshPlacedDeathcareWorkers(ref EntityCommandBuffer ecb)
         {
-            // Lookups are read-only; writes happen via ECB to avoid direct structural writes during iteration.
+            // Lookups are read-only; writes happen via ECB.
             ComponentLookup<Game.Common.Owner> ownerLookup =
                 GetComponentLookup<Game.Common.Owner>(isReadOnly: true);
 
@@ -41,27 +41,26 @@ namespace MagicHearse
             BufferLookup<Game.Buildings.InstalledUpgrade> upgradesLookup =
                 GetBufferLookup<Game.Buildings.InstalledUpgrade>(isReadOnly: true);
 
-            ComponentLookup<MHWorkProviderMarker> markerLookup =
-                GetComponentLookup<MHWorkProviderMarker>(isReadOnly: true);
+            ComponentLookup<WorkProviderMaxMark> markerLookup =
+                GetComponentLookup<WorkProviderMaxMark>(isReadOnly: true);
 
             int touched = 0;
 
-            // This query can include building entities (and sometimes upgrade entities).
-            // The worker cache lives on the *owner building entity* that has WorkProvider.
+            // Query includes building entities (and sometimes upgrade entities).
+            // Worker cache lives on the owner building entity that has WorkProvider.
             using (NativeArray<Entity> entities = m_PlacedDeathcareQuery.ToEntityArray(Allocator.Temp))
             {
                 for (int i = 0; i < entities.Length; i++)
                 {
                     Entity e = entities[i];
 
-                    // Resolve to the entity that actually owns the building state (where WorkProvider lives).
+                    // Resolve to the entity that owns building state (where WorkProvider lives).
                     Entity ownerEntity = e;
                     if (ownerLookup.HasComponent(e))
                     {
                         ownerEntity = ownerLookup[e].m_Owner;
                     }
 
-                    // Skip dead entities.
                     if (deletedLookup.HasComponent(ownerEntity))
                     {
                         continue;
@@ -73,13 +72,12 @@ namespace MagicHearse
                         continue;
                     }
 
-                    // CityUtils indexes PrefabRef on the owner entity directly.
+                    // CityUtils indexes PrefabRef on the owner entity.
                     if (!prefabRefLookup.HasComponent(ownerEntity))
                     {
                         continue;
                     }
 
-                    // Compute using the game's public helper so behavior stays aligned with vanilla.
                     int maxWorkers = CityUtils.GetCityServiceWorkplaceMaxWorkers(
                         ownerEntity,
                         ref prefabRefLookup,
@@ -89,7 +87,6 @@ namespace MagicHearse
                         ref schoolDataLookup,
                         ref studentLookup);
 
-                    // If the game thinks this building has no workplaces, do not touch WorkProvider.
                     if (maxWorkers <= 0)
                     {
                         continue;
@@ -108,7 +105,6 @@ namespace MagicHearse
                         continue;
                     }
 
-                    // Update the runtime cache.
                     if (providerNeedsUpdate)
                     {
                         WorkProvider updated = existing;
@@ -116,10 +112,9 @@ namespace MagicHearse
                         ecb.SetComponent(ownerEntity, updated);
                     }
 
-                    // Track what MH last wrote on the same entity that was mutated.
                     if (markerNeedsUpdate)
                     {
-                        MHWorkProviderMarker marker = new MHWorkProviderMarker { MaxWorkers = maxWorkers };
+                        WorkProviderMaxMark marker = new WorkProviderMaxMark { MaxWorkers = maxWorkers };
 
                         if (markerLookup.HasComponent(ownerEntity))
                         {
@@ -138,12 +133,12 @@ namespace MagicHearse
 #if DEBUG
             if (touched > 0)
             {
-                Mod.LogSafe(() => $"[FD] Instant workers updated {touched} placed deathcare buildings.");
+                Mod.LogSafe(() => $"[FD] Placed workers refreshed {touched} deathcare buildings.");
             }
 #endif
         }
 
-        private void RestoreInstantWorkersOnPlacedDeathcare(ref EntityCommandBuffer ecb)
+        private void RestorePlacedDeathcareWorkers(ref EntityCommandBuffer ecb)
         {
             ComponentLookup<Game.Common.Deleted> deletedLookup =
                 GetComponentLookup<Game.Common.Deleted>(isReadOnly: true);
@@ -166,20 +161,19 @@ namespace MagicHearse
             BufferLookup<Game.Buildings.InstalledUpgrade> upgradesLookup =
                 GetBufferLookup<Game.Buildings.InstalledUpgrade>(isReadOnly: true);
 
-            ComponentLookup<MHWorkProviderMarker> markerLookup =
-                GetComponentLookup<MHWorkProviderMarker>(isReadOnly: true);
+            ComponentLookup<WorkProviderMaxMark> markerLookup =
+                GetComponentLookup<WorkProviderMaxMark>(isReadOnly: true);
 
-            // Marked query targets the owner building entities that MH previously touched.
+            // Marked query targets owner building entities previously touched.
             using (NativeArray<Entity> entities = m_PlacedDeathcareMarkedQuery.ToEntityArray(Allocator.Temp))
             {
                 for (int i = 0; i < entities.Length; i++)
                 {
                     Entity ownerEntity = entities[i];
 
-                    // Always remove marker from invalid entities.
                     if (deletedLookup.HasComponent(ownerEntity) || !workProviderLookup.HasComponent(ownerEntity))
                     {
-                        ecb.RemoveComponent<MHWorkProviderMarker>(ownerEntity);
+                        ecb.RemoveComponent<WorkProviderMaxMark>(ownerEntity);
                         continue;
                     }
 
@@ -189,19 +183,18 @@ namespace MagicHearse
                     }
 
                     WorkProvider current = workProviderLookup[ownerEntity];
-                    MHWorkProviderMarker marker = markerLookup[ownerEntity];
+                    WorkProviderMaxMark marker = markerLookup[ownerEntity];
 
-                    // Safety: if another system/mod changed the value since MH wrote it, do not overwrite.
+                    // Safety: if another system/mod changed the value since last write, do not overwrite.
                     if (current.m_MaxWorkers != marker.MaxWorkers)
                     {
-                        ecb.RemoveComponent<MHWorkProviderMarker>(ownerEntity);
+                        ecb.RemoveComponent<WorkProviderMaxMark>(ownerEntity);
                         continue;
                     }
 
-                    // CityUtils requires PrefabRef on the owner entity.
                     if (!prefabRefLookup.HasComponent(ownerEntity))
                     {
-                        ecb.RemoveComponent<MHWorkProviderMarker>(ownerEntity);
+                        ecb.RemoveComponent<WorkProviderMaxMark>(ownerEntity);
                         continue;
                     }
 
@@ -214,7 +207,6 @@ namespace MagicHearse
                         ref schoolDataLookup,
                         ref studentLookup);
 
-                    // Only apply if the computed value is meaningful and actually differs.
                     if (maxWorkers > 0 && maxWorkers != current.m_MaxWorkers)
                     {
                         WorkProvider updated = current;
@@ -222,8 +214,7 @@ namespace MagicHearse
                         ecb.SetComponent(ownerEntity, updated);
                     }
 
-                    // Marker is always removed on restore path.
-                    ecb.RemoveComponent<MHWorkProviderMarker>(ownerEntity);
+                    ecb.RemoveComponent<WorkProviderMaxMark>(ownerEntity);
                 }
             }
         }

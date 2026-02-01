@@ -74,7 +74,7 @@ Tune deathcare values (applies instantly):
 <!--Link to the forum post where the mod can be discussed-->
 <ForumLink Value="https://forum.paradoxplaza.com/forum/threads/magic-hearse-funeral-director.1865555/" />
 <!--Version of the mod-->
-<ModVersion Value="1.5.5" />
+<ModVersion Value="1.5.6" />
 <!--Recommended version of the base game to use the mod-->
 <GameVersion Value="1.5.*" />
 <!--Dependency for the mod, can be set multiple times-->
