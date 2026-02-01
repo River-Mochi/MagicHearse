@@ -1,6 +1,8 @@
 // File: Settings/Setting.Helpers.cs
 // Purpose: Runtime helpers + Settings UI setter handlers for Setting.cs.
 
+using Unity.Entities;
+
 namespace MagicHearse
 {
     using Unity.Entities; // World
@@ -134,3 +136,4 @@ namespace MagicHearse
         }
     }
 }
+

@@ -14,7 +14,7 @@ namespace MagicHearse
     using Unity.Burst;              // BurstCompile
     using Unity.Burst.Intrinsics;   // v128
     using Unity.Collections;        // NativeArray, ReadOnly
-    using Unity.Entities;           // EntityQuery, SystemAPI, EntityCommandBuffer
+    using Unity.Entities;           // EntityQuery, SystemAPI, EntityCommandBuffer, IJobChunk
     using Unity.Jobs;               // JobHandle
 
     public sealed partial class MagicHearseSystem : GameSystemBase
@@ -72,7 +72,7 @@ namespace MagicHearse
         }
 
         [BurstCompile]
-        private struct MagicHearseJob : Unity.Entities.IJobChunk
+        private struct MagicHearseJob : IJobChunk
         {
             [ReadOnly] public EntityTypeHandle m_EntityTypeHandle;
             [ReadOnly] public ComponentTypeHandle<HealthProblem> m_HealthProblemType;

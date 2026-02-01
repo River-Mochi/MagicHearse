@@ -106,12 +106,7 @@ namespace MagicHearse
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.WorkersScalar)), "Max workers" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.WorkersScalar)),
                     "**Increases maximum workers** allowed.\n" +
-                    "**100%** = vanilla game default.\n\n" +
-                    "Applies to **New Buildings**.\n" +
-                    "**Tips**\n" +
-                    "▪ Adding/removing an extension usually also refreshes.\n\n" +
-                    "**[o_o]** Tech talk: work places is a game computed component\n" +
-                    "<==not like other sliders==>; a new building is a safer/easier way to refresh this over modding runtime mutations (danger)."
+                    "**100%** = vanilla game default."
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.ResetGameDefaults)), "Reset sliders" },
@@ -137,9 +132,9 @@ namespace MagicHearse
                     "**Active building capacities:** total hearses, buildings, max workers.\n\n" +
                     "**Notes:**\n" +
                     "▪ Hearse: Active-not parked / (Total* hearses)\n" +
-                    "▪ *Total hearse:" +
-                    "=== includes hearse in maintenance (e.g. low service budget), \n" +
-                    "=== does not include any disabled building hearses.\n" +
+                    "▪ *Total hearse:\n" +
+                    "== includes hearse in maintenance (e.g. low service budget), \n" +
+                    "== does not include any disabled building hearses.\n" +
                     "▪ Status scan runs only while Options is open (or you use a slider); " +
                     "does not run per-frame in the city, so basically no performance impact :)"
                 },

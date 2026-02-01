@@ -379,11 +379,11 @@ namespace MagicHearse
             return prefabBase.TryGet(out authoring);
         }
 
-        private bool TryGetWorkplaceAuthoring(Entity prefabEntity, out Game.Prefabs.Workplace workplace)
+        private bool TryGetWorkplaceAuthoring(Entity prefabEntity, out Workplace workplace)
         {
             workplace = default!;
 
-            if (!m_PrefabSystem.TryGetPrefab(prefabEntity, out Game.Prefabs.PrefabBase prefabBase))
+            if (!m_PrefabSystem.TryGetPrefab(prefabEntity, out PrefabBase prefabBase))
             {
                 return false;
             }
