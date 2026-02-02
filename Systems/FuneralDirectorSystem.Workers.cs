@@ -30,12 +30,12 @@ namespace MagicHearse
                 GetComponentLookup<PrefabRef>(isReadOnly: true);
 
             ComponentLookup<Game.Prefabs.WorkplaceData> workplaceDataLookup =
-                GetComponentLookup<WorkplaceData>(isReadOnly: true);
+                GetComponentLookup<WorkplaceData>(isReadOnly: true);      
 
-            // CityUtils public helper method is shared across service buildings.
-            // School services needs to be passed into the method even though it's unused for deathcare.
-            // Lookups must be provided for vanilla - aligned computation.
-            ComponentLookup <Game.Prefabs.SchoolData> schoolDataLookup =
+            // CityUtils.GetCityServiceWorkplaceMaxWorkers is shared for service buildings.
+            // The method is defined to accept SchoolData + Student lookups.
+            // Deathcare does not use those branches, but the lookups must be supplied to call the helper and keep vanilla logic.
+            ComponentLookup<Game.Prefabs.SchoolData> schoolDataLookup =
                 GetComponentLookup<SchoolData>(isReadOnly: true);
 
             BufferLookup<Game.Buildings.Student> studentLookup =
@@ -154,7 +154,7 @@ namespace MagicHearse
             ComponentLookup<Game.Prefabs.WorkplaceData> workplaceDataLookup =
                 GetComponentLookup<WorkplaceData>(isReadOnly: true);
 
-            // Required by CityUtils.GetCityServiceWorkplaceMaxWorkers signature.
+            // CityUtils helper is defined to accept SchoolData (unused for deathcare but needed to use the public method).
             ComponentLookup<Game.Prefabs.SchoolData> schoolDataLookup =
                 GetComponentLookup<SchoolData>(isReadOnly: true);
 
