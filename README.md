@@ -2,7 +2,7 @@
 
 > Two modes:
 > **Auto Clean** removes dead citizens instantly, or
-> **Funeral Director** lets you tune deathcare capacity.
+> **Funeral Director** lets deathcare capacity be tuned.
 
 ---
 
@@ -11,7 +11,9 @@
 **Magic Hearse** helps with deathcare overload in two ways:
 
 - **Auto Clean (Magic):** instantly removes dead citizens waiting for a hearse.
-- **Funeral Director (Self Manage):** scales **deathcare facility prefabs** (processing, fleet, storage, and optional max workers).
+- **Funeral Director (Self Manage):** scales **deathcare facility prefabs**
+	- processing, fleet, storage, hearse speed
+	- optional max workers
 
 Notes:
 - **Auto Clean and Funeral Director are mutually exclusive** (turning one on turns the other off).
@@ -34,12 +36,13 @@ Notes:
 | **Fleet size** | Max hearses per facility multiplier |
 | **Cemetery storage** | Long-term storage capacity multiplier |
 | **Hearse Speed** | Speed multiplier (road limits still apply) |
-| **Max workers** | (Advanced) scales max workers for deathcare facilities, requires new buildings |
+| **Max workers** | (Advanced) scales max workers for deathcare facilities (existing + new buildings) |
 
 Includes:
 - **Reset Sliders** button (sets sliders back to 100%)
 
-**Worker note:** worker increases appear on **new buildings**. Tip: deleting/adding an extension usually also works.
+**Worker note:** worker changes apply to **existing and new buildings** (one-shot refresh using the game’s worker calculation).  
+**Compatibility note:** leave **Control max workers** OFF if another mod (ex: ConfigXML) should control worker counts.
 
 ---
 
@@ -81,7 +84,7 @@ Performance note: status scanning happens **only while Options is open** (refres
 
 ## Credits
 - River-Mochi: author/maintainer
-- Thanks to Wayze, creator of the original “Magical Hearse”
+- Inspired by Wayz's original “Magical Hearse”
 - yenyang: technical consultant
 - Necko1996: testing and feedback
-- StarQ: general tech advisory
+- StarQ: tech advisory

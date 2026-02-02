@@ -100,7 +100,7 @@ namespace MagicHearse
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.ControlWorkers)),
                     "兼容性开关：\n" +
                     "**启用 [✓]** 以增加工作人员数量。\n" +
-                    "**[o_o]** 如果希望由 **ConfigXML** 或其他模组控制殡葬服务的工作人员数量，请保持 OFF。"
+                    "**[o_o]** 如果希望由 **ConfigXML** 或其他模组控制殡葬服务的工作人员数量，请保持关闭。"
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.WorkersScalar)), "最大工人数" },
