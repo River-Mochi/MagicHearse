@@ -98,20 +98,15 @@ namespace MagicHearse
                 // Workers compatibility toggle
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.ControlWorkers)), "Contrôler les employés max" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.ControlWorkers)),
-                    "Interrupteur de compatibilité :\n" +
-                    "**Activer [✓]** pour augmenter le nombre d'employés.\n" +
-                    "**[o_o]** Laisser OFF si **ConfigXML** doit gérer les employés des services funéraires."
+                "Interrupteur de compatibilité :\n" +
+                "**Activer [✓]** pour augmenter le nombre d'employés.\n" +
+                "**[o_o]** Laisser OFF si **ConfigXML** ou un autre mod doit gérer les employés des services funéraires."
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.WorkersScalar)), "Employés max" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.WorkersScalar)),
                     "**Augmente le maximum d'employés** autorisés.\n" +
-                    "**100%** = valeur vanilla du jeu.\n\n" +
-                    "S'applique aux **Nouveaux bâtiments**.\n" +
-                    "**Astuces**\n" +
-                    "▪ Ajouter/supprimer une extension rafraîchit souvent aussi.\n\n" +
-                    "**[o_o]** Note technique : les postes de travail (emplois) sont un composant calculé par le jeu\n" +
-                    "<==pas comme les autres curseurs==>; un nouveau bâtiment est un moyen plus sûr/simple de rafraîchir cela que des mutations runtime via mod (danger)."
+                    "**100%** = valeur vanilla du jeu."
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.ResetGameDefaults)), "Réinitialiser les curseurs" },

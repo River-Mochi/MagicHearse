@@ -99,19 +99,14 @@ namespace MagicHearse
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.ControlWorkers)), "控制最大工人數" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.ControlWorkers)),
                     "相容性開關：\n" +
-                    "**啟用 [✓]** 以增加工人數。\n" +
-                    "**[o_o]** 如果希望由 **ConfigXML** 模組控制殯葬工人，請保持 OFF。"
+                    "**啟用 [✓]** 以增加工作人員數量。\n" +
+                    "**[o_o]** 若希望由 **ConfigXML** 或其他模組控制殯葬服務的工作人員數量，請保持 OFF。"
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.WorkersScalar)), "最大工人數" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.WorkersScalar)),
-                    "**提高允許的最大工人數**。\n" +
-                    "**100%** = 原版預設值。\n\n" +
-                    "僅對**新建建築**生效。\n" +
-                    "**提示**\n" +
-                    "▪ 新增/移除擴建通常也會刷新。\n\n" +
-                    "**[o_o]** 技術說明：工作名額是由遊戲計算的元件\n" +
-                    "<==不像其他滑條那樣==>；比起在執行時由模組直接修改數值（危險），新建建築是更安全/更簡單的刷新方式。"
+                    "**提高允許的最大工作人員數**。\n" +
+                    "**100%** = 原版預設值。"
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.ResetGameDefaults)), "重置滑條" },

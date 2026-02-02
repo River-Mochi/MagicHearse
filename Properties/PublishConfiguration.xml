@@ -25,10 +25,10 @@ Tune deathcare values (applies instantly):
 - Cemetery storage multiplier
 - Hearse speed (pedal to the metal)
   
-- Advanced **Max Workers** (place a new building or add/remove an extension refreshes values).
-- Compatibility Toggle ✅ turn OFF workers if you prefer to use ConfigXML mod for worker numbers.
+- Advanced **Max Workers** - now updates existing and new buildings.
+- Compatibility Toggle ✅ turn OFF workers if you prefer to use ConfigXML mod or other for worker numbers.
    
-## NEW Bonus Status Report
+## Bonus Status Report
 - All major deathcare stats: how many dead are waiting for hearses and more!
 - Scan runs/updates only in the Options menu or when a slider is used (lightweight, no city per-frame impact).
 
@@ -36,8 +36,8 @@ Tune deathcare values (applies instantly):
 - Toggle on/off without restarting the game.
 - Safe to remove any time. Uncheck both boxes to disable everything.
 - Disable other hearse mods to avoid conflicts!
-- No Harmony or reflection (more reliable on patch days).
 - Use either Auto clean or Self manage (mutually exclusive).
+- No Harmony or reflection (more reliable on patch days).
 - 11 languages
 
 ## Support and Feedback
@@ -56,7 +56,6 @@ Tune deathcare values (applies instantly):
 - Mod does not stop death - it's just very fast corpse cleanup.
 - Status scan is essentially no performance impact :) since it only runs in the Options menu, not in the city.
 - Mod can be safely removed. If you only used Auto - Magic, nothing persists done. If you used sliders, rate/fleet/storage values fallback to vanilla.
- If you used max workers, existing building retains the higher workers, any new building or using add/remove extensions/upgrades will be vanilla worker values.
   - set all sliders to 100% and uncheck Funeral Director for faster reset, but it's not required.
 
 </LongDescription>
@@ -81,8 +80,7 @@ Tune deathcare values (applies instantly):
 <Dependency Id="" />
 <!--Change log for new version. Single line or multi line. Supports minimal markdown subset-->
 <ChangeLog>
-* Add Hearse speed control.
-* Updated advanced features and UX.
+* Workers now updates on old Existing buildings (not just new builds).
 * Updated all Locale files for new features.
 </ChangeLog>
 <!--External link. supported types are discord, github, youtube, twitch, x, paypal, patreon-->

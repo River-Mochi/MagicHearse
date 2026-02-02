@@ -99,19 +99,14 @@ namespace MagicHearse
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.ControlWorkers)), "최대 근로자 제어" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.ControlWorkers)),
                     "호환성 토글:\n" +
-                    "**[✓] 활성화**하면 근로자 수가 증가합니다.\n" +
-                    "**[o_o]** 장례 시설 근로자를 **ConfigXML** 모드가 제어하길 원하면 OFF로 두세요."
+                    "**[✓] ON** 하면 근로자 수를 증가.\n" +
+                    "**[o_o]** **ConfigXML** 또는 다른 모드가 장례 서비스 근로자 수를 제어하게 하려면 OFF로 두기."
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.WorkersScalar)), "최대 근로자" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.WorkersScalar)),
-                    "허용되는 **최대 근로자 수**를 증가합니다.\n" +
-                    "**100%** = 바닐라 기본값.\n\n" +
-                    "**새 건물**에 적용됩니다.\n" +
-                    "**팁**\n" +
-                    "▪ 확장 추가/제거는 보통 갱신도 유도합니다.\n\n" +
-                    "**[o_o]** 기술 메모: 일자리 슬롯(직무 자리)은 게임이 계산하는 컴포넌트입니다\n" +
-                    "<==다른 슬라이더처럼 동작하지 않음==>; 런타임에서 모드가 직접 변경하는 것(위험)보다 새 건물을 짓는 방식이 더 안전/쉬운 갱신 방법입니다."
+                    "**최대 근로자 수** 를 증가.\n" +
+                    "**100%** = 바닐라 기본값."
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.ResetGameDefaults)), "슬라이더 리셋" },

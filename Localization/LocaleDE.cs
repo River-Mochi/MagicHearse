@@ -99,19 +99,14 @@ namespace MagicHearse
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.ControlWorkers)), "Max. Mitarbeiter steuern" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.ControlWorkers)),
                     "Kompatibilitäts-Schalter:\n" +
-                    "**Aktivieren [✓]** um die Anzahl der Mitarbeiter zu erhöhen.\n" +
-                    "**[o_o]** OFF lassen, wenn der **ConfigXML** Mod die Bestattungs-Mitarbeiter steuern soll."
+                    "**Aktivieren [✓]**, um die Anzahl der Arbeiter zu erhöhen.\n" +
+                    "**[o_o]** OFF lassen, wenn **ConfigXML** oder ein anderer Mod die Arbeiterzahl steuern soll."
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.WorkersScalar)), "Max. Mitarbeiter" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.WorkersScalar)),
-                    "**Erhöht die maximal erlaubten Mitarbeiter**.\n" +
-                    "**100%** = Vanilla-Standard.\n\n" +
-                    "Gilt für **Neue Gebäude**.\n" +
-                    "**Tips**\n" +
-                    "▪ Das Hinzufügen/Entfernen einer Erweiterung aktualisiert oft ebenfalls.\n\n" +
-                    "**[o_o]** Tech-Talk: Arbeitsplätze (Jobs) sind eine vom Spiel berechnete Komponente\n" +
-                    "<==nicht wie andere Regler==>; ein neues Gebäude ist ein sicherer/einfacher Weg zum Aktualisieren statt Runtime-Mutationen per Mod (Gefahr)."
+                    "**Erhöht die maximale Arbeiterzahl**.\n" +
+                    "**100%** = Vanilla-Standardwert."
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.ResetGameDefaults)), "Regler zurücksetzen" },

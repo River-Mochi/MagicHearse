@@ -100,18 +100,13 @@ namespace MagicHearse
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.ControlWorkers)),
                     "Interruttore di compatibilità:\n" +
                     "**Abilita [✓]** per aumentare il numero di lavoratori.\n" +
-                    "**[o_o]** Lascia OFF se vuoi che la mod **ConfigXML** controlli i lavoratori dei servizi funebri."
+                    "**[o_o]** Lasciare su OFF se si preferisce che **ConfigXML** o un altro mod controlli i lavoratori dei servizi funebri."
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.WorkersScalar)), "Lavoratori max" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.WorkersScalar)),
-                    "**Aumenta il massimo di lavoratori** consentito.\n" +
-                    "**100%** = valore vanilla del gioco.\n\n" +
-                    "Si applica ai **Nuovi edifici**.\n" +
-                    "**Tips**\n" +
-                    "▪ Aggiungere/rimuovere un'estensione di solito aggiorna anche.\n\n" +
-                    "**[o_o]** Nota tecnica: i posti di lavoro (lavori) sono un componente calcolato dal gioco\n" +
-                    "<==non come gli altri slider==>; un nuovo edificio è un modo più sicuro/facile per aggiornare questo rispetto a mutazioni runtime via mod (pericolo)."
+                    "**Aumenta il massimo di lavoratori** consentiti.\n" +
+                    "**100%** = valore vanilla del gioco."
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.ResetGameDefaults)), "Reset slider" },

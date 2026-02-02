@@ -99,19 +99,15 @@ namespace MagicHearse
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.ControlWorkers)), "Kontroluj maks. pracowników" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.ControlWorkers)),
                     "Przełącznik zgodności:\n" +
-                    "**Włącz [✓]** aby zwiększyć liczbę pracowników.\n" +
-                    "**[o_o]** Zostaw WYŁ., jeśli chcesz, aby mod **ConfigXML** kontrolował pracowników usług pogrzebowych."
+                    "**Włącz [✓]**, aby zwiększyć liczbę pracowników.\n" +
+                    "**[o_o]** Zostaw OFF, jeśli **ConfigXML** lub inny mod ma kontrolować pracowników usług pogrzebowych."
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.WorkersScalar)), "Maks. pracownicy" },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.WorkersScalar)),
-                    "**Zwiększa dozwoloną maksymalną liczbę pracowników**.\n" +
-                    "**100%** = domyślne ustawienie gry (vanilla).\n\n" +
-                    "Dotyczy **Nowych budynków**.\n" +
-                    "**Wskazówki**\n" +
-                    "▪ Dodanie/usunięcie rozszerzenia zwykle też odświeża.\n\n" +
-                    "**[o_o]** Tech talk: liczba miejsc pracy (slotów) jest komponentem wyliczanym przez grę\n" +
-                    "<==nie jak inne suwaki==>; nowy budynek to bezpieczniejszy/łatwiejszy sposób na odświeżenie tego niż modyfikacje runtime przez mod (niebezpieczne)."
+                { m_Setting.GetOptionDescLocaleID(nameof(Setting.ControlWorkers)),
+                    "Przełącznik zgodności:\n" +
+                    "**Włącz [✓]**, aby zwiększyć liczbę pracowników.\n" +
+                    "**[o_o]** Zostaw OFF, jeśli **ConfigXML** lub inny mod ma kontrolować pracowników usług pogrzebowych."
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.ResetGameDefaults)), "Reset suwaków" },

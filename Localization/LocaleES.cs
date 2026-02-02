@@ -100,18 +100,13 @@ namespace MagicHearse
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.ControlWorkers)),
                     "Interruptor de compatibilidad:\n" +
                     "**Activar [✓]** para aumentar el número de trabajadores.\n" +
-                    "**[o_o]** Déjalo OFF si quieres que el mod **ConfigXML** controle los trabajadores de servicios funerarios."
+                    "**[o_o]** Dejar en OFF si se prefiere que **ConfigXML** u otro mod controle los trabajadores del servicio funerario."
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.WorkersScalar)), "Trabajadores máx." },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.WorkersScalar)),
                     "**Aumenta el máximo de trabajadores** permitido.\n" +
-                    "**100%** = valor vanilla del juego.\n\n" +
-                    "Aplica a **Edificios nuevos**.\n" +
-                    "**Consejos**\n" +
-                    "▪ Añadir/quitar una extensión normalmente también refresca.\n\n" +
-                    "**[o_o]** Nota técnica: los puestos de trabajo (empleos) son un componente calculado por el juego\n" +
-                    "<==no como otros deslizadores==>; un edificio nuevo es una forma más segura/fácil de refrescar esto que mutaciones en runtime por mod (peligro)."
+                    "**100%** = valor vanilla del juego."
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.ResetGameDefaults)), "Restablecer deslizadores" },

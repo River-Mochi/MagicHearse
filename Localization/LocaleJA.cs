@@ -98,20 +98,15 @@ namespace MagicHearse
                 // Workers compatibility toggle
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.ControlWorkers)), "最大労働者を制御" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.ControlWorkers)),
-                    "互換性トグル：\n" +
-                    "**[✓] を有効化**すると労働者数を増やします。\n" +
-                    "**[o_o]** 死亡ケアの労働者を **ConfigXML** に任せたい場合は OFF のままにします。"
+                    "互換性トグル:\n" +
+                    "**[✓] をON** にすると従業員数を増やす。\n" +
+                    "**[o_o]** **ConfigXML** など別のMODに従業員数を任せたい場合は OFF のまま。"
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.WorkersScalar)), "最大労働者" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.WorkersScalar)),
-                    "**許可される最大労働者数**を増やします。\n" +
-                    "**100%** = バニラ既定。\n\n" +
-                    "**新しい建物**に適用されます。\n" +
-                    "**ヒント**\n" +
-                    "▪ 拡張を追加/削除すると、たいてい更新されます。\n\n" +
-                    "**[o_o]** 技術メモ：求人枠（ジョブ枠）はゲームが計算するコンポーネントです\n" +
-                    "<==ほかのスライダーとは違います==>；ランタイムでModが直接いじって更新するより、新しく建て直す方が安全/簡単です（危険）。"
+                    "**最大従業員数** を増やす。\n" +
+                    "**100%** = バニラ既定値。"
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.ResetGameDefaults)), "スライダーをリセット" },

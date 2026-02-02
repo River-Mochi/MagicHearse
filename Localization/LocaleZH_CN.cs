@@ -99,19 +99,14 @@ namespace MagicHearse
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.ControlWorkers)), "控制最大工人数" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.ControlWorkers)),
                     "兼容性开关：\n" +
-                    "**启用 [✓]** 以增加工人数。\n" +
-                    "**[o_o]** 如果希望由 **ConfigXML** 模组控制殡葬工人，请保持 OFF。"
+                    "**启用 [✓]** 以增加工作人员数量。\n" +
+                    "**[o_o]** 如果希望由 **ConfigXML** 或其他模组控制殡葬服务的工作人员数量，请保持 OFF。"
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.WorkersScalar)), "最大工人数" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.WorkersScalar)),
-                    "**提高允许的最大工人数**。\n" +
-                    "**100%** = 原版默认值。\n\n" +
-                    "仅对**新建建筑**生效。\n" +
-                    "**提示**\n" +
-                    "▪ 添加/移除扩建通常也会刷新。\n\n" +
-                    "**[o_o]** 技术说明：工作名额是由游戏计算的组件\n" +
-                    "<==不像其他滑条那样==>；比起在运行时让模组直接改数值（危险），新建建筑是更安全/更简单的刷新方式。"
+                    "**提高允许的最大工作人员数**。\n" +
+                    "**100%** = 原版默认值。"
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.ResetGameDefaults)), "重置滑条" },
@@ -164,7 +159,6 @@ namespace MagicHearse
                     "打开作者的 Paradox Mods 页面。" },
             };
         }
-
         public void Unload()
         { }
     }

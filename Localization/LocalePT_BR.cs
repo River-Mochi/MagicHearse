@@ -99,19 +99,14 @@ namespace MagicHearse
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.ControlWorkers)), "Controlar trabalhadores máx." },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.ControlWorkers)),
                     "Alternância de compatibilidade:\n" +
-                    "**Ative [✓]** para aumentar o número de trabalhadores.\n" +
-                    "**[o_o]** Deixe OFF se quiser que o mod **ConfigXML** controle os trabalhadores de serviços funerários."
+                    "**Ativar [✓]** para aumentar o número de trabalhadores.\n" +
+                    "**[o_o]** Deixe em OFF se quiser que o **ConfigXML** ou outro mod controle os trabalhadores do serviço funerário."
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.WorkersScalar)), "Trabalhadores máx." },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.WorkersScalar)),
                     "**Aumenta o máximo de trabalhadores** permitido.\n" +
-                    "**100%** = padrão vanilla do jogo.\n\n" +
-                    "Aplica em **Novos edifícios**.\n" +
-                    "**Dicas**\n" +
-                    "▪ Adicionar/remover uma extensão geralmente também atualiza.\n\n" +
-                    "**[o_o]** Tech talk: vagas de trabalho (jobs) são um componente calculado pelo jogo\n" +
-                    "<==não é como outros sliders==>; um prédio novo é uma forma mais segura/fácil de atualizar isso do que mutações em runtime via mod (perigo)."
+                    "**100%** = padrão vanilla do jogo."
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.ResetGameDefaults)), "Resetar sliders" },
