@@ -10,7 +10,7 @@ namespace MagicHearse
 {
     using Colossal.Serialization.Entities; // Purpose
     using Game;                           // GameSystemBase, GameMode
-    using Game.Prefabs;                   // PrefabSystem, PrefabBase, authoring components
+    using Game.Prefabs;                   // PrefabSystem, PrefabBase
     using Unity.Collections;              // Allocator
     using Unity.Entities;                 // Entity, EntityQuery, EntityCommandBuffer, SystemAPI, RefRW/RefRO
     using Unity.Mathematics;              // math.*

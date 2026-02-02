@@ -9,7 +9,7 @@ namespace MagicHearse
 {
     using Game;                   // IsGame()
     using Game.SceneFlow;         // GameManager
-    using System;                 // DateTime, TimeSpan, Math, Exception, FormatException
+    using System;                 // DateTime, TimeSpan, Math, Exception
     using Unity.Entities;         // World
     using UnityEngine;            // Time.frameCount
 

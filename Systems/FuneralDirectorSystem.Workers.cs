@@ -8,7 +8,7 @@ namespace MagicHearse
     using Game.City;         // CityUtils
     using Game.Common;       // Deleted, Owner
     using Game.Companies;    // WorkProvider
-    using Game.Prefabs;      // PrefabRef, WorkplaceData, SchoolData
+    using Game.Prefabs;      // PrefabRef, WorkplaceData
     using Unity.Collections; // Allocator, NativeArray
     using Unity.Entities;    // EntityCommandBuffer, ComponentLookup, BufferLookup
 
