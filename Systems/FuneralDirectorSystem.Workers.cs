@@ -1,60 +1,62 @@
 // File: Systems/FuneralDirectorSystem.Workers.cs
 // Purpose: One-shot recompute of placed-building worker cache (WorkProvider.m_MaxWorkers)
-//          based on current prefab WorkplaceData + InstalledUpgrade, using the game's own CityUtils logic.
+//          based on current prefab WorkplaceData + InstalledUpgrade, using City's public CityUtils logic.
 
 namespace MagicHearse
 {
-    using Game.Buildings;                // InstalledUpgrade, Student
-    using Game.City;                     // CityUtils
-    using Game.Common;                   // Deleted, Owner
-    using Game.Companies;                // WorkProvider
-    using Game.Prefabs;                  // PrefabRef, WorkplaceData, SchoolData
-    using Unity.Collections;             // Allocator, NativeArray
-    using Unity.Entities;                // Entity, EntityCommandBuffer, ComponentLookup, BufferLookup
+    using Game.Buildings;    // InstalledUpgrade, Student
+    using Game.City;         // CityUtils
+    using Game.Common;       // Deleted, Owner
+    using Game.Companies;    // WorkProvider
+    using Game.Objects;
+    using Game.Prefabs;      // PrefabRef, WorkplaceData, SchoolData
+    using Unity.Collections; // Allocator, NativeArray
+    using Unity.Entities;    // EntityCommandBuffer, ComponentLookup, BufferLookup
 
     public sealed partial class FuneralDirectorSystem
     {
         private void RefreshPlacedDeathcareWorkers(ref EntityCommandBuffer ecb)
         {
-            // Lookups are read-only; writes happen via ECB.
             ComponentLookup<Game.Common.Owner> ownerLookup =
-                GetComponentLookup<Game.Common.Owner>(isReadOnly: true);
+                GetComponentLookup<Owner>(isReadOnly: true);
 
             ComponentLookup<Game.Common.Deleted> deletedLookup =
-                GetComponentLookup<Game.Common.Deleted>(isReadOnly: true);
+                GetComponentLookup<Deleted>(isReadOnly: true);
 
             ComponentLookup<Game.Companies.WorkProvider> workProviderLookup =
-                GetComponentLookup<Game.Companies.WorkProvider>(isReadOnly: true);
+                GetComponentLookup<WorkProvider>(isReadOnly: true);
 
             ComponentLookup<Game.Prefabs.PrefabRef> prefabRefLookup =
-                GetComponentLookup<Game.Prefabs.PrefabRef>(isReadOnly: true);
+                GetComponentLookup<PrefabRef>(isReadOnly: true);
 
             ComponentLookup<Game.Prefabs.WorkplaceData> workplaceDataLookup =
-                GetComponentLookup<Game.Prefabs.WorkplaceData>(isReadOnly: true);
+                GetComponentLookup<WorkplaceData>(isReadOnly: true);
 
-            ComponentLookup<Game.Prefabs.SchoolData> schoolDataLookup =
-                GetComponentLookup<Game.Prefabs.SchoolData>(isReadOnly: true);
+            // CityUtils public helper method is shared across service buildings.
+            // School services needs to be passed into the method even though it's unused for deathcare.
+            // Lookups must be provided for vanilla - aligned computation.
+            ComponentLookup <Game.Prefabs.SchoolData> schoolDataLookup =
+                GetComponentLookup<SchoolData>(isReadOnly: true);
 
             BufferLookup<Game.Buildings.Student> studentLookup =
-                GetBufferLookup<Game.Buildings.Student>(isReadOnly: true);
+                GetBufferLookup<Student>(isReadOnly: true);
 
             BufferLookup<Game.Buildings.InstalledUpgrade> upgradesLookup =
-                GetBufferLookup<Game.Buildings.InstalledUpgrade>(isReadOnly: true);
+                GetBufferLookup<InstalledUpgrade>(isReadOnly: true);
 
-            ComponentLookup<WorkProviderMaxMark> markerLookup =
-                GetComponentLookup<WorkProviderMaxMark>(isReadOnly: true);
+            ComponentLookup<WorkProviderMax> markerLookup =
+                GetComponentLookup<WorkProviderMax>(isReadOnly: true);
 
             int touched = 0;
 
-            // Query includes building entities (and sometimes upgrade entities).
-            // Worker cache lives on the owner building entity that has WorkProvider.
+            // On-demand pass; query is filtered to placed (existing) DeathcareFacility entities.
+            // ToEntityArray uses native memory (Allocator.Temp) and avoids managed GC allocations.
             using (NativeArray<Entity> entities = m_PlacedDeathcareQuery.ToEntityArray(Allocator.Temp))
             {
                 for (int i = 0; i < entities.Length; i++)
                 {
                     Entity e = entities[i];
 
-                    // Resolve to the entity that owns building state (where WorkProvider lives).
                     Entity ownerEntity = e;
                     if (ownerLookup.HasComponent(e))
                     {
@@ -66,7 +68,7 @@ namespace MagicHearse
                         continue;
                     }
 
-                    // Requirement: never add WorkProvider; only mutate if it already exists.
+                    // Never add WorkProvider; only mutate if it already exists.
                     if (!workProviderLookup.HasComponent(ownerEntity))
                     {
                         continue;
@@ -77,7 +79,7 @@ namespace MagicHearse
                     {
                         continue;
                     }
-
+                    // Preserved CityUtils computation path for vanilla-aligned behavior.
                     int maxWorkers = CityUtils.GetCityServiceWorkplaceMaxWorkers(
                         ownerEntity,
                         ref prefabRefLookup,
@@ -114,7 +116,7 @@ namespace MagicHearse
 
                     if (markerNeedsUpdate)
                     {
-                        WorkProviderMaxMark marker = new WorkProviderMaxMark { MaxWorkers = maxWorkers };
+                        WorkProviderMax marker = new WorkProviderMax { MaxWorkers = maxWorkers };
 
                         if (markerLookup.HasComponent(ownerEntity))
                         {
@@ -141,30 +143,30 @@ namespace MagicHearse
         private void RestorePlacedDeathcareWorkers(ref EntityCommandBuffer ecb)
         {
             ComponentLookup<Game.Common.Deleted> deletedLookup =
-                GetComponentLookup<Game.Common.Deleted>(isReadOnly: true);
+                GetComponentLookup<Deleted>(isReadOnly: true);
 
             ComponentLookup<Game.Companies.WorkProvider> workProviderLookup =
-                GetComponentLookup<Game.Companies.WorkProvider>(isReadOnly: true);
+                GetComponentLookup<WorkProvider>(isReadOnly: true);
 
             ComponentLookup<Game.Prefabs.PrefabRef> prefabRefLookup =
-                GetComponentLookup<Game.Prefabs.PrefabRef>(isReadOnly: true);
+                GetComponentLookup<PrefabRef>(isReadOnly: true);
 
             ComponentLookup<Game.Prefabs.WorkplaceData> workplaceDataLookup =
-                GetComponentLookup<Game.Prefabs.WorkplaceData>(isReadOnly: true);
+                GetComponentLookup<WorkplaceData>(isReadOnly: true);
 
+            // Required by CityUtils.GetCityServiceWorkplaceMaxWorkers signature.
             ComponentLookup<Game.Prefabs.SchoolData> schoolDataLookup =
-                GetComponentLookup<Game.Prefabs.SchoolData>(isReadOnly: true);
+                GetComponentLookup<SchoolData>(isReadOnly: true);
 
             BufferLookup<Game.Buildings.Student> studentLookup =
-                GetBufferLookup<Game.Buildings.Student>(isReadOnly: true);
+                GetBufferLookup<Student>(isReadOnly: true);
 
             BufferLookup<Game.Buildings.InstalledUpgrade> upgradesLookup =
-                GetBufferLookup<Game.Buildings.InstalledUpgrade>(isReadOnly: true);
+                GetBufferLookup<InstalledUpgrade>(isReadOnly: true);
 
-            ComponentLookup<WorkProviderMaxMark> markerLookup =
-                GetComponentLookup<WorkProviderMaxMark>(isReadOnly: true);
+            ComponentLookup<WorkProviderMax> markerLookup =
+                GetComponentLookup<WorkProviderMax>(isReadOnly: true);
 
-            // Marked query targets owner building entities previously touched.
             using (NativeArray<Entity> entities = m_PlacedDeathcareMarkedQuery.ToEntityArray(Allocator.Temp))
             {
                 for (int i = 0; i < entities.Length; i++)
@@ -173,7 +175,7 @@ namespace MagicHearse
 
                     if (deletedLookup.HasComponent(ownerEntity) || !workProviderLookup.HasComponent(ownerEntity))
                     {
-                        ecb.RemoveComponent<WorkProviderMaxMark>(ownerEntity);
+                        ecb.RemoveComponent<WorkProviderMax>(ownerEntity);
                         continue;
                     }
 
@@ -183,18 +185,18 @@ namespace MagicHearse
                     }
 
                     WorkProvider current = workProviderLookup[ownerEntity];
-                    WorkProviderMaxMark marker = markerLookup[ownerEntity];
+                    WorkProviderMax marker = markerLookup[ownerEntity];
 
-                    // Safety: if another system/mod changed the value since last write, do not overwrite.
+                    // Restore only when value still matches last MH write (don't stomp other mods).
                     if (current.m_MaxWorkers != marker.MaxWorkers)
                     {
-                        ecb.RemoveComponent<WorkProviderMaxMark>(ownerEntity);
+                        ecb.RemoveComponent<WorkProviderMax>(ownerEntity);
                         continue;
                     }
 
                     if (!prefabRefLookup.HasComponent(ownerEntity))
                     {
-                        ecb.RemoveComponent<WorkProviderMaxMark>(ownerEntity);
+                        ecb.RemoveComponent<WorkProviderMax>(ownerEntity);
                         continue;
                     }
 
@@ -214,9 +216,10 @@ namespace MagicHearse
                         ecb.SetComponent(ownerEntity, updated);
                     }
 
-                    ecb.RemoveComponent<WorkProviderMaxMark>(ownerEntity);
+                    ecb.RemoveComponent<WorkProviderMax>(ownerEntity);
                 }
             }
         }
+
     }
 }

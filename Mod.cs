@@ -94,7 +94,7 @@ namespace MagicHearse
                 if (setting.FuneralDirector)
                 {
                     updateSystem.World.GetOrCreateSystemManaged<FuneralDirectorSystem>()
-                        .RequestReapplyFromSettings();
+                        .ScheduleReapply();
                 }
             }
             catch (Exception ex)

@@ -1,8 +1,6 @@
 // File: Settings/Setting.Helpers.cs
 // Purpose: Runtime helpers + Settings UI setter handlers for Setting.cs.
 
-using Unity.Entities;
-
 namespace MagicHearse
 {
     using Unity.Entities; // World
@@ -41,7 +39,7 @@ namespace MagicHearse
             if (fdChanged)  // Trigger FD to apply/restore prefab scaling on next update pass.
             {
                 world.GetOrCreateSystemManaged<FuneralDirectorSystem>()
-                    .RequestReapplyFromSettings();
+                    .ScheduleReapply();
             }
         }
 
@@ -60,7 +58,7 @@ namespace MagicHearse
             }
             // Queue a one-shot FD apply pass (system enables itself, runs once, disables itself).
             world.GetOrCreateSystemManaged<FuneralDirectorSystem>()
-                .RequestReapplyFromSettings();
+                .ScheduleReapply();
 
             DeathcareStatus.MarkDirty();   // Ensure OptionsUI status refreshes immediately after a slider/toggle change.
         }

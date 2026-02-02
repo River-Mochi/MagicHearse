@@ -8,34 +8,20 @@
 
 namespace MagicHearse
 {
-    using Colossal.Serialization.Entities;    // Purpose
-    using Game;                               // GameSystemBase, GameMode
-    using Game.Prefabs;                       // PrefabSystem, PrefabBase, authoring components, prefab components
-    using Unity.Collections;                  // Allocator
-    using Unity.Entities;                     // Entity, EntityQuery, ComponentType, EntityCommandBuffer, SystemAPI, RefRW/RefRO, IComponentData
-    using Unity.Mathematics;                  // math.*
-
-    // Marker: last applied worker values on prefab entities (WorkplaceData).
-    internal struct WorkplaceMark : IComponentData
-    {
-        public int MaxWorkers;
-        public int MinWorkers;
-    }
-
-    // Marker: last applied derived WorkProvider max on placed building owner entities.
-    internal struct WorkProviderMaxMark : IComponentData
-    {
-        public int MaxWorkers;
-    }
+    using Colossal.Serialization.Entities; // Purpose
+    using Game;                           // GameSystemBase, GameMode
+    using Game.Prefabs;                   // PrefabSystem, PrefabBase, authoring components
+    using Unity.Collections;              // Allocator
+    using Unity.Entities;                 // Entity, EntityQuery, EntityCommandBuffer, SystemAPI, RefRW/RefRO
+    using Unity.Mathematics;              // math.*
 
     public sealed partial class FuneralDirectorSystem : GameSystemBase
     {
         private bool m_Dirty;
-        private PrefabSystem m_PrefabSystem = null!; // assigned in OnCreate
+        private PrefabSystem m_PrefabSystem = null!;
 
         private EntityQuery m_PlacedDeathcareQuery;
         private EntityQuery m_PlacedDeathcareMarkedQuery;
-        private EntityQuery m_HearseCarPrefabQuery;
 
         protected override void OnCreate()
         {
@@ -45,47 +31,22 @@ namespace MagicHearse
 
             m_PrefabSystem = World.GetOrCreateSystemManaged<PrefabSystem>();
 
-            // Placed deathcare (buildings + upgrades) used for one-shot recompute.
-            m_PlacedDeathcareQuery = GetEntityQuery(new EntityQueryDesc
-            {
-                All = new[]
-                {
-                    ComponentType.ReadOnly<Game.Buildings.DeathcareFacility>(),
-                    ComponentType.ReadOnly<Game.Prefabs.PrefabRef>(),
-                },
-                None = new[]
-                {
-                    ComponentType.ReadOnly<Game.Tools.Temp>(),
-                    ComponentType.ReadOnly<Game.Common.Deleted>(),
-                },
-            });
+            // Built-once and reused by Workers partial for one-shot instance cache refresh/restore.
+            m_PlacedDeathcareQuery = SystemAPI.QueryBuilder()
+                .WithAll<Game.Buildings.DeathcareFacility>()
+                .WithAll<Game.Prefabs.PrefabRef>()
+                .WithNone<Game.Tools.Temp>()
+                .WithNone<Game.Common.Deleted>()
+                .Build();
 
-            // Placed deathcare owners touched by MH (marker lives on owner entity).
-            m_PlacedDeathcareMarkedQuery = GetEntityQuery(new EntityQueryDesc
-            {
-                All = new[]
-                {
-                    ComponentType.ReadOnly<WorkProviderMaxMark>(),
-                    ComponentType.ReadOnly<Game.Buildings.DeathcareFacility>(),
-                    ComponentType.ReadOnly<Game.Prefabs.PrefabRef>(),
-                },
-                None = new[]
-                {
-                    ComponentType.ReadOnly<Game.Tools.Temp>(),
-                    ComponentType.ReadOnly<Game.Common.Deleted>(),
-                },
-            });
-
-            // Hearse car prefab entities to tune.
-            m_HearseCarPrefabQuery = GetEntityQuery(new EntityQueryDesc
-            {
-                All = new[]
-                {
-                    ComponentType.ReadOnly<Game.Prefabs.PrefabData>(),
-                    ComponentType.ReadOnly<Game.Prefabs.HearseData>(),
-                    ComponentType.ReadWrite<Game.Prefabs.CarData>(),
-                },
-            });
+            // Query targets owner building entities previously touched.
+            m_PlacedDeathcareMarkedQuery = SystemAPI.QueryBuilder()
+                .WithAll<WorkProviderMax>()                     
+                .WithAll<Game.Buildings.DeathcareFacility>()    // marker lives on owner
+                .WithAll<Game.Prefabs.PrefabRef>()
+                .WithNone<Game.Tools.Temp>()
+                .WithNone<Game.Common.Deleted>()
+                .Build();
 
 #if DEBUG
             Mod.LogSafe(() => "[FD] System created.");
@@ -102,12 +63,12 @@ namespace MagicHearse
 #if DEBUG
                 Mod.LogSafe(() => $"[FD] OnGameLoadingComplete: purpose={purpose}, mode={mode}");
 #endif
-                RequestReapplyFromSettings();
+                ScheduleReapply();
             }
         }
 
-        /// <summary>Called by settings setters to schedule one apply/restore pass.</summary>
-        public void RequestReapplyFromSettings()
+        /// <summary>Marks system dirty and enables one apply/restore pass.</summary>
+        public void ScheduleReapply()
         {
             m_Dirty = true;
             Enabled = true;
@@ -135,11 +96,11 @@ namespace MagicHearse
             {
                 if (!setting.FuneralDirector)
                 {
-                    RestoreVanillaFromAuthoring();
+                    RestoreBaseline();
                 }
                 else
                 {
-                    ApplyMultipliersFromAuthoring(setting);
+                    ApplyScalars(setting);
                 }
             }
             catch (System.Exception ex)
@@ -153,7 +114,7 @@ namespace MagicHearse
             }
         }
 
-        private void ApplyMultipliersFromAuthoring(Setting setting)
+        private void ApplyScalars(Setting setting)
         {
             float procScalar = setting.ProcScalar * 0.01f;
             float fleetScalar = setting.FleetScalar * 0.01f;
@@ -164,13 +125,13 @@ namespace MagicHearse
             bool controlWorkers = setting.ControlWorkers;
             float workersScalar = setting.WorkersScalar * 0.01f;
 
-            // 1) DeathcareFacilityData on PREFABS
+            // 1) DeathcareFacilityData on prefab entities
             foreach ((RefRW<Game.Prefabs.DeathcareFacilityData> dc, Entity entity) in SystemAPI
                          .Query<RefRW<Game.Prefabs.DeathcareFacilityData>>()
                          .WithAll<Game.Prefabs.PrefabData>()
                          .WithEntityAccess())
             {
-                if (!TryGetDeathcareAuthoring(entity, out Game.Prefabs.DeathcareFacility authoring))
+                if (!TryGetDeathcareBase(entity, out Game.Prefabs.DeathcareFacility authoring))
                 {
                     continue;
                 }
@@ -216,20 +177,20 @@ namespace MagicHearse
                 dc.ValueRW = newData;
             }
 
-            // 1b) Hearse vehicle tuning on PREFABS
-            ApplyHearseCarTuningFromAuthoring(hearseSpeedScalar);
+            // 1b) Hearse vehicle tuning on prefab entities
+            ApplyHearseCarTuning(hearseSpeedScalar);
 
-            // 2) WorkplaceData on deathcare PREFABS (optional)
+            // 2) WorkplaceData on deathcare prefab entities (optional)
             EntityCommandBuffer ecb = new EntityCommandBuffer(Allocator.Temp);
 
             if (controlWorkers)
             {
                 foreach ((RefRW<Game.Prefabs.WorkplaceData> wp, Entity entity) in SystemAPI
                              .Query<RefRW<Game.Prefabs.WorkplaceData>>()
-                             .WithAll<Game.Prefabs.PrefabData, Game.Prefabs.DeathcareFacilityData>()
+                             .WithAll<Game.Prefabs.PrefabData, Game.Prefabs.DeathcareFacilityData>()    // fully qualify prevents errors.
                              .WithEntityAccess())
                 {
-                    if (!TryGetWorkplaceAuthoring(entity, out Game.Prefabs.Workplace workplace))
+                    if (!TryGetWorkplaceBase(entity, out Game.Prefabs.Workplace workplace))
                     {
                         continue;
                     }
@@ -265,13 +226,13 @@ namespace MagicHearse
 
                     wp.ValueRW = newWp;
 
-                    WorkplaceMark marker = new WorkplaceMark
+                    MHWorkplaceMarker marker = new MHWorkplaceMarker
                     {
                         MaxWorkers = newWp.m_MaxWorkers,
                         MinWorkers = newWp.m_MinimumWorkersLimit,
                     };
 
-                    if (SystemAPI.HasComponent<WorkplaceMark>(entity))
+                    if (SystemAPI.HasComponent<MHWorkplaceMarker>(entity))
                     {
                         ecb.SetComponent(entity, marker);
                     }
@@ -286,8 +247,8 @@ namespace MagicHearse
             }
             else
             {
-                foreach ((RefRW<Game.Prefabs.WorkplaceData> wp, RefRO<WorkplaceMark> marker, Entity entity) in SystemAPI
-                             .Query<RefRW<Game.Prefabs.WorkplaceData>, RefRO<WorkplaceMark>>()
+                foreach ((RefRW<Game.Prefabs.WorkplaceData> wp, RefRO<MHWorkplaceMarker> marker, Entity entity) in SystemAPI
+                             .Query<RefRW<Game.Prefabs.WorkplaceData>, RefRO<MHWorkplaceMarker>>()
                              .WithAll<Game.Prefabs.PrefabData, Game.Prefabs.DeathcareFacilityData>()
                              .WithEntityAccess())
                 {
@@ -297,14 +258,14 @@ namespace MagicHearse
                         current.m_MaxWorkers == marker.ValueRO.MaxWorkers &&
                         current.m_MinimumWorkersLimit == marker.ValueRO.MinWorkers;
 
-                    if (stillMatches && TryGetWorkplaceAuthoring(entity, out Game.Prefabs.Workplace workplace))
+                    if (stillMatches && TryGetWorkplaceBase(entity, out Game.Prefabs.Workplace workplace))
                     {
                         current.m_MaxWorkers = workplace.m_Workplaces;
                         current.m_MinimumWorkersLimit = workplace.m_MinimumWorkersLimit;
                         wp.ValueRW = current;
                     }
 
-                    ecb.RemoveComponent<WorkplaceMark>(entity);
+                    ecb.RemoveComponent<MHWorkplaceMarker>(entity);
                 }
 
                 // Restore instance-side workers only for buildings previously touched by MH.
@@ -315,14 +276,14 @@ namespace MagicHearse
             ecb.Dispose();
         }
 
-        private void RestoreVanillaFromAuthoring()
+        private void RestoreBaseline()
         {
             foreach ((RefRW<Game.Prefabs.DeathcareFacilityData> dc, Entity entity) in SystemAPI
                          .Query<RefRW<Game.Prefabs.DeathcareFacilityData>>()
                          .WithAll<Game.Prefabs.PrefabData>()
                          .WithEntityAccess())
             {
-                if (!TryGetDeathcareAuthoring(entity, out Game.Prefabs.DeathcareFacility authoring))
+                if (!TryGetDeathcareBase(entity, out Game.Prefabs.DeathcareFacility authoring))
                 {
                     continue;
                 }
@@ -336,12 +297,12 @@ namespace MagicHearse
                 };
             }
 
-            ApplyHearseCarTuningFromAuthoring(1f);
+            ApplyHearseCarTuning(1f);
 
             EntityCommandBuffer ecb = new EntityCommandBuffer(Allocator.Temp);
 
-            foreach ((RefRW<Game.Prefabs.WorkplaceData> wp, RefRO<WorkplaceMark> marker, Entity entity) in SystemAPI
-                         .Query<RefRW<Game.Prefabs.WorkplaceData>, RefRO<WorkplaceMark>>()
+            foreach ((RefRW<Game.Prefabs.WorkplaceData> wp, RefRO<MHWorkplaceMarker> marker, Entity entity) in SystemAPI
+                         .Query<RefRW<Game.Prefabs.WorkplaceData>, RefRO<MHWorkplaceMarker>>()
                          .WithAll<Game.Prefabs.PrefabData, Game.Prefabs.DeathcareFacilityData>()
                          .WithEntityAccess())
             {
@@ -351,14 +312,14 @@ namespace MagicHearse
                     current.m_MaxWorkers == marker.ValueRO.MaxWorkers &&
                     current.m_MinimumWorkersLimit == marker.ValueRO.MinWorkers;
 
-                if (stillMatches && TryGetWorkplaceAuthoring(entity, out Game.Prefabs.Workplace workplace))
+                if (stillMatches && TryGetWorkplaceBase(entity, out Game.Prefabs.Workplace workplace))
                 {
                     current.m_MaxWorkers = workplace.m_Workplaces;
                     current.m_MinimumWorkersLimit = workplace.m_MinimumWorkersLimit;
                     wp.ValueRW = current;
                 }
 
-                ecb.RemoveComponent<WorkplaceMark>(entity);
+                ecb.RemoveComponent<MHWorkplaceMarker>(entity);
             }
 
             RestorePlacedDeathcareWorkers(ref ecb);
@@ -367,7 +328,7 @@ namespace MagicHearse
             ecb.Dispose();
         }
 
-        private bool TryGetDeathcareAuthoring(Entity prefabEntity, out Game.Prefabs.DeathcareFacility authoring)
+        private bool TryGetDeathcareBase(Entity prefabEntity, out Game.Prefabs.DeathcareFacility authoring)
         {
             authoring = default!;
 
@@ -379,7 +340,7 @@ namespace MagicHearse
             return prefabBase.TryGet(out authoring);
         }
 
-        private bool TryGetWorkplaceAuthoring(Entity prefabEntity, out Workplace workplace)
+        private bool TryGetWorkplaceBase(Entity prefabEntity, out Workplace workplace)
         {
             workplace = default!;
 
@@ -390,5 +351,6 @@ namespace MagicHearse
 
             return prefabBase.TryGetExactly(out workplace);
         }
+
     }
 }

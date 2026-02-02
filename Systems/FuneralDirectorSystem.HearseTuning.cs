@@ -3,32 +3,30 @@
 
 namespace MagicHearse
 {
-    using Game.Prefabs;      // PrefabBase, CarPrefab
+    using Game.Prefabs;      // CarPrefab, HearseData
     using Unity.Entities;    // Entity, RefRW, SystemAPI
     using Unity.Mathematics; // math.*
 
     public sealed partial class FuneralDirectorSystem
     {
-        private void ApplyHearseCarTuningFromAuthoring(float speedScalar)
+        private void ApplyHearseCarTuning(float speedScalar)
         {
-            // Top speed uses scalar directly.
+            // Speed uses scalar directly.
+            float clampedSpeedScalar = math.max(0f, speedScalar);   
             // Accel/brake use sqrt(scalar) to reduce extreme launch/stop behavior at high speeds.
-            float clampedSpeedScalar = math.max(0f, speedScalar);
-            float accelBrakeScalar = math.sqrt(math.max(0.01f, clampedSpeedScalar));
+            float accelBrakeScalar = math.sqrt(math.max(0.01f, clampedSpeedScalar)); 
 
             foreach ((RefRW<Game.Prefabs.CarData> car, Entity prefabEntity) in SystemAPI
                          .Query<RefRW<Game.Prefabs.CarData>>()
-                         .WithAll<PrefabData, HearseData>() // prefab hearses only
+                         .WithAll<Game.Prefabs.PrefabData, Game.Prefabs.HearseData>() // prefab hearses only
                          .WithEntityAccess())
             {
-                if (!TryGetCarPrefab(prefabEntity, out CarPrefab carPrefab))
+                if (!TryGetCarBase(prefabEntity, out CarPrefab carPrefab))
                 {
                     continue;
                 }
-
                 // Authoring is km/h; runtime CarData uses m/s.
                 float baseMaxSpeedMs = carPrefab.m_MaxSpeed * (1f / 3.6f);
-
                 CarData tuned = car.ValueRO;
 
                 tuned.m_MaxSpeed = baseMaxSpeedMs <= 0f
@@ -47,7 +45,7 @@ namespace MagicHearse
             }
         }
 
-        private bool TryGetCarPrefab(Entity prefabEntity, out CarPrefab carPrefab)
+        private bool TryGetCarBase(Entity prefabEntity, out CarPrefab carPrefab)
         {
             carPrefab = default!;
 
@@ -64,5 +62,6 @@ namespace MagicHearse
 
             return false;
         }
+
     }
 }

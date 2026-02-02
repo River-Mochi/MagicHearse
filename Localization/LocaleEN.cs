@@ -100,7 +100,7 @@ namespace MagicHearse
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.ControlWorkers)),
                     "Compatibility toggle:\n" +
                     "**Enable [✓]** to increase the number of workers.\n" +
-                    "**[o_o]** Leave OFF if you want **ConfigXML** mod to control deathcare workers."
+                    "**[o_o]** Leave OFF if you want **ConfigXML** or another mod to control deathcare workers."
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.WorkersScalar)), "Max workers" },
