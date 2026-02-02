@@ -17,7 +17,6 @@ namespace MagicHearse
     using Unity.Entities;       // Entity, EntityQuery, lookups, buffers, chunks
 
 
-
     public sealed partial class DeathcareStatusSystem : GameSystemBase
     {
         public readonly struct Snapshot
