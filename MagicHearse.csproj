@@ -5,13 +5,13 @@
 
 		<!-- The file where mod information required for publishing on PDX Mods is stored -->
 		<PublishConfigurationPath>Properties\PublishConfiguration.xml</PublishConfigurationPath>
-
+		
+		<!-- Enable nullable reference types project-wide -->
+		<Nullable>enable</Nullable>
+		
 		<!-- DLL name and default namespace -->
 		<AssemblyName>MagicHearse</AssemblyName>
 		<RootNamespace>MagicHearse</RootNamespace>
-
-		<!-- Enable nullable reference types project-wide -->
-		<Nullable>enable</Nullable>
 
 		<!-- Single source of truth for version number -->
 		<Version>1.5.6</Version>
