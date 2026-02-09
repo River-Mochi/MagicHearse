@@ -104,10 +104,9 @@ namespace MagicHearse
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.WorkersScalar)), "Maks. pracownicy" },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.ControlWorkers)),
-                    "Przełącznik zgodności:\n" +
-                    "**Włącz [✓]**, aby zwiększyć liczbę pracowników.\n" +
-                    "**[o_o]** Zostaw OFF, jeśli **ConfigXML** lub inny mod ma kontrolować pracowników usług pogrzebowych."
+                { m_Setting.GetOptionDescLocaleID(nameof(Setting.WorkersScalar)),
+                    "**Zwiększa maksymalną liczbę pracowników**.\n" +
+                    "**100%** = domyślne ustawienie gry (vanilla)."
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.ResetGameDefaults)), "Reset suwaków" },
