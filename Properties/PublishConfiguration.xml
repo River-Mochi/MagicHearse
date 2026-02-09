@@ -7,7 +7,10 @@
 	<ShortDescription Value="Auto clean deathcare, or tune it with Funeral Director; Bonus Status report." />
 	<!--Long description of the mod. Single line or multi line. Supports minimal markdown subset-->
 	<!--LongDescription Value="This is a long description" /-->
-	<LongDescription>### Magic Hearse + New Funeral Director + HR Dept. + Status report
+	<LongDescription>### Magic Hearse + Funeral Director + HR Dept. + Status report
+
+Everything is Optional!
+Yes - you can use just Status Report and nothing else!
 
 Two modes:
 
@@ -24,13 +27,12 @@ Tune deathcare values (applies instantly):
 - Fleet size (max hearses per facility)
 - Cemetery storage multiplier
 - Hearse speed (pedal to the metal)
-  
-- Advanced **Max Workers** - now updates existing and new buildings.
-- Compatibility Toggle ✅ turn OFF workers if you prefer to use ConfigXML mod or other for worker numbers.
+- Max Workers - now updates Existing buildings (not just new ones).
+- Compatibility Toggle ✅ turn OFF workers if you prefer to use ConfigXML mod or other mod for worker numbers.
    
 ## Bonus Status Report
-- All major deathcare stats: how many dead are waiting for hearses and more!
-- Scan runs/updates only in the Options menu or when a slider is used (lightweight, no city per-frame impact).
+- All major deathcare stats - finally we know how many are Dead!!
+- Scan updates only in the Options menu or when a slider is used (lightweight, no city per-frame impact).
 
 ## Features
 - Toggle on/off without restarting the game.
@@ -41,7 +43,7 @@ Tune deathcare values (applies instantly):
 - 11 languages
 
 ## Support and Feedback
-- If the mod works for you, give it a Like!
+- If the mod works for you, give it a Like! It's free!
 - Feedback: GitHub / Forums / Discord.
 
 ## Credits
@@ -52,11 +54,15 @@ Tune deathcare values (applies instantly):
 - StarQ: general tech advisory
 
 ## How it works
-- If the citizen is flagged as dead and needs transport, it's cleaned up. Looks like magic but the secret is flags.
+
+- Magic ✅ if the citizen is flagged as dead and needs transport, it's cleaned up. Looks like magic but the secret is flags.
 - Mod does not stop death - it's just very fast corpse cleanup.
 - Status scan is essentially no performance impact :) since it only runs in the Options menu, not in the city.
-- Mod can be safely removed. If you only used Auto - Magic, nothing persists done. If you used sliders, rate/fleet/storage values fallback to vanilla.
-  - set all sliders to 100% and uncheck Funeral Director for faster reset, but it's not required.
+- Mod can be safely removed. If you only used Auto-Magic, nothing persists - done. If you used sliders, rate/fleet/storage values fallback to vanilla after removing the mod.
+- Set all sliders to 100% and uncheck Funeral Director for faster reset, but it's not required.
+- Bonus: disable all checkboxes ✅, turns off all mod death functions, and still see real Status reports in the Options menu 
+(only does work when inside the menu- no performance impact to in-game city - does nothing in the background of city).
+  
 
 </LongDescription>
 <!--Thumbnail-->
@@ -73,15 +79,14 @@ Tune deathcare values (applies instantly):
 <!--Link to the forum post where the mod can be discussed-->
 <ForumLink Value="https://forum.paradoxplaza.com/forum/threads/magic-hearse-funeral-director.1865555/" />
 <!--Version of the mod-->
-<ModVersion Value="1.5.6" />
+<ModVersion Value="1.5.7" />
 <!--Recommended version of the base game to use the mod-->
 <GameVersion Value="1.5.*" />
 <!--Dependency for the mod, can be set multiple times-->
 <Dependency Id="" />
 <!--Change log for new version. Single line or multi line. Supports minimal markdown subset-->
 <ChangeLog>
-* Workers now updates on old Existing buildings (not just new builds).
-* Updated all Locale files for new features.
+* Fix error with LocalePL Polish localization.
 </ChangeLog>
 <!--External link. supported types are discord, github, youtube, twitch, x, paypal, patreon-->
 <ExternalLink Type="discord" Url="https://discord.gg/HTav7ARPs2" />
