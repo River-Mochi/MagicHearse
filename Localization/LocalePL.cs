@@ -92,7 +92,6 @@ namespace MagicHearse
                     "Skaluje też przyspieszenie/hamowanie (łagodnie), aby nowa prędkość maksymalna nie powodowała ekstremalnych startów/stopów.\n" +
                     "Uwaga: nawet jeśli prędkość maksymalna karawanu jest zwiększona, jego rzeczywista prędkość to w praktyce:\n" +
                     "(maks. pojazdu, limit drogi, bezpieczna prędkość AI, ruch)"
-
                 },
 
                 // Workers compatibility toggle
@@ -132,31 +131,31 @@ namespace MagicHearse
                     "**Aktywne pojemności budynków:** karawany łącznie, budynki, maks. pracownicy.\n\n" +
                     "**Uwagi:**\n" +
                     "▪ Karawan: aktywny-nie zaparkowany / (Razem* karawany)\n" +
-                    "▪ *Razem karawan:" +
-                    "=== obejmuje karawany w serwisie (np. niski budżet usług), \n" +
-                    "=== nie obejmuje karawanów z wyłączonych budynków.\n" +
+                    "▪ *Razem karawan:\n" +
+                    "== obejmuje karawany w serwisie (np. niski budżet usług), \n" +
+                    "== nie obejmuje karawanów z wyłączonych budynków.\n" +
                     "▪ Skan statusu działa tylko, gdy Options jest otwarte (albo gdy używasz suwaka); " +
                     "nie działa co klatkę w mieście, więc praktycznie brak wpływu na wydajność :)"
                 },
 
                 // Status text templates
                 { "MH_STATUS_NOT_LOADED", "Status nie został załadowany." },
-                { "MH_STATUS_NO_CITY_LOADED", "Nie wczytano miasta." },
+                { "MH_STATUS_NO_CITY_LOADED", "Brak wczytanego miasta." },
                 { "MH_STATUS_STATS_NOT_AVAIL", "Brak miasta... ¯\\_(ツ)_/¯ ...Brak statystyk" },
 
                 { "MH_STATUS_LINE1", "{0} martwi czekają | zaktualizowano {1}" },
                 { "MH_STATUS_LINE2", "{0} zgony/mies. | {1} kremacje max/mies. | {2} / {3} użycie cmentarza" },
-                { "MH_STATUS_LINE3", "{0} / {1} karawany | {2} / {3} budynki | {4} puste groby | {5} maks. pracownicy" },
+                { "MH_STATUS_LINE3", "{0} / {1} karawany | {2} / {3} budynki | {4} wolne groby | {5} maks. pracownicy" },
 
                 // About
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.AboutName)), "Mod" },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.AboutName)), "Wyświetlana nazwa tego moda." },
+                { m_Setting.GetOptionDescLocaleID(nameof(Setting.AboutName)), "Nazwa wyświetlana w menedżerze modów." },
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.AboutVersion)), "Wersja" },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.AboutVersion)), "Aktualna wersja." },
+                { m_Setting.GetOptionDescLocaleID(nameof(Setting.AboutVersion)), "Aktualna wersja moda." },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.OpenParadoxMods)), "Paradox Mods" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.OpenParadoxMods)),
-                    "Otwiera stronę Paradox Mods autora." },
+                    "Otwiera stronę autora w serwisie Paradox Mods." },
             };
         }
 

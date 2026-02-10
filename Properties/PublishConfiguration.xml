@@ -7,10 +7,9 @@
 	<ShortDescription Value="Auto clean deathcare, or tune it with Funeral Director; Bonus Status report." />
 	<!--Long description of the mod. Single line or multi line. Supports minimal markdown subset-->
 	<!--LongDescription Value="This is a long description" /-->
-	<LongDescription>### Magic Hearse + Funeral Director + HR Dept. + Status report
+	<LongDescription>#### Magic Hearse + Funeral Director + HR Dept. + Status report
 
-Everything is Optional!
-Yes - you can use just Status Report and nothing else!
+#### Everything is Optional! Yes - you can use just Status Report and nothing else!
 
 Two modes:
 
@@ -52,6 +51,7 @@ Tune deathcare values (applies instantly):
 - yenyang: technical consultant
 - Necko1996: testing, screenshots
 - StarQ: general tech advisory
+- Toud: Polish translation review.
 
 ## How it works
 
@@ -79,14 +79,14 @@ Tune deathcare values (applies instantly):
 <!--Link to the forum post where the mod can be discussed-->
 <ForumLink Value="https://forum.paradoxplaza.com/forum/threads/magic-hearse-funeral-director.1865555/" />
 <!--Version of the mod-->
-<ModVersion Value="1.5.7" />
+<ModVersion Value="1.5.8" />
 <!--Recommended version of the base game to use the mod-->
 <GameVersion Value="1.5.*" />
 <!--Dependency for the mod, can be set multiple times-->
 <Dependency Id="" />
 <!--Change log for new version. Single line or multi line. Supports minimal markdown subset-->
 <ChangeLog>
-* Fix error with LocalePL Polish localization.
+* Polish (Polski) language edits.
 </ChangeLog>
 <!--External link. supported types are discord, github, youtube, twitch, x, paypal, patreon-->
 <ExternalLink Type="discord" Url="https://discord.gg/HTav7ARPs2" />
