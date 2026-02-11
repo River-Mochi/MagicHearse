@@ -10,6 +10,9 @@
 *.md       text eol=lf
 *.json text eol=lf
 
+*.xml text eol=crlf
+
+
 # Scripts
 *.sh       text eol=lf
 *.bash     text eol=lf
