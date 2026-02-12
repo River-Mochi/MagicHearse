@@ -103,3 +103,8 @@ dotnet_naming_rule.private_internal_const_fields_k_prefix.severity = suggestion
 # properties via reflection + attributes. If we make them static, they’ll stop showing/working in the UI.
 [Settings/Settings.cs]
 dotnet_diagnostic.CA1822.severity = none
+
+[*.xml]
+end_of_line = crlf
+insert_final_newline = true
+charset = utf-8

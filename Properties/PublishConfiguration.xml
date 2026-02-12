@@ -30,14 +30,14 @@ Tune deathcare values (applies instantly):
 - Compatibility Toggle ✅ turn OFF workers if you prefer to use ConfigXML mod or other mod for worker numbers.
    
 ## Bonus Status Report
-- All major deathcare stats - finally we know how many are Dead!!
+- All major death stats - finally we know how many are Dead!!
 - Scan updates only in the Options menu or when a slider is used (lightweight, no city per-frame impact).
 
 ## Features
 - Toggle on/off without restarting the game.
 - Safe to remove any time. Uncheck both boxes to disable everything.
 - Disable other hearse mods to avoid conflicts!
-- Use either Auto clean or Self manage (mutually exclusive).
+- Use either Auto clean OR Self manage (mutually exclusive).
 - No Harmony or reflection (more reliable on patch days).
 - 11 languages
 
@@ -55,13 +55,13 @@ Tune deathcare values (applies instantly):
 
 ## How it works
 
-- Magic ✅ if the citizen is flagged as dead and needs transport, it's cleaned up. Looks like magic but the secret is flags.
-- Mod does not stop death - it's just very fast corpse cleanup.
-- Status scan is essentially no performance impact :) since it only runs in the Options menu, not in the city.
-- Mod can be safely removed. If you only used Auto-Magic, nothing persists - done. If you used sliders, rate/fleet/storage values fallback to vanilla after removing the mod.
-- Set all sliders to 100% and uncheck Funeral Director for faster reset, but it's not required.
-- Bonus: disable all checkboxes ✅, turns off all mod death functions, and still see real Status reports in the Options menu 
-(only does work when inside the menu- no performance impact to in-game city - does nothing in the background of city).
+- Magic mode ✅ if the citizen is flagged as dead and needs transport, it's cleaned up. Looks like magic but the secret is flags.
+    - Mod does not stop death - it's just very fast corpse cleanup.
+- Status scan only runs in the Options menu, not in the city - no worries about game fps :)
+- Safe removal: if you use Auto-Magic, nothing persists - done. If you used sliders, the values fallback to vanilla after removing the mod.
+    - Set all sliders to 100% and uncheck Funeral Director for faster reset, but it's not required.
+- Bonus: disable all checkboxes ✅, turns off all death functions, and still see real Status reports in the Options menu.
+    - Status only works when inside the menu; no performance impact to in-game city.
   
 
 </LongDescription>
