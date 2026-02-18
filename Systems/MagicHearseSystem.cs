@@ -23,7 +23,7 @@ namespace MagicHearse
         private EndFrameBarrier m_EndFrameBarrier = null!; // assigned in OnCreate
 
         // Lower frequency reduces spike risk; increase to clean faster.
-        public const int UpdatesPerDay = 128;
+        public const int UpdatesPerDay = 256;
 
         public override int GetUpdateInterval(SystemUpdatePhase phase)
         {
@@ -31,7 +31,7 @@ namespace MagicHearse
             return 262144 / UpdatesPerDay;
         }
 
-        protected override void OnCreate()
+        protected override void OnCreate( )
         {
             base.OnCreate();
 
@@ -58,7 +58,7 @@ namespace MagicHearse
             DeathcareStatus.InvalidateCache();
         }
 
-        protected override void OnUpdate()
+        protected override void OnUpdate( )
         {
             JobHandle handle = new MagicHearseJob
             {
