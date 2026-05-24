@@ -144,9 +144,9 @@ namespace MagicHearse
                 { "MH_STATUS_NO_CITY_LOADED", "No hay ciudad cargada." },
                 { "MH_STATUS_STATS_NOT_AVAIL", "Sin ciudad... ¯\\_(ツ)_/¯ ...Sin estadísticas" },
 
-                { "MH_STATUS_LINE1", "{0} muertos esperando | actualizado {1}" },
-                { "MH_STATUS_LINE2", "{0} muertes/mes | {1} cremación máx./mes | {2} / {3} uso del cementerio" },
-                { "MH_STATUS_LINE3", "{0} / {1} fúnebres | {2} / {3} edificios | {4} tumbas vacías | {5} trabajadores máx." },
+                { "MH_STATUS_LINE1", "{0} esperando | {1} muertes/mes | actualizado {2}" },
+                { "MH_STATUS_LINE2", "{0} cremación máx./mes | {1}/{2} tumbas usadas" },
+                { "MH_STATUS_LINE3", "{0} / {1} fúnebres | {2} / {3} edificios | {4} trabajadores máx." },
 
                 // About
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.AboutName)), "Mod" },

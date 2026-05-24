@@ -144,9 +144,9 @@ namespace MagicHearse
                 { "MH_STATUS_NO_CITY_LOADED", "未加载城市。" },
                 { "MH_STATUS_STATS_NOT_AVAIL", "没有城市... ¯\\_(ツ)_/¯ ...没有统计" },
 
-                { "MH_STATUS_LINE1", "{0} 死亡等待 | 更新于 {1}" },
-                { "MH_STATUS_LINE2", "{0} 死亡/月 | {1} 火化上限/月 | {2} / {3} 墓地使用" },
-                { "MH_STATUS_LINE3", "{0} / {1} 灵车 | {2} / {3} 建筑 | {4} 空墓位 | {5} 最大工人" },
+                { "MH_STATUS_LINE1", "{0} 等待 | {1} 死亡/月 | 更新于 {2}" },
+                { "MH_STATUS_LINE2", "{0} 火化上限/月 | {1}/{2} 墓位已用" },
+                { "MH_STATUS_LINE3", "{0} / {1} 灵车 | {2} / {3} 建筑 | {4} 最大工人" },
 
                 // About
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.AboutName)), "模组" },
