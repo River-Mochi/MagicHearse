@@ -31,9 +31,9 @@ namespace MagicHearse
         private const string FallbackStatusNotLoaded = "Status not loaded.";
         private const string FallbackNoCityLoaded   = "No city loaded.";
         private const string FallbackStatsNotAvail  = "No city... ¯\\_(ツ)_/¯ ...No stats";
-        private const string FallbackLine1 = "{0} dead waiting | updated {1}";
-        private const string FallbackLine2 = "{0} deaths/mo | {1} cremation max/mo | {2} / {3} cemetery use";
-        private const string FallbackLine3 = "{0} / {1} hearses | {2} / {3} buildings | {4} empty graves | {5} max workers";
+        private const string FallbackLine1 = "{0} waiting | {1} deaths/mo | updated {2}";
+        private const string FallbackLine2 = "{0} cremate max/mo | {1}/{2} graves used";
+        private const string FallbackLine3 = "{0} / {1} hearses | {2} / {3} buildings | {4} max workers";
 
         // Public UI strings read by Setting.cs getters
         public static string SummaryLine1 { get; private set; } = string.Empty;
@@ -159,22 +159,20 @@ namespace MagicHearse
 
             string refreshedTime = snap.SnapshotTimeLocal.ToString("HH:mm:ss");
 
-            long emptyGraves = snap.CemeteryCapacity - snap.CemeteryUse;
-            if (emptyGraves < 0) emptyGraves = 0;
-
             SummaryLine1 = SafeFormat(
                 KeyLine1,
                 fallbackFormat: FallbackLine1,
-                Format0(snap.DeadWaiting),  // {0}
-                refreshedTime);             // {1}
+                Format0(snap.DeadWaiting),      // {0}
+                Format0(snap.DeathsPerMonth),   // {1}
+                refreshedTime);                 // {2}
 
             SummaryLine2 = SafeFormat(
                 KeyLine2,
                 fallbackFormat: FallbackLine2,
-                Format0(snap.DeathsPerMonth),       // {0}
-                Format0(snap.ProcessingRate),       // {1} <- game’s “handling capacity/mo”
-                Format0(snap.CemeteryUse),          // {2}
-                Format0(snap.CemeteryCapacity));    // {3}       
+                Format0(snap.ProcessingRate),   // {0} <- game’s “handling capacity/mo”
+                Format0(snap.CemeteryUse),      // {1}
+                Format0(snap.CemeteryCapacity)  // {2}
+            );
 
             SummaryLine3 = SafeFormat(
                 KeyLine3,
@@ -183,8 +181,8 @@ namespace MagicHearse
                 Format0(snap.Hearses),          // {1}
                 snap.ActiveFacilities,          // {2}
                 snap.TotalFacilities,           // {3}
-                Format0(emptyGraves),           // {4}
-                Format0(snap.MaxWorkers));      // {5}
+                Format0(snap.MaxWorkers)        // {4}
+            );
         }
 
         // ---- Helpers -------

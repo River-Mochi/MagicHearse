@@ -1,24 +1,25 @@
 <Publish>
-	<!--Id must be set in order to update existed mod. it is not required for publishing mod for the first time-->
-	<ModId Value="123497" />
-	<!--Name of the mod to display to players-->
-	<DisplayName Value="Magic Hearse" />
-	<!--Short description of the mod-->
-	<ShortDescription Value="Auto clean deathcare, or tune it with Funeral Director; Bonus Status report." />
-	<!--Long description of the mod. Single line or multi line. Supports minimal markdown subset-->
-	<!--LongDescription Value="This is a long description" /-->
-	<LongDescription>#### Magic Hearse + Funeral Director + HR Dept. + Status report
+<!--Id must be set in order to update existed mod. it is not required for publishing mod for the first time-->
+<ModId Value="123497" />
+<!--Name of the mod to display to players-->
+<DisplayName Value="Magic Hearse" />
+<!--Short description of the mod-->
+<ShortDescription Value="Auto clean deathcare, or tune it with Funeral Director; Bonus Status report." />
+<!--Long description of the mod. Single line or multi line. Supports minimal markdown subset-->
+<!--LongDescription Value="This is a long description" /-->
+<LongDescription>
+Magic Hearse + Funeral Director - total Control of Crematoriums and Cemetaries!
 
 #### Everything is Optional! Yes - you can use just Status Report and nothing else!
 
 Two modes:
 
-### Option 1: Auto Clean (magic)
+### Option 1: Auto Clean
 
-- Removes dead citizens automatically when they are waiting for a hearse.
+- Removes already dead citizens with auto magic when they are waiting for a hearse.
 - Great for death-waves and notification spam. Lightweight design for best city performance.
 
-### Option 2: Funeral Director (self manage)
+### Option 2: Funeral Director (Self manage)
 
 Tune deathcare values:
 
@@ -29,7 +30,7 @@ Tune deathcare values:
 - Max Workers - now updates Existing buildings (not just new ones).
 - Compatibility Toggle ✅ turn OFF workers if you prefer to use ConfigXML mod or other mod for death worker numbers.
 - Funeral Director does not run per-frame; sliders make changes, then mod goes idle (basically no city performance impact).
-   
+
 ## Bonus Status Report
 - All major death stats - finally we know how many are Dead!!
 - Scan only happen in the Options menu or when a slider is used (lightweight, no city per-frame impact).
@@ -57,11 +58,11 @@ Tune deathcare values:
 ## How it works
 
 - Magic mode ✅ if the citizen is flagged as dead and needs transport, it's cleaned up. Looks like magic but the secret is flags.
-    - Mod does not stop death - it's just very fast corpse cleanup.
+- Mod does not stop death - it's just very fast corpse cleanup.
 - Safe removal: if you use Auto-Magic, nothing persists - done. If you used sliders, set sliders to 100% and uncheck Funeral Director, save city one time (fastest reset).
 - Bonus: disable all checkboxes ✅, turns off all mod death work, and still see real Status reports in the Options menu.
-    - Status only works when inside the menu; no performance impact to in-game city.
-  
+- Status only works when inside the menu; no performance impact to in-game city.
+
 
 </LongDescription>
 <!--Thumbnail-->
@@ -78,14 +79,14 @@ Tune deathcare values:
 <!--Link to the forum post where the mod can be discussed-->
 <ForumLink Value="https://forum.paradoxplaza.com/forum/threads/magic-hearse-funeral-director.1865555/" />
 <!--Version of the mod-->
-<ModVersion Value="1.5.9" />
+<ModVersion Value="1.6.0" />
 <!--Recommended version of the base game to use the mod-->
 <GameVersion Value="1.5.*" />
 <!--Dependency for the mod, can be set multiple times-->
 <Dependency Id="" />
 <!--Change log for new version. Single line or multi line. Supports minimal markdown subset-->
 <ChangeLog>
-* tweak Magic-side interval per feedback.
+* fix formatting display for Options Status messages
 </ChangeLog>
 <!--External link. supported types are discord, github, youtube, twitch, x, paypal, patreon-->
 <ExternalLink Type="discord" Url="https://discord.gg/HTav7ARPs2" />

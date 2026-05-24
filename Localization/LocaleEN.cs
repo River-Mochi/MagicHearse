@@ -115,7 +115,7 @@ namespace MagicHearse
 
                 // STATUS fields (SHORT labels; left column is narrow!)
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.StatusSummary1)), "Hearse Needed" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.StatusSummary1)), "Hearse needed" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.StatusSummary1)),
                     "**Dead citizens waiting** for a hearse pickup."
                 },
@@ -144,9 +144,9 @@ namespace MagicHearse
                 { "MH_STATUS_NO_CITY_LOADED", "No city loaded." },
                 { "MH_STATUS_STATS_NOT_AVAIL", "No city... ¯\\_(ツ)_/¯ ...No stats" },
 
-                { "MH_STATUS_LINE1", "{0} dead waiting | updated {1}" },
-                { "MH_STATUS_LINE2", "{0} deaths/mo | {1} cremation max/mo | {2} / {3} cemetery use" },
-                { "MH_STATUS_LINE3", "{0} / {1} hearses | {2} / {3} buildings | {4} empty graves | {5} max workers" },
+                { "MH_STATUS_LINE1", "{0} waiting | {1} deaths/mo | updated {2}" },
+                { "MH_STATUS_LINE2", "{0} cremate max/mo | {1}/{2} graves used" },
+                { "MH_STATUS_LINE3", "{0} / {1} hearses | {2} / {3} buildings | {4} max workers" },
 
                 // About
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.AboutName)), "Mod" },
