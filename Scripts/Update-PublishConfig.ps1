@@ -1,4 +1,4 @@
-# File: Update-PublishConfig.ps1
+﻿# File: Scripts/Update-PublishConfig.ps1
 # Version: 0.5.0
 # Purpose:
 #   - Sync <ModVersion Value="..."/> in PublishConfiguration.xml to csproj <Version>.

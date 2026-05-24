@@ -5,10 +5,10 @@
 
 		<!-- The file where mod information required for publishing on PDX Mods is stored -->
 		<PublishConfigurationPath>Properties\PublishConfiguration.xml</PublishConfigurationPath>
-		
+
 		<!-- Enable nullable reference types project-wide -->
 		<Nullable>enable</Nullable>
-		
+
 		<!-- DLL name and default namespace -->
 		<AssemblyName>MagicHearse</AssemblyName>
 		<RootNamespace>MagicHearse</RootNamespace>
@@ -78,4 +78,17 @@
 		<None Include="$(ModPropsFile)" Link="Properties\Mod.props" />
 		<None Include="$(ModTargetsFile)" Link="Properties\Mod.targets" />
 	</ItemGroup>
+
+	<!-- AUTO UPDATE PublishConfiguration ModVersion using CSPROJ Version number
+	     remove BOM, enforce EOL, and optionally left-align LongDescription/ChangeLog -->
+	<Target Name="UpdatePublishConfigVersion"
+	        BeforeTargets="Build"
+	        Condition="'$(OS)' == 'Windows_NT'
+	                   AND Exists('$(MSBuildProjectDirectory)\Scripts\Update-PublishConfig.ps1')
+	                   AND Exists('$(MSBuildProjectDirectory)\$(PublishConfigurationPath)')">
+
+		<Message Text="MH PublishConfig: syncing ModVersion + normalizing EOL/BOM + left-align blocks..." Importance="high" />
+
+		<Exec Command="&quot;$(SystemRoot)\System32\WindowsPowerShell\v1.0\powershell.exe&quot; -NoProfile -ExecutionPolicy Bypass -File &quot;$(MSBuildProjectDirectory)\Scripts\Update-PublishConfig.ps1&quot; -Path &quot;$(MSBuildProjectDirectory)\$(PublishConfigurationPath)&quot; -Version &quot;$(Version)&quot; -Eol crlf -ModJsonEol lf -LeftAlignBlocks" />
+	</Target>
 </Project>
