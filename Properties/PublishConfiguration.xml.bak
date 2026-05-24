@@ -31,16 +31,17 @@ Tune deathcare values:
 - Compatibility Toggle ✅ turn OFF workers if you prefer to use ConfigXML mod or other mod for death worker numbers.
 - Funeral Director does not run per-frame; sliders make changes, then mod goes idle (basically no city performance impact).
 
-## Bonus Status Report
+     ## Bonus Status Report
 - All major death stats - finally we know how many are Dead!!
 - Scan only happen in the Options menu or when a slider is used (lightweight, no city per-frame impact).
 
 ## Features
-- Toggle on/off without restarting the game.
+    - Toggle on/off without restarting the game.
 - Safe to remove any time. Uncheck both boxes to disable everything.
 - Disable other hearse mods to avoid conflicts!
 - Use either Auto-clean OR Self-manage (mutually exclusive).
 - No Harmony (more reliable on patch days).
+- 11 languages
 
 ## Support and Feedback
 - If the mod works for you, give it a Like! It's free!
@@ -85,7 +86,7 @@ Tune deathcare values:
 <Dependency Id="" />
 <!--Change log for new version. Single line or multi line. Supports minimal markdown subset-->
 <ChangeLog>
-* fix display for Options menu Status messages to fit better on the allowed space.
+* fix formatting display for Options Status messages
 </ChangeLog>
 <!--External link. supported types are discord, github, youtube, twitch, x, paypal, patreon-->
 <ExternalLink Type="discord" Url="https://discord.gg/HTav7ARPs2" />

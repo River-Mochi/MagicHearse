@@ -1,4 +1,4 @@
-# File: src/Scripts/check_locales.py
+﻿# File: /Scripts/check_locales.py
 # Purpose:
 #   Generic checker for C# Locale*.cs dictionary files.
 #
