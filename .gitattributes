@@ -1,4 +1,4 @@
-* text=auto
+﻿* text=auto
 
 # Windows-style line endings for VS project files and C#
 *.sln      text eol=crlf
@@ -14,9 +14,11 @@
 
 
 # Scripts
-*.sh       text eol=lf
-*.bash     text eol=lf
-*.ps1      text eol=crlf
+*.sh		text eol=lf
+*.bash		text eol=lf
+*.py		text eol=lf
+*.ps1		text eol=crlf
+
 
 # Binaries
 *.png binary
