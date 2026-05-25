@@ -45,7 +45,7 @@ Tune deathcare values:
 
 ## Support and Feedback
 - If the mod works for you, give it a Like! It's free!
-- Feedback: GitHub / Forums / Discord.
+- Feedback: GitHub or Discord links on the right.
 
 ## Credits
 - River-Mochi: author
@@ -77,7 +77,7 @@ Tune deathcare values:
 <!--Tag, can be set multiple times-->
 <Tag Value="Code Mod" />
 <!--Link to the forum post where the mod can be discussed-->
-<ForumLink Value="https://forum.paradoxplaza.com/forum/threads/magic-hearse-funeral-director.1865555/" />
+<ForumLink Value="" />
 <!--Version of the mod-->
 <ModVersion Value="1.6.0" />
 <!--Recommended version of the base game to use the mod-->
