@@ -8,65 +8,66 @@
 <!--Long description of the mod. Single line or multi line. Supports minimal markdown subset-->
 <!--LongDescription Value="This is a long description" /-->
 <LongDescription>
-Control Crematoriums and Cemetaries without in-city bloat that reduces performance.
+    Control Crematoriums and Cemetaries without in-city bloat that reduces performance.
 
-- Choose if you want to self-manage with all your own settings for Process rate or number of hearses
-- or if you prefer auto-clean of dead bodies.
-- Yes - you can use just Death Status report and nothing else! It is Worth checking out!
+    - Choose if you want to self-manage with all your own settings for Process rate or number of hearses
+    - or if you prefer auto-clean of dead bodies.
+    - Yes - you can use just Death Status report and nothing else! It is Worth checking out!
 
-### Option 1: Auto Clean
+    ### Option 1: Funeral Director (Self manage)
 
-- Removes already dead citizens with auto magic when they are waiting for a hearse.
-- Great for death-waves and notification spam. Lightweight design for best city performance.
+   Adjust Buildings:
 
-### Option 2: Funeral Director (Self manage)
+    - Processing rate (crematoriums)
+    - Fleet size (max hearses per facility)
+    - Cemetery storage multiplier
+    - Hearse speed (pedal to the metal)
+    - Max Workers - now updates Existing buildings (not just new ones).
+    - Compatibility Toggle ✅ turn OFF workers if you prefer to use ConfigXML mod or other mod for death worker numbers.
+    - Funeral Director does not run per-frame; sliders make changes, then mod goes idle (basically no city performance impact).
+    - Everything is Optional!
 
-Tune deathcare values:
+    ### Option 2: Automatic
 
-- Processing rate (crematoriums)
-- Fleet size (max hearses per facility)
-- Cemetery storage multiplier
-- Hearse speed (pedal to the metal)
-- Max Workers - now updates Existing buildings (not just new ones).
-- Compatibility Toggle ✅ turn OFF workers if you prefer to use ConfigXML mod or other mod for death worker numbers.
-- Funeral Director does not run per-frame; sliders make changes, then mod goes idle (basically no city performance impact).
-- Everything is Optional!
+    - Removes already dead citizens with magic when they are waiting for a hearse.
+    - Great for death-waves and notification spam. Lightweight design for best city performance.
+- This does not turn off death system, it's just a faster clear of death notices.
 
-## Bonus Status Report
-- All major death stats - finally we know how many are Dead!!
-- Scan only happen in the Options menu or when a slider is used (lightweight, no city per-frame impact).
+    ## Bonus Status Report
+    - All major death stats - finally we know how many are Dead!!
+    - Scan only happen in the Options menu or when a slider is used (lightweight, no city per-frame impact).
 
-## Features
-- Toggle on/off without restarting the game.
-- Safe to remove any time. Uncheck both boxes to disable everything.
-- Disable other hearse mods to avoid conflicts!
-- Use either Auto-clean OR Self-manage (mutually exclusive).
-- No Harmony (more reliable on patch days).
+    ## Features
+    - Toggle on/off without restarting the game.
+    - Safe to remove any time. Uncheck both boxes to disable everything.
+    - Disable other hearse mods to avoid conflicts!
+    - Use either Auto-clean OR Self-manage (mutually exclusive).
+    - No Harmony (more reliable on patch days).
 
-## Support and Feedback
-- If the mod works for you, give it a Like! It's free!
-- Feedback: GitHub or Discord links on the right.
+    ## Support and Feedback
+    - If the mod works for you, give it a Like! It's free!
+    - Feedback: GitHub or Discord links on the right.
 
-## Credits
-- River-Mochi: author
-- Inspired by Wayz's original Magical Hearse (retired)
-- yenyang: technical consultant
-- Necko1996: testing, screenshots
-- StarQ: tech advisory
-- Toud: Polish translation review.
+    ## Credits
+    - River-Mochi: author
+    - Inspired by Wayz's original Magical Hearse (retired)
+    - yenyang: technical consultant
+    - Necko1996: testing, screenshots
+    - StarQ: tech advisory
+    - Toud: Polish translation review.
 
-## How it works
+    ## How it works
 
-- Magic mode ✅ if the citizen is flagged as dead and needs transport, it's cleaned up. Looks like magic but the secret is flags.
-- Mod does not stop death - it's just very fast corpse cleanup.
-- Safe removal: if you use Auto-Magic, nothing persists - done. If you used sliders, set sliders to 100% and uncheck Funeral Director, save city one time (fastest reset).
-- Bonus: disable all checkboxes ✅, turns off all mod death work, and still see real Status reports in the Options menu.
-- Status only works when inside the menu; no performance impact to in-game city.
+    - Magic mode ✅ if the citizen is flagged as dead and needs transport, it's cleaned up. Looks like magic but the secret is flags.
+    - Mod does not stop death - it's just very fast corpse cleanup.
+    - Safe removal: if you use Auto-Magic, nothing persists - done. If you used sliders, set sliders to 100% and uncheck Funeral Director, save city one time (fastest reset).
+    - Bonus: disable all checkboxes ✅, turns off all mod death work, and still see real Status reports in the Options menu.
+    - Status only works when inside the menu; no performance impact to in-game city.
 
 
 </LongDescription>
 <!--Thumbnail-->
-<Thumbnail Value="Properties/Thumbnail-MH-dog.jpg" />
+<Thumbnail Value="Properties/Thumbnail-MH-dog-thing03.jpg" />
 <!--Screenshot, can be set multiple times-->
 <Screenshot Value="Properties/10image-Options.jpg" />
 <Screenshot Value="Properties/20image-OptionsFD.jpg" />
@@ -79,7 +80,7 @@ Tune deathcare values:
 <!--Link to the forum post where the mod can be discussed-->
 <ForumLink Value="" />
 <!--Version of the mod-->
-<ModVersion Value="1.6.0" />
+<ModVersion Value="1.6.2" />
 <!--Recommended version of the base game to use the mod-->
 <GameVersion Value="1.6.*" />
 <!--Dependency for the mod, can be set multiple times-->
@@ -87,7 +88,7 @@ Tune deathcare values:
 <!--Change log for new version. Single line or multi line. Supports minimal markdown subset-->
 <ChangeLog>
 * update for game patch 1.6
-* update logutils
+* update logutils, fix thumbnail
 </ChangeLog>
 <!--External link. supported types are discord, github, youtube, twitch, x, paypal, patreon-->
 <ExternalLink Type="github" Url="https://github.com/River-Mochi/MagicHearse" />

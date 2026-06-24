@@ -14,14 +14,9 @@ Control Crematoriums and Cemetaries without in-city bloat that reduces performan
 - or if you prefer auto-clean of dead bodies.
 - Yes - you can use just Death Status report and nothing else! It is Worth checking out!
 
-### Option 1: Auto Clean
+### Option 1: Funeral Director (Self manage)
 
-- Removes already dead citizens with auto magic when they are waiting for a hearse.
-- Great for death-waves and notification spam. Lightweight design for best city performance.
-
-### Option 2: Funeral Director (Self manage)
-
-Tune deathcare values:
+Adjust Buildings:
 
 - Processing rate (crematoriums)
 - Fleet size (max hearses per facility)
@@ -31,6 +26,12 @@ Tune deathcare values:
 - Compatibility Toggle ✅ turn OFF workers if you prefer to use ConfigXML mod or other mod for death worker numbers.
 - Funeral Director does not run per-frame; sliders make changes, then mod goes idle (basically no city performance impact).
 - Everything is Optional!
+
+### Option 2: Automatic
+
+- Removes already dead citizens with magic when they are waiting for a hearse.
+- Great for death-waves and notification spam. Lightweight design for best city performance.
+- This does not turn off death system, it's just a faster clear of death notices.
 
 ## Bonus Status Report
 - All major death stats - finally we know how many are Dead!!
