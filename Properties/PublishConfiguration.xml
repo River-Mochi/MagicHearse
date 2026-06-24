@@ -86,7 +86,8 @@ Tune deathcare values:
 <Dependency Id="" />
 <!--Change log for new version. Single line or multi line. Supports minimal markdown subset-->
 <ChangeLog>
-* fix display for Options menu Status messages to fit better on the allowed space.
+* update for game patch 1.6
+* update logutils
 </ChangeLog>
 <!--External link. supported types are discord, github, youtube, twitch, x, paypal, patreon-->
 <ExternalLink Type="github" Url="https://github.com/River-Mochi/MagicHearse" />

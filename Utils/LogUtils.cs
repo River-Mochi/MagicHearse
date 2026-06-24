@@ -7,7 +7,7 @@
 // ================= </copyright> ======================
 
 // File: Utils/LogUtils.cs
-// Version: 0.6.6 based on River-Mochi shared CS2 utilities.
+// Version: 0.6.7 based on River-Mochi shared CS2 utilities.
 // Purpose: popup-safe direct-file logging helpers for CS2 mods.
 // Why: routine Info/Warn/Error are written with .NET FileStream/StreamWriter
 //   instead of sending every message through Colossal's logger write path, which
@@ -15,7 +15,13 @@
 //
 // Setup in Mod.cs:
 //   public static readonly ILog s_Log =
-//       LogManager.GetLogger(ModId).SetShowsErrorsInUI(false);
+//       LogManager.GetLogger(ModId).SetShowsErrorsInUI(
+//   #if DEBUG
+//           true
+//   #else
+//           false
+//   #endif
+//       );
 //
 //   public void OnLoad(UpdateSystem updateSystem)
 //   {
@@ -32,6 +38,7 @@
 // Simple string overloads are easiest to read.
 // Func<string> overloads are lazy: the message is built only after the log level check.
 // Use lazy messages in hot paths such as OnUpdate, rendering, tool hover, or entity loops.
+// Note: helper levels are limited to Info/Warn/Error/Debug/Trace for CS2 compatibility.
 
 namespace CS2Shared.RiverMochi
 {
@@ -213,30 +220,6 @@ namespace CS2Shared.RiverMochi
         public static void Trace(ILog? log, Func<string> messageFactory)
         {
             TryLog(log, Level.Trace, messageFactory);
-        }
-
-        // Simple verbose log.
-        public static void Verbose(string message)
-        {
-            TryLog(s_DefaultLog, Level.Verbose, () => message);
-        }
-
-        // Simple verbose log with explicit logger.
-        public static void Verbose(ILog? log, string message)
-        {
-            TryLog(log, Level.Verbose, () => message);
-        }
-
-        // Lazy verbose log.
-        public static void Verbose(Func<string> messageFactory)
-        {
-            TryLog(s_DefaultLog, Level.Verbose, messageFactory);
-        }
-
-        // Lazy verbose log with explicit logger.
-        public static void Verbose(ILog? log, Func<string> messageFactory)
-        {
-            TryLog(log, Level.Verbose, messageFactory);
         }
 
         // Logs a warning only once per remembered logger+key so hot update loops cannot spam the log.
@@ -444,13 +427,10 @@ namespace CS2Shared.RiverMochi
             { return "ERROR"; }
 
             if (level == Level.Debug)
-            {    return "DEBUG"; }
+            { return "DEBUG"; }
 
             if (level == Level.Trace)
-            {    return "TRACE"; }
-
-            if (level == Level.Verbose)
-            { return "VERBOSE"; }
+            { return "TRACE"; }
 
             return "INFO";
         }
