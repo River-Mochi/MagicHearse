@@ -1,4 +1,4 @@
-# File: .gitignore version 0.6.0
+# File: .gitignore version 0.6.1
 # Purpose:
 #   Ignore Visual Studio, Rider, build outputs, local caches,
 #   local docs, and generated files for a CS2 mod repository.
@@ -305,3 +305,4 @@ FodyWeavers.xsd
 # Local generated CS2/Unity/Rider files
 **/[Ll]ibrary/ilpp.pid
 **/[Pp]roperties/PublishConfiguration.xml.bak
+*.bak
