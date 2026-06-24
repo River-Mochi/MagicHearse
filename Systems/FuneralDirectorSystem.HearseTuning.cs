@@ -12,7 +12,7 @@
 namespace MagicHearse
 {
     using Game.Prefabs;      // CarPrefab, HearseData
-    using Unity.Collections; // Allocator used by Unity Entities source generator
+    using Unity.Collections; // Required by generated SystemAPI code.
     using Unity.Entities;    // Entity, RefRW, SystemAPI
     using Unity.Mathematics; // math.*
 
