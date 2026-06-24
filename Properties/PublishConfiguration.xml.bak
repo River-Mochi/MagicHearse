@@ -2,66 +2,66 @@
 <!--Id must be set in order to update existed mod. it is not required for publishing mod for the first time-->
 <ModId Value="123497" />
 <!--Name of the mod to display to players-->
-<DisplayName Value="Magic Hearse" />
+<DisplayName Value="Magic Hearse + Funeral Director" />
 <!--Short description of the mod-->
-<ShortDescription Value="Auto clean deathcare, or tune it with Funeral Director; Bonus Status report." />
+<ShortDescription Value="Clean death, or self manage with Funeral Director; Bonus Status report." />
 <!--Long description of the mod. Single line or multi line. Supports minimal markdown subset-->
 <!--LongDescription Value="This is a long description" /-->
 <LongDescription>
-	Control Crematoriums and Cemetaries without in-city bloat that reduces performance.
+Control Crematoriums and Cemetaries without in-city bloat that reduces performance.
 
 - Yes - you can use just death Status Report and nothing else!
 - Choose if you want to self manage with all your own settings for Process rate or number of hearses
 - or if you prefer auto-clean of dead bodies.
 
-	### Option 1: Auto Clean
+### Option 1: Auto Clean
 
-	- Removes already dead citizens with auto magic when they are waiting for a hearse.
-	- Great for death-waves and notification spam. Lightweight design for best city performance.
+- Removes already dead citizens with auto magic when they are waiting for a hearse.
+- Great for death-waves and notification spam. Lightweight design for best city performance.
 
-	### Option 2: Funeral Director (Self manage)
+### Option 2: Funeral Director (Self manage)
 
-	Tune deathcare values:
+Tune deathcare values:
 
-	- Processing rate (crematoriums)
-	- Fleet size (max hearses per facility)
-	- Cemetery storage multiplier
-	- Hearse speed (pedal to the metal)
-	- Max Workers - now updates Existing buildings (not just new ones).
-	- Compatibility Toggle ✅ turn OFF workers if you prefer to use ConfigXML mod or other mod for death worker numbers.
-	- Funeral Director does not run per-frame; sliders make changes, then mod goes idle (basically no city performance impact).
-	- Everything is Optional!
+- Processing rate (crematoriums)
+- Fleet size (max hearses per facility)
+- Cemetery storage multiplier
+- Hearse speed (pedal to the metal)
+- Max Workers - now updates Existing buildings (not just new ones).
+- Compatibility Toggle ✅ turn OFF workers if you prefer to use ConfigXML mod or other mod for death worker numbers.
+- Funeral Director does not run per-frame; sliders make changes, then mod goes idle (basically no city performance impact).
+- Everything is Optional!
 
-	## Bonus Status Report
-	- All major death stats - finally we know how many are Dead!!
-	- Scan only happen in the Options menu or when a slider is used (lightweight, no city per-frame impact).
+## Bonus Status Report
+- All major death stats - finally we know how many are Dead!!
+- Scan only happen in the Options menu or when a slider is used (lightweight, no city per-frame impact).
 
-	## Features
-	- Toggle on/off without restarting the game.
-	- Safe to remove any time. Uncheck both boxes to disable everything.
-	- Disable other hearse mods to avoid conflicts!
-	- Use either Auto-clean OR Self-manage (mutually exclusive).
-	- No Harmony (more reliable on patch days).
+## Features
+- Toggle on/off without restarting the game.
+- Safe to remove any time. Uncheck both boxes to disable everything.
+- Disable other hearse mods to avoid conflicts!
+- Use either Auto-clean OR Self-manage (mutually exclusive).
+- No Harmony (more reliable on patch days).
 
-	## Support and Feedback
-	- If the mod works for you, give it a Like! It's free!
-	- Feedback: GitHub / Forums / Discord.
+## Support and Feedback
+- If the mod works for you, give it a Like! It's free!
+- Feedback: GitHub or Discord links on the right.
 
-	## Credits
-	- River-Mochi: author
-	- Inspired by Wayz's original Magical Hearse (retired)
-	- yenyang: technical consultant
-	- Necko1996: testing, screenshots
-	- StarQ: tech advisory
-	- Toud: Polish translation review.
+## Credits
+- River-Mochi: author
+- Inspired by Wayz's original Magical Hearse (retired)
+- yenyang: technical consultant
+- Necko1996: testing, screenshots
+- StarQ: tech advisory
+- Toud: Polish translation review.
 
-	## How it works
+## How it works
 
-	- Magic mode ✅ if the citizen is flagged as dead and needs transport, it's cleaned up. Looks like magic but the secret is flags.
-	- Mod does not stop death - it's just very fast corpse cleanup.
-	- Safe removal: if you use Auto-Magic, nothing persists - done. If you used sliders, set sliders to 100% and uncheck Funeral Director, save city one time (fastest reset).
-	- Bonus: disable all checkboxes ✅, turns off all mod death work, and still see real Status reports in the Options menu.
-	- Status only works when inside the menu; no performance impact to in-game city.
+- Magic mode ✅ if the citizen is flagged as dead and needs transport, it's cleaned up. Looks like magic but the secret is flags.
+- Mod does not stop death - it's just very fast corpse cleanup.
+- Safe removal: if you use Auto-Magic, nothing persists - done. If you used sliders, set sliders to 100% and uncheck Funeral Director, save city one time (fastest reset).
+- Bonus: disable all checkboxes ✅, turns off all mod death work, and still see real Status reports in the Options menu.
+- Status only works when inside the menu; no performance impact to in-game city.
 
 
 </LongDescription>
@@ -77,7 +77,7 @@
 <!--Tag, can be set multiple times-->
 <Tag Value="Code Mod" />
 <!--Link to the forum post where the mod can be discussed-->
-<ForumLink Value="https://forum.paradoxplaza.com/forum/threads/magic-hearse-funeral-director.1865555/" />
+<ForumLink Value="" />
 <!--Version of the mod-->
 <ModVersion Value="1.6.0" />
 <!--Recommended version of the base game to use the mod-->
@@ -89,6 +89,7 @@
 * fix display for Options menu Status messages to fit better on the allowed space.
 </ChangeLog>
 <!--External link. supported types are discord, github, youtube, twitch, x, paypal, patreon-->
-<ExternalLink Type="discord" Url="https://discord.gg/HTav7ARPs2" />
 <ExternalLink Type="github" Url="https://github.com/River-Mochi/MagicHearse" />
+<ExternalLink Type="discord" Url="https://discord.gg/gwXgvtyhjc" />
+
 </Publish>

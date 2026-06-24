@@ -1,3 +1,11 @@
+// <copyright file="FuneralDirectorSystem.Workers.cs" company="River-Mochi">
+// Copyright (c) 2026 River-Mochi. All rights reserved.
+// Licensed under the MIT License. You may not use this file except in compliance with this License.
+// See LICENSE file in the project root for full license information.
+// This notice and the MIT License notice must be kept with
+// all copies or substantial portions of this code.
+// ================= </copyright> ======================
+
 // File: Systems/FuneralDirectorSystem.Workers.cs
 // Purpose: One-shot recompute of placed-building worker cache (WorkProvider.m_MaxWorkers)
 //          based on current prefab WorkplaceData + InstalledUpgrade, using City's public CityUtils logic.

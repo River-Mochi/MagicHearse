@@ -1,20 +1,28 @@
+// <copyright file="Mod.cs" company="River-Mochi">
+// Copyright (c) 2026 River-Mochi. All rights reserved.
+// Licensed under the MIT License. You may not use this file except in compliance with this License.
+// See LICENSE file in the project root for full license information.
+// This notice and the MIT License notice must be kept with
+// all copies or substantial portions of this code.
+// ================= </copyright> ======================
+
 // File: Mod.cs
 // Entrypoint: registers settings, locales, ECS system
 
 namespace MagicHearse
 {
+    using System;                    // Exception, Func<T>
+    using System.Reflection;         // Assembly only for version number
     using Colossal;                  // IDictionarySource
     using Colossal.IO.AssetDatabase; // AssetDatabase.LoadSettings
     using Colossal.Localization;     // LocalizationManager
     using Colossal.Logging;          // ILog, LogManager
-    using CS2HonuShared;             // LogUtils
+    using CS2Shared.RiverMochi;      // LogUtils
     using Game;                      // UpdateSystem, SystemUpdatePhase
     using Game.Modding;              // IMod
     using Game.SceneFlow;            // GameManager
-    using System;                    // Exception, Func<T>
-    using System.Reflection;         // Assembly only for version number
 
-        public sealed class Mod : IMod
+    public sealed class Mod : IMod
     {
         public const string ModName = "Magic Hearse";
         public const string ModId = "MagicHearse";
@@ -44,7 +52,9 @@ namespace MagicHearse
 
         public void OnLoad(UpdateSystem updateSystem)
         {
-            if (!s_BannerLogged)      
+            LogUtils.Configure(ModId, s_Log);
+
+            if (!s_BannerLogged)
             {
                 s_BannerLogged = true;  // makes it a one-time log banner
                 LogSafe(() => $"{ModName} v{ModVersion} OnLoad {buildTag}");
@@ -109,17 +119,25 @@ namespace MagicHearse
 
             if (Settings != null)
             {
-                try { Settings.UnregisterInOptionsUI(); }
-                catch (Exception ex) { WarnSafe(() => $"UnregisterInOptionsUI failed: {ex.GetType().Name}: {ex.Message}"); }
+                try
+                {
+                    Settings.UnregisterInOptionsUI();
+                }
+                catch (Exception ex)
+                {
+                    WarnSafe(() => $"UnregisterInOptionsUI failed: {ex.GetType().Name}: {ex.Message}");
+                }
 
                 Settings = null;
             }
         }
 
-        // LogUtils Helpers
-        public static void LogSafe(Func<string> messageFactory) => LogUtils.TryLog(s_Log, Level.Info, messageFactory);
-        public static void WarnSafe(Func<string> messageFactory) => LogUtils.TryLog(s_Log, Level.Warn, messageFactory);
-        public static void WarnOnce(string key, Func<string> messageFactory) => LogUtils.WarnOnce(s_Log, key, messageFactory);
+        // LogUtils helpers.
+        public static void LogSafe(Func<string> messageFactory) => LogUtils.Info(messageFactory);
+
+        public static void WarnSafe(Func<string> messageFactory) => LogUtils.Warn(messageFactory);
+
+        public static void WarnOnce(string key, Func<string> messageFactory) => LogUtils.WarnOnce(key, messageFactory);
 
         private static void AddLocaleSource(string localeId, IDictionarySource source)
         {
@@ -135,7 +153,10 @@ namespace MagicHearse
                 return;
             }
 
-            try { lm.AddSource(localeId, source); }
+            try
+            {
+                lm.AddSource(localeId, source);
+            }
             catch (Exception ex)
             {
                 WarnSafe(() => $"AddLocaleSource: AddSource for '{localeId}' failed: {ex.GetType().Name}: {ex.Message}");

@@ -81,7 +81,7 @@ Tune deathcare values:
 <!--Version of the mod-->
 <ModVersion Value="1.6.0" />
 <!--Recommended version of the base game to use the mod-->
-<GameVersion Value="1.5.*" />
+<GameVersion Value="1.6.*" />
 <!--Dependency for the mod, can be set multiple times-->
 <Dependency Id="" />
 <!--Change log for new version. Single line or multi line. Supports minimal markdown subset-->
@@ -89,6 +89,7 @@ Tune deathcare values:
 * fix display for Options menu Status messages to fit better on the allowed space.
 </ChangeLog>
 <!--External link. supported types are discord, github, youtube, twitch, x, paypal, patreon-->
-<ExternalLink Type="discord" Url="https://discord.gg/HTav7ARPs2" />
 <ExternalLink Type="github" Url="https://github.com/River-Mochi/MagicHearse" />
+<ExternalLink Type="discord" Url="https://discord.gg/gwXgvtyhjc" />
+
 </Publish>

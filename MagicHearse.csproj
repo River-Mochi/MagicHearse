@@ -1,22 +1,30 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
 		<OutputType>Library</OutputType>
 		<Configurations>Debug;Release</Configurations>
+	    <!-- Enable nullable reference types project-wide -->
+		<Nullable>enable</Nullable>
 
 		<!-- The file where mod information required for publishing on PDX Mods is stored -->
 		<PublishConfigurationPath>Properties\PublishConfiguration.xml</PublishConfigurationPath>
+        <!-- Path to the PowerShell that syncs PublishConfiguration.xml + mod.json with $(Version). -->
+        <PublishConfigScript>$(MSBuildProjectDirectory)\Scripts\Update-PublishConfig.ps1</PublishConfigScript>
 
-		<!-- Enable nullable reference types project-wide -->
-		<Nullable>enable</Nullable>
 
-		<!-- DLL name and default namespace -->
-		<AssemblyName>MagicHearse</AssemblyName>
-		<RootNamespace>MagicHearse</RootNamespace>
 
 		<!-- Single source of truth for version number -->
+        <GameVersion>1.6.*</GameVersion>
 		<Version>1.6.0</Version>
 		<AssemblyVersion>$(Version).0</AssemblyVersion>
 		<FileVersion>$(Version).0</FileVersion>
+
+		<!-- Assembly DLL name and default namespace -->
+		<AssemblyName>MagicHearse</AssemblyName>
+        <RootNamespace>MagicHearse</RootNamespace>
+        <AssemblyTitle>Magic Hearse</AssemblyTitle>
+        <Product>Magic Hearse</Product>
+        <Copyright>Copyright © 2025-26 River-Mochi</Copyright>
+
 	</PropertyGroup>
 
 	<!-- Imports must be after PropertyGroup -->
@@ -79,16 +87,13 @@
 		<None Include="$(ModTargetsFile)" Link="Properties\Mod.targets" />
 	</ItemGroup>
 
-	<!-- AUTO UPDATE PublishConfiguration ModVersion using CSPROJ Version number
-	     remove BOM, enforce EOL, and optionally left-align LongDescription/ChangeLog -->
-	<Target Name="UpdatePublishConfigVersion"
-	        BeforeTargets="Build"
-	        Condition="'$(OS)' == 'Windows_NT'
-	                   AND Exists('$(MSBuildProjectDirectory)\Scripts\Update-PublishConfig.ps1')
-	                   AND Exists('$(MSBuildProjectDirectory)\$(PublishConfigurationPath)')">
+   <!-- AUTO UPDATE PublishConfiguration.xml GameVersion + ModVersion + nested mod.json "version" from $(Version). -->
+    <Target Name="UpdatePublishConfigVersion" BeforeTargets="PrepareForBuild" Condition="Exists('$(PublishConfigScript)') AND Exists('$(MSBuildProjectDirectory)\$(PublishConfigurationPath)')">
 
-		<Message Text="MH PublishConfig: syncing ModVersion + normalizing EOL/BOM + left-align blocks..." Importance="high" />
+        <Message Text="$(AssemblyTitle) PublishConfig: syncing ModVersion/GameVersion + normalizing EOL/BOM + left-aligning blocks..." Importance="high" />
 
-		<Exec Command="&quot;$(SystemRoot)\System32\WindowsPowerShell\v1.0\powershell.exe&quot; -NoProfile -ExecutionPolicy Bypass -File &quot;$(MSBuildProjectDirectory)\Scripts\Update-PublishConfig.ps1&quot; -Path &quot;$(MSBuildProjectDirectory)\$(PublishConfigurationPath)&quot; -Version &quot;$(Version)&quot; -Eol crlf -ModJsonEol lf -LeftAlignBlocks" />
-	</Target>
+        <Exec Command="&quot;$(SystemRoot)\System32\WindowsPowerShell\v1.0\powershell.exe&quot; -NoProfile -ExecutionPolicy Bypass -File &quot;$(PublishConfigScript)&quot; -Path &quot;$(MSBuildProjectDirectory)\$(PublishConfigurationPath)&quot; -Version &quot;$(Version)&quot; -GameVersion &quot;$(GameVersion)&quot; -Eol lf -LeftAlignBlocks" />
+    </Target>
+
+
 </Project>
