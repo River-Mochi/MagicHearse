@@ -8,9 +8,9 @@
 <!--Long description of the mod. Single line or multi line. Supports minimal markdown subset-->
 <!--LongDescription Value="This is a long description" /-->
 <LongDescription>
-Control Crematoriums and Cemetaries without in-city bloat that reduces performance.
+Control Crematoriums and Cemeteries without in-city bloat that reduces performance.
 
-- Choose if you want to self-manage with all your own settings for Process rate or number of hearses
+- Choose if you want to self-manage with all your own settings for Processing rate or number of hearses
 - or if you prefer auto-clean of dead bodies.
 - Yes - you can use just Death Status report and nothing else! It is Worth checking out!
 
@@ -35,7 +35,7 @@ Adjust Buildings:
 
 ## Bonus Status Report
 - All major death stats - finally we know how many are Dead!!
-- Scan only happen in the Options menu or when a slider is used (lightweight, no city per-frame impact).
+- Scan only happens in the Options menu or when a slider is used (lightweight, no city per-frame impact).
 
 ## Features
 - Toggle on/off without restarting the game.
