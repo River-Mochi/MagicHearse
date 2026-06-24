@@ -10,9 +10,9 @@
 <LongDescription>
 Control Crematoriums and Cemetaries without in-city bloat that reduces performance.
 
-- Yes - you can use just death Status Report and nothing else!
-- Choose if you want to self manage with all your own settings for Process rate or number of hearses
+- Choose if you want to self-manage with all your own settings for Process rate or number of hearses
 - or if you prefer auto-clean of dead bodies.
+- Yes - you can use just Death Status report and nothing else! It is Worth checking out!
 
 ### Option 1: Auto Clean
 
@@ -81,12 +81,13 @@ Tune deathcare values:
 <!--Version of the mod-->
 <ModVersion Value="1.6.0" />
 <!--Recommended version of the base game to use the mod-->
-<GameVersion Value="1.5.*" />
+<GameVersion Value="1.6.*" />
 <!--Dependency for the mod, can be set multiple times-->
 <Dependency Id="" />
 <!--Change log for new version. Single line or multi line. Supports minimal markdown subset-->
 <ChangeLog>
-* fix display for Options menu Status messages to fit better on the allowed space.
+* update for game patch 1.6
+* update logutils
 </ChangeLog>
 <!--External link. supported types are discord, github, youtube, twitch, x, paypal, patreon-->
 <ExternalLink Type="github" Url="https://github.com/River-Mochi/MagicHearse" />
