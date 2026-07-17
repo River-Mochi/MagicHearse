@@ -8,11 +8,13 @@
 <!--Long description of the mod. Single line or multi line. Supports minimal markdown subset-->
 <!--LongDescription Value="This is a long description" /-->
 <LongDescription>
-Control Crematoriums and Cemeteries without in-city bloat that reduces performance.
+**Magic Hearse + Funeral Director** does not turn off deathcare loop; normal vanilla deathcare systems run. See below for details.
 
-- Choose if you want to self-manage with all your own settings for Processing rate or number of hearses
-- or if you prefer auto-clean of dead bodies.
-- Yes - you can use just Death Status report and nothing else! It is Worth checking out!
+- Control Crematoriums and Cemeteries without in-city bloat that reduces performance.
+- Choose if you want to self-manage with all your own settings for Processing rate or number of hearses or Capacity of Cemeteries.
+- No more warnings of Cemetery full.
+- or if you prefer auto-clean of death notices.
+- You could also use death Status report and nothing else! It is Worth checking out!
 
 ### Option 1: Funeral Director (Self manage)
 
@@ -80,15 +82,15 @@ Adjust Buildings:
 <!--Link to the forum post where the mod can be discussed-->
 <ForumLink Value="" />
 <!--Version of the mod-->
-<ModVersion Value="1.6.2" />
+<ModVersion Value="1.7.0" />
 <!--Recommended version of the base game to use the mod-->
 <GameVersion Value="1.6.*" />
 <!--Dependency for the mod, can be set multiple times-->
 <Dependency Id="" />
 <!--Change log for new version. Single line or multi line. Supports minimal markdown subset-->
 <ChangeLog>
-* update for game patch 1.6
-* update logutils, fix thumbnail
+* Updated Instructions.
+* Internal: added EOL cleanup.
 </ChangeLog>
 <!--External link. supported types are discord, github, youtube, twitch, x, paypal, patreon-->
 <ExternalLink Type="github" Url="https://github.com/River-Mochi/MagicHearse" />
