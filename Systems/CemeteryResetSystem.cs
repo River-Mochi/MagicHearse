@@ -10,12 +10,18 @@
 // Purpose: Auto-empties cemeteries the moment the game flags them full (Funeral Director option).
 // Notes:
 // - Instance-level: zeroes Game.Buildings.DeathcareFacility.m_LongTermStoredCount on placed buildings.
-//   This is independent of the Cemetery-storage slider (which scales PREFAB capacity), so the two compose.
-// - Reset semantics == vanilla "bulldoze + rebuild" minus the rebuild; only UI reads the stored count.
-// - Leaves the IsFull flag alone on purpose: the game's DeathcareFacilityAISystem clears the flag AND
-//   removes the "facility full" notification on its next tick once it sees room again. Clearing the flag
-//   here would orphan that notification icon.
-// - Continuously throttled scanner (like MagicHearseSystem). Enabled only while FD + AutoReset are ON.
+//   Independent of the Cemetery-storage slider (which scales PREFAB capacity), so the two compose.
+// - Why this instance write is safe (InstanceEntities.md "Strategy 3"): 0 is the game's own valid
+//   "empty cemetery" state (every cemetery starts there and the AI system handles count==0 natively),
+//   only DeathcareFacilityAISystem touches this field so we are not fighting a recompute, there is no
+//   baseline to preserve/restore (so no marker needed), and SetComponentData is NOT a structural change.
+//   Net effect == vanilla "bulldoze + rebuild" minus the rebuild. No Harmony, no reflection.
+// - Leaves the IsFull flag alone on purpose: DeathcareFacilityAISystem clears the flag AND removes the
+//   "facility full" notification on its next tick once it sees room again. Clearing it here would orphan
+//   that icon (the game only removes it while the flag is still set).
+// - No Burst / job: cities have only a handful of cemeteries (well under 50), so a throttled main-thread
+//   scan costs microseconds and is far easier to diagnose. ToComponentDataArray + SetComponentData
+//   complete the deathcare job dependency for us (safe reads/writes, no torn reads).
 
 namespace MagicHearse
 {
@@ -23,17 +29,15 @@ namespace MagicHearse
     using Game.Buildings;           // DeathcareFacility, DeathcareFacilityFlags
     using Game.Common;              // Deleted
     using Game.Tools;               // Temp
-    using Unity.Burst;              // BurstCompile
-    using Unity.Burst.Intrinsics;   // v128
-    using Unity.Collections;        // NativeArray
-    using Unity.Entities;           // EntityQuery, SystemAPI, IJobChunk
-    using Unity.Jobs;               // JobHandle
+    using Unity.Collections;        // NativeArray, Allocator
+    using Unity.Entities;           // EntityQuery, SystemAPI, EntityManager
 
     public sealed partial class CemeteryResetSystem : GameSystemBase
     {
         private EntityQuery m_CemeteryQuery;
 
-        // Cemeteries fill slowly, so a modest cadence is plenty (matches MagicHearseSystem).
+        // Cemeteries fill over in-game weeks and cities have very few of them, so a light cadence
+        // is plenty (matches MagicHearseSystem's constant for consistency).
         public const int UpdatesPerDay = 256;
 
         public override int GetUpdateInterval(SystemUpdatePhase phase)
@@ -46,12 +50,14 @@ namespace MagicHearse
         {
             base.OnCreate();
 
-            // Mod.OnLoad + the AutoReset/FD setters flip this on when both toggles are ON.
+            // Mod.OnLoad + the FD/AutoReset setters flip this on when both toggles are ON.
             Enabled = false;
 
-            // DeathcareFacility only lives on placed deathcare buildings; exclude preview/removed.
+            // Game.Buildings.DeathcareFacility (runtime instance component) lives only on placed
+            // deathcare buildings; exclude preview/removed. Fully qualified to avoid the
+            // Game.Prefabs.DeathcareFacility name clash.
             m_CemeteryQuery = SystemAPI.QueryBuilder()
-                .WithAll<DeathcareFacility>()
+                .WithAll<Game.Buildings.DeathcareFacility>()
                 .WithNone<Deleted, Temp>()
                 .Build();
 
@@ -64,46 +70,33 @@ namespace MagicHearse
 
         protected override void OnUpdate()
         {
-            JobHandle handle = new CemeteryResetJob
+            // Both arrays iterate the query in the same chunk order, so index i lines up.
+            // ToComponentDataArray completes the read dependency; SetComponentData completes the write.
+            NativeArray<Entity> entities = m_CemeteryQuery.ToEntityArray(Allocator.Temp);
+            NativeArray<DeathcareFacility> facilities =
+                m_CemeteryQuery.ToComponentDataArray<DeathcareFacility>(Allocator.Temp);
+
+            try
             {
-                m_DeathcareFacilityType = SystemAPI.GetComponentTypeHandle<DeathcareFacility>(isReadOnly: false),
-            }.ScheduleParallel(m_CemeteryQuery, Dependency);
-
-            Dependency = handle;
-        }
-
-        [BurstCompile]
-        private struct CemeteryResetJob : IJobChunk
-        {
-            public ComponentTypeHandle<DeathcareFacility> m_DeathcareFacilityType;
-
-            public void Execute(
-                in ArchetypeChunk chunk,
-                int unfilteredChunkIndex,
-                bool useEnabledMask,
-                in v128 chunkEnabledMask)
-            {
-                _ = unfilteredChunkIndex;
-                _ = useEnabledMask;
-                _ = chunkEnabledMask;
-
-                NativeArray<DeathcareFacility> facilities = chunk.GetNativeArray(ref m_DeathcareFacilityType);
-
                 for (int i = 0; i < facilities.Length; i++)
                 {
                     DeathcareFacility facility = facilities[i];
 
-                    // Only long-term storage buildings ever get IsFull. Guard on count so we write
-                    // once per fill cycle (count is already 0 while we wait for the game to clear
-                    // the flag) and leave the flag for the game to reset + drop the notification.
+                    // Only long-term cemeteries ever carry IsFull. Guard on count so we write once
+                    // per fill cycle (count is already 0 while we wait for the game to clear the flag).
                     bool full = (facility.m_Flags & DeathcareFacilityFlags.IsFull) != 0;
 
                     if (full && facility.m_LongTermStoredCount > 0)
                     {
                         facility.m_LongTermStoredCount = 0;
-                        facilities[i] = facility;
+                        EntityManager.SetComponentData(entities[i], facility);
                     }
                 }
+            }
+            finally
+            {
+                entities.Dispose();
+                facilities.Dispose();
             }
         }
     }
