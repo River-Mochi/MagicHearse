@@ -11,8 +11,9 @@
 
 namespace MagicHearse
 {
-    using Colossal; // IDictionarySource, IDictionaryEntryError
     using System.Collections.Generic; // IEnumerable, Dictionary, KeyValuePair
+
+    using Colossal; // IDictionarySource, IDictionaryEntryError
 
     /// <summary>
     /// English localization source for Magic Hearse [MH].</summary>
@@ -95,7 +96,7 @@ namespace MagicHearse
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.AutoResetCemetery)), "Auto-empty when full" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.AutoResetCemetery)),
                     "**Automatically empties a cemetery** the instant it fills up.\n" +
-                    "Occupied plots reset to 0 — like bulldozing and rebuilding, but instant and automatic.\n" +
+                    "Occupied plots reset to 0 — like rebuilding, but instant and automatic.\n" +
                     "Pairs with the **Cemetery storage** slider: size your cemeteries, then let them recycle so you never have to demolish a full one.\n" +
                     "Default ON while **Funeral Director** is active."
                 },
