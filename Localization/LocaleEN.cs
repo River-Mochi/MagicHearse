@@ -175,17 +175,12 @@ namespace MagicHearse
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.StatusCemetery1)), "▪" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.StatusCemetery1)),
-                    "Cemetery name × how many times it was emptied this session." },
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.StatusCemetery2)), "▪" },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.StatusCemetery2)),
-                    "Cemetery name × how many times it was emptied this session." },
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.StatusCemetery3)), "▪" },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.StatusCemetery3)),
-                    "Cemetery name × how many times it was emptied this session." },
+                    "Which cemeteries were emptied, and how many times each (name × count)." },
 
-                { "MH_STATUS_LINE4", "{0} resets · {1} cemeteries" },
+                { "MH_STATUS_LINE4", "resets: {0} · cemeteries: {1}" },
                 { "MH_STATUS_CEMETERY_NONE", "none this session" },
                 { "MH_STATUS_CEMETERY_ROW", "{0} ×{1}" },
+                { "MH_STATUS_CEMETERY_MORE", "+{0} more" },
 
                 // About
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.AboutName)), "Mod" },

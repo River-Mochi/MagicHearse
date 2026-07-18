@@ -223,7 +223,7 @@ namespace MagicHearse
             }
         }
 
-        // Cemetery auto-reset tally (session): summary row + a short named list (one cemetery per row).
+        // Cemetery auto-reset tally (session): a summary row + one packed row naming the cemeteries.
         [SettingsUISection(ActionsTab, StatusGrp)]
         public string StatusSummary4
         {
@@ -241,26 +241,6 @@ namespace MagicHearse
             {
                 try { DeathcareStatus.RefreshIfNeeded(); } catch { }
                 return DeathcareStatus.SummaryCemetery1 ?? string.Empty;
-            }
-        }
-
-        [SettingsUISection(ActionsTab, StatusGrp)]
-        public string StatusCemetery2
-        {
-            get
-            {
-                try { DeathcareStatus.RefreshIfNeeded(); } catch { }
-                return DeathcareStatus.SummaryCemetery2 ?? string.Empty;
-            }
-        }
-
-        [SettingsUISection(ActionsTab, StatusGrp)]
-        public string StatusCemetery3
-        {
-            get
-            {
-                try { DeathcareStatus.RefreshIfNeeded(); } catch { }
-                return DeathcareStatus.SummaryCemetery3 ?? string.Empty;
             }
         }
 
