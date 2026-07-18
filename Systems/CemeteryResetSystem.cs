@@ -14,14 +14,15 @@
 // - Why this instance write is safe (InstanceEntities.md "Strategy 3"): 0 is the game's own valid
 //   "empty cemetery" state (every cemetery starts there and the AI system handles count==0 natively),
 //   only DeathcareFacilityAISystem touches this field so we are not fighting a recompute, there is no
-//   baseline to preserve/restore (so no marker needed), and SetComponentData is NOT a structural change.
+//   baseline to preserve/restore (so no marker needed), and the write is NOT a structural change.
 //   Net effect == vanilla "bulldoze + rebuild" minus the rebuild. No Harmony, no reflection.
 // - Leaves the IsFull flag alone on purpose: DeathcareFacilityAISystem clears the flag AND removes the
 //   "facility full" notification on its next tick once it sees room again. Clearing it here would orphan
 //   that icon (the game only removes it while the flag is still set).
-// - No Burst / job: cities have only a handful of cemeteries (well under 50), so a throttled main-thread
-//   scan costs microseconds and is far easier to diagnose. ToComponentDataArray + SetComponentData
-//   complete the deathcare job dependency for us (safe reads/writes, no torn reads).
+// - Continuous assist-style scan (same shape/idiom as MagicGarbage's GarbagePriorityAssistSystem and
+//   MagicHearse's own FuneralDirectorSystem), NOT a one-shot: it must keep watching as buildings fill.
+//   No Burst/job -- cities have very few cemeteries, so a stateless main-thread scan costs microseconds
+//   and is far easier to diagnose. SystemAPI.Query completes the deathcare job dependency for us.
 
 namespace MagicHearse
 {
@@ -29,22 +30,16 @@ namespace MagicHearse
     using Game.Buildings;           // DeathcareFacility, DeathcareFacilityFlags
     using Game.Common;              // Deleted
     using Game.Tools;               // Temp
-    using Unity.Collections;        // NativeArray, Allocator
-    using Unity.Entities;           // EntityQuery, SystemAPI, EntityManager
+    using Unity.Entities;           // SystemAPI, RefRW
 
     public sealed partial class CemeteryResetSystem : GameSystemBase
     {
-        private EntityQuery m_CemeteryQuery;
-
-        // Cemeteries fill over in-game weeks and cities have very few of them, so a light cadence
-        // is plenty (matches MagicHearseSystem's constant for consistency).
-        public const int UpdatesPerDay = 256;
-
-        public override int GetUpdateInterval(SystemUpdatePhase phase)
-        {
-            // Game ticksPerDay constant = 262144.
-            return 262144 / UpdatesPerDay;
-        }
+        // Watchdog cadence in sim ticks (named-const idiom shared with GarbagePriorityAssistSystem).
+        // 256 is the floor that loses nothing: the game's DeathcareFacilityAISystem sets AND clears the
+        // IsFull flag + its notification only on its own 256-tick beat, so a faster scan cannot shorten
+        // the "full" flash (the game will not clear the notification until its next 256-tick pass). Work
+        // is also filtered to a tiny subset (full cemeteries only), so even this cadence is nearly free.
+        public const int UpdateIntervalFrames = 256;
 
         protected override void OnCreate()
         {
@@ -53,50 +48,36 @@ namespace MagicHearse
             // Mod.OnLoad + the FD/AutoReset setters flip this on when both toggles are ON.
             Enabled = false;
 
-            // Game.Buildings.DeathcareFacility (runtime instance component) lives only on placed
-            // deathcare buildings; exclude preview/removed. Fully qualified to avoid the
-            // Game.Prefabs.DeathcareFacility name clash.
-            m_CemeteryQuery = SystemAPI.QueryBuilder()
-                .WithAll<Game.Buildings.DeathcareFacility>()
-                .WithNone<Deleted, Temp>()
-                .Build();
+            // Gate: only run in a city that actually has a deathcare building.
+            RequireForUpdate<Game.Buildings.DeathcareFacility>();
 
 #if DEBUG
             Mod.LogSafe(() => "[MH] CemeteryReset system created.");
 #endif
+        }
 
-            RequireForUpdate(m_CemeteryQuery);
+        public override int GetUpdateInterval(SystemUpdatePhase phase)
+        {
+            return UpdateIntervalFrames;
         }
 
         protected override void OnUpdate()
         {
-            // Both arrays iterate the query in the same chunk order, so index i lines up.
-            // ToComponentDataArray completes the read dependency; SetComponentData completes the write.
-            NativeArray<Entity> entities = m_CemeteryQuery.ToEntityArray(Allocator.Temp);
-            NativeArray<DeathcareFacility> facilities =
-                m_CemeteryQuery.ToComponentDataArray<DeathcareFacility>(Allocator.Temp);
-
-            try
+            // Main-thread RefRW scan. SystemAPI.Query completes the deathcare job dependency for us, and
+            // WithNone matches the game's own deathcare query so we see exactly the buildings whose IsFull
+            // flag it maintains. Fully qualified to avoid the Game.Prefabs.DeathcareFacility name clash.
+            foreach (RefRW<Game.Buildings.DeathcareFacility> facilityRef in SystemAPI
+                         .Query<RefRW<Game.Buildings.DeathcareFacility>>()
+                         .WithNone<Deleted, Temp>())
             {
-                for (int i = 0; i < facilities.Length; i++)
+                DeathcareFacility facility = facilityRef.ValueRO;
+
+                // Only long-term cemeteries ever carry IsFull. Guard on count so we write once per fill
+                // cycle (count is already 0 while we wait for the game to clear the flag).
+                if ((facility.m_Flags & DeathcareFacilityFlags.IsFull) != 0 && facility.m_LongTermStoredCount > 0)
                 {
-                    DeathcareFacility facility = facilities[i];
-
-                    // Only long-term cemeteries ever carry IsFull. Guard on count so we write once
-                    // per fill cycle (count is already 0 while we wait for the game to clear the flag).
-                    bool full = (facility.m_Flags & DeathcareFacilityFlags.IsFull) != 0;
-
-                    if (full && facility.m_LongTermStoredCount > 0)
-                    {
-                        facility.m_LongTermStoredCount = 0;
-                        EntityManager.SetComponentData(entities[i], facility);
-                    }
+                    facilityRef.ValueRW.m_LongTermStoredCount = 0;
                 }
-            }
-            finally
-            {
-                entities.Dispose();
-                facilities.Dispose();
             }
         }
     }
