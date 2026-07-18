@@ -164,6 +164,28 @@ namespace MagicHearse
                 { "MH_STATUS_LINE2", "{0} Kremation max/Monat | {1}/{2} Gräber belegt" },
                 { "MH_STATUS_LINE3", "{0} / {1} Leichenwagen | {2} / {3} Gebäude | {4} max. Mitarbeiter" },
 
+                // Cemetery reset tally (session status; row + named list below Assets)
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.StatusSummary4)), "Cemetery" },
+                { m_Setting.GetOptionDescLocaleID(nameof(Setting.StatusSummary4)),
+                    "**Cemeteries auto-emptied this session** by Auto-empty when full.\n" +
+                    "Shows total resets and how many distinct cemeteries.\n" +
+                    "Clears on reboot or when you switch city."
+                },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.StatusCemetery1)), "▪" },
+                { m_Setting.GetOptionDescLocaleID(nameof(Setting.StatusCemetery1)),
+                    "Cemetery name × how many times it was emptied this session." },
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.StatusCemetery2)), "▪" },
+                { m_Setting.GetOptionDescLocaleID(nameof(Setting.StatusCemetery2)),
+                    "Cemetery name × how many times it was emptied this session." },
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.StatusCemetery3)), "▪" },
+                { m_Setting.GetOptionDescLocaleID(nameof(Setting.StatusCemetery3)),
+                    "Cemetery name × how many times it was emptied this session." },
+
+                { "MH_STATUS_LINE4", "{0} resets · {1} cemeteries" },
+                { "MH_STATUS_CEMETERY_NONE", "none this session" },
+                { "MH_STATUS_CEMETERY_ROW", "{0} ×{1}" },
+
                 // About
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.AboutName)), "Mod" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.AboutName)), "Anzeigename dieses Mods." },
