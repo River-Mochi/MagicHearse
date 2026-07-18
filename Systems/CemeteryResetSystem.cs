@@ -34,12 +34,12 @@ namespace MagicHearse
 
     public sealed partial class CemeteryResetSystem : GameSystemBase
     {
-        // Watchdog cadence in sim ticks (named-const idiom shared with GarbagePriorityAssistSystem).
-        // 256 is the floor that loses nothing: the game's DeathcareFacilityAISystem sets AND clears the
-        // IsFull flag + its notification only on its own 256-tick beat, so a faster scan cannot shorten
-        // the "full" flash (the game will not clear the notification until its next 256-tick pass). Work
-        // is also filtered to a tiny subset (full cemeteries only), so even this cadence is nearly free.
-        public const int UpdateIntervalFrames = 256;
+        // Watchdog cadence in sim ticks (named-const idiom shared with GarbagePriorityAssistSystem, which
+        // also uses 128). The game's DeathcareFacilityAISystem updates fullness on a 256-tick beat; scanning
+        // at 128 puts two of our passes inside each of those windows, so a newly-full cemetery is always
+        // caught and reset before the game's next pass -- no matter how our schedule phase lines up against
+        // the game's. Work is filtered to a tiny subset (full cemeteries only), so this cadence is near-free.
+        public const int UpdateIntervalFrames = 128;
 
         protected override void OnCreate()
         {
