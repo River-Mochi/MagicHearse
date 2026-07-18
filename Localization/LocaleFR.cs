@@ -92,6 +92,14 @@ namespace MagicHearse
                     "**100%** = valeur vanilla du jeu."
                 },
 
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.AutoResetCemetery)), "Vider auto. quand plein" },
+                { m_Setting.GetOptionDescLocaleID(nameof(Setting.AutoResetCemetery)),
+                    "**Vide automatiquement un cimetière** dès qu'il est plein.\n" +
+                    "Les tombes occupées repassent à 0 — comme démolir et reconstruire, mais instantané et automatique.\n" +
+                    "Se combine avec le curseur **Stockage du cimetière** : dimensionnez vos cimetières, puis laissez-les se recycler pour ne jamais démolir un cimetière plein.\n" +
+                    "Activé par défaut quand le **Directeur funéraire** est actif."
+                },
+
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.HearseSpeedScalar)), "Vitesse du corbillard" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.HearseSpeedScalar)),
                     "**Augmente la vitesse max du corbillard**.\n" +

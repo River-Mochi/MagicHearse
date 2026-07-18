@@ -98,8 +98,13 @@ namespace MagicHearse
             {
                 updateSystem.UpdateAfter<FuneralDirectorSystem>(SystemUpdatePhase.PrefabUpdate);
                 updateSystem.UpdateAt<MagicHearseSystem>(SystemUpdatePhase.GameSimulation);
+                updateSystem.UpdateAt<CemeteryResetSystem>(SystemUpdatePhase.GameSimulation);
 
                 updateSystem.World.GetOrCreateSystemManaged<MagicHearseSystem>().Enabled = setting.EnableMagicHearse;
+
+                // Auto-reset scanner runs only when Funeral Director + AutoReset are both ON.
+                updateSystem.World.GetOrCreateSystemManaged<CemeteryResetSystem>().Enabled =
+                    setting.FuneralDirector && setting.AutoResetCemetery;
 
                 if (setting.FuneralDirector)
                 {

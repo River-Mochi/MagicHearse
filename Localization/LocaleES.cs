@@ -92,6 +92,14 @@ namespace MagicHearse
                     "**100%** = valor vanilla del juego."
                 },
 
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.AutoResetCemetery)), "Vaciar auto. al llenarse" },
+                { m_Setting.GetOptionDescLocaleID(nameof(Setting.AutoResetCemetery)),
+                    "**Vacía un cementerio automáticamente** en cuanto se llena.\n" +
+                    "Las tumbas ocupadas vuelven a 0 — como demoler y reconstruir, pero instantáneo y automático.\n" +
+                    "Se combina con el control deslizante **Almacenamiento del cementerio**: dimensiona tus cementerios y deja que se reciclen para no demoler nunca uno lleno.\n" +
+                    "Activado por defecto mientras el **Director funerario** está activo."
+                },
+
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.HearseSpeedScalar)), "Velocidad del coche fúnebre" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.HearseSpeedScalar)),
                     "**Aumenta la velocidad máxima del coche fúnebre**.\n" +

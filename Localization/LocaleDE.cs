@@ -92,6 +92,14 @@ namespace MagicHearse
                     "**100%** = Vanilla-Standard."
                 },
 
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.AutoResetCemetery)), "Auto-Leeren bei Voll" },
+                { m_Setting.GetOptionDescLocaleID(nameof(Setting.AutoResetCemetery)),
+                    "**Leert einen Friedhof automatisch**, sobald er voll ist.\n" +
+                    "Belegte Gräber werden auf 0 zurückgesetzt — wie Abreißen und Neubau, aber sofort und automatisch.\n" +
+                    "Passt zum Regler **Friedhofslager**: Dimensioniere deine Friedhöfe und lass sie sich recyceln, damit du nie einen vollen Friedhof abreißen musst.\n" +
+                    "Standardmäßig AN, solange der **Bestattungsleiter** aktiv ist."
+                },
+
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.HearseSpeedScalar)), "Leichenwagen-Geschwindigkeit" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.HearseSpeedScalar)),
                     "**Erhöht die Höchstgeschwindigkeit des Leichenwagens**.\n" +

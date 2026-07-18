@@ -92,6 +92,14 @@ namespace MagicHearse
                     "**100%** = domyślne ustawienie gry (vanilla)."
                 },
 
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.AutoResetCemetery)), "Auto-opróżnianie gdy pełny" },
+                { m_Setting.GetOptionDescLocaleID(nameof(Setting.AutoResetCemetery)),
+                    "**Automatycznie opróżnia cmentarz**, gdy tylko się zapełni.\n" +
+                    "Zajęte miejsca wracają do 0 — jak wyburzenie i odbudowa, ale natychmiast i automatycznie.\n" +
+                    "Współpracuje z suwakiem **Pojemność cmentarza**: ustaw rozmiar cmentarzy i pozwól im się odnawiać, byś nigdy nie musiał burzyć pełnego cmentarza.\n" +
+                    "Domyślnie WŁ., gdy **Dyrektor pogrzebowy** jest aktywny."
+                },
+
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.HearseSpeedScalar)), "Prędkość karawanu" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.HearseSpeedScalar)),
                     "**Zwiększa prędkość maksymalną karawanu**.\n" +

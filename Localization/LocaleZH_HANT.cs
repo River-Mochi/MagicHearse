@@ -92,6 +92,14 @@ namespace MagicHearse
                     "**100%** = 原版預設值。"
                 },
 
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.AutoResetCemetery)), "滿時自動清空" },
+                { m_Setting.GetOptionDescLocaleID(nameof(Setting.AutoResetCemetery)),
+                    "**墓地一滿就自動清空**。\n" +
+                    "已使用的墓位重設為0 —— 效果等同於拆除重建，但即時且自動。\n" +
+                    "與**墓地容量**滑桿搭配使用：設定好墓地容量後讓它循環利用，就再也不用拆除已滿的墓地了。\n" +
+                    "啟用**葬禮管理員**時預設開啟。"
+                },
+
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.HearseSpeedScalar)), "靈車速度" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.HearseSpeedScalar)),
                     "**提高靈車最高速度**。\n" +
