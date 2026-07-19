@@ -15,6 +15,7 @@
 
 namespace MagicHearse
 {
+    using CS2Shared.RiverMochi;        // LogUtils
     using Game;                        // IsGame()
     using Game.SceneFlow;              // GameManager
     using System;                      // DateTime, TimeSpan, Math, Exception
@@ -176,7 +177,7 @@ namespace MagicHearse
                 SummaryLine3 = string.Empty;
                 ClearCemeteryLines();
 
-                Mod.WarnOnce("MH_STATUS_SNAPSHOT_EXCEPTION", () =>
+                LogUtils.WarnOnce("MH_STATUS_SNAPSHOT_EXCEPTION", () =>
                     $"[MH] Status snapshot failed: {ex.GetType().Name}: {ex.Message}");
             }
         }
@@ -306,7 +307,7 @@ namespace MagicHearse
             }
             catch (FormatException)
             {
-                Mod.WarnOnce("MH_STATUS_BAD_FORMAT_" + key, () =>
+                LogUtils.WarnOnce("MH_STATUS_BAD_FORMAT_" + key, () =>
                     $"[MH] Status format error. Key={key} Args={args.Length}");
 
                 // Try English fallback format.

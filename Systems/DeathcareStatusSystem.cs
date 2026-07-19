@@ -10,6 +10,8 @@
 
 namespace MagicHearse
 {
+    using System;               // DateTime
+
     using Game;                 // GameSystemBase
     using Game.Buildings;       // Building, DeathcareFacility, BuildingUtils
     using Game.Citizens;        // Citizen, HealthProblem, HealthProblemFlags
@@ -20,10 +22,9 @@ namespace MagicHearse
     using Game.Simulation;      // CityStatisticsSystem
     using Game.Tools;           // Temp
     using Game.Vehicles;        // Hearse, ParkedCar
-    using System;               // DateTime
+
     using Unity.Collections;    // NativeArray, Allocator
     using Unity.Entities;       // Entity, EntityQuery, lookups, buffers, chunks
-
 
     public sealed partial class DeathcareStatusSystem : GameSystemBase
     {

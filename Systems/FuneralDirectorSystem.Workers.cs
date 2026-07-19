@@ -12,6 +12,7 @@
 
 namespace MagicHearse
 {
+    using CS2Shared.RiverMochi; // LogUtils
     using Game.Buildings;    // InstalledUpgrade, Student
     using Game.City;         // CityUtils
     using Game.Common;       // Deleted, Owner
@@ -142,7 +143,7 @@ namespace MagicHearse
 #if DEBUG
             if (touched > 0)
             {
-                Mod.LogSafe(() => $"[FD] Placed workers refreshed {touched} deathcare buildings.");
+                LogUtils.Info(() => $"[FD] Placed workers refreshed {touched} deathcare buildings.");
             }
 #endif
         }

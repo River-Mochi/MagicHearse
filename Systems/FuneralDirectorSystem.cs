@@ -17,6 +17,7 @@
 namespace MagicHearse
 {
     using Colossal.Serialization.Entities; // Purpose
+    using CS2Shared.RiverMochi;           // LogUtils
     using Game;                           // GameSystemBase, GameMode
     using Game.Prefabs;                   // PrefabSystem, PrefabBase
     using Unity.Collections;              // Allocator
@@ -57,7 +58,7 @@ namespace MagicHearse
                 .Build();
 
 #if DEBUG
-            Mod.LogSafe(() => "[FD] System created.");
+            LogUtils.Info(() => "[FD] System created.");
 #endif
         }
 
@@ -69,7 +70,7 @@ namespace MagicHearse
             if (setting != null && setting.FuneralDirector)
             {
 #if DEBUG
-                Mod.LogSafe(() => $"[FD] OnGameLoadingComplete: purpose={purpose}, mode={mode}");
+                LogUtils.Info(() => $"[FD] OnGameLoadingComplete: purpose={purpose}, mode={mode}");
 #endif
                 ScheduleReapply();
             }
@@ -95,7 +96,7 @@ namespace MagicHearse
             Setting? setting = Mod.Settings;
             if (setting == null)
             {
-                Mod.WarnSafe(() => "[FD] No settings instance; skipping.");
+                LogUtils.Warn(() => "[FD] No settings instance; skipping.");
                 Enabled = false;
                 return;
             }
@@ -113,7 +114,7 @@ namespace MagicHearse
             }
             catch (System.Exception ex)
             {
-                Mod.WarnOnce("MH_FD_EXCEPTION", () =>
+                LogUtils.WarnOnce("MH_FD_EXCEPTION", () =>
                     $"[FD] Apply/restore failed: {ex.GetType().Name}: {ex.Message}");
             }
             finally
