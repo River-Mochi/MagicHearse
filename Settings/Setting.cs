@@ -252,7 +252,7 @@ namespace MagicHearse
         public string AboutName => Mod.ModName;
 
         [SettingsUISection(AboutTab, AboutInfoGrp)]
-        public string AboutVersion => Mod.ModVersion;
+        public string AboutVersion => Mod.ModVersion + "  [" + Mod.BuildType + "]";
 
         // --------------------------------------------------------------------
         // ABOUT – LINKS

@@ -30,6 +30,13 @@ namespace MagicHearse
         public const string ModId = "MagicHearse";
         public const string ModTag = "[MH]";
 
+        // Which build is loaded. Shown in the log banner AND the About tab so it is obvious at a glance.
+#if DEBUG
+        public const string BuildType = "DEBUG";
+#else
+        public const string BuildType = "RELEASE";
+#endif
+
         public static readonly string ModVersion =
             Assembly.GetExecutingAssembly().GetName().Version?.ToString(3) ?? "1.0.0";
 
@@ -53,7 +60,7 @@ namespace MagicHearse
             if (!s_BannerLogged)
             {
                 s_BannerLogged = true;  // one-time banner
-                LogUtils.Info(() => $"{ModName} {ModTag} v{ModVersion} OnLoad");
+                LogUtils.Info(() => $"{ModName} {ModTag} v{ModVersion} [{BuildType}] OnLoad");
             }
 
             GameManager? gameManager = GameManager.instance;
