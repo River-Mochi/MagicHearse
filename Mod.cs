@@ -11,17 +11,18 @@
 
 namespace MagicHearse
 {
-    using System;                    // Exception
-    using System.IO;                 // Directory, File, Path
-    using System.Reflection;         // Assembly (version)
-    using Colossal.IO.AssetDatabase; // AssetDatabase.LoadSettings
-    using Colossal.Localization;     // LocalizationManager
-    using Colossal.Logging;          // ILog, LogManager
-    using CS2Shared.RiverMochi;      // LogUtils
-    using Game;                      // UpdateSystem, SystemUpdatePhase
-    using Game.Modding;              // IMod
-    using Game.SceneFlow;            // GameManager
-    using UnityEngine;               // Application.persistentDataPath
+    using System;                     // Exception
+    using System.IO;                  // Directory, File, Path
+    using System.Reflection;          // Assembly (version)
+    using Colossal;                     // EnvPath
+    using Colossal.IO.AssetDatabase;  // AssetDatabase.LoadSettings
+    using Colossal.Localization;      // LocalizationManager
+    using Colossal.Logging;           // ILog, LogManager
+    using Colossal.PSI.Environment;
+    using CS2Shared.RiverMochi;       // LogUtils
+    using Game;                       // UpdateSystem, SystemUpdatePhase
+    using Game.Modding;               // IMod
+    using Game.SceneFlow;             // GameManager
 
     public sealed class Mod : IMod
     {
@@ -68,6 +69,8 @@ namespace MagicHearse
                 LogUtils.Warn(() => "GameManager.instance is null in Mod.OnLoad.");
                 return;
             }
+
+            MigrateLegacySettingsFile();
 
             MHSetting setting = new MHSetting(this);
             Settings = setting;
@@ -116,6 +119,56 @@ namespace MagicHearse
             if (setting.FuneralDirector)
             {
                 updateSystem.World.GetOrCreateSystemManaged<FuneralDirectorSystem>().ScheduleReapply();
+            }
+        }
+
+        private static void MigrateLegacySettingsFile()
+        {
+            try
+            {
+                // Old FileLocation("ModsSettings/MagicHearse"):
+                // {UserData}/ModsSettings/MagicHearse.coc
+                string oldLocation = Path.Combine(
+                    EnvPath.kUserDataPath,
+                    "ModsSettings",
+                    $"{ModId}.coc");
+
+                if (!File.Exists(oldLocation))
+                {
+                    return;
+                }
+
+                // New FileLocation("ModsSettings/MagicHearse/MagicHearse"):
+                // {UserData}/ModsSettings/MagicHearse/MagicHearse.coc
+                string directory = Path.Combine(
+                    EnvPath.kUserDataPath,
+                    "ModsSettings",
+                    ModId);
+
+                string correctLocation = Path.Combine(
+                    directory,
+                    $"{ModId}.coc");
+
+                Directory.CreateDirectory(directory);
+
+                if (File.Exists(correctLocation))
+                {
+                    // The new settings file wins. Remove the obsolete duplicate
+                    // so an old file cannot be migrated again later.
+                    File.Delete(oldLocation);
+                    return;
+                }
+
+                File.Move(oldLocation, correctLocation);
+
+                LogUtils.Info(() =>
+                    "Migrated settings to ModsSettings/MagicHearse/MagicHearse.coc.");
+            }
+            catch (Exception ex)
+            {
+                // Migration failure must not prevent the mod from loading.
+                LogUtils.Warn(() =>
+                    $"Settings migration failed: {ex.GetType().Name}: {ex.Message}");
             }
         }
 
