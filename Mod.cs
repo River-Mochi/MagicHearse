@@ -14,7 +14,6 @@ namespace MagicHearse
     using System;                     // Exception
     using System.IO;                  // Directory, File, Path
     using System.Reflection;          // Assembly (version)
-    using Colossal;                     // EnvPath
     using Colossal.IO.AssetDatabase;  // AssetDatabase.LoadSettings
     using Colossal.Localization;      // LocalizationManager
     using Colossal.Logging;           // ILog, LogManager
@@ -104,7 +103,7 @@ namespace MagicHearse
             }
 
             AssetDatabase.global.LoadSettings(ModId, setting, new MHSetting(this));
-            setting.RegisterInOptionsUI();
+            setting.RegisterInOptionsUI();1
 
             updateSystem.UpdateAfter<FuneralDirectorSystem>(SystemUpdatePhase.PrefabUpdate);
             updateSystem.UpdateAt<MagicHearseSystem>(SystemUpdatePhase.GameSimulation);
