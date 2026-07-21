@@ -4,7 +4,7 @@
 <!--Name of the mod to display to players-->
 <DisplayName Value="Magic Hearse + Funeral Director" />
 <!--Short description of the mod-->
-<ShortDescription Value="Clean death, or self manage with Funeral Director; Bonus Status report." />
+<ShortDescription Value="Manage Cemeteries, Crematoriums, hearses, or auto manage. Bonus Status report." />
 <!--Long description of the mod. Single line or multi line. Supports minimal markdown subset-->
 <!--LongDescription Value="This is a long description" /-->
 <LongDescription>
@@ -54,9 +54,10 @@ Adjust Buildings:
 - River-Mochi: author
 - Inspired by Wayz's original Magical Hearse (retired)
 - yenyang: technical consultant
-- Necko1996: testing, screenshots
+- Toud: Polish translation review
 - StarQ: tech advisory
-- Toud: Polish translation review.
+- Toud, Necko1996: testing, screenshots
+
 
 ## How it works
 

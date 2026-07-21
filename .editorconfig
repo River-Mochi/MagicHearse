@@ -63,8 +63,12 @@ trim_trailing_whitespace = false
 # C# files
 # =========================
 [*.cs]
+# Sort usings without adding blank lines between namespace groups.
 dotnet_sort_system_directives_first = true
 dotnet_separate_import_directive_groups = false
+
+# Show unused usings, but do not remove them automatically.
+dotnet_diagnostic.IDE0005.severity = suggestion
 dotnet_diagnostic.IDE0073.severity = warning
 file_header_template = <copyright file="{fileName}" company="River-Mochi">\nCopyright (c) 2026 River-Mochi. All rights reserved.\nLicensed under the MIT License. You may not use this file except in compliance with this License.\nSee LICENSE file in the project root for full license information.\nThis notice and the MIT License notice must be kept with\nall copies or substantial portions of this code.\n================= </copyright> ======================
 
