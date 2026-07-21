@@ -1,4 +1,4 @@
-// <copyright file="Setting.Helpers.cs" company="River-Mochi">
+// <copyright file="MHSetting.Helpers.cs" company="River-Mochi">
 // Copyright (c) 2026 River-Mochi. All rights reserved.
 // Licensed under the MIT License. You may not use this file except in compliance with this License.
 // See LICENSE file in the project root for full license information.
@@ -6,14 +6,14 @@
 // all copies or substantial portions of this code.
 // ================= </copyright> ======================
 
-// File: Settings/Setting.Helpers.cs
-// Purpose: Runtime helpers + Settings UI setter handlers for Setting.cs.
+// File: Settings/MHSetting.Helpers.cs
+// Purpose: Runtime helpers + Settings UI setter handlers for MHSetting.cs.
 
 namespace MagicHearse
 {
     using Unity.Entities; // World
 
-    public sealed partial class Setting
+    public sealed partial class MHSetting
     {
         // --------------------------------------------------------------------
         // Helpers

@@ -57,7 +57,7 @@ namespace MagicHearse
         private const string FallbackCemeteryRow = "{0} ×{1}";
         private const string FallbackCemeteryMore = "+{0} more";
 
-        // Public UI strings read by Setting.cs getters
+        // Public UI strings read by MHSetting.cs getters
         public static string SummaryLine1 { get; private set; } = string.Empty;
         public static string SummaryLine2 { get; private set; } = string.Empty;
         public static string SummaryLine3 { get; private set; } = string.Empty;
@@ -93,7 +93,7 @@ namespace MagicHearse
             s_LastRefreshTicksUtc = 0;
         }
 
-        // Called by Setting.cs getters.
+        // Called by MHSetting.cs getters.
         public static void RefreshIfNeeded()
         {
             World world = World.DefaultGameObjectInjectionWorld;
@@ -102,7 +102,7 @@ namespace MagicHearse
                 return;
             }
 
-            // Frame guard: Setting.cs calls this once per Status getter per UI draw (several getters).
+            // Frame guard: MHSetting.cs calls this once per Status getter per UI draw (several getters).
             int frame = Time.frameCount;
             if (frame == s_LastUiFrame)
             {

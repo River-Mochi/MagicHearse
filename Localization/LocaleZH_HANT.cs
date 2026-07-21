@@ -18,12 +18,12 @@ namespace MagicHearse
     /// Traditional Chinese localization source for Magic Hearse [MH].</summary>
     public sealed class LocaleZH_HANT : IDictionarySource
     {
-        private readonly Setting m_Setting;
+        private readonly MHSetting m_Setting;
 
         /// <summary>
         /// Constructs the Traditional Chinese locale generator.</summary>
         /// <param name="setting">Settings object used for locale IDs.</param>
-        public LocaleZH_HANT(Setting setting)
+        public LocaleZH_HANT(MHSetting setting)
         {
             m_Setting = setting;
         }
@@ -47,61 +47,61 @@ namespace MagicHearse
                 { m_Setting.GetSettingsLocaleID(), title },
 
                 // Tabs
-                { m_Setting.GetOptionTabLocaleID(Setting.ActionsTab), "操作" },
-                { m_Setting.GetOptionTabLocaleID(Setting.AboutTab), "關於" },
+                { m_Setting.GetOptionTabLocaleID(MHSetting.ActionsTab), "操作" },
+                { m_Setting.GetOptionTabLocaleID(MHSetting.AboutTab), "關於" },
 
                 // Groups
-                { m_Setting.GetOptionGroupLocaleID(Setting.AutoCleanGrp),   "自動清理" },
-                { m_Setting.GetOptionGroupLocaleID(Setting.SelfManageGrp),  "手動管理" },
-                { m_Setting.GetOptionGroupLocaleID(Setting.AdvancedGrp),    "進階" },
-                { m_Setting.GetOptionGroupLocaleID(Setting.StatusGrp),      "狀態" },
-                { m_Setting.GetOptionGroupLocaleID(Setting.AboutInfoGrp),   "模組資訊" },
-                { m_Setting.GetOptionGroupLocaleID(Setting.AboutLinksGrp),  "連結" },
+                { m_Setting.GetOptionGroupLocaleID(MHSetting.AutoCleanGrp),   "自動清理" },
+                { m_Setting.GetOptionGroupLocaleID(MHSetting.SelfManageGrp),  "手動管理" },
+                { m_Setting.GetOptionGroupLocaleID(MHSetting.AdvancedGrp),    "進階" },
+                { m_Setting.GetOptionGroupLocaleID(MHSetting.StatusGrp),      "狀態" },
+                { m_Setting.GetOptionGroupLocaleID(MHSetting.AboutInfoGrp),   "模組資訊" },
+                { m_Setting.GetOptionGroupLocaleID(MHSetting.AboutLinksGrp),  "連結" },
 
                 // Auto Clean (magic)
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.EnableMagicHearse)), "啟用魔法清理" },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.EnableMagicHearse)),
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.EnableMagicHearse)), "啟用魔法清理" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.EnableMagicHearse)),
                     "**自動移除正在等待靈車的死亡市民**。\n" +
                     "把兩個勾選框都關掉即可停用模組，而不需要移除它。"
                 },
 
                 // Self Manage (FD)
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.FuneralDirector)), "葬禮管理員" },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.FuneralDirector)),
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.FuneralDirector)), "葬禮管理員" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.FuneralDirector)),
                     "全部自行管理。\n" +
                     "**縮放數值：** 速度、車隊、儲存。\n" +
                     "可選：也可**增加工人**。"
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.ProcScalar)), "處理速度" },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.ProcScalar)),
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.ProcScalar)), "處理速度" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.ProcScalar)),
                     "**設施處理速度**（火化）\n" +
                     "**100%** = 原版預設值。"
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.FleetScalar)), "車隊數量" },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.FleetScalar)),
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.FleetScalar)), "車隊數量" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.FleetScalar)),
                     "每個設施的**靈車最大數量**。\n" +
                     "**100%** = 原版預設值。\n" +
                     "**[o_o]** 靈車太多可能會依死亡率影響交通。"
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.StorageScalar)), "墓地容量" },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.StorageScalar)),
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StorageScalar)), "墓地容量" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StorageScalar)),
                     "主建築的**墓地儲存容量**。\n" +
                     "**100%** = 原版預設值。"
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.AutoResetCemetery)), "滿時自動清空" },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.AutoResetCemetery)),
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.AutoResetCemetery)), "滿時自動清空" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.AutoResetCemetery)),
                     "**墓地一滿就自動清空**。\n" +
                     "已使用的墓位重設為0 —— 效果等同於拆除重建，但即時且自動。\n" +
                     "與**墓地容量**滑桿搭配使用：設定好墓地容量後讓它循環利用，就再也不用拆除已滿的墓地了。\n" +
                     "啟用**葬禮管理員**時預設開啟。"
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.HearseSpeedScalar)), "靈車速度" },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.HearseSpeedScalar)),
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.HearseSpeedScalar)), "靈車速度" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.HearseSpeedScalar)),
                     "**提高靈車最高速度**。\n" +
                     "**100%** = 原版預設值。\n" +
                     "<道路限速仍然適用>。\n\n" +
@@ -112,39 +112,39 @@ namespace MagicHearse
                 },
 
                 // Workers compatibility toggle
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.ControlWorkers)), "控制最大工人數" },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.ControlWorkers)),
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.ControlWorkers)), "控制最大工人數" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.ControlWorkers)),
                     "相容性開關：\n" +
                     "**啟用 [✓]** 以增加工作人員數量。\n" +
                     "**[o_o]** 若希望由 **ConfigXML** 或其他模組控制殯葬服務的工作人員數量，請保持 OFF。"
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.WorkersScalar)), "最大工人數" },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.WorkersScalar)),
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.WorkersScalar)), "最大工人數" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.WorkersScalar)),
                     "**提高允許的最大工作人員數**。\n" +
                     "**100%** = 原版預設值。"
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.ResetGameDefaults)), "重置滑條" },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.ResetGameDefaults)),
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.ResetGameDefaults)), "重置滑條" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.ResetGameDefaults)),
                     "把所有滑條重置回 **100%**（原版預設值）。" },
 
                 // STATUS fields (SHORT labels; left column is narrow!)
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.StatusSummary1)), "需要靈車" },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.StatusSummary1)),
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusSummary1)), "需要靈車" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StatusSummary1)),
                     "**等待靈車接走的死亡市民**。"
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.StatusSummary2)), "數量" },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.StatusSummary2)),
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusSummary2)), "數量" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StatusSummary2)),
                      "來自遊戲統計的**每月總計**。\n" +
                      "**火化上限/月** = 遊戲的 Handling/月 資訊面板。\n" +
                      "這是火葬場每月最多可處理的遺體數量。"
                  },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.StatusSummary3)), "資源" },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.StatusSummary3)),
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusSummary3)), "資源" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StatusSummary3)),
                     "**啟用中建築容量：** 靈車總數、建築數、最大工人。\n\n" +
                     "**備註：**\n" +
                     "▪ 靈車：啟用-未停放 /（總計* 靈車）\n" +
@@ -165,15 +165,15 @@ namespace MagicHearse
                 { "MH_STATUS_LINE3", "{0} / {1} 靈車 | {2} / {3} 建築 | {4} 最大工人" },
 
                 // Cemetery reset tally (session status; row + named list below Assets)
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.StatusSummary4)), "Cemetery" },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.StatusSummary4)),
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusSummary4)), "Cemetery" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StatusSummary4)),
                     "**Cemeteries auto-emptied this session** by Auto-empty when full.\n" +
                     "Shows total resets and how many distinct cemeteries.\n" +
                     "Clears on reboot or when you switch city."
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.StatusCemetery1)), "▪" },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.StatusCemetery1)),
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusCemetery1)), "▪" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StatusCemetery1)),
                     "Which cemeteries were emptied, and how many times each (name × count)." },
 
                 { "MH_STATUS_LINE4", "resets: {0} · cemeteries: {1}" },
@@ -182,13 +182,13 @@ namespace MagicHearse
                 { "MH_STATUS_CEMETERY_MORE", "+{0} more" },
 
                 // About
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.AboutName)), "模組" },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.AboutName)), "此模組的顯示名稱。" },
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.AboutVersion)), "版本" },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.AboutVersion)), "目前版本。" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.AboutName)), "模組" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.AboutName)), "此模組的顯示名稱。" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.AboutVersion)), "版本" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.AboutVersion)), "目前版本。" },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.OpenParadoxMods)), "Paradox Mods" },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.OpenParadoxMods)),
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.OpenParadoxMods)), "Paradox Mods" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.OpenParadoxMods)),
                     "開啟作者的 Paradox Mods 頁面。" },
             };
         }

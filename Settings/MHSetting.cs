@@ -1,4 +1,4 @@
-// <copyright file="Setting.cs" company="River-Mochi">
+// <copyright file="MHSetting.cs" company="River-Mochi">
 // Copyright (c) 2026 River-Mochi. All rights reserved.
 // Licensed under the MIT License. You may not use this file except in compliance with this License.
 // See LICENSE file in the project root for full license information.
@@ -6,16 +6,16 @@
 // all copies or substantial portions of this code.
 // ================= </copyright> ======================
 
-// File: Settings/Setting.cs
+// File: Settings/MHSetting.cs
 // Purpose: Options UI + settings for Magic Hearse (Actions/Status/About tabs).
 
 namespace MagicHearse
 {
+    using System;                    // Exception
     using Colossal.IO.AssetDatabase; // FileLocation
     using Game.Modding;              // IMod, ModSetting
     using Game.Settings;             // Settings UI attributes
     using Game.UI;                   // Unit
-    using System;                    // Exception
     using UnityEngine;               // Application.OpenURL
 
     [FileLocation("ModsSettings/MagicHearse")]  // persistent settings file
@@ -26,7 +26,7 @@ namespace MagicHearse
     [SettingsUIShowGroupName(
         AutoCleanGrp, SelfManageGrp, AdvancedGrp,
         StatusGrp, AboutLinksGrp)]
-    public sealed partial class Setting : ModSetting
+    public sealed partial class MHSetting : ModSetting
     {
         // ---- TABS ----
         public const string ActionsTab = "Actions";
@@ -80,7 +80,7 @@ namespace MagicHearse
         // Default ON so full cemeteries self-empty as soon as FD is enabled.
         private bool m_AutoResetCemetery = true;
 
-        public Setting(IMod mod)
+        public MHSetting(IMod mod)
             : base(mod)
         {
         }
@@ -93,7 +93,7 @@ namespace MagicHearse
         // --------------------------------------------------------------------
 
         [SettingsUISection(ActionsTab, AutoCleanGrp)]
-        [SettingsUISetter(typeof(Setting), nameof(SetEnableMagicHearse))]
+        [SettingsUISetter(typeof(MHSetting), nameof(SetEnableMagicHearse))]
         public bool EnableMagicHearse
         {
             get => m_EnableMagicHearse;
@@ -105,7 +105,7 @@ namespace MagicHearse
         // --------------------------------------------------------------------
 
         [SettingsUISection(ActionsTab, SelfManageGrp)]
-        [SettingsUISetter(typeof(Setting), nameof(SetFuneralDirector))]
+        [SettingsUISetter(typeof(MHSetting), nameof(SetFuneralDirector))]
         public bool FuneralDirector
         {
             get => m_FuneralDirector;
@@ -114,28 +114,28 @@ namespace MagicHearse
 
         [SettingsUISlider(min = kProcMin, max = kProcMax, step = kProcStep, scalarMultiplier = 1, unit = Unit.kPercentage)]
         [SettingsUISection(ActionsTab, SelfManageGrp)]
-        [SettingsUIHideByCondition(typeof(Setting), nameof(FuneralDirector), true)]
-        [SettingsUISetter(typeof(Setting), nameof(SetProcScalar))]
+        [SettingsUIHideByCondition(typeof(MHSetting), nameof(FuneralDirector), true)]
+        [SettingsUISetter(typeof(MHSetting), nameof(SetProcScalar))]
         public int ProcScalar { get; set; } = kDefaultPercent;
 
         [SettingsUISlider(min = kFleetMin, max = kFleetMax, step = kFleetStep, scalarMultiplier = 1, unit = Unit.kPercentage)]
         [SettingsUISection(ActionsTab, SelfManageGrp)]
-        [SettingsUIHideByCondition(typeof(Setting), nameof(FuneralDirector), true)]
-        [SettingsUISetter(typeof(Setting), nameof(SetFleetScalar))]
+        [SettingsUIHideByCondition(typeof(MHSetting), nameof(FuneralDirector), true)]
+        [SettingsUISetter(typeof(MHSetting), nameof(SetFleetScalar))]
         public int FleetScalar { get; set; } = kDefaultPercent;
 
         [SettingsUISlider(min = kStorageMin, max = kStorageMax, step = kStorageStep, scalarMultiplier = 1, unit = Unit.kPercentage)]
         [SettingsUISection(ActionsTab, SelfManageGrp)]
-        [SettingsUIHideByCondition(typeof(Setting), nameof(FuneralDirector), true)]
-        [SettingsUISetter(typeof(Setting), nameof(SetStorageScalar))]
+        [SettingsUIHideByCondition(typeof(MHSetting), nameof(FuneralDirector), true)]
+        [SettingsUISetter(typeof(MHSetting), nameof(SetStorageScalar))]
         public int StorageScalar { get; set; } = kDefaultPercent;
 
         // Instance-level companion to the Cemetery storage slider: empties a placed
         // cemetery back to 0 the moment the game flags it full. Independent of capacity,
         // so both can be used together.
         [SettingsUISection(ActionsTab, SelfManageGrp)]
-        [SettingsUIHideByCondition(typeof(Setting), nameof(FuneralDirector), true)]
-        [SettingsUISetter(typeof(Setting), nameof(SetAutoResetCemetery))]
+        [SettingsUIHideByCondition(typeof(MHSetting), nameof(FuneralDirector), true)]
+        [SettingsUISetter(typeof(MHSetting), nameof(SetAutoResetCemetery))]
         public bool AutoResetCemetery
         {
             get => m_AutoResetCemetery;
@@ -144,13 +144,13 @@ namespace MagicHearse
 
         [SettingsUISlider(min = kHearseSpeedMin, max = kHearseSpeedMax, step = kHearseSpeedStep, scalarMultiplier = 1, unit = Unit.kPercentage)]
         [SettingsUISection(ActionsTab, SelfManageGrp)]
-        [SettingsUIHideByCondition(typeof(Setting), nameof(FuneralDirector), true)]
-        [SettingsUISetter(typeof(Setting), nameof(SetHearseSpeedScalar))]
+        [SettingsUIHideByCondition(typeof(MHSetting), nameof(FuneralDirector), true)]
+        [SettingsUISetter(typeof(MHSetting), nameof(SetHearseSpeedScalar))]
         public int HearseSpeedScalar { get; set; } = kDefaultPercent;
 
         [SettingsUIButton]
         [SettingsUISection(ActionsTab, SelfManageGrp)]
-        [SettingsUIHideByCondition(typeof(Setting), nameof(FuneralDirector), true)]
+        [SettingsUIHideByCondition(typeof(MHSetting), nameof(FuneralDirector), true)]
         public bool ResetGameDefaults
         {
             set
@@ -175,8 +175,8 @@ namespace MagicHearse
         // --------------------------------------------------------------------
 
         [SettingsUISection(ActionsTab, AdvancedGrp)]
-        [SettingsUIHideByCondition(typeof(Setting), nameof(FuneralDirector), true)]
-        [SettingsUISetter(typeof(Setting), nameof(SetControlWorkers))]
+        [SettingsUIHideByCondition(typeof(MHSetting), nameof(FuneralDirector), true)]
+        [SettingsUISetter(typeof(MHSetting), nameof(SetControlWorkers))]
         public bool ControlWorkers
         {
             get => m_ControlWorkers;
@@ -185,8 +185,8 @@ namespace MagicHearse
 
         [SettingsUISlider(min = kWorkersMin, max = kWorkersMax, step = kWorkersStep, scalarMultiplier = 1, unit = Unit.kPercentage)]
         [SettingsUISection(ActionsTab, AdvancedGrp)]
-        [SettingsUIHideByCondition(typeof(Setting), nameof(WorkersControlEnabled), true)]
-        [SettingsUISetter(typeof(Setting), nameof(SetWorkersScalar))]
+        [SettingsUIHideByCondition(typeof(MHSetting), nameof(WorkersControlEnabled), true)]
+        [SettingsUISetter(typeof(MHSetting), nameof(SetWorkersScalar))]
         public int WorkersScalar { get; set; } = kDefaultPercent;
 
         // --------------------------------------------------------------------

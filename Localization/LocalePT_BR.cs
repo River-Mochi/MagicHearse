@@ -18,12 +18,12 @@ namespace MagicHearse
     /// Portuguese (Brazil) localization source for Magic Hearse [MH].</summary>
     public sealed class LocalePT_BR : IDictionarySource
     {
-        private readonly Setting m_Setting;
+        private readonly MHSetting m_Setting;
 
         /// <summary>
         /// Constructs the Portuguese (Brazil) locale generator.</summary>
         /// <param name="setting">Settings object used for locale IDs.</param>
-        public LocalePT_BR(Setting setting)
+        public LocalePT_BR(MHSetting setting)
         {
             m_Setting = setting;
         }
@@ -47,61 +47,61 @@ namespace MagicHearse
                 { m_Setting.GetSettingsLocaleID(), title },
 
                 // Tabs
-                { m_Setting.GetOptionTabLocaleID(Setting.ActionsTab), "Ações" },
-                { m_Setting.GetOptionTabLocaleID(Setting.AboutTab), "Sobre" },
+                { m_Setting.GetOptionTabLocaleID(MHSetting.ActionsTab), "Ações" },
+                { m_Setting.GetOptionTabLocaleID(MHSetting.AboutTab), "Sobre" },
 
                 // Groups
-                { m_Setting.GetOptionGroupLocaleID(Setting.AutoCleanGrp),   "Limpeza automática" },
-                { m_Setting.GetOptionGroupLocaleID(Setting.SelfManageGrp),  "Gerenciar manualmente" },
-                { m_Setting.GetOptionGroupLocaleID(Setting.AdvancedGrp),    "Avançado" },
-                { m_Setting.GetOptionGroupLocaleID(Setting.StatusGrp),      "Status" },
-                { m_Setting.GetOptionGroupLocaleID(Setting.AboutInfoGrp),   "Info do mod" },
-                { m_Setting.GetOptionGroupLocaleID(Setting.AboutLinksGrp),  "Links" },
+                { m_Setting.GetOptionGroupLocaleID(MHSetting.AutoCleanGrp),   "Limpeza automática" },
+                { m_Setting.GetOptionGroupLocaleID(MHSetting.SelfManageGrp),  "Gerenciar manualmente" },
+                { m_Setting.GetOptionGroupLocaleID(MHSetting.AdvancedGrp),    "Avançado" },
+                { m_Setting.GetOptionGroupLocaleID(MHSetting.StatusGrp),      "Status" },
+                { m_Setting.GetOptionGroupLocaleID(MHSetting.AboutInfoGrp),   "Info do mod" },
+                { m_Setting.GetOptionGroupLocaleID(MHSetting.AboutLinksGrp),  "Links" },
 
                 // Auto Clean (magic)
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.EnableMagicHearse)), "Ativar limpeza mágica" },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.EnableMagicHearse)),
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.EnableMagicHearse)), "Ativar limpeza mágica" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.EnableMagicHearse)),
                     "**Remove automaticamente cidadãos mortos** que estão esperando um carro funerário.\n" +
                     "Desligue as duas caixas para desativar o mod sem removê-lo."
                 },
 
                 // Self Manage (FD)
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.FuneralDirector)), "Diretor funerário" },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.FuneralDirector)),
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.FuneralDirector)), "Diretor funerário" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.FuneralDirector)),
                     "Gerencie tudo manualmente.\n" +
                     "**Valores de escala:** taxa, frota, armazenamento.\n" +
                     "Opcional: **aumentar trabalhadores** também."
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.ProcScalar)), "Taxa de processamento" },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.ProcScalar)),
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.ProcScalar)), "Taxa de processamento" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.ProcScalar)),
                     "**Velocidade de processamento da instalação** (cremações)\n" +
                     "**100%** = padrão vanilla do jogo."
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.FleetScalar)), "Tamanho da frota" },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.FleetScalar)),
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.FleetScalar)), "Tamanho da frota" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.FleetScalar)),
                     "**Máximo de carros funerários** por instalação.\n" +
                     "**100%** = padrão vanilla do jogo.\n" +
                     "**[o_o]** Carros funerários demais podem afetar o trânsito dependendo da taxa de mortes."
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.StorageScalar)), "Armazenamento do cemitério" },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.StorageScalar)),
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StorageScalar)), "Armazenamento do cemitério" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StorageScalar)),
                     "**Capacidade de armazenamento do cemitério** do prédio principal.\n" +
                     "**100%** = padrão vanilla do jogo."
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.AutoResetCemetery)), "Esvaziar auto. quando cheio" },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.AutoResetCemetery)),
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.AutoResetCemetery)), "Esvaziar auto. quando cheio" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.AutoResetCemetery)),
                     "**Esvazia um cemitério automaticamente** assim que ele enche.\n" +
                     "As sepulturas ocupadas voltam a 0 — como demolir e reconstruir, mas instantâneo e automático.\n" +
                     "Combina com o controle deslizante **Armazenamento do cemitério**: defina o tamanho dos cemitérios e deixe-os se reciclar para nunca demolir um cheio.\n" +
                     "Ativado por padrão enquanto o **Diretor funerário** estiver ativo."
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.HearseSpeedScalar)), "Velocidade do carro funerário" },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.HearseSpeedScalar)),
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.HearseSpeedScalar)), "Velocidade do carro funerário" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.HearseSpeedScalar)),
                     "**Aumenta a velocidade máxima do carro funerário**.\n" +
                     "**100%** = padrão vanilla do jogo.\n" +
                     "<Os limites de velocidade das vias ainda valem>.\n\n" +
@@ -112,39 +112,39 @@ namespace MagicHearse
                 },
 
                 // Workers compatibility toggle
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.ControlWorkers)), "Controlar trabalhadores máx." },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.ControlWorkers)),
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.ControlWorkers)), "Controlar trabalhadores máx." },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.ControlWorkers)),
                     "Alternância de compatibilidade:\n" +
                     "**Ativar [✓]** para aumentar o número de trabalhadores.\n" +
                     "**[o_o]** Deixe em OFF se quiser que o **ConfigXML** ou outro mod controle os trabalhadores do serviço funerário."
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.WorkersScalar)), "Trabalhadores máx." },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.WorkersScalar)),
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.WorkersScalar)), "Trabalhadores máx." },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.WorkersScalar)),
                     "**Aumenta o máximo de trabalhadores** permitido.\n" +
                     "**100%** = padrão vanilla do jogo."
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.ResetGameDefaults)), "Resetar sliders" },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.ResetGameDefaults)),
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.ResetGameDefaults)), "Resetar sliders" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.ResetGameDefaults)),
                     "Define todos os sliders de volta para **100%** (padrões vanilla)." },
 
                 // STATUS fields (SHORT labels; left column is narrow!)
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.StatusSummary1)), "Carro funerário necessário" },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.StatusSummary1)),
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusSummary1)), "Carro funerário necessário" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StatusSummary1)),
                     "**Cidadãos mortos esperando** a coleta do carro funerário."
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.StatusSummary2)), "Volume" },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.StatusSummary2)),
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusSummary2)), "Volume" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StatusSummary2)),
                      "**Totais mensais** das estatísticas do jogo.\n" +
                      "**Cremação máx./mês** = painel de info Handling/mês do jogo.\n" +
                      "Este é o máximo de corpos que poderiam ser processados por crematórios por mês."
                  },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.StatusSummary3)), "Ativos" },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.StatusSummary3)),
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusSummary3)), "Ativos" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StatusSummary3)),
                     "**Capacidades ativas dos prédios:** total de carros funerários, prédios, trabalhadores máx.\n\n" +
                     "**Notas:**\n" +
                     "▪ Carro funerário: Ativo-não estacionado / (Total* carros funerários)\n" +
@@ -165,15 +165,15 @@ namespace MagicHearse
                 { "MH_STATUS_LINE3", "{0} / {1} carros funerários | {2} / {3} prédios | {4} trabalhadores máx." },
 
                 // Cemetery reset tally (session status; row + named list below Assets)
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.StatusSummary4)), "Cemetery" },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.StatusSummary4)),
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusSummary4)), "Cemetery" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StatusSummary4)),
                     "**Cemeteries auto-emptied this session** by Auto-empty when full.\n" +
                     "Shows total resets and how many distinct cemeteries.\n" +
                     "Clears on reboot or when you switch city."
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.StatusCemetery1)), "▪" },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.StatusCemetery1)),
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusCemetery1)), "▪" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StatusCemetery1)),
                     "Which cemeteries were emptied, and how many times each (name × count)." },
 
                 { "MH_STATUS_LINE4", "resets: {0} · cemeteries: {1}" },
@@ -182,13 +182,13 @@ namespace MagicHearse
                 { "MH_STATUS_CEMETERY_MORE", "+{0} more" },
 
                 // About
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.AboutName)), "Mod" },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.AboutName)), "Nome exibido deste mod." },
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.AboutVersion)), "Versão" },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.AboutVersion)), "Versão atual." },
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.AboutName)), "Mod" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.AboutName)), "Nome exibido deste mod." },
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.AboutVersion)), "Versão" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.AboutVersion)), "Versão atual." },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.OpenParadoxMods)), "Paradox Mods" },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.OpenParadoxMods)),
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.OpenParadoxMods)), "Paradox Mods" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.OpenParadoxMods)),
                     "Abre a página Paradox Mods do autor." },
             };
         }

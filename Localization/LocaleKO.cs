@@ -18,12 +18,12 @@ namespace MagicHearse
     /// Korean localization source for Magic Hearse [MH].</summary>
     public sealed class LocaleKO : IDictionarySource
     {
-        private readonly Setting m_Setting;
+        private readonly MHSetting m_Setting;
 
         /// <summary>
         /// Constructs the Korean locale generator.</summary>
         /// <param name="setting">Settings object used for locale IDs.</param>
-        public LocaleKO(Setting setting)
+        public LocaleKO(MHSetting setting)
         {
             m_Setting = setting;
         }
@@ -47,61 +47,61 @@ namespace MagicHearse
                 { m_Setting.GetSettingsLocaleID(), title },
 
                 // Tabs
-                { m_Setting.GetOptionTabLocaleID(Setting.ActionsTab), "작업" },
-                { m_Setting.GetOptionTabLocaleID(Setting.AboutTab), "정보" },
+                { m_Setting.GetOptionTabLocaleID(MHSetting.ActionsTab), "작업" },
+                { m_Setting.GetOptionTabLocaleID(MHSetting.AboutTab), "정보" },
 
                 // Groups
-                { m_Setting.GetOptionGroupLocaleID(Setting.AutoCleanGrp),   "자동 정리" },
-                { m_Setting.GetOptionGroupLocaleID(Setting.SelfManageGrp),  "수동 관리" },
-                { m_Setting.GetOptionGroupLocaleID(Setting.AdvancedGrp),    "고급" },
-                { m_Setting.GetOptionGroupLocaleID(Setting.StatusGrp),      "상태" },
-                { m_Setting.GetOptionGroupLocaleID(Setting.AboutInfoGrp),   "모드 정보" },
-                { m_Setting.GetOptionGroupLocaleID(Setting.AboutLinksGrp),  "링크" },
+                { m_Setting.GetOptionGroupLocaleID(MHSetting.AutoCleanGrp),   "자동 정리" },
+                { m_Setting.GetOptionGroupLocaleID(MHSetting.SelfManageGrp),  "수동 관리" },
+                { m_Setting.GetOptionGroupLocaleID(MHSetting.AdvancedGrp),    "고급" },
+                { m_Setting.GetOptionGroupLocaleID(MHSetting.StatusGrp),      "상태" },
+                { m_Setting.GetOptionGroupLocaleID(MHSetting.AboutInfoGrp),   "모드 정보" },
+                { m_Setting.GetOptionGroupLocaleID(MHSetting.AboutLinksGrp),  "링크" },
 
                 // Auto Clean (magic)
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.EnableMagicHearse)), "마법 정리 활성화" },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.EnableMagicHearse)),
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.EnableMagicHearse)), "마법 정리 활성화" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.EnableMagicHearse)),
                     "영구차를 기다리는 **사망 시민을 자동으로 제거**합니다.\n" +
                     "두 체크박스를 모두 OFF로 하면, 모드를 제거하지 않고 비활성화할 수 있습니다."
                 },
 
                 // Self Manage (FD)
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.FuneralDirector)), "장의사" },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.FuneralDirector)),
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.FuneralDirector)), "장의사" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.FuneralDirector)),
                     "모든 것을 수동으로 관리합니다.\n" +
                     "**스케일 값:** 처리, 차량, 저장.\n" +
                     "선택: **근로자 수**도 증가."
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.ProcScalar)), "처리 속도" },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.ProcScalar)),
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.ProcScalar)), "처리 속도" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.ProcScalar)),
                     "**시설 처리 속도** (화장)\n" +
                     "**100%** = 바닐라 기본값."
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.FleetScalar)), "차량 수" },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.FleetScalar)),
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.FleetScalar)), "차량 수" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.FleetScalar)),
                     "시설당 **영구차 최대 수**.\n" +
                     "**100%** = 바닐라 기본값.\n" +
                     "**[o_o]** 영구차가 너무 많으면 사망률에 따라 교통에 영향을 줄 수 있습니다."
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.StorageScalar)), "묘지 저장" },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.StorageScalar)),
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StorageScalar)), "묘지 저장" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StorageScalar)),
                     "메인 건물의 **묘지 저장 용량**.\n" +
                     "**100%** = 바닐라 기본값."
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.AutoResetCemetery)), "가득 차면 자동 비움" },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.AutoResetCemetery)),
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.AutoResetCemetery)), "가득 차면 자동 비움" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.AutoResetCemetery)),
                     "**묘지가 가득 차는 즉시 자동으로 비웁니다**.\n" +
                     "사용 중인 구획이 0으로 초기화됩니다 — 철거 후 재건축과 같지만 즉시 자동으로 처리됩니다.\n" +
                     "**묘지 저장** 슬라이더와 함께 사용: 묘지 용량을 정한 뒤 재활용되도록 두면 가득 찬 묘지를 철거할 필요가 없습니다.\n" +
                     "**장의사**가 켜져 있는 동안 기본값은 켜짐입니다."
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.HearseSpeedScalar)), "영구차 속도" },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.HearseSpeedScalar)),
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.HearseSpeedScalar)), "영구차 속도" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.HearseSpeedScalar)),
                     "**영구차 최고 속도를 증가**합니다.\n" +
                     "**100%** = 바닐라 기본값.\n" +
                     "<도로 제한 속도는 그대로 적용>。\n\n" +
@@ -112,39 +112,39 @@ namespace MagicHearse
                 },
 
                 // Workers compatibility toggle
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.ControlWorkers)), "최대 근로자 제어" },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.ControlWorkers)),
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.ControlWorkers)), "최대 근로자 제어" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.ControlWorkers)),
                     "호환성 토글:\n" +
                     "**[✓] ON** 하면 근로자 수를 증가.\n" +
                     "**[o_o]** **ConfigXML** 또는 다른 모드가 장례 서비스 근로자 수를 제어하게 하려면 OFF로 두기."
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.WorkersScalar)), "최대 근로자" },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.WorkersScalar)),
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.WorkersScalar)), "최대 근로자" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.WorkersScalar)),
                     "**최대 근로자 수** 를 증가.\n" +
                     "**100%** = 바닐라 기본값."
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.ResetGameDefaults)), "슬라이더 리셋" },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.ResetGameDefaults)),
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.ResetGameDefaults)), "슬라이더 리셋" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.ResetGameDefaults)),
                     "모든 슬라이더를 **100%**(바닐라 기본값)로 되돌립니다." },
 
                 // STATUS fields (SHORT labels; left column is narrow!)
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.StatusSummary1)), "영구차 필요" },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.StatusSummary1)),
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusSummary1)), "영구차 필요" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StatusSummary1)),
                     "영구차 픽업을 기다리는 **사망 시민**."
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.StatusSummary2)), "물량" },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.StatusSummary2)),
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusSummary2)), "물량" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StatusSummary2)),
                      "게임 통계의 **월간 합계**.\n" +
                      "**화장 최대/월** = 게임 Handling/월 정보 패널.\n" +
                      "이는 화장장이 한 달에 처리할 수 있는 최대 시신 수입니다."
                  },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.StatusSummary3)), "자산" },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.StatusSummary3)),
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusSummary3)), "자산" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StatusSummary3)),
                     "**활성 건물 용량:** 영구차 합계, 건물 수, 최대 근로자.\n\n" +
                     "**참고:**\n" +
                     "▪ 영구차: 활성(주차 아님) / (총합* 영구차)\n" +
@@ -165,15 +165,15 @@ namespace MagicHearse
                 { "MH_STATUS_LINE3", "{0} / {1} 영구차 | {2} / {3} 건물 | {4} 최대 근로자" },
 
                 // Cemetery reset tally (session status; row + named list below Assets)
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.StatusSummary4)), "Cemetery" },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.StatusSummary4)),
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusSummary4)), "Cemetery" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StatusSummary4)),
                     "**Cemeteries auto-emptied this session** by Auto-empty when full.\n" +
                     "Shows total resets and how many distinct cemeteries.\n" +
                     "Clears on reboot or when you switch city."
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.StatusCemetery1)), "▪" },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.StatusCemetery1)),
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusCemetery1)), "▪" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StatusCemetery1)),
                     "Which cemeteries were emptied, and how many times each (name × count)." },
 
                 { "MH_STATUS_LINE4", "resets: {0} · cemeteries: {1}" },
@@ -182,13 +182,13 @@ namespace MagicHearse
                 { "MH_STATUS_CEMETERY_MORE", "+{0} more" },
 
                 // About
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.AboutName)), "모드" },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.AboutName)), "이 모드의 표시 이름." },
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.AboutVersion)), "버전" },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.AboutVersion)), "현재 버전." },
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.AboutName)), "모드" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.AboutName)), "이 모드의 표시 이름." },
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.AboutVersion)), "버전" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.AboutVersion)), "현재 버전." },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.OpenParadoxMods)), "Paradox Mods" },
-                { m_Setting.GetOptionDescLocaleID(nameof(Setting.OpenParadoxMods)),
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.OpenParadoxMods)), "Paradox Mods" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.OpenParadoxMods)),
                     "작성자의 Paradox Mods 페이지를 엽니다." },
             };
         }

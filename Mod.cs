@@ -49,7 +49,7 @@ namespace MagicHearse
 #endif
             );
 
-        public static Setting? Settings;
+        public static MHSetting? Settings;
 
         private static bool s_BannerLogged;
 
@@ -70,7 +70,7 @@ namespace MagicHearse
                 return;
             }
 
-            Setting setting = new Setting(this);
+            MHSetting setting = new MHSetting(this);
             Settings = setting;
 
             // Locales are best-effort: one guard + one try/catch so a bad source never crashes load.
@@ -101,7 +101,7 @@ namespace MagicHearse
                 }
             }
 
-            AssetDatabase.global.LoadSettings(ModId, setting, new Setting(this));
+            AssetDatabase.global.LoadSettings(ModId, setting, new MHSetting(this));
             setting.RegisterInOptionsUI();
 
             updateSystem.UpdateAfter<FuneralDirectorSystem>(SystemUpdatePhase.PrefabUpdate);

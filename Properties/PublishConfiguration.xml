@@ -90,10 +90,7 @@ Adjust Buildings:
 <Dependency Id="" />
 <!--Change log for new version. Single line or multi line. Supports minimal markdown subset-->
 <ChangeLog>
-* Updated Instructions.
-* Added to Status report more details on cemetaries
-* Added auto-toggle for reset cemeteries.
-* Internal: added EOL cleanup.
+- Fix MH settings update instantly.
 </ChangeLog>
 <!--External link. supported types are discord, github, youtube, twitch, x, paypal, patreon-->
 <ExternalLink Type="github" Url="https://github.com/River-Mochi/MagicHearse" />

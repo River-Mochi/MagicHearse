@@ -66,7 +66,7 @@ namespace MagicHearse
         {
             base.OnGameLoadingComplete(purpose, mode);
 
-            Setting? setting = Mod.Settings;
+            MHSetting? setting = Mod.Settings;
             if (setting != null && setting.FuneralDirector)
             {
 #if DEBUG
@@ -93,7 +93,7 @@ namespace MagicHearse
 
             m_Dirty = false;
 
-            Setting? setting = Mod.Settings;
+            MHSetting? setting = Mod.Settings;
             if (setting == null)
             {
                 LogUtils.Warn(() => "[FD] No settings instance; skipping.");
@@ -123,7 +123,7 @@ namespace MagicHearse
             }
         }
 
-        private void ApplyScalars(Setting setting)
+        private void ApplyScalars(MHSetting setting)
         {
             float procScalar = setting.ProcScalar * 0.01f;
             float fleetScalar = setting.FleetScalar * 0.01f;
