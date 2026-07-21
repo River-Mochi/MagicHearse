@@ -11,14 +11,18 @@
 
 namespace MagicHearse
 {
-    using System;                     // Exception
+    using System;                     // Exception, StringComparison, Type
     using System.IO;                  // Directory, File, Path
     using System.Reflection;          // Assembly (version)
-    using Colossal.IO.AssetDatabase;  // AssetDatabase.LoadSettings
+
+    using Colossal;                   // Hash128
+    using Colossal.IO.AssetDatabase;  // AssetDatabase, AssetDataPath, SettingAsset
     using Colossal.Localization;      // LocalizationManager
     using Colossal.Logging;           // ILog, LogManager
-    using Colossal.PSI.Environment;
+    using Colossal.PSI.Environment;   // EnvPath
+
     using CS2Shared.RiverMochi;       // LogUtils
+
     using Game;                       // UpdateSystem, SystemUpdatePhase
     using Game.Modding;               // IMod
     using Game.SceneFlow;             // GameManager
@@ -103,7 +107,7 @@ namespace MagicHearse
             }
 
             AssetDatabase.global.LoadSettings(ModId, setting, new MHSetting(this));
-            setting.RegisterInOptionsUI();1
+            setting.RegisterInOptionsUI();
 
             updateSystem.UpdateAfter<FuneralDirectorSystem>(SystemUpdatePhase.PrefabUpdate);
             updateSystem.UpdateAt<MagicHearseSystem>(SystemUpdatePhase.GameSimulation);
@@ -125,8 +129,6 @@ namespace MagicHearse
         {
             try
             {
-                // Old FileLocation("ModsSettings/MagicHearse"):
-                // {UserData}/ModsSettings/MagicHearse.coc
                 string oldLocation = Path.Combine(
                     EnvPath.kUserDataPath,
                     "ModsSettings",
@@ -137,23 +139,79 @@ namespace MagicHearse
                     return;
                 }
 
-                // New FileLocation("ModsSettings/MagicHearse/MagicHearse"):
-                // {UserData}/ModsSettings/MagicHearse/MagicHearse.coc
-                string directory = Path.Combine( EnvPath.kUserDataPath, "ModsSettings", ModId);
+                string directory = Path.Combine(
+                    EnvPath.kUserDataPath,
+                    "ModsSettings",
+                    ModId);
 
-                string correctLocation = Path.Combine( directory, $"{ModId}.coc");
+                string correctLocation = Path.Combine(
+                    directory,
+                    $"{ModId}.coc");
 
-                Directory.CreateDirectory(directory);
-
+                // Two files are ambiguous. Do not overwrite either one automatically.
                 if (File.Exists(correctLocation))
                 {
-                    // new settings file wins. Remove obsolete duplicate
-                    // so an old file cannot be migrated again later.
-                    File.Delete(oldLocation);
+                    LogUtils.Warn(() =>
+                        "Both legacy and standard MagicHearse settings files exist; migration was skipped.");
                     return;
                 }
 
-                File.Move(oldLocation, correctLocation);
+                IDataSourceProvider dataSource = AssetDatabase.user.dataSource;
+                string normalizedOldLocation = Path.GetFullPath(oldLocation);
+
+                bool oldEntryFound = false;
+                Hash128 oldGuid = default;
+
+                foreach ((Type type, Hash128 hash) entry in dataSource.Enumerate())
+                {
+                    if (entry.type != typeof(SettingAsset))
+                    {
+                        continue;
+                    }
+
+                    SourceMeta meta = dataSource.GetMeta(entry.hash);
+                    if (string.IsNullOrEmpty(meta.path))
+                    {
+                        continue;
+                    }
+
+                    string candidateLocation = Path.GetFullPath(meta.path);
+                    if (!string.Equals(
+                            candidateLocation,
+                            normalizedOldLocation,
+                            StringComparison.OrdinalIgnoreCase))
+                    {
+                        continue;
+                    }
+
+                    oldGuid = entry.hash;
+                    oldEntryFound = true;
+                    break;
+                }
+
+                if (!oldEntryFound)
+                {
+                    // Moving only the physical file would leave the game's in-memory
+                    // settings entry pointed at the old location.
+                    LogUtils.Warn(() =>
+                        "Legacy MagicHearse settings file was found, but its Asset Database entry was not found. Migration was skipped.");
+                    return;
+                }
+
+                Directory.CreateDirectory(directory);
+
+                // Copy first so the settings data is safe at the new location.
+                File.Copy(oldLocation, correctLocation, overwrite: false);
+
+                // Keep the same Asset Database GUID, but remap it from the old
+                // physical path to the new physical path for this running session.
+                dataSource.DeleteEntryFromDatabase(oldGuid);
+                dataSource.AddEntryFromDatabase(
+                    AssetDataPath.Create(
+                        $"ModsSettings/{ModId}/{ModId}.coc",
+                        EscapeStrategy.None),
+                    typeof(SettingAsset),
+                    oldGuid);
 
                 LogUtils.Info(() =>
                     "Migrated settings to ModsSettings/MagicHearse/MagicHearse.coc.");
