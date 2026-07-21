@@ -11,10 +11,10 @@
 **Magic Hearse + Funeral Director** does not turn off deathcare loop; normal vanilla deathcare systems run. See below for details.
 
 - Control Crematoriums and Cemeteries without in-city bloat that reduces performance.
-- Choose if you want to self-manage with all your own settings for Processing rate or number of hearses or Capacity of Cemeteries.
-- No more warnings of Cemetery full.
+- Choose if you want to self-manage with all your own settings for Processing rate, number of hearses, or Capacity of Cemeteries, and more.
+- Handle full Cemeteries as needed.
 - or if you prefer auto-clean of death notices.
-- You could also use death Status report and nothing else! It is Worth checking out!
+- Status report can be used with no other functions enabled! It is Worth checking out!
 
 ### Option 1: Funeral Director (Self manage)
 
@@ -24,14 +24,13 @@ Adjust Buildings:
 - Fleet size (max hearses per facility)
 - Cemetery storage multiplier
 - Hearse speed (pedal to the metal)
-- Max Workers - now updates Existing buildings (not just new ones).
+- Change number of Max Workers.
 - Compatibility Toggle ✅ turn OFF workers if you prefer to use ConfigXML mod or other mod for death worker numbers.
-- Funeral Director does not run per-frame; sliders make changes, then mod goes idle (basically no city performance impact).
-- Everything is Optional!
+- Funeral Director does not run per-frame; sliders make changes, then mod goes idle, basically no city impact.
 
 ### Option 2: Automatic
 
-- Removes already dead citizens with magic when they are waiting for a hearse.
+- Removes corpses if they are waiting for a hearse.
 - Great for death-waves and notification spam. Lightweight design for best city performance.
 - This does not turn off death system, it's just a faster clear of death notices.
 
@@ -56,7 +55,8 @@ Adjust Buildings:
 - yenyang: technical consultant
 - Toud: Polish translation review
 - StarQ: tech advisory
-- Toud, Necko1996: testing, screenshots
+- Obelix, Toud, Necko1996: testing, screenshots
+
 
 
 ## How it works
@@ -71,11 +71,9 @@ Adjust Buildings:
 <!--Thumbnail-->
 <Thumbnail Value="Properties/Thumbnail-MH-dog-thing03.jpg" />
 <!--Screenshot, can be set multiple times-->
-<Screenshot Value="Properties/10image-Options.jpg" />
 <Screenshot Value="Properties/20image-OptionsFD.jpg" />
 <Screenshot Value="Properties/30image-Status.jpg" />
 <Screenshot Value="Properties/40image-Before.jpg" />
-<Screenshot Value="Properties/50image-After.jpg" />
 <Screenshot Value="Properties/60image-11Languages.jpg" />
 <!--Tag, can be set multiple times-->
 <Tag Value="Code Mod" />
@@ -89,6 +87,7 @@ Adjust Buildings:
 <Dependency Id="" />
 <!--Change log for new version. Single line or multi line. Supports minimal markdown subset-->
 <ChangeLog>
+- Added languages Vietnamese, Ukrainian, Portuguese Portugal.
 - Settings now save in a standard MagicHearse folder.
 - Option settings to save instantly.
 - The defaults button saves immediately.

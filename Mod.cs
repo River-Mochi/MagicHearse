@@ -26,6 +26,7 @@ namespace MagicHearse
     using Game;                       // UpdateSystem, SystemUpdatePhase
     using Game.Modding;               // IMod
     using Game.SceneFlow;             // GameManager
+    using static Game.UI.Menu.AssetUploadPanelUISystem;
 
     public sealed class Mod : IMod
     {
@@ -99,6 +100,9 @@ namespace MagicHearse
                     localizationManager.AddSource("pl-PL", new LocalePL(setting));
                     localizationManager.AddSource("pt-BR", new LocalePT_BR(setting));
                     localizationManager.AddSource("zh-HANT", new LocaleZH_HANT(setting));
+                    localizationManager.AddSource("pt-PT", new LocalePT_PT(setting));
+                    localizationManager.AddSource("uk-UA", new LocaleUK(setting));
+                    localizationManager.AddSource("vi-VN", new LocaleVI(setting));
                 }
                 catch (Exception ex)
                 {

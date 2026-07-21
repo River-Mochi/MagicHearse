@@ -95,10 +95,10 @@ namespace MagicHearse
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.AutoResetCemetery)), "Auto-empty when full" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.AutoResetCemetery)),
-                    "**Automatically empties a cemetery** the instant it fills up.\n" +
-                    "Occupied plots reset to 0 — like rebuilding, but instant and automatic.\n" +
-                    "Pairs with the **Cemetery storage** slider: size your cemeteries, then let them recycle so you never have to demolish a full one.\n" +
-                    "Default ON while **Funeral Director** is active."
+                    "**Empties a cemetery** when it fills up so it's not blocked.\n" +
+                    "Don't need to delete/rebuild old full cemetaries anymore.\n" +
+                    "Pairs with the **Cemetery storage** slider: size your cemeteries, then let them recycle so you never have to demolish a full one again.\n" +
+                    "Default ON while **Funeral Director** self manage is active."
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.HearseSpeedScalar)), "Hearse speed" },
