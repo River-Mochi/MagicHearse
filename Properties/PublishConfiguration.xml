@@ -89,9 +89,9 @@ Adjust Buildings:
 <Dependency Id="" />
 <!--Change log for new version. Single line or multi line. Supports minimal markdown subset-->
 <ChangeLog>
-- Updated settings to apply and save instantly instead of waiting for game exit.
-- Updated the Game Defaults button so reset values save immediately.
-- Updated settings now save in a standard MagicHearse folder.
+- settings to apply and save instantly instead of waiting for game exit.
+- the Game Defaults button so reset values save immediately.
+- settings now save in a standard MagicHearse folder.
 </ChangeLog>
 <!--External link. supported types are discord, github, youtube, twitch, x, paypal, patreon-->
 <ExternalLink Type="github" Url="https://github.com/River-Mochi/MagicHearse" />
