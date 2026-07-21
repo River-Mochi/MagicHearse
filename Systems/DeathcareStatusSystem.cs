@@ -10,6 +10,8 @@
 
 namespace MagicHearse
 {
+    using System;               // DateTime
+
     using Game;                 // GameSystemBase
     using Game.Buildings;       // Building, DeathcareFacility, BuildingUtils
     using Game.Citizens;        // Citizen, HealthProblem, HealthProblemFlags
@@ -20,10 +22,9 @@ namespace MagicHearse
     using Game.Simulation;      // CityStatisticsSystem
     using Game.Tools;           // Temp
     using Game.Vehicles;        // Hearse, ParkedCar
-    using System;               // DateTime
+
     using Unity.Collections;    // NativeArray, Allocator
     using Unity.Entities;       // Entity, EntityQuery, lookups, buffers, chunks
-
 
     public sealed partial class DeathcareStatusSystem : GameSystemBase
     {
@@ -89,26 +90,21 @@ namespace MagicHearse
 
             m_CityStats = World.GetOrCreateSystemManaged<CityStatisticsSystem>();
 
-            m_DeathcarePlacedQuery = GetEntityQuery(
-                ComponentType.ReadOnly<Game.Buildings.DeathcareFacility>(),
-                ComponentType.ReadOnly<Building>(),
-                ComponentType.ReadOnly<ServiceDispatch>(),
-                ComponentType.ReadOnly<PrefabRef>(),
-                ComponentType.Exclude<Temp>(),
-                ComponentType.Exclude<Deleted>());
+            m_DeathcarePlacedQuery = SystemAPI.QueryBuilder()
+                .WithAll<Game.Buildings.DeathcareFacility, Building, ServiceDispatch, PrefabRef>()
+                .WithNone<Temp, Deleted>()
+                .Build();
 
-            m_DeadWaitingQuery = GetEntityQuery(
-                ComponentType.ReadOnly<Citizen>(),
-                ComponentType.ReadOnly<HealthProblem>(),
-                ComponentType.Exclude<Temp>(),
-                ComponentType.Exclude<Deleted>());
+            m_DeadWaitingQuery = SystemAPI.QueryBuilder()
+                .WithAll<Citizen, HealthProblem>()
+                .WithNone<Temp, Deleted>()
+                .Build();
 
             // all hearse vehicles that exist in the world
-            m_HearseQuery = GetEntityQuery(
-                ComponentType.ReadOnly<Game.Vehicles.Hearse>(),
-                ComponentType.ReadOnly<Owner>(),
-                ComponentType.Exclude<Temp>(),
-                ComponentType.Exclude<Deleted>());
+            m_HearseQuery = SystemAPI.QueryBuilder()
+                .WithAll<Game.Vehicles.Hearse, Owner>()
+                .WithNone<Temp, Deleted>()
+                .Build();
         }
 
         protected override void OnUpdate()
@@ -118,6 +114,13 @@ namespace MagicHearse
 
         public Snapshot BuildSnapshot()
         {
+            // Main-thread read of live component data. SystemAPI covers the types it iterates, but NOT the
+            // random-access ComponentLookup/BufferLookup reads below (prefab data, upgrades, efficiency),
+            // nor the chunk walk further down. The system form completes every type this system declared,
+            // so one call blankets all of them. Near-free here: Options is open, so the sim is paused.
+            // Same shape as RiderControl's Options-UI status snapshot.
+            CompleteDependency();
+
             ComponentLookup<PrefabRef> prefabRefLookup = GetComponentLookup<PrefabRef>(true);
             ComponentLookup<DeathcareFacilityData> dcLookup = GetComponentLookup<DeathcareFacilityData>(true);
             ComponentLookup<Game.Buildings.DeathcareFacility> buildingDcLookup = GetComponentLookup<Game.Buildings.DeathcareFacility>(true);

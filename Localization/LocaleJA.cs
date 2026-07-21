@@ -92,6 +92,14 @@ namespace MagicHearse
                     "**100%** = バニラ既定。"
                 },
 
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.AutoResetCemetery)), "満杯時に自動で空に" },
+                { m_Setting.GetOptionDescLocaleID(nameof(Setting.AutoResetCemetery)),
+                    "**墓地が満杯になると自動で空にします**。\n" +
+                    "使用中の区画を0に戻します — 取り壊して再建するのと同じですが、瞬時かつ自動です。\n" +
+                    "**墓地の収容**スライダーと併用: 墓地のサイズを設定し、あとは再利用させれば、満杯の墓地を取り壊す必要はありません。\n" +
+                    "**葬儀ディレクター**が有効な間は既定でオンです。"
+                },
+
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.HearseSpeedScalar)), "霊柩車の速度" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.HearseSpeedScalar)),
                     "**霊柩車の最高速度を上げます**。\n" +
@@ -155,6 +163,23 @@ namespace MagicHearse
                 { "MH_STATUS_LINE1", "{0} 待機 | {1} 死亡/月 | 更新 {2}" },
                 { "MH_STATUS_LINE2", "{0} 火葬上限/月 | {1}/{2} 墓使用" },
                 { "MH_STATUS_LINE3", "{0} / {1} 霊柩車 | {2} / {3} 建物 | {4} 最大労働者" },
+
+                // Cemetery reset tally (session status; row + named list below Assets)
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.StatusSummary4)), "Cemetery" },
+                { m_Setting.GetOptionDescLocaleID(nameof(Setting.StatusSummary4)),
+                    "**Cemeteries auto-emptied this session** by Auto-empty when full.\n" +
+                    "Shows total resets and how many distinct cemeteries.\n" +
+                    "Clears on reboot or when you switch city."
+                },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.StatusCemetery1)), "▪" },
+                { m_Setting.GetOptionDescLocaleID(nameof(Setting.StatusCemetery1)),
+                    "Which cemeteries were emptied, and how many times each (name × count)." },
+
+                { "MH_STATUS_LINE4", "resets: {0} · cemeteries: {1}" },
+                { "MH_STATUS_CEMETERY_NONE", "none this session" },
+                { "MH_STATUS_CEMETERY_ROW", "{0} ×{1}" },
+                { "MH_STATUS_CEMETERY_MORE", "+{0} more" },
 
                 // About
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.AboutName)), "Mod" },

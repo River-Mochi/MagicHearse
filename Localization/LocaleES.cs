@@ -92,6 +92,14 @@ namespace MagicHearse
                     "**100%** = valor vanilla del juego."
                 },
 
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.AutoResetCemetery)), "Vaciar auto. al llenarse" },
+                { m_Setting.GetOptionDescLocaleID(nameof(Setting.AutoResetCemetery)),
+                    "**Vacía un cementerio automáticamente** en cuanto se llena.\n" +
+                    "Las tumbas ocupadas vuelven a 0 — como demoler y reconstruir, pero instantáneo y automático.\n" +
+                    "Se combina con el control deslizante **Almacenamiento del cementerio**: dimensiona tus cementerios y deja que se reciclen para no demoler nunca uno lleno.\n" +
+                    "Activado por defecto mientras el **Director funerario** está activo."
+                },
+
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.HearseSpeedScalar)), "Velocidad del coche fúnebre" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.HearseSpeedScalar)),
                     "**Aumenta la velocidad máxima del coche fúnebre**.\n" +
@@ -155,6 +163,23 @@ namespace MagicHearse
                 { "MH_STATUS_LINE1", "{0} esperando | {1} muertes/mes | actualizado {2}" },
                 { "MH_STATUS_LINE2", "{0} cremación máx./mes | {1}/{2} tumbas usadas" },
                 { "MH_STATUS_LINE3", "{0} / {1} fúnebres | {2} / {3} edificios | {4} trabajadores máx." },
+
+                // Cemetery reset tally (session status; row + named list below Assets)
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.StatusSummary4)), "Cemetery" },
+                { m_Setting.GetOptionDescLocaleID(nameof(Setting.StatusSummary4)),
+                    "**Cemeteries auto-emptied this session** by Auto-empty when full.\n" +
+                    "Shows total resets and how many distinct cemeteries.\n" +
+                    "Clears on reboot or when you switch city."
+                },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.StatusCemetery1)), "▪" },
+                { m_Setting.GetOptionDescLocaleID(nameof(Setting.StatusCemetery1)),
+                    "Which cemeteries were emptied, and how many times each (name × count)." },
+
+                { "MH_STATUS_LINE4", "resets: {0} · cemeteries: {1}" },
+                { "MH_STATUS_CEMETERY_NONE", "none this session" },
+                { "MH_STATUS_CEMETERY_ROW", "{0} ×{1}" },
+                { "MH_STATUS_CEMETERY_MORE", "+{0} more" },
 
                 // About
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.AboutName)), "Mod" },

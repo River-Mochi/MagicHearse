@@ -92,6 +92,14 @@ namespace MagicHearse
                     "**100%** = 原版默认值。"
                 },
 
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.AutoResetCemetery)), "满时自动清空" },
+                { m_Setting.GetOptionDescLocaleID(nameof(Setting.AutoResetCemetery)),
+                    "**墓地一满就自动清空**。\n" +
+                    "已占用的墓位重置为0 —— 效果等同于拆除重建，但即时且自动。\n" +
+                    "与**墓地容量**滑块搭配使用：设定好墓地容量后让它循环利用，就再也不用拆除已满的墓地了。\n" +
+                    "启用**葬礼管理员**时默认开启。"
+                },
+
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.HearseSpeedScalar)), "灵车速度" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.HearseSpeedScalar)),
                     "**提高灵车最高速度**。\n" +
@@ -155,6 +163,23 @@ namespace MagicHearse
                 { "MH_STATUS_LINE1", "{0} 等待 | {1} 死亡/月 | 更新于 {2}" },
                 { "MH_STATUS_LINE2", "{0} 火化上限/月 | {1}/{2} 墓位已用" },
                 { "MH_STATUS_LINE3", "{0} / {1} 灵车 | {2} / {3} 建筑 | {4} 最大工人" },
+
+                // Cemetery reset tally (session status; row + named list below Assets)
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.StatusSummary4)), "Cemetery" },
+                { m_Setting.GetOptionDescLocaleID(nameof(Setting.StatusSummary4)),
+                    "**Cemeteries auto-emptied this session** by Auto-empty when full.\n" +
+                    "Shows total resets and how many distinct cemeteries.\n" +
+                    "Clears on reboot or when you switch city."
+                },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.StatusCemetery1)), "▪" },
+                { m_Setting.GetOptionDescLocaleID(nameof(Setting.StatusCemetery1)),
+                    "Which cemeteries were emptied, and how many times each (name × count)." },
+
+                { "MH_STATUS_LINE4", "resets: {0} · cemeteries: {1}" },
+                { "MH_STATUS_CEMETERY_NONE", "none this session" },
+                { "MH_STATUS_CEMETERY_ROW", "{0} ×{1}" },
+                { "MH_STATUS_CEMETERY_MORE", "+{0} more" },
 
                 // About
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.AboutName)), "模组" },

@@ -48,7 +48,17 @@ namespace MagicHearse
             {
                 world.GetOrCreateSystemManaged<FuneralDirectorSystem>()
                     .ScheduleReapply();
+
+                // Auto-reset scanner only runs while FD is ON; keep it in sync with FD.
+                SyncCemeteryResetSystem(world);
             }
+        }
+
+        // Enables the cemetery auto-reset scanner only when FD + AutoReset are both ON.
+        private void SyncCemeteryResetSystem(World world)
+        {
+            world.GetOrCreateSystemManaged<CemeteryResetSystem>().Enabled =
+                m_FuneralDirector && m_AutoResetCemetery;
         }
 
         // Schedules a one-shot FD apply/restore pass when FD is ON; forces Status to refresh next UI poll.
@@ -133,6 +143,19 @@ namespace MagicHearse
         {
             m_ControlWorkers = value;
             RequestFdApplyIfEnabled();
+        }
+
+        private void SetAutoResetCemetery(bool value)
+        {
+            m_AutoResetCemetery = value;
+
+            World? world = GetWorld();
+            if (world == null)
+            {
+                return;
+            }
+
+            SyncCemeteryResetSystem(world);
         }
 
         private void SetWorkersScalar(int value)

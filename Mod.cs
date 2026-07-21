@@ -7,17 +7,19 @@
 // ================= </copyright> ======================
 
 // File: Mod.cs
-// Entrypoint: registers settings, locales, ECS system
+// Entrypoint: registers settings, locales, ECS systems.
 
 namespace MagicHearse
 {
-    using System;                    // Exception, Func<T>
-    using System.Reflection;         // Assembly only for version number
-    using Colossal;                  // IDictionarySource
+    using System;                    // Exception
+    using System.Reflection;         // Assembly (version)
+
     using Colossal.IO.AssetDatabase; // AssetDatabase.LoadSettings
     using Colossal.Localization;     // LocalizationManager
     using Colossal.Logging;          // ILog, LogManager
+
     using CS2Shared.RiverMochi;      // LogUtils
+
     using Game;                      // UpdateSystem, SystemUpdatePhase
     using Game.Modding;              // IMod
     using Game.SceneFlow;            // GameManager
@@ -28,16 +30,15 @@ namespace MagicHearse
         public const string ModId = "MagicHearse";
         public const string ModTag = "[MH]";
 
+        // Which build is loaded. Shown in the log banner AND the About tab so it is obvious at a glance.
+#if DEBUG
+        public const string BuildType = "DEBUG";
+#else
+        public const string BuildType = "RELEASE";
+#endif
+
         public static readonly string ModVersion =
             Assembly.GetExecutingAssembly().GetName().Version?.ToString(3) ?? "1.0.0";
-
-        private static bool s_BannerLogged;
-
-#if DEBUG
-        private const string buildTag = "[DEBUG]";
-#else
-        private const string buildTag = "[RELEASE]";
-#endif
 
         public static readonly ILog s_Log =
             LogManager.GetLogger(ModId).SetShowsErrorsInUI(
@@ -50,117 +51,79 @@ namespace MagicHearse
 
         public static Setting? Settings;
 
+        private static bool s_BannerLogged;
+
         public void OnLoad(UpdateSystem updateSystem)
         {
             LogUtils.Configure(ModId, s_Log);
 
             if (!s_BannerLogged)
             {
-                s_BannerLogged = true;  // makes it a one-time log banner
-                LogSafe(() => $"{ModName} v{ModVersion} OnLoad {buildTag}");
+                s_BannerLogged = true;  // one-time banner
+                LogUtils.Info(() => $"{ModName} {ModTag} v{ModVersion} [{BuildType}] OnLoad");
             }
 
-            if (GameManager.instance == null)   // Is game running (not a city check)
+            GameManager? gameManager = GameManager.instance;
+            if (gameManager == null)
             {
-                WarnSafe(() => "GameManager.instance is null in Mod.OnLoad.");
+                LogUtils.Warn(() => "GameManager.instance is null in Mod.OnLoad.");
                 return;
             }
 
-            var setting = new Setting(this);
+            Setting setting = new Setting(this);
             Settings = setting;
 
-            // Locales should be best-effort; never crash mod load.
-            AddLocaleSource("en-US", new LocaleEN(setting));
-            AddLocaleSource("fr-FR", new LocaleFR(setting));
-            AddLocaleSource("es-ES", new LocaleES(setting));
-            AddLocaleSource("de-DE", new LocaleDE(setting));
-            AddLocaleSource("it-IT", new LocaleIT(setting));
-            AddLocaleSource("ja-JP", new LocaleJA(setting));
-            AddLocaleSource("ko-KR", new LocaleKO(setting));
-            AddLocaleSource("zh-HANS", new LocaleZH_CN(setting));
-            AddLocaleSource("pl-PL", new LocalePL(setting));
-            AddLocaleSource("pt-BR", new LocalePT_BR(setting));
-            AddLocaleSource("zh-HANT", new LocaleZH_HANT(setting));
-
-            // Settings + Options UI
-            try
+            // Locales are best-effort: one guard + one try/catch so a bad source never crashes load.
+            LocalizationManager? localizationManager = gameManager.localizationManager;
+            if (localizationManager == null)
             {
-                AssetDatabase.global.LoadSettings(ModId, setting, new Setting(this));
-                setting.RegisterInOptionsUI();
+                LogUtils.Warn(() => "LocalizationManager is null; locale sources were not registered.");
             }
-            catch (Exception ex)
+            else
             {
-                WarnSafe(() => $"Settings/UI init failed: {ex.GetType().Name}: {ex.Message}");
-            }
-
-            // System scheduling/init.
-            try
-            {
-                updateSystem.UpdateAfter<FuneralDirectorSystem>(SystemUpdatePhase.PrefabUpdate);
-                updateSystem.UpdateAt<MagicHearseSystem>(SystemUpdatePhase.GameSimulation);
-
-                updateSystem.World.GetOrCreateSystemManaged<MagicHearseSystem>().Enabled = setting.EnableMagicHearse;
-
-                if (setting.FuneralDirector)
+                try
                 {
-                    updateSystem.World.GetOrCreateSystemManaged<FuneralDirectorSystem>()
-                        .ScheduleReapply();
+                    localizationManager.AddSource("en-US", new LocaleEN(setting));
+                    localizationManager.AddSource("fr-FR", new LocaleFR(setting));
+                    localizationManager.AddSource("es-ES", new LocaleES(setting));
+                    localizationManager.AddSource("de-DE", new LocaleDE(setting));
+                    localizationManager.AddSource("it-IT", new LocaleIT(setting));
+                    localizationManager.AddSource("ja-JP", new LocaleJA(setting));
+                    localizationManager.AddSource("ko-KR", new LocaleKO(setting));
+                    localizationManager.AddSource("zh-HANS", new LocaleZH_CN(setting));
+                    localizationManager.AddSource("pl-PL", new LocalePL(setting));
+                    localizationManager.AddSource("pt-BR", new LocalePT_BR(setting));
+                    localizationManager.AddSource("zh-HANT", new LocaleZH_HANT(setting));
+                }
+                catch (Exception ex)
+                {
+                    LogUtils.Warn(() => $"Localization registration failed: {ex.GetType().Name}: {ex.Message}");
                 }
             }
-            catch (Exception ex)
+
+            AssetDatabase.global.LoadSettings(ModId, setting, new Setting(this));
+            setting.RegisterInOptionsUI();
+
+            updateSystem.UpdateAfter<FuneralDirectorSystem>(SystemUpdatePhase.PrefabUpdate);
+            updateSystem.UpdateAt<MagicHearseSystem>(SystemUpdatePhase.GameSimulation);
+            updateSystem.UpdateAt<CemeteryResetSystem>(SystemUpdatePhase.GameSimulation);
+
+            updateSystem.World.GetOrCreateSystemManaged<MagicHearseSystem>().Enabled = setting.EnableMagicHearse;
+
+            // Auto-reset scanner runs only when Funeral Director + AutoReset are both ON.
+            updateSystem.World.GetOrCreateSystemManaged<CemeteryResetSystem>().Enabled =
+                setting.FuneralDirector && setting.AutoResetCemetery;
+
+            if (setting.FuneralDirector)
             {
-                WarnSafe(() => $"System scheduling/init failed: {ex.GetType().Name}: {ex.Message}");
+                updateSystem.World.GetOrCreateSystemManaged<FuneralDirectorSystem>().ScheduleReapply();
             }
         }
 
         public void OnDispose()
         {
-            LogSafe(() => "OnDispose");
-
-            if (Settings != null)
-            {
-                try
-                {
-                    Settings.UnregisterInOptionsUI();
-                }
-                catch (Exception ex)
-                {
-                    WarnSafe(() => $"UnregisterInOptionsUI failed: {ex.GetType().Name}: {ex.Message}");
-                }
-
-                Settings = null;
-            }
-        }
-
-        // LogUtils helpers.
-        public static void LogSafe(Func<string> messageFactory) => LogUtils.Info(messageFactory);
-
-        public static void WarnSafe(Func<string> messageFactory) => LogUtils.Warn(messageFactory);
-
-        public static void WarnOnce(string key, Func<string> messageFactory) => LogUtils.WarnOnce(key, messageFactory);
-
-        private static void AddLocaleSource(string localeId, IDictionarySource source)
-        {
-            if (string.IsNullOrEmpty(localeId))
-            {
-                return;
-            }
-
-            LocalizationManager? lm = GameManager.instance?.localizationManager;
-            if (lm == null)
-            {
-                WarnSafe(() => $"AddLocaleSource: No LocalizationManager; cannot add source for '{localeId}'.");
-                return;
-            }
-
-            try
-            {
-                lm.AddSource(localeId, source);
-            }
-            catch (Exception ex)
-            {
-                WarnSafe(() => $"AddLocaleSource: AddSource for '{localeId}' failed: {ex.GetType().Name}: {ex.Message}");
-            }
+            Settings?.UnregisterInOptionsUI();
+            Settings = null;
         }
     }
 }

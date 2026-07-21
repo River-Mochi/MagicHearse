@@ -92,6 +92,14 @@ namespace MagicHearse
                     "**100%** = 바닐라 기본값."
                 },
 
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.AutoResetCemetery)), "가득 차면 자동 비움" },
+                { m_Setting.GetOptionDescLocaleID(nameof(Setting.AutoResetCemetery)),
+                    "**묘지가 가득 차는 즉시 자동으로 비웁니다**.\n" +
+                    "사용 중인 구획이 0으로 초기화됩니다 — 철거 후 재건축과 같지만 즉시 자동으로 처리됩니다.\n" +
+                    "**묘지 저장** 슬라이더와 함께 사용: 묘지 용량을 정한 뒤 재활용되도록 두면 가득 찬 묘지를 철거할 필요가 없습니다.\n" +
+                    "**장의사**가 켜져 있는 동안 기본값은 켜짐입니다."
+                },
+
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.HearseSpeedScalar)), "영구차 속도" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.HearseSpeedScalar)),
                     "**영구차 최고 속도를 증가**합니다.\n" +
@@ -155,6 +163,23 @@ namespace MagicHearse
                 { "MH_STATUS_LINE1", "{0} 대기 | {1} 사망/월 | 업데이트 {2}" },
                 { "MH_STATUS_LINE2", "{0} 화장 최대/월 | {1}/{2} 무덤 사용" },
                 { "MH_STATUS_LINE3", "{0} / {1} 영구차 | {2} / {3} 건물 | {4} 최대 근로자" },
+
+                // Cemetery reset tally (session status; row + named list below Assets)
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.StatusSummary4)), "Cemetery" },
+                { m_Setting.GetOptionDescLocaleID(nameof(Setting.StatusSummary4)),
+                    "**Cemeteries auto-emptied this session** by Auto-empty when full.\n" +
+                    "Shows total resets and how many distinct cemeteries.\n" +
+                    "Clears on reboot or when you switch city."
+                },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.StatusCemetery1)), "▪" },
+                { m_Setting.GetOptionDescLocaleID(nameof(Setting.StatusCemetery1)),
+                    "Which cemeteries were emptied, and how many times each (name × count)." },
+
+                { "MH_STATUS_LINE4", "resets: {0} · cemeteries: {1}" },
+                { "MH_STATUS_CEMETERY_NONE", "none this session" },
+                { "MH_STATUS_CEMETERY_ROW", "{0} ×{1}" },
+                { "MH_STATUS_CEMETERY_MORE", "+{0} more" },
 
                 // About
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.AboutName)), "모드" },

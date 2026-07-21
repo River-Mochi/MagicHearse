@@ -76,6 +76,10 @@ namespace MagicHearse
         // Default OFF to avoid surprise conflicts with ConfigXML or other building mods.
         private bool m_ControlWorkers;
 
+        // Cemetery auto-reset is a sub-toggle inside FD.
+        // Default ON so full cemeteries self-empty as soon as FD is enabled.
+        private bool m_AutoResetCemetery = true;
+
         public Setting(IMod mod)
             : base(mod)
         {
@@ -125,6 +129,18 @@ namespace MagicHearse
         [SettingsUIHideByCondition(typeof(Setting), nameof(FuneralDirector), true)]
         [SettingsUISetter(typeof(Setting), nameof(SetStorageScalar))]
         public int StorageScalar { get; set; } = kDefaultPercent;
+
+        // Instance-level companion to the Cemetery storage slider: empties a placed
+        // cemetery back to 0 the moment the game flags it full. Independent of capacity,
+        // so both can be used together.
+        [SettingsUISection(ActionsTab, SelfManageGrp)]
+        [SettingsUIHideByCondition(typeof(Setting), nameof(FuneralDirector), true)]
+        [SettingsUISetter(typeof(Setting), nameof(SetAutoResetCemetery))]
+        public bool AutoResetCemetery
+        {
+            get => m_AutoResetCemetery;
+            set => m_AutoResetCemetery = value;
+        }
 
         [SettingsUISlider(min = kHearseSpeedMin, max = kHearseSpeedMax, step = kHearseSpeedStep, scalarMultiplier = 1, unit = Unit.kPercentage)]
         [SettingsUISection(ActionsTab, SelfManageGrp)]
@@ -207,6 +223,27 @@ namespace MagicHearse
             }
         }
 
+        // Cemetery auto-reset tally (session): a summary row + one packed row naming the cemeteries.
+        [SettingsUISection(ActionsTab, StatusGrp)]
+        public string StatusSummary4
+        {
+            get
+            {
+                try { DeathcareStatus.RefreshIfNeeded(); } catch { }
+                return DeathcareStatus.SummaryLine4 ?? string.Empty;
+            }
+        }
+
+        [SettingsUISection(ActionsTab, StatusGrp)]
+        public string StatusCemetery1
+        {
+            get
+            {
+                try { DeathcareStatus.RefreshIfNeeded(); } catch { }
+                return DeathcareStatus.SummaryCemetery1 ?? string.Empty;
+            }
+        }
+
         // --------------------------------------------------------------------
         // ABOUT – INFO (no header)
         // --------------------------------------------------------------------
@@ -215,7 +252,7 @@ namespace MagicHearse
         public string AboutName => Mod.ModName;
 
         [SettingsUISection(AboutTab, AboutInfoGrp)]
-        public string AboutVersion => Mod.ModVersion;
+        public string AboutVersion => Mod.ModVersion + "  [" + Mod.BuildType + "]";
 
         // --------------------------------------------------------------------
         // ABOUT – LINKS
@@ -254,6 +291,7 @@ namespace MagicHearse
             m_FuneralDirector = false;
 
             m_ControlWorkers = false;
+            m_AutoResetCemetery = true;
 
             ProcScalar = kDefaultPercent;
             FleetScalar = kDefaultPercent;

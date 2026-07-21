@@ -11,8 +11,9 @@
 
 namespace MagicHearse
 {
-    using Colossal; // IDictionarySource, IDictionaryEntryError
     using System.Collections.Generic; // IEnumerable, Dictionary, KeyValuePair
+
+    using Colossal; // IDictionarySource, IDictionaryEntryError
 
     /// <summary>
     /// English localization source for Magic Hearse [MH].</summary>
@@ -92,6 +93,14 @@ namespace MagicHearse
                     "**100%** = vanilla game default."
                 },
 
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.AutoResetCemetery)), "Auto-empty when full" },
+                { m_Setting.GetOptionDescLocaleID(nameof(Setting.AutoResetCemetery)),
+                    "**Automatically empties a cemetery** the instant it fills up.\n" +
+                    "Occupied plots reset to 0 — like rebuilding, but instant and automatic.\n" +
+                    "Pairs with the **Cemetery storage** slider: size your cemeteries, then let them recycle so you never have to demolish a full one.\n" +
+                    "Default ON while **Funeral Director** is active."
+                },
+
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.HearseSpeedScalar)), "Hearse speed" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.HearseSpeedScalar)),
                     "**Increases hearse max speed**.\n" +
@@ -155,6 +164,23 @@ namespace MagicHearse
                 { "MH_STATUS_LINE1", "{0} waiting | {1} deaths/mo | updated {2}" },
                 { "MH_STATUS_LINE2", "{0} cremate max/mo | {1}/{2} graves used" },
                 { "MH_STATUS_LINE3", "{0} / {1} hearses | {2} / {3} buildings | {4} max workers" },
+
+                // Cemetery reset tally (session status; row + named list below Assets)
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.StatusSummary4)), "Cemetery" },
+                { m_Setting.GetOptionDescLocaleID(nameof(Setting.StatusSummary4)),
+                    "**Cemeteries auto-emptied this session** by Auto-empty when full.\n" +
+                    "Shows total resets and how many distinct cemeteries.\n" +
+                    "Clears on reboot or when you switch city."
+                },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(Setting.StatusCemetery1)), "▪" },
+                { m_Setting.GetOptionDescLocaleID(nameof(Setting.StatusCemetery1)),
+                    "Which cemeteries were emptied, and how many times each (name × count)." },
+
+                { "MH_STATUS_LINE4", "resets: {0} · cemeteries: {1}" },
+                { "MH_STATUS_CEMETERY_NONE", "none this session" },
+                { "MH_STATUS_CEMETERY_ROW", "{0} ×{1}" },
+                { "MH_STATUS_CEMETERY_MORE", "+{0} more" },
 
                 // About
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.AboutName)), "Mod" },

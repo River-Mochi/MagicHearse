@@ -15,11 +15,14 @@
 
 namespace MagicHearse
 {
-    using Game;                   // IsGame()
-    using Game.SceneFlow;         // GameManager
-    using System;                 // DateTime, TimeSpan, Math, Exception
-    using Unity.Entities;         // World
-    using UnityEngine;            // Time.frameCount
+    using CS2Shared.RiverMochi;        // LogUtils
+    using Game;                        // IsGame()
+    using Game.SceneFlow;              // GameManager
+    using System;                      // DateTime, TimeSpan, Math, Exception
+    using System.Collections.Generic;  // List
+    using System.Text;                 // StringBuilder
+    using Unity.Entities;              // World
+    using UnityEngine;                 // Time.frameCount
 
     public static class DeathcareStatus
     {
@@ -34,6 +37,13 @@ namespace MagicHearse
         internal const string KeyLine1 = "MH_STATUS_LINE1";
         internal const string KeyLine2 = "MH_STATUS_LINE2";
         internal const string KeyLine3 = "MH_STATUS_LINE3";
+        internal const string KeyLine4 = "MH_STATUS_LINE4";
+        internal const string KeyCemeteryNone = "MH_STATUS_CEMETERY_NONE";
+        internal const string KeyCemeteryRow = "MH_STATUS_CEMETERY_ROW";
+        internal const string KeyCemeteryMore = "MH_STATUS_CEMETERY_MORE";
+
+        // Rough character budget for the packed cemetery-names row before it spills to "+N more".
+        private const int CemeteryNameBudget = 46;
 
         // English fallbacks (placeholders must match BuildAndApplySnapshot arg lists)
         private const string FallbackStatusNotLoaded = "Status not loaded.";
@@ -42,11 +52,20 @@ namespace MagicHearse
         private const string FallbackLine1 = "{0} waiting | {1} deaths/mo | updated {2}";
         private const string FallbackLine2 = "{0} cremate max/mo | {1}/{2} graves used";
         private const string FallbackLine3 = "{0} / {1} hearses | {2} / {3} buildings | {4} max workers";
+        private const string FallbackLine4 = "resets: {0} · cemeteries: {1}";
+        private const string FallbackCemeteryNone = "none this session";
+        private const string FallbackCemeteryRow = "{0} ×{1}";
+        private const string FallbackCemeteryMore = "+{0} more";
 
         // Public UI strings read by Setting.cs getters
         public static string SummaryLine1 { get; private set; } = string.Empty;
         public static string SummaryLine2 { get; private set; } = string.Empty;
         public static string SummaryLine3 { get; private set; } = string.Empty;
+        public static string SummaryLine4 { get; private set; } = string.Empty;
+        public static string SummaryCemetery1 { get; private set; } = string.Empty;
+
+        // Reused buffer for the top-N cemetery tallies (UI thread only).
+        private static readonly List<CemeteryResetSystem.Tally> s_TopBuffer = new List<CemeteryResetSystem.Tally>();
 
         // Cache state
         private static bool s_WasInGame;
@@ -64,6 +83,7 @@ namespace MagicHearse
             SummaryLine1 = Localize(KeyStatusNotLoaded, FallbackStatusNotLoaded);
             SummaryLine2 = string.Empty;
             SummaryLine3 = string.Empty;
+            ClearCemeteryLines();
         }
 
         /// <summary>Marks snapshot stale so next getter refreshes. Current text stays until refresh.</summary>
@@ -82,7 +102,7 @@ namespace MagicHearse
                 return;
             }
 
-            // Frame guard: Setting.cs calls this 3 times per UI draw (3 getters).
+            // Frame guard: Setting.cs calls this once per Status getter per UI draw (several getters).
             int frame = Time.frameCount;
             if (frame == s_LastUiFrame)
             {
@@ -112,6 +132,7 @@ namespace MagicHearse
                 SummaryLine1 = Localize(KeyNoCityLoaded, FallbackNoCityLoaded);
                 SummaryLine2 = Localize(KeyStatsNotAvail, FallbackStatsNotAvail);
                 SummaryLine3 = string.Empty;
+                ClearCemeteryLines();
                 return;
             }
 
@@ -154,8 +175,9 @@ namespace MagicHearse
                 SummaryLine1 = Localize(KeyStatusNotLoaded, FallbackStatusNotLoaded);
                 SummaryLine2 = string.Empty;
                 SummaryLine3 = string.Empty;
+                ClearCemeteryLines();
 
-                Mod.WarnOnce("MH_STATUS_SNAPSHOT_EXCEPTION", () =>
+                LogUtils.WarnOnce("MH_STATUS_SNAPSHOT_EXCEPTION", () =>
                     $"[MH] Status snapshot failed: {ex.GetType().Name}: {ex.Message}");
             }
         }
@@ -191,9 +213,78 @@ namespace MagicHearse
                 snap.TotalFacilities,           // {3}
                 Format0(snap.MaxWorkers)        // {4}
             );
+
+            // Cemetery auto-reset tally (session-scoped; populated by CemeteryResetSystem).
+            ApplyCemeterySection(world.GetOrCreateSystemManaged<CemeteryResetSystem>());
         }
 
         // ---- Helpers -------
+
+        private static void ClearCemeteryLines()
+        {
+            SummaryLine4 = string.Empty;
+            SummaryCemetery1 = string.Empty;
+        }
+
+        private static void ApplyCemeterySection(CemeteryResetSystem resetSys)
+        {
+            int total = resetSys.SessionResetTotal;
+
+            if (total <= 0)
+            {
+                SummaryLine4 = Localize(KeyCemeteryNone, FallbackCemeteryNone);
+                SummaryCemetery1 = string.Empty;
+                return;
+            }
+
+            // Summary row shows the totals; the packed row names the cemeteries (with "+N more" spill),
+            // so nothing is hidden even when a city has more cemeteries than fit on one line.
+            SummaryLine4 = SafeFormat(KeyLine4, FallbackLine4, total, resetSys.DistinctCemeteryCount);
+            SummaryCemetery1 = BuildPackedCemeteries(resetSys);
+        }
+
+        // Packs the most-emptied cemeteries onto one row ("name ×count · name ×count · +N more"),
+        // stopping at a rough character budget so the row never runs off the panel.
+        private static string BuildPackedCemeteries(CemeteryResetSystem resetSys)
+        {
+            resetSys.CopyTopEmptied(s_TopBuffer, 32);
+
+            StringBuilder sb = new StringBuilder();
+            int shown = 0;
+
+            for (int i = 0; i < s_TopBuffer.Count; i++)
+            {
+                CemeteryResetSystem.Tally tally = s_TopBuffer[i];
+                string entry = SafeFormat(KeyCemeteryRow, FallbackCemeteryRow, tally.Name ?? string.Empty, tally.Count);
+
+                int sep = shown == 0 ? 0 : 3; // " · "
+                if (shown > 0 && sb.Length + sep + entry.Length > CemeteryNameBudget)
+                {
+                    break;
+                }
+
+                if (shown > 0)
+                {
+                    sb.Append(" · ");
+                }
+
+                sb.Append(entry);
+                shown++;
+            }
+
+            int remaining = resetSys.DistinctCemeteryCount - shown;
+            if (remaining > 0)
+            {
+                if (sb.Length > 0)
+                {
+                    sb.Append(" · ");
+                }
+
+                sb.Append(SafeFormat(KeyCemeteryMore, FallbackCemeteryMore, remaining));
+            }
+
+            return sb.ToString();
+        }
 
         private static string Localize(string entryId, string fallback)
         {
@@ -216,7 +307,7 @@ namespace MagicHearse
             }
             catch (FormatException)
             {
-                Mod.WarnOnce("MH_STATUS_BAD_FORMAT_" + key, () =>
+                LogUtils.WarnOnce("MH_STATUS_BAD_FORMAT_" + key, () =>
                     $"[MH] Status format error. Key={key} Args={args.Length}");
 
                 // Try English fallback format.
