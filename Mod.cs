@@ -140,20 +140,15 @@ namespace MagicHearse
 
                 // New FileLocation("ModsSettings/MagicHearse/MagicHearse"):
                 // {UserData}/ModsSettings/MagicHearse/MagicHearse.coc
-                string directory = Path.Combine(
-                    EnvPath.kUserDataPath,
-                    "ModsSettings",
-                    ModId);
+                string directory = Path.Combine( EnvPath.kUserDataPath, "ModsSettings", ModId);
 
-                string correctLocation = Path.Combine(
-                    directory,
-                    $"{ModId}.coc");
+                string correctLocation = Path.Combine( directory, $"{ModId}.coc");
 
                 Directory.CreateDirectory(directory);
 
                 if (File.Exists(correctLocation))
                 {
-                    // The new settings file wins. Remove the obsolete duplicate
+                    // new settings file wins. Remove obsolete duplicate
                     // so an old file cannot be migrated again later.
                     File.Delete(oldLocation);
                     return;
