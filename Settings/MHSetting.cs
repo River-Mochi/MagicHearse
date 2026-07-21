@@ -18,7 +18,7 @@ namespace MagicHearse
     using Game.UI;                   // Unit
     using UnityEngine;               // Application.OpenURL
 
-    [FileLocation("ModsSettings/MagicHearse")]
+    [FileLocation("ModsSettings/MagicHearse/MagicHearse")]
     [SettingsUITabOrder(ActionsTab, AboutTab)]
     [SettingsUIGroupOrder(
         AutoCleanGrp, SelfManageGrp, AdvancedGrp, StatusGrp,

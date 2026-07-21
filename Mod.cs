@@ -12,17 +12,16 @@
 namespace MagicHearse
 {
     using System;                    // Exception
+    using System.IO;                 // Directory, File, Path
     using System.Reflection;         // Assembly (version)
-
     using Colossal.IO.AssetDatabase; // AssetDatabase.LoadSettings
     using Colossal.Localization;     // LocalizationManager
     using Colossal.Logging;          // ILog, LogManager
-
     using CS2Shared.RiverMochi;      // LogUtils
-
     using Game;                      // UpdateSystem, SystemUpdatePhase
     using Game.Modding;              // IMod
     using Game.SceneFlow;            // GameManager
+    using UnityEngine;               // Application.persistentDataPath
 
     public sealed class Mod : IMod
     {
