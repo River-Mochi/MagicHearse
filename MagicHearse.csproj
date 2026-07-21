@@ -10,13 +10,12 @@
         <!-- Path to the PowerShell that syncs PublishConfiguration.xml + mod.json with $(Version). -->
         <PublishConfigScript>$(MSBuildProjectDirectory)\Scripts\Update-PublishConfig.ps1</PublishConfigScript>
 
-
-
 		<!-- Single source of truth for version number -->
-        <GameVersion>1.6.*</GameVersion>
-		<Version>1.7.0</Version>
+		<Version>1.7.1</Version>
 		<AssemblyVersion>$(Version).0</AssemblyVersion>
 		<FileVersion>$(Version).0</FileVersion>
+
+        <GameVersion>1.6.*</GameVersion>
 
 		<!-- Assembly DLL name and default namespace -->
 		<AssemblyName>MagicHearse</AssemblyName>

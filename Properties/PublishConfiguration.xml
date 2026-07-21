@@ -67,7 +67,6 @@ Adjust Buildings:
 - Bonus: disable all checkboxes ✅, turns off all mod death work, and still see real Status reports in the Options menu.
 - Status only works when inside the menu; no performance impact to in-game city.
 
-
 </LongDescription>
 <!--Thumbnail-->
 <Thumbnail Value="Properties/Thumbnail-MH-dog-thing03.jpg" />
@@ -83,14 +82,15 @@ Adjust Buildings:
 <!--Link to the forum post where the mod can be discussed-->
 <ForumLink Value="" />
 <!--Version of the mod-->
-<ModVersion Value="1.7.0" />
+<ModVersion Value="1.7.1" />
 <!--Recommended version of the base game to use the mod-->
 <GameVersion Value="1.6.*" />
 <!--Dependency for the mod, can be set multiple times-->
 <Dependency Id="" />
 <!--Change log for new version. Single line or multi line. Supports minimal markdown subset-->
 <ChangeLog>
-- Fix MH settings update instantly.
+- Updated settings to apply and save instantly instead of waiting for game exit.
+- Updated the Game Defaults button so reset values save immediately.
 </ChangeLog>
 <!--External link. supported types are discord, github, youtube, twitch, x, paypal, patreon-->
 <ExternalLink Type="github" Url="https://github.com/River-Mochi/MagicHearse" />

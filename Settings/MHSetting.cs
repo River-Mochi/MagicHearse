@@ -18,7 +18,7 @@ namespace MagicHearse
     using Game.UI;                   // Unit
     using UnityEngine;               // Application.OpenURL
 
-    [FileLocation("ModsSettings/MagicHearse")]  // persistent settings file
+    [FileLocation("ModsSettings/MagicHearse")]
     [SettingsUITabOrder(ActionsTab, AboutTab)]
     [SettingsUIGroupOrder(
         AutoCleanGrp, SelfManageGrp, AdvancedGrp, StatusGrp,
@@ -166,6 +166,7 @@ namespace MagicHearse
                 HearseSpeedScalar = kDefaultPercent;
                 WorkersScalar = kDefaultPercent;
 
+                ApplyAndSave();
                 RequestFdApplyIfEnabled();
             }
         }
