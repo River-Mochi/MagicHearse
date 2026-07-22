@@ -63,11 +63,12 @@ namespace MagicHearse
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.EnableMagicHearse)), "Enable Magic Clean" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.EnableMagicHearse)),
                     "Auto removes dead corpses that require transport (hearse).\n" +
-                    "Enable auto magic system is mutually exclusive with self-manage, pick one or the other.\n"+
-                    "Turn off all checkboxes to disable the mod without removing it."
+                    "Magic clean is mutually exclusive with self-manage, pick one or the other.\n"+
+                    "Turn off all checkboxes to disable the mod without removing it.\n"+
+                    "Tech note: must be IsDead = true and WaitingForHearse = true."
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.MagicResetCemetery)), "Reset full cemeteries" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.MagicResetCemetery)), "Reset full cemetery" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.MagicResetCemetery)),
                     "**Empties any full cemetery** so it's not blocked with a FULL icon.\n" +
                     "Magic Clean removes most corpses before burial — this still clears any cemetery that's **already full**.\n" +
