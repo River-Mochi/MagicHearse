@@ -62,8 +62,19 @@ namespace MagicHearse
                 // Auto Clean (magic)
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.EnableMagicHearse)), "Ativar limpeza mágica" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.EnableMagicHearse)),
-                    "**Remove automaticamente os cidadãos falecidos** que aguardam um carro funerário.\n" +
-                    "Desative as duas caixas para desligar o mod sem o remover."
+                    "Remove automaticamente corpos que precisam de transporte (carro funerário).\n" +
+                    "A limpeza mágica e a gestão manual são mutuamente exclusivas; escolha uma ou outra.\n" +
+                    "Desative todas as caixas para desligar o mod sem o remover.\n" +
+                    "Nota técnica: IsDead = true e WaitingForHearse = true são obrigatórios."
+                },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.MagicResetCemetery)), "Repor cemitério cheio" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.MagicResetCemetery)),
+                    "**Esvazia qualquer cemitério cheio** para que não fique bloqueado com o ícone CHEIO.\n" +
+                    "A limpeza mágica remove a maioria dos corpos antes do enterro — esta opção continua a esvaziar qualquer cemitério que **já esteja cheio**.\n" +
+                    "[ ✓ ] ATIVADO por predefinição.\n" +
+                    "Se não houver cemitérios cheios, isto não for uma preocupação e a limpeza mágica ficar sempre ativa,\n" +
+                    " pode desativar esta opção, pois não é necessária."
                 },
 
                 // Self Manage (FD)
@@ -84,7 +95,7 @@ namespace MagicHearse
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.FleetScalar)),
                     "**Máximo de carros funerários** por instalação.\n" +
                     "**100%** = valor predefinido do jogo base.\n" +
-                    "**[o_o]** Demasiados carros funerários podem afetar o trânsito, consoante a taxa de mortalidade."
+                    "**[Nota]** Demasiados carros funerários podem afetar o trânsito, consoante a taxa de mortalidade."
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StorageScalar)), "Capacidade do cemitério" },
@@ -93,12 +104,12 @@ namespace MagicHearse
                     "**100%** = valor predefinido do jogo base."
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.AutoResetCemetery)), "Esvaziar quando cheio" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.AutoResetCemetery)), "Repor cemitério cheio" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.AutoResetCemetery)),
-                    "**Esvazia automaticamente um cemitério** assim que fica cheio.\n" +
-                    "As sepulturas ocupadas voltam a 0 — como reconstruir, mas de forma instantânea e automática.\n" +
-                    "Funciona com o controlo **Capacidade do cemitério**: defina o tamanho dos cemitérios e deixe-os reutilizar as sepulturas, para nunca ter de demolir um cemitério cheio.\n" +
-                    "ATIVADO por predefinição enquanto o **Diretor funerário** estiver ativo."
+                    "**Esvazia um cemitério** quando fica cheio, para que não seja bloqueado pelo ícone CHEIO sobre o edifício.\n" +
+                    "Já não é necessário eliminar e reconstruir cemitérios cheios.\n" +
+                    "Funciona com o controlo **Capacidade do cemitério**: defina o tamanho dos cemitérios e deixe-os ser reutilizados, para nunca mais ter de demolir um cemitério cheio.\n" +
+                    "<[ ✓ ] ATIVADO por predefinição>"
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.HearseSpeedScalar)), "Velocidade do carro funerário" },
@@ -107,8 +118,8 @@ namespace MagicHearse
                     "**100%** = valor predefinido do jogo base.\n" +
                     "<Os limites de velocidade das estradas continuam a aplicar-se>.\n\n" +
                     "Também ajusta suavemente a aceleração e a travagem, para que a nova velocidade máxima não cause arranques ou paragens bruscos.\n" +
-                    "Nota: mesmo com a velocidade máxima aumentada, a velocidade real é basicamente:\n" +
-                    "(máximo do veículo, limite da estrada, velocidade segura da IA, trânsito)"
+                    "Nota: mesmo com a velocidade máxima do carro funerário aumentada, a velocidade real é influenciada por:\n" +
+                    "máximo permitido do veículo, limite da estrada, velocidade segura da IA do jogo (curvas, danos na estrada) e trânsito."
                 },
 
                 // Workers compatibility toggle
@@ -166,7 +177,7 @@ namespace MagicHearse
                 // Cemetery reset tally (session status; row + named list below Assets)
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusSummary4)), "Cemitério" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StatusSummary4)),
-                    "**Cemitérios esvaziados automaticamente nesta sessão** pela opção Esvaziar quando cheio.\n" +
+                    "**Cemitérios esvaziados automaticamente nesta sessão** pela opção Repor cemitério cheio.\n" +
                     "Mostra o total de reposições e o número de cemitérios diferentes.\n" +
                     "É limpo ao reiniciar o jogo ou ao mudar de cidade."
                 },

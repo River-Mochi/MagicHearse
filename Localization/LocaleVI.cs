@@ -62,8 +62,19 @@ namespace MagicHearse
                 // Auto Clean (magic)
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.EnableMagicHearse)), "Bật dọn dẹp ma thuật" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.EnableMagicHearse)),
-                    "**Tự động xóa cư dân đã chết** đang chờ xe tang.\n" +
-                    "Tắt cả hai ô chọn để vô hiệu hóa mod mà không cần gỡ mod."
+                    "Tự động xóa thi thể cần được vận chuyển (bằng xe tang).\n" +
+                    "Dọn dẹp ma thuật và tự quản lý không thể bật cùng lúc; hãy chọn một trong hai.\n" +
+                    "Tắt tất cả ô chọn để vô hiệu hóa mod mà không cần gỡ mod.\n" +
+                    "Lưu ý kỹ thuật: phải có IsDead = true và WaitingForHearse = true."
+                },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.MagicResetCemetery)), "Đặt lại nghĩa trang đầy" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.MagicResetCemetery)),
+                    "**Dọn trống mọi nghĩa trang đã đầy** để không bị chặn bởi biểu tượng ĐẦY.\n" +
+                    "Dọn dẹp ma thuật xóa hầu hết thi thể trước khi chôn cất — tùy chọn này vẫn dọn mọi nghĩa trang **đã đầy từ trước**.\n" +
+                    "[ ✓ ] Mặc định BẬT.\n" +
+                    "Nếu không có nghĩa trang đầy, đây không phải vấn đề và dọn dẹp ma thuật luôn được bật,\n" +
+                    " có thể tắt tùy chọn này vì không cần thiết."
                 },
 
                 // Self Manage (FD)
@@ -84,7 +95,7 @@ namespace MagicHearse
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.FleetScalar)),
                     "**Số xe tang tối đa** cho mỗi cơ sở.\n" +
                     "**100%** = mặc định của game gốc.\n" +
-                    "**[o_o]** Quá nhiều xe tang có thể ảnh hưởng giao thông, tùy theo tỷ lệ tử vong."
+                    "**[Lưu ý]** Quá nhiều xe tang có thể ảnh hưởng giao thông, tùy theo tỷ lệ tử vong."
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StorageScalar)), "Sức chứa nghĩa trang" },
@@ -93,12 +104,12 @@ namespace MagicHearse
                     "**100%** = mặc định của game gốc."
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.AutoResetCemetery)), "Tự dọn khi đầy" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.AutoResetCemetery)), "Đặt lại nghĩa trang đầy" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.AutoResetCemetery)),
-                    "**Tự động dọn trống nghĩa trang** ngay khi đầy.\n" +
-                    "Số phần mộ đang dùng được đặt lại về 0 — giống như xây lại, nhưng tức thì và tự động.\n" +
-                    "Kết hợp với thanh trượt **Sức chứa nghĩa trang**: đặt quy mô nghĩa trang rồi để chúng tái sử dụng, nên không cần phá nghĩa trang đã đầy.\n" +
-                    "Mặc định BẬT khi **Quản lý dịch vụ tang lễ** đang hoạt động."
+                    "**Dọn trống nghĩa trang** khi đầy để không bị biểu tượng ĐẦY phía trên công trình chặn hoạt động.\n" +
+                    "Không còn phải xóa và xây lại nghĩa trang đã đầy.\n" +
+                    "Kết hợp với thanh trượt **Sức chứa nghĩa trang**: đặt quy mô nghĩa trang rồi cho phép tái sử dụng để không bao giờ phải phá nghĩa trang đầy nữa.\n" +
+                    "<[ ✓ ] Mặc định BẬT>"
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.HearseSpeedScalar)), "Tốc độ xe tang" },
@@ -107,8 +118,8 @@ namespace MagicHearse
                     "**100%** = mặc định của game gốc.\n" +
                     "<Giới hạn tốc độ đường vẫn áp dụng>.\n\n" +
                     "Đồng thời điều chỉnh nhẹ gia tốc và phanh để tốc độ tối đa mới không gây tăng tốc hoặc dừng quá gắt.\n" +
-                    "Lưu ý: dù tốc độ tối đa của xe tang được tăng, tốc độ chạy thực tế về cơ bản vẫn phụ thuộc vào:\n" +
-                    "(tốc độ tối đa của xe, giới hạn đường, tốc độ an toàn của AI, giao thông)"
+                    "Lưu ý: dù tốc độ tối đa của xe tang được tăng, tốc độ chạy thực tế vẫn chịu ảnh hưởng bởi:\n" +
+                    "mức tối đa cho phép của xe, giới hạn đường, tốc độ an toàn của AI trong game (khúc cua, đường hư hỏng) và giao thông."
                 },
 
                 // Workers compatibility toggle
@@ -166,7 +177,7 @@ namespace MagicHearse
                 // Cemetery reset tally (session status; row + named list below Assets)
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusSummary4)), "Nghĩa trang" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StatusSummary4)),
-                    "**Nghĩa trang được tự động dọn trong phiên này** bằng tùy chọn Tự dọn khi đầy.\n" +
+                    "**Nghĩa trang được tự động dọn trong phiên này** bằng tùy chọn Đặt lại nghĩa trang đầy.\n" +
                     "Hiển thị tổng số lần đặt lại và số nghĩa trang khác nhau.\n" +
                     "Xóa khi khởi động lại hoặc khi đổi thành phố."
                 },

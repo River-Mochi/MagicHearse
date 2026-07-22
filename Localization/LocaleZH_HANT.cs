@@ -61,15 +61,19 @@ namespace MagicHearse
                 // Auto Clean (magic)
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.EnableMagicHearse)), "啟用魔法清理" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.EnableMagicHearse)),
-                    "**自動移除正在等待靈車的死亡市民**。\n" +
-                    "把兩個勾選框都關掉即可停用模組，而不需要移除它。"
+                    "自動移除需要運送（靈車）的遺體。\n" +
+                    "魔法清理與自行管理互斥，請選擇其中一項。\n" +
+                    "關閉所有勾選框即可停用模組，而不需要移除它。\n" +
+                    "技術說明：必須符合 IsDead = true 且 WaitingForHearse = true。"
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.MagicResetCemetery)), "Reset when full" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.MagicResetCemetery)), "重設已滿墓地" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.MagicResetCemetery)),
-                    "**Empties a cemetery** when it's full so it's not blocked with a FULL icon.\n" +
-                    "Magic Clean removes most dead before burial — this still clears any cemetery that's **already full**.\n" +
-                    "Default ON"
+                    "**清空所有已滿墓地**，使其不會被「已滿」圖示阻塞。\n" +
+                    "魔法清理會在下葬前移除大多數遺體；此選項仍會清空任何**已經滿員**的墓地。\n" +
+                    "[ ✓ ] 預設開啟。\n" +
+                    "如果沒有已滿墓地、不需要擔心此問題，且魔法清理始終開啟，\n" +
+                    " 則可以關閉此選項，因為不需要使用。"
                 },
 
                 // Self Manage (FD)
@@ -90,7 +94,7 @@ namespace MagicHearse
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.FleetScalar)),
                     "每個設施的**靈車最大數量**。\n" +
                     "**100%** = 原版預設值。\n" +
-                    "**[o_o]** 靈車太多可能會依死亡率影響交通。"
+                    "**[注意]** 靈車太多可能會依死亡率影響交通。"
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StorageScalar)), "墓地容量" },
@@ -99,12 +103,12 @@ namespace MagicHearse
                     "**100%** = 原版預設值。"
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.AutoResetCemetery)), "滿時自動清空" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.AutoResetCemetery)), "重設已滿墓地" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.AutoResetCemetery)),
-                    "**墓地一滿就自動清空**。\n" +
-                    "已使用的墓位重設為0 —— 效果等同於拆除重建，但即時且自動。\n" +
-                    "與**墓地容量**滑桿搭配使用：設定好墓地容量後讓它循環利用，就再也不用拆除已滿的墓地了。\n" +
-                    "啟用**葬禮管理員**時預設開啟。"
+                    "墓地已滿時將其**清空**，避免建築上方的「已滿」圖示阻塞服務。\n" +
+                    "不再需要刪除並重建已滿墓地。\n" +
+                    "與**墓地容量**滑桿搭配使用：設定墓地大小後讓其循環使用，以後不必再拆除已滿墓地。\n" +
+                    "<[ ✓ ] 預設開啟>"
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.HearseSpeedScalar)), "靈車速度" },
@@ -113,8 +117,8 @@ namespace MagicHearse
                     "**100%** = 原版預設值。\n" +
                     "<道路限速仍然適用>。\n\n" +
                     "同時縮放加速/煞車（溫和），避免新最高速造成誇張的起步/急停。\n" +
-                    "注意：即使提高了靈車最高速度，實際行駛速度基本由以下決定：\n" +
-                    "(車輛上限、道路限速、AI 安全速度、交通)"
+                    "注意：即使提高了靈車最高速度，其實際行駛速度仍受以下因素影響：\n" +
+                    "車輛允許的最高速度、道路限速、遊戲 AI 的安全速度（彎道、道路損壞）以及交通狀況。"
 
                 },
 
@@ -155,10 +159,10 @@ namespace MagicHearse
                     "**啟用中建築容量：** 靈車總數、建築數、最大工人。\n\n" +
                     "**備註：**\n" +
                     "▪ 靈車：啟用-未停放 /（總計* 靈車）\n" +
-                    "▪ *總計 靈車:" +
-                    "=== 包含維修中的靈車（例如服務預算偏低時）, \n" +
-                    "=== 不包含已停用建築的靈車。\n" +
-                    "▪ 狀態掃描只會在 Options 開啟時（或使用滑條時）執行；" +
+                    "▪ *靈車總數：\n" +
+                    "== 包含維修中的靈車（例如服務預算偏低時），\n" +
+                    "== 不包含已停用建築的靈車。\n" +
+                    "▪ 狀態掃描只會在選項選單開啟時（或使用滑條時）執行；" +
                     "不會在城市中每幀執行，所以基本上沒有性能影響 :)"
                 },
 
@@ -172,21 +176,21 @@ namespace MagicHearse
                 { "MH_STATUS_LINE3", "{0} / {1} 靈車 | {2} / {3} 建築 | {4} 最大工人" },
 
                 // Cemetery reset tally (session status; row + named list below Assets)
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusSummary4)), "Cemetery" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusSummary4)), "墓地" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StatusSummary4)),
-                    "**Cemeteries auto-emptied this session** by Auto-empty when full.\n" +
-                    "Shows total resets and how many distinct cemeteries.\n" +
-                    "Clears on reboot or when you switch city."
+                    "透過「重設已滿墓地」在**本次遊戲中自動清空的墓地**。\n" +
+                    "顯示重設總次數及不同墓地的數量。\n" +
+                    "重新啟動或切換城市時清除。"
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusCemetery1)), "▪" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StatusCemetery1)),
-                    "Which cemeteries were emptied, and how many times each (name × count)." },
+                    "已清空的墓地，以及各自清空的次數（名稱 × 次數）。" },
 
-                { "MH_STATUS_LINE4", "resets: {0} · cemeteries: {1}" },
-                { "MH_STATUS_CEMETERY_NONE", "none this session" },
+                { "MH_STATUS_LINE4", "重設：{0} · 墓地：{1}" },
+                { "MH_STATUS_CEMETERY_NONE", "本次遊戲中無" },
                 { "MH_STATUS_CEMETERY_ROW", "{0} ×{1}" },
-                { "MH_STATUS_CEMETERY_MORE", "+{0} more" },
+                { "MH_STATUS_CEMETERY_MORE", "另外 {0} 個" },
 
                 // About
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.AboutName)), "模組" },

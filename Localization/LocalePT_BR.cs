@@ -61,15 +61,19 @@ namespace MagicHearse
                 // Auto Clean (magic)
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.EnableMagicHearse)), "Ativar limpeza mágica" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.EnableMagicHearse)),
-                    "**Remove automaticamente cidadãos mortos** que estão esperando um carro funerário.\n" +
-                    "Desligue as duas caixas para desativar o mod sem removê-lo."
+                    "Remove automaticamente corpos que precisam de transporte (carro funerário).\n" +
+                    "A limpeza mágica e a gestão manual são mutuamente exclusivas; escolha uma ou outra.\n" +
+                    "Desligue todas as caixas para desativar o mod sem removê-lo.\n" +
+                    "Nota técnica: IsDead = true e WaitingForHearse = true são obrigatórios."
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.MagicResetCemetery)), "Reset when full" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.MagicResetCemetery)), "Redefinir cemitério cheio" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.MagicResetCemetery)),
-                    "**Empties a cemetery** when it's full so it's not blocked with a FULL icon.\n" +
-                    "Magic Clean removes most dead before burial — this still clears any cemetery that's **already full**.\n" +
-                    "Default ON"
+                    "**Esvazia qualquer cemitério cheio** para que ele não fique bloqueado com o ícone CHEIO.\n" +
+                    "A limpeza mágica remove a maioria dos corpos antes do enterro — esta opção ainda esvazia qualquer cemitério que **já esteja cheio**.\n" +
+                    "[ ✓ ] Ativado por padrão.\n" +
+                    "Se não houver cemitérios cheios, isso não for uma preocupação e a limpeza mágica ficar sempre ligada,\n" +
+                    " esta opção pode ser desligada porque não é necessária."
                 },
 
                 // Self Manage (FD)
@@ -90,7 +94,7 @@ namespace MagicHearse
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.FleetScalar)),
                     "**Máximo de carros funerários** por instalação.\n" +
                     "**100%** = padrão vanilla do jogo.\n" +
-                    "**[o_o]** Carros funerários demais podem afetar o trânsito dependendo da taxa de mortes."
+                    "**[Nota]** Carros funerários demais podem afetar o trânsito dependendo da taxa de mortes."
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StorageScalar)), "Armazenamento do cemitério" },
@@ -99,12 +103,12 @@ namespace MagicHearse
                     "**100%** = padrão vanilla do jogo."
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.AutoResetCemetery)), "Esvaziar auto. quando cheio" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.AutoResetCemetery)), "Redefinir cemitério cheio" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.AutoResetCemetery)),
-                    "**Esvazia um cemitério automaticamente** assim que ele enche.\n" +
-                    "As sepulturas ocupadas voltam a 0 — como demolir e reconstruir, mas instantâneo e automático.\n" +
-                    "Combina com o controle deslizante **Armazenamento do cemitério**: defina o tamanho dos cemitérios e deixe-os se reciclar para nunca demolir um cheio.\n" +
-                    "Ativado por padrão enquanto o **Diretor funerário** estiver ativo."
+                    "**Esvazia um cemitério** quando ele está cheio para não ficar bloqueado pelo ícone CHEIO acima do prédio.\n" +
+                    "Não é mais preciso excluir e reconstruir cemitérios cheios.\n" +
+                    "Combina com o controle **Armazenamento do cemitério**: defina o tamanho dos cemitérios e deixe-os ser reutilizados para nunca mais precisar demolir um cemitério cheio.\n" +
+                    "<[ ✓ ] Ativado por padrão>"
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.HearseSpeedScalar)), "Velocidade do carro funerário" },
@@ -113,8 +117,8 @@ namespace MagicHearse
                     "**100%** = padrão vanilla do jogo.\n" +
                     "<Os limites de velocidade das vias ainda valem>.\n\n" +
                     "Também ajusta aceleração/frenagem (suave) para que a nova velocidade máxima não crie arrancadas/paradas extremas.\n" +
-                    "Obs.: mesmo aumentando a velocidade máxima, a velocidade real é basicamente:\n" +
-                    "(máx. do veículo, limite da via, velocidade segura da IA, trânsito)"
+                    "Obs.: mesmo aumentando a velocidade máxima do carro funerário, a velocidade real é influenciada por:\n" +
+                    "máximo permitido do veículo, limite da via, velocidade segura da IA do jogo (curvas, danos na via) e trânsito."
 
                 },
 
@@ -155,38 +159,38 @@ namespace MagicHearse
                     "**Capacidades ativas dos prédios:** total de carros funerários, prédios, trabalhadores máx.\n\n" +
                     "**Notas:**\n" +
                     "▪ Carro funerário: Ativo-não estacionado / (Total* carros funerários)\n" +
-                    "▪ *Total carro funerário:" +
-                    "=== inclui carro funerário em manutenção (ex.: orçamento de serviço baixo), \n" +
-                    "=== não inclui carros funerários de prédios desativados.\n" +
-                    "▪ A varredura de status só roda enquanto Options estiver aberto (ou ao mexer em um slider); " +
-                    "não roda por frame na cidade, então praticamente sem impacto de performance :)"
+                    "▪ *Total de carros funerários:\n" +
+                    "== inclui carros funerários em manutenção (ex.: orçamento de serviço baixo), \n" +
+                    "== não inclui carros funerários de prédios desativados.\n" +
+                    "▪ A verificação de status só roda enquanto as Opções estiverem abertas (ou ao usar um controle); " +
+                    "não roda a cada quadro na cidade, então praticamente não afeta o desempenho :)"
                 },
 
                 // Status text templates
                 { "MH_STATUS_NOT_LOADED", "Status não carregado." },
                 { "MH_STATUS_NO_CITY_LOADED", "Nenhuma cidade carregada." },
                 { "MH_STATUS_STATS_NOT_AVAIL", "Sem cidade... ¯\\_(ツ)_/¯ ...Sem stats" },
-             
+
                 { "MH_STATUS_LINE1", "{0} esperando | {1} mortes/mês | atualizado {2}" },
                 { "MH_STATUS_LINE2", "{0} cremação máx./mês | {1}/{2} túmulos usados" },
                 { "MH_STATUS_LINE3", "{0} / {1} carros funerários | {2} / {3} prédios | {4} trabalhadores máx." },
 
                 // Cemetery reset tally (session status; row + named list below Assets)
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusSummary4)), "Cemetery" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusSummary4)), "Cemitério" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StatusSummary4)),
-                    "**Cemeteries auto-emptied this session** by Auto-empty when full.\n" +
-                    "Shows total resets and how many distinct cemeteries.\n" +
-                    "Clears on reboot or when you switch city."
+                    "**Cemitérios esvaziados automaticamente nesta sessão** por Redefinir cemitério cheio.\n" +
+                    "Mostra o total de redefinições e quantos cemitérios diferentes foram afetados.\n" +
+                    "É apagado ao reiniciar ou ao trocar de cidade."
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusCemetery1)), "▪" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StatusCemetery1)),
-                    "Which cemeteries were emptied, and how many times each (name × count)." },
+                    "Quais cemitérios foram esvaziados e quantas vezes cada um (nome × quantidade)." },
 
-                { "MH_STATUS_LINE4", "resets: {0} · cemeteries: {1}" },
-                { "MH_STATUS_CEMETERY_NONE", "none this session" },
+                { "MH_STATUS_LINE4", "redefinições: {0} · cemitérios: {1}" },
+                { "MH_STATUS_CEMETERY_NONE", "nenhum nesta sessão" },
                 { "MH_STATUS_CEMETERY_ROW", "{0} ×{1}" },
-                { "MH_STATUS_CEMETERY_MORE", "+{0} more" },
+                { "MH_STATUS_CEMETERY_MORE", "+{0} a mais" },
 
                 // About
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.AboutName)), "Mod" },

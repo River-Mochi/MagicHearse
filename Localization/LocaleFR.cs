@@ -61,15 +61,19 @@ namespace MagicHearse
                 // Auto Clean (magic)
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.EnableMagicHearse)), "Activer le nettoyage magique" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.EnableMagicHearse)),
-                    "**Supprime automatiquement les citoyens morts** qui attendent un corbillard.\n" +
-                    "Désactivez les deux cases pour couper le mod sans le retirer."
+                    "Supprime automatiquement les corps qui nécessitent un transport (corbillard).\n" +
+                    "Le nettoyage magique et la gestion autonome sont incompatibles ; choisissez l’un ou l’autre.\n" +
+                    "Décochez toutes les cases pour désactiver le mod sans le supprimer.\n" +
+                    "Note technique : IsDead = true et WaitingForHearse = true sont requis."
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.MagicResetCemetery)), "Reset when full" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.MagicResetCemetery)), "Réinitialiser le cimetière plein" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.MagicResetCemetery)),
-                    "**Empties a cemetery** when it's full so it's not blocked with a FULL icon.\n" +
-                    "Magic Clean removes most dead before burial — this still clears any cemetery that's **already full**.\n" +
-                    "Default ON"
+                    "**Vide tout cimetière plein** afin qu’il ne reste pas bloqué avec l’icône PLEIN.\n" +
+                    "Le nettoyage magique retire la plupart des corps avant l’inhumation ; cette option vide tout de même les cimetières **déjà pleins**.\n" +
+                    "[ ✓ ] Activé par défaut.\n" +
+                    "Si aucun cimetière n’est plein et que le nettoyage magique reste toujours activé,\n" +
+                    " cette option peut être désactivée, car elle n’est pas nécessaire."
                 },
 
                 // Self Manage (FD)
@@ -90,7 +94,7 @@ namespace MagicHearse
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.FleetScalar)),
                     "**Corbillards maximum** par établissement.\n" +
                     "**100%** = valeur vanilla du jeu.\n" +
-                    "**[o_o]** Trop de corbillards peut affecter le trafic selon le taux de décès."
+                    "**[Remarque]** Trop de corbillards peut affecter le trafic selon le taux de décès."
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StorageScalar)), "Stockage du cimetière" },
@@ -99,12 +103,12 @@ namespace MagicHearse
                     "**100%** = valeur vanilla du jeu."
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.AutoResetCemetery)), "Vider auto. quand plein" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.AutoResetCemetery)), "Réinitialiser le cimetière plein" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.AutoResetCemetery)),
-                    "**Vide automatiquement un cimetière** dès qu'il est plein.\n" +
-                    "Les tombes occupées repassent à 0 — comme démolir et reconstruire, mais instantané et automatique.\n" +
-                    "Se combine avec le curseur **Stockage du cimetière** : dimensionnez vos cimetières, puis laissez-les se recycler pour ne jamais démolir un cimetière plein.\n" +
-                    "Activé par défaut quand le **Directeur funéraire** est actif."
+                    "**Vide un cimetière** lorsqu’il est plein afin qu’il ne reste pas bloqué par l’icône PLEIN au-dessus du bâtiment.\n" +
+                    "Il n’est plus nécessaire de supprimer et reconstruire les cimetières pleins.\n" +
+                    "Fonctionne avec le curseur **Stockage du cimetière** : dimensionnez vos cimetières, puis laissez-les se réutiliser pour ne plus jamais devoir en démolir un plein.\n" +
+                    "<[ ✓ ] Activé par défaut>"
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.HearseSpeedScalar)), "Vitesse du corbillard" },
@@ -113,8 +117,8 @@ namespace MagicHearse
                     "**100%** = valeur vanilla du jeu.\n" +
                     "<Les limites de vitesse routières s'appliquent toujours>.\n\n" +
                     "Met aussi à l'échelle l'accélération/le freinage (doux) pour éviter des départs/arrêts extrêmes.\n" +
-                    "Note : même si la vitesse max du corbillard est augmentée, sa vitesse réelle est grosso modo :\n" +
-                    "(max du véhicule, limite de vitesse, vitesse sûre de l'IA, trafic)"
+                    "Note : même si la vitesse maximale du corbillard est augmentée, sa vitesse réelle dépend de :\n" +
+                    "la vitesse maximale autorisée du véhicule, la limite de la route, la vitesse sûre de l’IA du jeu (virages, routes endommagées) et le trafic."
 
                 },
 
@@ -153,13 +157,13 @@ namespace MagicHearse
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusSummary3)), "Ressources" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StatusSummary3)),
                     "**Capacités des bâtiments actifs :** total corbillards, bâtiments, employés max.\n\n" +
-                    "**Notes:**\n" +
+                    "**Remarques :**\n" +
                     "▪ Corbillard : Actif-non garé / (Total* corbillards)\n" +
-                    "▪ *Total corbillard:" +
-                    "=== inclut les corbillards en maintenance (ex : budget de service faible), \n" +
-                    "=== n'inclut pas les corbillards des bâtiments désactivés.\n" +
-                    "▪ Le scan de statut tourne seulement quand Options est ouvert (ou quand un curseur est utilisé); " +
-                    "ne tourne pas frame par frame en ville, donc impact perf quasi nul :)"
+                    "▪ *Total des corbillards :\n" +
+                    "== inclut les corbillards en maintenance (p. ex. budget de service faible), \n" +
+                    "== n’inclut pas les corbillards des bâtiments désactivés.\n" +
+                    "▪ L’analyse du statut ne s’exécute que lorsque les Options sont ouvertes (ou qu’un curseur est utilisé) ; " +
+                    "elle ne s’exécute pas à chaque image en ville et n’a donc pratiquement aucun impact sur les performances :)"
                 },
 
                 // Status text templates
@@ -172,21 +176,21 @@ namespace MagicHearse
                 { "MH_STATUS_LINE3", "{0} / {1} corbillards | {2} / {3} bâtiments | {4} employés max" },
 
                 // Cemetery reset tally (session status; row + named list below Assets)
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusSummary4)), "Cemetery" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusSummary4)), "Cimetière" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StatusSummary4)),
-                    "**Cemeteries auto-emptied this session** by Auto-empty when full.\n" +
-                    "Shows total resets and how many distinct cemeteries.\n" +
-                    "Clears on reboot or when you switch city."
+                    "**Cimetières vidés automatiquement pendant cette session** par Réinitialiser le cimetière plein.\n" +
+                    "Affiche le nombre total de réinitialisations et le nombre de cimetières distincts.\n" +
+                    "S’efface au redémarrage ou lors d’un changement de ville."
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusCemetery1)), "▪" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StatusCemetery1)),
-                    "Which cemeteries were emptied, and how many times each (name × count)." },
+                    "Quels cimetières ont été vidés et combien de fois chacun (nom × nombre)." },
 
-                { "MH_STATUS_LINE4", "resets: {0} · cemeteries: {1}" },
-                { "MH_STATUS_CEMETERY_NONE", "none this session" },
+                { "MH_STATUS_LINE4", "réinitialisations : {0} · cimetières : {1}" },
+                { "MH_STATUS_CEMETERY_NONE", "aucun pendant cette session" },
                 { "MH_STATUS_CEMETERY_ROW", "{0} ×{1}" },
-                { "MH_STATUS_CEMETERY_MORE", "+{0} more" },
+                { "MH_STATUS_CEMETERY_MORE", "+{0} de plus" },
 
                 // About
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.AboutName)), "Mod" },

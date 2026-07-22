@@ -61,15 +61,19 @@ namespace MagicHearse
                 // Auto Clean (magic)
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.EnableMagicHearse)), "魔法クリーンを有効化" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.EnableMagicHearse)),
-                    "霊柩車を待っている**死亡市民を自動で削除**します。\n" +
-                    "両方のチェックをOFFにすると、削除せずにModを無効化できます。"
+                    "搬送（霊柩車）が必要な遺体を自動的に削除します。\n" +
+                    "魔法クリーンと自己管理は同時に使用できません。どちらか一方を選んでください。\n" +
+                    "すべてのチェックをOFFにすると、Modを削除せずに無効化できます。\n" +
+                    "技術メモ：IsDead = true かつ WaitingForHearse = true が必要です。"
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.MagicResetCemetery)), "Reset when full" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.MagicResetCemetery)), "満杯の墓地をリセット" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.MagicResetCemetery)),
-                    "**Empties a cemetery** when it's full so it's not blocked with a FULL icon.\n" +
-                    "Magic Clean removes most dead before burial — this still clears any cemetery that's **already full**.\n" +
-                    "Default ON"
+                    "**満杯の墓地をすべて空にし**、「満杯」アイコンで機能停止しないようにします。\n" +
+                    "魔法クリーンは埋葬前にほとんどの遺体を削除しますが、この設定は**すでに満杯**の墓地も空にします。\n" +
+                    "[ ✓ ] 既定でON。\n" +
+                    "満杯の墓地がなく、魔法クリーンを常にONにしている場合は、\n" +
+                    " この設定は不要なのでOFFにできます。"
                 },
 
                 // Self Manage (FD)
@@ -90,7 +94,7 @@ namespace MagicHearse
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.FleetScalar)),
                     "施設ごとの**霊柩車の最大数**。\n" +
                     "**100%** = バニラ既定。\n" +
-                    "**[o_o]** 霊柩車が多すぎると、死亡率次第で交通に影響する場合があります。"
+                    "**[注意]** 霊柩車が多すぎると、死亡率次第で交通に影響する場合があります。"
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StorageScalar)), "墓地の収容" },
@@ -99,12 +103,12 @@ namespace MagicHearse
                     "**100%** = バニラ既定。"
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.AutoResetCemetery)), "満杯時に自動で空に" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.AutoResetCemetery)), "満杯の墓地をリセット" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.AutoResetCemetery)),
-                    "**墓地が満杯になると自動で空にします**。\n" +
-                    "使用中の区画を0に戻します — 取り壊して再建するのと同じですが、瞬時かつ自動です。\n" +
-                    "**墓地の収容**スライダーと併用: 墓地のサイズを設定し、あとは再利用させれば、満杯の墓地を取り壊す必要はありません。\n" +
-                    "**葬儀ディレクター**が有効な間は既定でオンです。"
+                    "墓地が満杯になると**墓地を空にし**、建物上の「満杯」アイコンで機能停止しないようにします。\n" +
+                    "満杯の墓地を削除して建て直す必要はもうありません。\n" +
+                    "**墓地の収容**スライダーと併用できます。墓地の大きさを設定して再利用させれば、満杯の墓地を取り壊す必要がなくなります。\n" +
+                    "<[ ✓ ] 既定でON>"
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.HearseSpeedScalar)), "霊柩車の速度" },
@@ -113,8 +117,8 @@ namespace MagicHearse
                     "**100%** = バニラ既定。\n" +
                     "<道路の制限速度は適用されます>。\n\n" +
                     "加速/減速（穏やか）もスケールして、新しい最高速度でも極端な発進/停止にならないようにします。\n" +
-                    "注：最高速度を上げても、実際の走行速度はだいたい次で決まります：\n" +
-                    "(車両の上限、道路の制限速度、AI安全速度、交通)"
+                    "注：霊柩車の最高速度を上げても、実際の走行速度は次の影響を受けます：\n" +
+                    "車両に許可された最高速度、道路の制限速度、ゲームAIの安全速度（カーブ、道路損傷）、交通状況。"
 
                 },
 
@@ -155,10 +159,10 @@ namespace MagicHearse
                     "**稼働中建物の容量：** 霊柩車合計、建物数、最大労働者。\n\n" +
                     "**注記：**\n" +
                     "▪ 霊柩車：稼働中（駐車中ではない） /（合計* 霊柩車）\n" +
-                    "▪ *合計 霊柩車:" +
-                    "=== メンテ中の霊柩車も含みます（例：サービス予算が低い場合）, \n" +
-                    "=== 無効化された建物の霊柩車は含みません。\n" +
-                    "▪ ステータススキャンは Options が開いている間（またはスライダー操作時）だけ動作します；" +
+                    "▪ *霊柩車の合計：\n" +
+                    "== メンテナンス中の霊柩車も含みます（例：サービス予算が低い場合）、\n" +
+                    "== 無効化された建物の霊柩車は含みません。\n" +
+                    "▪ ステータススキャンはオプションが開いている間（またはスライダー操作時）だけ動作します。" +
                     "都市内で毎フレーム動くわけではないので、基本的にパフォーマンスへの影響はほぼありません :)"
                 },
 
@@ -172,21 +176,21 @@ namespace MagicHearse
                 { "MH_STATUS_LINE3", "{0} / {1} 霊柩車 | {2} / {3} 建物 | {4} 最大労働者" },
 
                 // Cemetery reset tally (session status; row + named list below Assets)
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusSummary4)), "Cemetery" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusSummary4)), "墓地" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StatusSummary4)),
-                    "**Cemeteries auto-emptied this session** by Auto-empty when full.\n" +
-                    "Shows total resets and how many distinct cemeteries.\n" +
-                    "Clears on reboot or when you switch city."
+                    "「満杯の墓地をリセット」により、**このセッションで自動的に空になった墓地**。\n" +
+                    "リセットの合計回数と、対象となった墓地の数を表示します。\n" +
+                    "再起動または都市の切り替え時に消去されます。"
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusCemetery1)), "▪" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StatusCemetery1)),
-                    "Which cemeteries were emptied, and how many times each (name × count)." },
+                    "空になった墓地と、それぞれが空になった回数（名前 × 回数）。" },
 
-                { "MH_STATUS_LINE4", "resets: {0} · cemeteries: {1}" },
-                { "MH_STATUS_CEMETERY_NONE", "none this session" },
+                { "MH_STATUS_LINE4", "リセット: {0} · 墓地: {1}" },
+                { "MH_STATUS_CEMETERY_NONE", "このセッションではなし" },
                 { "MH_STATUS_CEMETERY_ROW", "{0} ×{1}" },
-                { "MH_STATUS_CEMETERY_MORE", "+{0} more" },
+                { "MH_STATUS_CEMETERY_MORE", "ほか{0}件" },
 
                 // About
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.AboutName)), "Mod" },

@@ -61,15 +61,19 @@ namespace MagicHearse
                 // Auto Clean (magic)
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.EnableMagicHearse)), "Włącz magiczne czyszczenie" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.EnableMagicHearse)),
-                    "**Automatycznie usuwa martwych obywateli**, którzy czekają na karawan.\n" +
-                    "Wyłącz oba pola wyboru, aby wyłączyć mod bez usuwania go."
+                    "Automatycznie usuwa ciała wymagające transportu (karawanem).\n" +
+                    "Magiczne czyszczenie i samodzielne zarządzanie wzajemnie się wykluczają; wybierz jedną z tych opcji.\n" +
+                    "Wyłącz wszystkie pola wyboru, aby wyłączyć mod bez jego usuwania.\n" +
+                    "Uwaga techniczna: wymagane są IsDead = true oraz WaitingForHearse = true."
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.MagicResetCemetery)), "Reset when full" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.MagicResetCemetery)), "Resetuj pełny cmentarz" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.MagicResetCemetery)),
-                    "**Empties a cemetery** when it's full so it's not blocked with a FULL icon.\n" +
-                    "Magic Clean removes most dead before burial — this still clears any cemetery that's **already full**.\n" +
-                    "Default ON"
+                    "**Opróżnia każdy pełny cmentarz**, aby nie był zablokowany ikoną PEŁNY.\n" +
+                    "Magiczne czyszczenie usuwa większość ciał przed pochówkiem — ta opcja opróżnia także każdy cmentarz, który **jest już pełny**.\n" +
+                    "[ ✓ ] Domyślnie WŁ.\n" +
+                    "Jeśli nie ma pełnych cmentarzy, nie stanowi to problemu i magiczne czyszczenie jest zawsze włączone,\n" +
+                    " tę opcję można wyłączyć, ponieważ nie jest potrzebna."
                 },
 
                 // Self Manage (FD)
@@ -90,7 +94,7 @@ namespace MagicHearse
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.FleetScalar)),
                     "**Maksymalna liczba karawanów** na obiekt.\n" +
                     "**100%** = domyślne ustawienie gry (vanilla).\n" +
-                    "**[o_o]** Zbyt wiele karawanów może wpływać na ruch w zależności od liczby zgonów."
+                    "**[Uwaga]** Zbyt wiele karawanów może wpływać na ruch w zależności od liczby zgonów."
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StorageScalar)), "Pojemność cmentarza" },
@@ -99,12 +103,12 @@ namespace MagicHearse
                     "**100%** = domyślne ustawienie gry (vanilla)."
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.AutoResetCemetery)), "Auto-opróżnianie gdy pełny" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.AutoResetCemetery)), "Resetuj pełny cmentarz" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.AutoResetCemetery)),
-                    "**Automatycznie opróżnia cmentarz**, gdy tylko się zapełni.\n" +
-                    "Zajęte miejsca wracają do 0 — jak wyburzenie i odbudowa, ale natychmiast i automatycznie.\n" +
-                    "Współpracuje z suwakiem **Pojemność cmentarza**: ustaw rozmiar cmentarzy i pozwól im się odnawiać, byś nigdy nie musiał burzyć pełnego cmentarza.\n" +
-                    "Domyślnie WŁ., gdy **Dyrektor pogrzebowy** jest aktywny."
+                    "**Opróżnia cmentarz**, gdy jest pełny, aby nie blokowała go ikona PEŁNY nad budynkiem.\n" +
+                    "Nie trzeba już usuwać i odbudowywać pełnych cmentarzy.\n" +
+                    "Współpracuje z suwakiem **Pojemność cmentarza**: ustaw wielkość cmentarzy i pozwól na ich ponowne wykorzystanie, aby nigdy więcej nie burzyć pełnego cmentarza.\n" +
+                    "<[ ✓ ] Domyślnie WŁ.>"
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.HearseSpeedScalar)), "Prędkość karawanu" },
@@ -113,8 +117,8 @@ namespace MagicHearse
                     "**100%** = domyślne ustawienie gry (vanilla).\n" +
                     "<Limity prędkości dróg nadal obowiązują>.\n\n" +
                     "Skaluje też przyspieszenie/hamowanie (łagodnie), aby nowa prędkość maksymalna nie powodowała ekstremalnych startów/stopów.\n" +
-                    "Uwaga: nawet jeśli prędkość maksymalna karawanu jest zwiększona, jego rzeczywista prędkość to w praktyce:\n" +
-                    "(maks. pojazdu, limit drogi, bezpieczna prędkość AI, ruch)"
+                    "Uwaga: nawet po zwiększeniu prędkości maksymalnej karawanu na jego rzeczywistą prędkość wpływają:\n" +
+                    "dozwolona prędkość maksymalna pojazdu, ograniczenie drogi, bezpieczna prędkość AI gry (zakręty, uszkodzenia drogi) oraz ruch."
                 },
 
                 // Workers compatibility toggle
@@ -171,21 +175,21 @@ namespace MagicHearse
                 { "MH_STATUS_LINE3", "{0} / {1} karawany | {2} / {3} budynki | {4} maks. pracownicy" },
 
                 // Cemetery reset tally (session status; row + named list below Assets)
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusSummary4)), "Cemetery" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusSummary4)), "Cmentarz" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StatusSummary4)),
-                    "**Cemeteries auto-emptied this session** by Auto-empty when full.\n" +
-                    "Shows total resets and how many distinct cemeteries.\n" +
-                    "Clears on reboot or when you switch city."
+                    "**Cmentarze automatycznie opróżnione w tej sesji** przez opcję Resetuj pełny cmentarz.\n" +
+                    "Pokazuje łączną liczbę resetów i liczbę różnych cmentarzy.\n" +
+                    "Dane są czyszczone po ponownym uruchomieniu lub zmianie miasta."
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusCemetery1)), "▪" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StatusCemetery1)),
-                    "Which cemeteries were emptied, and how many times each (name × count)." },
+                    "Które cmentarze opróżniono i ile razy każdy z nich (nazwa × liczba)." },
 
-                { "MH_STATUS_LINE4", "resets: {0} · cemeteries: {1}" },
-                { "MH_STATUS_CEMETERY_NONE", "none this session" },
+                { "MH_STATUS_LINE4", "resety: {0} · cmentarze: {1}" },
+                { "MH_STATUS_CEMETERY_NONE", "brak w tej sesji" },
                 { "MH_STATUS_CEMETERY_ROW", "{0} ×{1}" },
-                { "MH_STATUS_CEMETERY_MORE", "+{0} more" },
+                { "MH_STATUS_CEMETERY_MORE", "+{0} więcej" },
 
                 // About
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.AboutName)), "Mod" },

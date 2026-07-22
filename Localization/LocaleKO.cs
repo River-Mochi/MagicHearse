@@ -61,15 +61,19 @@ namespace MagicHearse
                 // Auto Clean (magic)
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.EnableMagicHearse)), "마법 정리 활성화" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.EnableMagicHearse)),
-                    "영구차를 기다리는 **사망 시민을 자동으로 제거**합니다.\n" +
-                    "두 체크박스를 모두 OFF로 하면, 모드를 제거하지 않고 비활성화할 수 있습니다."
+                    "운송(영구차)이 필요한 시신을 자동으로 제거합니다.\n" +
+                    "마법 정리와 직접 관리는 동시에 사용할 수 없습니다. 둘 중 하나를 선택하세요.\n" +
+                    "모든 체크박스를 OFF로 하면 모드를 제거하지 않고 비활성화할 수 있습니다.\n" +
+                    "기술 참고: IsDead = true 및 WaitingForHearse = true여야 합니다."
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.MagicResetCemetery)), "Reset when full" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.MagicResetCemetery)), "가득 찬 묘지 초기화" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.MagicResetCemetery)),
-                    "**Empties a cemetery** when it's full so it's not blocked with a FULL icon.\n" +
-                    "Magic Clean removes most dead before burial — this still clears any cemetery that's **already full**.\n" +
-                    "Default ON"
+                    "**가득 찬 모든 묘지를 비워** 가득 참 아이콘으로 운영이 중단되지 않게 합니다.\n" +
+                    "마법 정리는 매장 전에 대부분의 시신을 제거하지만, 이 설정은 **이미 가득 찬** 묘지도 비웁니다.\n" +
+                    "[ ✓ ] 기본값 ON.\n" +
+                    "가득 찬 묘지가 없고 마법 정리를 항상 켜 두는 경우에는\n" +
+                    " 필요하지 않으므로 이 설정을 OFF로 바꿔도 됩니다."
                 },
 
                 // Self Manage (FD)
@@ -90,7 +94,7 @@ namespace MagicHearse
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.FleetScalar)),
                     "시설당 **영구차 최대 수**.\n" +
                     "**100%** = 바닐라 기본값.\n" +
-                    "**[o_o]** 영구차가 너무 많으면 사망률에 따라 교통에 영향을 줄 수 있습니다."
+                    "**[참고]** 영구차가 너무 많으면 사망률에 따라 교통에 영향을 줄 수 있습니다."
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StorageScalar)), "묘지 저장" },
@@ -99,22 +103,22 @@ namespace MagicHearse
                     "**100%** = 바닐라 기본값."
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.AutoResetCemetery)), "가득 차면 자동 비움" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.AutoResetCemetery)), "가득 찬 묘지 초기화" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.AutoResetCemetery)),
-                    "**묘지가 가득 차는 즉시 자동으로 비웁니다**.\n" +
-                    "사용 중인 구획이 0으로 초기화됩니다 — 철거 후 재건축과 같지만 즉시 자동으로 처리됩니다.\n" +
-                    "**묘지 저장** 슬라이더와 함께 사용: 묘지 용량을 정한 뒤 재활용되도록 두면 가득 찬 묘지를 철거할 필요가 없습니다.\n" +
-                    "**장의사**가 켜져 있는 동안 기본값은 켜짐입니다."
+                    "묘지가 가득 차면 **묘지를 비워** 건물 위의 가득 참 아이콘으로 운영이 중단되지 않게 합니다.\n" +
+                    "더 이상 가득 찬 묘지를 철거하고 다시 지을 필요가 없습니다.\n" +
+                    "**묘지 저장** 슬라이더와 함께 사용하세요. 묘지 크기를 정한 뒤 재사용되도록 두면 가득 찬 묘지를 다시 철거할 필요가 없습니다.\n" +
+                    "<[ ✓ ] 기본값 ON>"
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.HearseSpeedScalar)), "영구차 속도" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.HearseSpeedScalar)),
                     "**영구차 최고 속도를 증가**합니다.\n" +
                     "**100%** = 바닐라 기본값.\n" +
-                    "<도로 제한 속도는 그대로 적용>。\n\n" +
+                    "<도로 제한 속도는 그대로 적용>.\n\n" +
                     "가속/제동(부드럽게)도 함께 스케일되어, 최고속 증가가 과격한 출발/정지로 이어지지 않게 합니다.\n" +
-                    "참고: 최고 속도를 올려도 실제 주행 속도는 대략 다음에 의해 결정됩니다:\n" +
-                    "(차량 최대, 도로 제한, AI 안전 속도, 교통)"
+                    "참고: 영구차의 최고 속도를 올려도 실제 주행 속도는 다음의 영향을 받습니다:\n" +
+                    "차량에 허용된 최고 속도, 도로 제한 속도, 게임 AI의 안전 속도(커브, 도로 손상), 교통."
 
                 },
 
@@ -155,10 +159,10 @@ namespace MagicHearse
                     "**활성 건물 용량:** 영구차 합계, 건물 수, 최대 근로자.\n\n" +
                     "**참고:**\n" +
                     "▪ 영구차: 활성(주차 아님) / (총합* 영구차)\n" +
-                    "▪ *총합 영구차:" +
-                    "=== 정비 중 영구차 포함(예: 서비스 예산 낮음), \n" +
-                    "=== 비활성화된 건물의 영구차는 포함하지 않음.\n" +
-                    "▪ 상태 스캔은 Options가 열려 있을 때(또는 슬라이더를 사용할 때)만 실행됩니다; " +
+                    "▪ *영구차 총합:\n" +
+                    "== 정비 중인 영구차 포함(예: 낮은 서비스 예산), \n" +
+                    "== 비활성화된 건물의 영구차는 포함하지 않음.\n" +
+                    "▪ 상태 스캔은 옵션이 열려 있을 때(또는 슬라이더를 사용할 때)만 실행됩니다. " +
                     "도시에서 매 프레임 실행되지 않으므로 성능 영향은 사실상 거의 없습니다 :)"
                 },
 
@@ -172,21 +176,21 @@ namespace MagicHearse
                 { "MH_STATUS_LINE3", "{0} / {1} 영구차 | {2} / {3} 건물 | {4} 최대 근로자" },
 
                 // Cemetery reset tally (session status; row + named list below Assets)
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusSummary4)), "Cemetery" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusSummary4)), "묘지" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StatusSummary4)),
-                    "**Cemeteries auto-emptied this session** by Auto-empty when full.\n" +
-                    "Shows total resets and how many distinct cemeteries.\n" +
-                    "Clears on reboot or when you switch city."
+                    "가득 찬 묘지 초기화로 **이번 세션에서 자동으로 비워진 묘지**입니다.\n" +
+                    "총 초기화 횟수와 서로 다른 묘지 수를 표시합니다.\n" +
+                    "재시작하거나 도시를 변경하면 지워집니다."
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusCemetery1)), "▪" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StatusCemetery1)),
-                    "Which cemeteries were emptied, and how many times each (name × count)." },
+                    "비워진 묘지와 각 묘지가 비워진 횟수(이름 × 횟수)." },
 
-                { "MH_STATUS_LINE4", "resets: {0} · cemeteries: {1}" },
-                { "MH_STATUS_CEMETERY_NONE", "none this session" },
+                { "MH_STATUS_LINE4", "초기화: {0} · 묘지: {1}" },
+                { "MH_STATUS_CEMETERY_NONE", "이번 세션에는 없음" },
                 { "MH_STATUS_CEMETERY_ROW", "{0} ×{1}" },
-                { "MH_STATUS_CEMETERY_MORE", "+{0} more" },
+                { "MH_STATUS_CEMETERY_MORE", "+{0}개 더" },
 
                 // About
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.AboutName)), "모드" },
