@@ -11,8 +11,8 @@
 **Magic Hearse + Funeral Director** does not turn off deathcare loop; normal vanilla deathcare systems run. See below for details.
 
 - Control Crematoriums and Cemeteries without in-city bloat that reduces performance.
+- Cemetery overflow is handled - no stuck full cemeteries.
 - Choose if you want to self-manage with all your own settings for Processing rate, number of hearses, or Capacity of Cemeteries, and more.
-- Handle full Cemeteries as needed.
 - or if you prefer auto-clean of death notices.
 - Status report can be used with no other functions enabled! It is Worth checking out!
 
@@ -89,7 +89,7 @@ Hello, Bonjour, Hallo, Hola, Ciao, こんにちは, 안녕하세요, 你好, 你
 <!--Change log for new version. Single line or multi line. Supports minimal markdown subset-->
 <ChangeLog>
 - Added Thai language.
-- Adds reset for cemeteries also to magic mode (already in Funeral Director mode).
+- Adds reset for cemeteries also to magic mode (already in funeral director mode).
 - Option settings to save instantly.
 </ChangeLog>
 <!--External link. supported types are discord, github, youtube, twitch, x, paypal, patreon-->
