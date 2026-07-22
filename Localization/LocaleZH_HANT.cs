@@ -65,6 +65,13 @@ namespace MagicHearse
                     "把兩個勾選框都關掉即可停用模組，而不需要移除它。"
                 },
 
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.MagicResetCemetery)), "Reset when full" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.MagicResetCemetery)),
+                    "**Empties a cemetery** when it's full so it's not blocked with a FULL icon.\n" +
+                    "Magic Clean removes most dead before burial — this still clears any cemetery that's **already full**.\n" +
+                    "Default ON"
+                },
+
                 // Self Manage (FD)
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.FuneralDirector)), "葬禮管理員" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.FuneralDirector)),

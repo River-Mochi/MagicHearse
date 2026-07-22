@@ -66,6 +66,13 @@ namespace MagicHearse
                     "Turn off both checkboxes to disable the mod without removing it."
                 },
 
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.MagicResetCemetery)), "Reset when full" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.MagicResetCemetery)),
+                    "**Empties a cemetery** when it's full so it's not blocked with a FULL icon.\n" +
+                    "Magic Clean removes most dead before burial — this still clears any cemetery that's **already full**.\n" +
+                    "Default ON"
+                },
+
                 // Self Manage (FD)
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.FuneralDirector)), "Funeral Director" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.FuneralDirector)),
@@ -93,12 +100,12 @@ namespace MagicHearse
                     "**100%** = vanilla game default."
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.AutoResetCemetery)), "Auto-empty when full" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.AutoResetCemetery)), "Reset when full" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.AutoResetCemetery)),
-                    "**Empties a cemetery** when it fills up so it's not blocked.\n" +
-                    "Don't need to delete/rebuild old full cemetaries anymore.\n" +
+                    "**Empties a cemetery** when it's full so it's not blocked with a FULL icon above the building.\n" +
+                    "Don't need to delete/rebuild full cemetaries anymore.\n" +
                     "Pairs with the **Cemetery storage** slider: size your cemeteries, then let them recycle so you never have to demolish a full one again.\n" +
-                    "Default ON while **Funeral Director** self manage is active."
+                    "Default ON"
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.HearseSpeedScalar)), "Hearse speed" },

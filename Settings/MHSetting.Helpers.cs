@@ -48,17 +48,20 @@ namespace MagicHearse
             {
                 world.GetOrCreateSystemManaged<FuneralDirectorSystem>()
                     .ScheduleReapply();
+            }
 
-                // Auto-reset scanner only runs while FD is ON; keep it in sync with FD.
+            // Cemetery auto-reset runs in EITHER mode (Magic or FD), so re-sync on any mode change.
+            if (magicChanged || fdChanged)
+            {
                 SyncCemeteryResetSystem(world);
             }
         }
 
-        // Enables the cemetery auto-reset scanner only when FD + AutoReset are both ON.
+        // Enables the cemetery auto-reset scanner whenever a cleanup mode is ON (Magic or FD) + AutoReset.
         private void SyncCemeteryResetSystem(World world)
         {
             world.GetOrCreateSystemManaged<CemeteryResetSystem>().Enabled =
-                m_FuneralDirector && m_AutoResetCemetery;
+                (m_FuneralDirector || m_EnableMagicHearse) && m_AutoResetCemetery;
         }
 
         // Schedules a one-shot FD apply/restore pass when FD is ON; forces Status to refresh next UI poll.

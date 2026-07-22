@@ -119,9 +119,9 @@ namespace MagicHearse
 
             updateSystem.World.GetOrCreateSystemManaged<MagicHearseSystem>().Enabled = setting.EnableMagicHearse;
 
-            // Auto-reset scanner runs only when Funeral Director + AutoReset are both ON.
+            // Auto-reset scanner runs whenever a cleanup mode is ON (Magic OR Funeral Director) + AutoReset.
             updateSystem.World.GetOrCreateSystemManaged<CemeteryResetSystem>().Enabled =
-                setting.FuneralDirector && setting.AutoResetCemetery;
+                (setting.FuneralDirector || setting.EnableMagicHearse) && setting.AutoResetCemetery;
 
             if (setting.FuneralDirector)
             {

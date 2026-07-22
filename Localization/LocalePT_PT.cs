@@ -66,6 +66,13 @@ namespace MagicHearse
                     "Desative as duas caixas para desligar o mod sem o remover."
                 },
 
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.MagicResetCemetery)), "Reset when full" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.MagicResetCemetery)),
+                    "**Empties a cemetery** when it's full so it's not blocked with a FULL icon.\n" +
+                    "Magic Clean removes most dead before burial — this still clears any cemetery that's **already full**.\n" +
+                    "Default ON"
+                },
+
                 // Self Manage (FD)
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.FuneralDirector)), "Diretor funerário" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.FuneralDirector)),

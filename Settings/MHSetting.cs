@@ -100,6 +100,18 @@ namespace MagicHearse
             set => m_EnableMagicHearse = value;
         }
 
+        // Second "view" of the same m_AutoResetCemetery preference (also shown under Funeral Director as
+        // AutoResetCemetery), surfaced here so Magic-Clean users get it too. Magic and FD are mutually
+        // exclusive, so only one of the two views is ever visible at a time.
+        [SettingsUISection(ActionsTab, AutoCleanGrp)]
+        [SettingsUIHideByCondition(typeof(MHSetting), nameof(EnableMagicHearse), true)]
+        [SettingsUISetter(typeof(MHSetting), nameof(SetAutoResetCemetery))]
+        public bool MagicResetCemetery
+        {
+            get => m_AutoResetCemetery;
+            set => m_AutoResetCemetery = value;
+        }
+
         // --------------------------------------------------------------------
         // ACTIONS – SELF MANAGE (FD)
         // --------------------------------------------------------------------

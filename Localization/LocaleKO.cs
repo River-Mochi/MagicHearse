@@ -65,6 +65,13 @@ namespace MagicHearse
                     "두 체크박스를 모두 OFF로 하면, 모드를 제거하지 않고 비활성화할 수 있습니다."
                 },
 
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.MagicResetCemetery)), "Reset when full" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.MagicResetCemetery)),
+                    "**Empties a cemetery** when it's full so it's not blocked with a FULL icon.\n" +
+                    "Magic Clean removes most dead before burial — this still clears any cemetery that's **already full**.\n" +
+                    "Default ON"
+                },
+
                 // Self Manage (FD)
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.FuneralDirector)), "장의사" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.FuneralDirector)),

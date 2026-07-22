@@ -66,6 +66,13 @@ namespace MagicHearse
                     "Tắt cả hai ô chọn để vô hiệu hóa mod mà không cần gỡ mod."
                 },
 
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.MagicResetCemetery)), "Reset when full" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.MagicResetCemetery)),
+                    "**Empties a cemetery** when it's full so it's not blocked with a FULL icon.\n" +
+                    "Magic Clean removes most dead before burial — this still clears any cemetery that's **already full**.\n" +
+                    "Default ON"
+                },
+
                 // Self Manage (FD)
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.FuneralDirector)), "Quản lý dịch vụ tang lễ" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.FuneralDirector)),
