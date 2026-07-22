@@ -11,8 +11,8 @@
 
 namespace MagicHearse
 {
-    using Colossal; // IDictionarySource, IDictionaryEntryError
     using System.Collections.Generic; // IEnumerable, Dictionary, KeyValuePair
+    using Colossal; // IDictionarySource, IDictionaryEntryError
 
     /// <summary>
     /// Italian localization source for Magic Hearse [MH].</summary>
@@ -70,10 +70,10 @@ namespace MagicHearse
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.MagicResetCemetery)), "Reimposta cimitero pieno" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.MagicResetCemetery)),
                     "**Svuota qualsiasi cimitero pieno** affinché non resti bloccato con l’icona PIENO.\n" +
-                    "Pulizia magica rimuove la maggior parte dei corpi prima della sepoltura; questa opzione svuota comunque ogni cimitero **già pieno**.\n" +
-                    "[ ✓ ] Attivo per impostazione predefinita.\n" +
-                    "Se non ci sono cimiteri pieni e Pulizia magica rimane sempre attiva,\n" +
-                    " questa opzione può essere disattivata perché non è necessaria."
+                    "Pulizia magica rimuove la maggior parte dei corpi prima della sepoltura — questa opzione svuota comunque qualsiasi cimitero **già pieno**.\n" +
+                    "<[ ] Disattivata per impostazione predefinita>.\n" +
+                    "Attiva questa opzione solo se la modalità Pulizia magica deve svuotare anche i cimiteri già pieni.\n" +
+                    "Una volta svuotati, normalmente non è necessario lasciare attiva questa opzione finché Pulizia magica resta attiva."
                 },
 
                 // Self Manage (FD)

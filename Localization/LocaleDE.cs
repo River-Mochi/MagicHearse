@@ -11,8 +11,8 @@
 
 namespace MagicHearse
 {
-    using Colossal; // IDictionarySource, IDictionaryEntryError
     using System.Collections.Generic; // IEnumerable, Dictionary, KeyValuePair
+    using Colossal; // IDictionarySource, IDictionaryEntryError
 
     /// <summary>
     /// German localization source for Magic Hearse [MH].</summary>
@@ -70,10 +70,10 @@ namespace MagicHearse
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.MagicResetCemetery)), "Vollen Friedhof zurücksetzen" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.MagicResetCemetery)),
                     "**Leert jeden vollen Friedhof**, damit er nicht durch ein VOLL-Symbol blockiert wird.\n" +
-                    "Die magische Reinigung entfernt die meisten Verstorbenen vor der Beerdigung — diese Option leert trotzdem jeden Friedhof, der **bereits voll** ist.\n" +
-                    "[ ✓ ] Standardmäßig EIN.\n" +
-                    "Wenn volle Friedhöfe kein Problem sind und die magische Reinigung immer aktiviert bleibt,\n" +
-                    " kann diese Option ausgeschaltet werden; sie wird dann nicht benötigt."
+                    "Die magische Reinigung entfernt die meisten Verstorbenen vor der Beerdigung — diese Option leert dennoch jeden Friedhof, der **bereits voll** ist.\n" +
+                    "<[ ] Standardmäßig AUS>.\n" +
+                    "Aktiviere diese Option nur, wenn die magische Reinigung auch bereits volle Friedhöfe leeren soll.\n" +
+                    "Nach dem Leeren muss diese Option normalerweise nicht aktiviert bleiben, solange die magische Reinigung aktiviert bleibt."
                 },
 
                 // Self Manage (FD)

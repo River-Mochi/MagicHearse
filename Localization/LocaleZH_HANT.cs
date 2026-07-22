@@ -11,8 +11,8 @@
 
 namespace MagicHearse
 {
-    using Colossal; // IDictionarySource, IDictionaryEntryError
     using System.Collections.Generic; // IEnumerable, Dictionary, KeyValuePair
+    using Colossal; // IDictionarySource, IDictionaryEntryError
 
     /// <summary>
     /// Traditional Chinese localization source for Magic Hearse [MH].</summary>
@@ -71,9 +71,9 @@ namespace MagicHearse
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.MagicResetCemetery)),
                     "**清空所有已滿墓地**，使其不會被「已滿」圖示阻塞。\n" +
                     "魔法清理會在下葬前移除大多數遺體；此選項仍會清空任何**已經滿員**的墓地。\n" +
-                    "[ ✓ ] 預設開啟。\n" +
-                    "如果沒有已滿墓地、不需要擔心此問題，且魔法清理始終開啟，\n" +
-                    " 則可以關閉此選項，因為不需要使用。"
+                    "<[ ] 預設關閉>。\n" +
+                    "僅在需要魔法清理模式同時清空已經滿員的墓地時，才啟用此選項。\n" +
+                    "清空後，只要魔法清理保持啟用，通常就不需要繼續啟用此選項。"
                 },
 
                 // Self Manage (FD)

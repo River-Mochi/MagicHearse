@@ -72,9 +72,9 @@ namespace MagicHearse
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.MagicResetCemetery)),
                     "**Dọn trống mọi nghĩa trang đã đầy** để không bị chặn bởi biểu tượng ĐẦY.\n" +
                     "Dọn dẹp ma thuật xóa hầu hết thi thể trước khi chôn cất — tùy chọn này vẫn dọn mọi nghĩa trang **đã đầy từ trước**.\n" +
-                    "[ ✓ ] Mặc định BẬT.\n" +
-                    "Nếu không có nghĩa trang đầy, đây không phải vấn đề và dọn dẹp ma thuật luôn được bật,\n" +
-                    " có thể tắt tùy chọn này vì không cần thiết."
+                    "<[ ] Mặc định TẮT>.\n" +
+                    "Chỉ bật tùy chọn này nếu chế độ dọn dẹp ma thuật cũng cần dọn trống các nghĩa trang đã đầy.\n" +
+                    "Sau khi nghĩa trang được dọn trống, thông thường không cần tiếp tục bật tùy chọn này miễn là dọn dẹp ma thuật vẫn được bật."
                 },
 
                 // Self Manage (FD)

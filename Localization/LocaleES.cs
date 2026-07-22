@@ -11,8 +11,8 @@
 
 namespace MagicHearse
 {
-    using Colossal; // IDictionarySource, IDictionaryEntryError
     using System.Collections.Generic; // IEnumerable, Dictionary, KeyValuePair
+    using Colossal; // IDictionarySource, IDictionaryEntryError
 
     /// <summary>
     /// Spanish localization source for Magic Hearse [MH].</summary>
@@ -70,11 +70,11 @@ namespace MagicHearse
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.MagicResetCemetery)), "Restablecer cementerio lleno" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.MagicResetCemetery)),
                     "**Vacía cualquier cementerio lleno** para que no quede bloqueado con el icono LLENO.\n" +
-                    "La limpieza mágica elimina la mayoría de los cadáveres antes del entierro; esta opción también vacía cualquier cementerio que **ya esté lleno**.\n" +
-                    "[ ✓ ] Activado por defecto.\n" +
-                    "Si no hay cementerios llenos y esto no supone un problema, y siempre se deja activada la limpieza mágica,\n" +
-                    " se puede desactivar esta opción porque no hace falta."
-                },
+                    "La limpieza mágica elimina la mayoría de los cadáveres antes del entierro — esta opción también vacía cualquier cementerio que **ya esté lleno**.\n" +
+                    "<[ ] Desactivado por defecto>.\n" +
+                    "Activa esta opción solo si el modo de limpieza mágica también debe vaciar los cementerios que ya estén llenos.\n" +
+                    "Una vez vaciados, normalmente no es necesario mantener esta opción activada mientras la limpieza mágica siga activada."
+                },               
 
                 // Self Manage (FD)
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.FuneralDirector)), "Director funerario" },

@@ -11,8 +11,8 @@
 
 namespace MagicHearse
 {
-    using Colossal; // IDictionarySource, IDictionaryEntryError
     using System.Collections.Generic; // IEnumerable, Dictionary, KeyValuePair
+    using Colossal; // IDictionarySource, IDictionaryEntryError
 
     /// <summary>
     /// Japanese localization source for Magic Hearse [MH].</summary>
@@ -71,9 +71,9 @@ namespace MagicHearse
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.MagicResetCemetery)),
                     "**満杯の墓地をすべて空にし**、「満杯」アイコンで機能停止しないようにします。\n" +
                     "魔法クリーンは埋葬前にほとんどの遺体を削除しますが、この設定は**すでに満杯**の墓地も空にします。\n" +
-                    "[ ✓ ] 既定でON。\n" +
-                    "満杯の墓地がなく、魔法クリーンを常にONにしている場合は、\n" +
-                    " この設定は不要なのでOFFにできます。"
+                    "<[ ] 既定でOFF>。\n" +
+                    "魔法クリーンモードですでに満杯の墓地も空にしたい場合にのみ有効にしてください。\n" +
+                    "いったん空にすれば、魔法クリーンを有効にしたままである限り、通常はこの設定を有効にしておく必要はありません。"
                 },
 
                 // Self Manage (FD)

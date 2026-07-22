@@ -11,8 +11,8 @@
 
 namespace MagicHearse
 {
-    using Colossal; // IDictionarySource, IDictionaryEntryError
     using System.Collections.Generic; // IEnumerable, Dictionary, KeyValuePair
+    using Colossal; // IDictionarySource, IDictionaryEntryError
 
     /// <summary>
     /// Korean localization source for Magic Hearse [MH].</summary>
@@ -71,9 +71,9 @@ namespace MagicHearse
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.MagicResetCemetery)),
                     "**가득 찬 모든 묘지를 비워** 가득 참 아이콘으로 운영이 중단되지 않게 합니다.\n" +
                     "마법 정리는 매장 전에 대부분의 시신을 제거하지만, 이 설정은 **이미 가득 찬** 묘지도 비웁니다.\n" +
-                    "[ ✓ ] 기본값 ON.\n" +
-                    "가득 찬 묘지가 없고 마법 정리를 항상 켜 두는 경우에는\n" +
-                    " 필요하지 않으므로 이 설정을 OFF로 바꿔도 됩니다."
+                    "<[ ] 기본값 OFF>.\n" +
+                    "마법 정리 모드에서도 이미 가득 찬 묘지를 비우려는 경우에만 이 설정을 켜세요.\n" +
+                    "한번 비운 뒤에는 마법 정리를 계속 켜 두는 한, 일반적으로 이 설정을 계속 켜 둘 필요가 없습니다."
                 },
 
                 // Self Manage (FD)

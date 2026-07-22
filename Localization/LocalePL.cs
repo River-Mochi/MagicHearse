@@ -11,8 +11,8 @@
 
 namespace MagicHearse
 {
-    using Colossal; // IDictionarySource, IDictionaryEntryError
     using System.Collections.Generic; // IEnumerable, Dictionary, KeyValuePair
+    using Colossal; // IDictionarySource, IDictionaryEntryError
 
     /// <summary>
     /// Polish localization source for Magic Hearse [MH].</summary>
@@ -70,10 +70,10 @@ namespace MagicHearse
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.MagicResetCemetery)), "Resetuj pełny cmentarz" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.MagicResetCemetery)),
                     "**Opróżnia każdy pełny cmentarz**, aby nie był zablokowany ikoną PEŁNY.\n" +
-                    "Magiczne czyszczenie usuwa większość ciał przed pochówkiem — ta opcja opróżnia także każdy cmentarz, który **jest już pełny**.\n" +
-                    "[ ✓ ] Domyślnie WŁ.\n" +
-                    "Jeśli nie ma pełnych cmentarzy, nie stanowi to problemu i magiczne czyszczenie jest zawsze włączone,\n" +
-                    " tę opcję można wyłączyć, ponieważ nie jest potrzebna."
+                    "Magiczne czyszczenie usuwa większość ciał przed pochówkiem — ta opcja opróżnia również każdy cmentarz, który **jest już pełny**.\n" +
+                    "<[ ] Domyślnie WYŁ.>.\n" +
+                    "Włącz tę opcję tylko wtedy, gdy tryb magicznego czyszczenia ma również opróżniać cmentarze, które są już pełne.\n" +
+                    "Po opróżnieniu zwykle nie trzeba pozostawiać tej opcji włączonej, dopóki magiczne czyszczenie pozostaje włączone."
                 },
 
                 // Self Manage (FD)

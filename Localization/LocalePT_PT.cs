@@ -72,9 +72,9 @@ namespace MagicHearse
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.MagicResetCemetery)),
                     "**Esvazia qualquer cemitério cheio** para que não fique bloqueado com o ícone CHEIO.\n" +
                     "A limpeza mágica remove a maioria dos corpos antes do enterro — esta opção continua a esvaziar qualquer cemitério que **já esteja cheio**.\n" +
-                    "[ ✓ ] ATIVADO por predefinição.\n" +
-                    "Se não houver cemitérios cheios, isto não for uma preocupação e a limpeza mágica ficar sempre ativa,\n" +
-                    " pode desativar esta opção, pois não é necessária."
+                    "<[ ] DESATIVADO por predefinição>.\n" +
+                    "Ative esta opção apenas se pretender que o modo de limpeza mágica também esvazie cemitérios que já estejam cheios.\n" +
+                    "Depois de esvaziados, normalmente não é necessário manter esta opção ativada enquanto a limpeza mágica permanecer ativa."
                 },
 
                 // Self Manage (FD)
