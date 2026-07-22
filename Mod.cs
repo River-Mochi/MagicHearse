@@ -96,11 +96,13 @@ namespace MagicHearse
                     localizationManager.AddSource("it-IT", new LocaleIT(setting));
                     localizationManager.AddSource("ja-JP", new LocaleJA(setting));
                     localizationManager.AddSource("ko-KR", new LocaleKO(setting));
-                    localizationManager.AddSource("zh-HANS", new LocaleZH_CN(setting));
                     localizationManager.AddSource("pl-PL", new LocalePL(setting));
                     localizationManager.AddSource("pt-BR", new LocalePT_BR(setting));
+                    localizationManager.AddSource("zh-HANS", new LocaleZH_CN(setting));
                     localizationManager.AddSource("zh-HANT", new LocaleZH_HANT(setting));
+                    // next are locales not officially supported, languages mods needed to use these.
                     localizationManager.AddSource("pt-PT", new LocalePT_PT(setting));
+                    localizationManager.AddSource("th-TH", new LocaleTH(setting));
                     localizationManager.AddSource("uk-UA", new LocaleUK(setting));
                     localizationManager.AddSource("vi-VN", new LocaleVI(setting));
                 }
