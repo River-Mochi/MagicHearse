@@ -8,65 +8,65 @@
 <!--Long description of the mod. Single line or multi line. Supports minimal markdown subset-->
 <!--LongDescription Value="This is a long description" /-->
 <LongDescription>
-**Magic Hearse + Funeral Director** does not turn off deathcare loop; normal vanilla deathcare systems run. See below for details.
+    **Magic Hearse + Funeral Director** does not turn off deathcare loop; normal vanilla deathcare systems run. See below for details.
 
-- Control Crematoriums and Cemeteries without in-city bloat that reduces performance.
-- Cemetery overflow is handled - no stuck full cemeteries.
-- Choose if you want to self-manage with all your own settings for Processing rate, number of hearses, or Capacity of Cemeteries, and more.
-- or if you prefer auto-clean of death notices.
-- Status report can be used with no other functions enabled! It is Worth checking out!
+    - Control Crematoriums and Cemeteries without in-city bloat that reduces performance.
+    - Cemetery overflow is handled - no stuck full cemeteries.
+    - Choose if you want to self-manage with all your own settings for Processing rate, number of hearses, or Capacity of Cemeteries, and more.
+    - or if you prefer auto-clean of death notices.
+    - Status report can be used with no other functions enabled! It is Worth checking out!
 
-### Option 1: Funeral Director (Self manage)
+    ### Option 1: Funeral Director (Self manage)
 
-Adjust Buildings:
+    Adjust Buildings:
 
-- Processing rate (crematoriums)
-- Fleet size (max hearses per facility)
-- Cemetery storage multiplier
-- Hearse speed (pedal to the metal)
-- Change number of Max Workers.
-- Compatibility Toggle ✅ turn OFF workers if you prefer to use ConfigXML mod or other mod for death worker numbers.
-- Funeral Director does not run per-frame; sliders make changes, then mod goes idle, basically no city impact.
+    - Processing rate (crematoriums)
+    - Fleet size (max hearses per facility)
+    - Cemetery storage multiplier
+    - Hearse speed (pedal to the metal)
+    - Change number of Max Workers.
+    - Compatibility Toggle ✅ turn OFF workers if you prefer to use ConfigXML mod or other mod for death worker numbers.
+    - Funeral Director does not run per-frame; sliders make changes, then mod goes idle, basically no city impact.
 
-### Option 2: Automatic
+    ### Option 2: Automatic
 
-- Removes corpses if they are waiting for a hearse.
-- Great for death-waves and notification spam. Lightweight design for best city performance.
-- This does not turn off death system, it's just a faster clear of death notices.
+    - Removes corpses if they are waiting for a hearse.
+    - Great for death-waves and notification spam. Lightweight design for best city performance.
+    - This does not turn off death system, it's just a faster clear of death notices.
 
-## Bonus Status Report
-- All major death stats - finally we know how many are Dead!!
-- Scan only happens in the Options menu or when a slider is used (lightweight, no city per-frame impact).
+    ## Bonus Status Report
+    - All major death stats - finally we know how many are Dead!!
+    - Scan only happens in the Options menu or when a slider is used (lightweight, no city per-frame impact).
 
-## Features
-- Toggle on/off without restarting the game.
-- Safe to remove any time. Uncheck both boxes to disable everything.
-- Disable other hearse mods to avoid conflicts!
-- Use either Auto-clean OR Self-manage (mutually exclusive).
-- No Harmony (more reliable on patch days).
+    ## Features
+    - Toggle on/off without restarting the game.
+    - Safe to remove any time. Uncheck both boxes to disable everything.
+    - Disable other hearse mods to avoid conflicts!
+    - Use either Auto-clean OR Self-manage (mutually exclusive).
+    - No Harmony (more reliable on patch days).
 
-## Support and Feedback
-- If the mod works for you, give it a Like! It's free!
-- Feedback: GitHub or Discord links on the right.
+    ## Support and Feedback
+    - If the mod works for you, give it a Like! It's free!
+    - Feedback: GitHub or Discord links on the right.
 
-## Credits
-- River-Mochi: author
-- Inspired by Wayz's original Magical Hearse (retired)
-- yenyang: technical consultant
-- Toud: Polish translation review
-- StarQ: tech advisory
-- Obelix, Toud, Necko1996: release testing, screenshots
+    ## Credits
+    - River-Mochi: author
+    - Inspired by Wayz's original Magical Hearse (retired)
+    - yenyang: technical consultant
+    - Toud: Polish translation review
+    - StarQ: tech advisory
+    - Obelix, Toud, Necko1996: release testing, screenshots
 
-### 13+ Languages
-Hello, Bonjour, Hallo, Hola, Ciao, こんにちは, 안녕하세요, 你好, 你好, Cześć, Olá, Привіт, Xin chào
+    ### 13+ Languages
+    Hello, Bonjour, Hallo, Hola, Ciao, こんにちは, 안녕하세요, 你好, Cześć, Olá, Привіт, Xin chào, สวัสดี
 
-## How it works
+    ## How it works
 
-- Magic mode ✅ if the citizen is flagged as dead and needs transport, it's cleaned up. Looks like magic but the secret is flags.
-- Mod does not stop death - it's just very fast corpse cleanup.
-- Safe removal: if you use Auto-Magic, nothing persists - done. If you used sliders, set sliders to 100% and uncheck Funeral Director, save city one time (fastest reset).
-- Bonus: disable all checkboxes ✅, turns off all mod death work, and still see real Status reports in the Options menu.
-- Status only works when inside the menu; no performance impact to in-game city.
+    - Magic mode ✅ if the citizen is flagged as dead and needs transport, it's cleaned up. Looks like magic but the secret is flags.
+    - Mod does not stop death - it's just very fast corpse cleanup.
+    - Safe removal: if you use Auto-Magic, nothing persists - done. If you used sliders, set sliders to 100% and uncheck Funeral Director, save city one time (fastest reset).
+    - Bonus: disable all checkboxes ✅, turns off all mod death work, and still see real Status reports in the Options menu.
+    - Status only works when inside the menu; no performance impact to in-game city.
 
 </LongDescription>
 <!--Thumbnail-->
@@ -89,8 +89,8 @@ Hello, Bonjour, Hallo, Hola, Ciao, こんにちは, 안녕하세요, 你好, 你
 <!--Change log for new version. Single line or multi line. Supports minimal markdown subset-->
 <ChangeLog>
 - Added Thai language.
-- Adds reset for cemeteries also to magic mode (already in funeral director mode).
-- Option settings to save instantly.
+- Added reset for cemeteries also to magic mode (already in self-managed mode).
+- Recent important update earlier this week: Option settings to save instantly.
 </ChangeLog>
 <!--External link. supported types are discord, github, youtube, twitch, x, paypal, patreon-->
 <ExternalLink Type="github" Url="https://github.com/River-Mochi/MagicHearse" />

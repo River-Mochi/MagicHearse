@@ -61,6 +61,7 @@ Performance note: status scanning happens **only while Options is open** (refres
 15 languages supported:
 - Français, Deutsch, Español, Italiano, English
 - 日本語, 한국어, Polski, Português (Brasil), 简体中文, 繁體中文
+- Português (Portugal), Українська, Tiếng Việt, ไทย
 
 ---
 
