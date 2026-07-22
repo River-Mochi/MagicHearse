@@ -143,7 +143,7 @@ namespace MagicHearse
         [SettingsUISetter(typeof(MHSetting), nameof(SetStorageScalar))]
         public int StorageScalar { get; set; } = kDefaultPercent;
 
-        // Instance-level companion to the Cemetery storage slider: empties a placed
+        // Instance-level companion to Cemetery storage slider: empties a placed
         // cemetery back to 0 the moment the game flags it full. Independent of capacity,
         // so both can be used together.
         [SettingsUISection(ActionsTab, SelfManageGrp)]

@@ -88,10 +88,9 @@ Hello, Bonjour, Hallo, Hola, Ciao, こんにちは, 안녕하세요, 你好, 你
 <Dependency Id="" />
 <!--Change log for new version. Single line or multi line. Supports minimal markdown subset-->
 <ChangeLog>
-- Added languages Vietnamese, Ukrainian, Portuguese Portugal.
-- Settings now save in a standard MagicHearse folder.
+- Added Thai language.
+- Adds reset for cemeteries also to magic mode (already in Funeral Director mode).
 - Option settings to save instantly.
-- The defaults button saves immediately.
 </ChangeLog>
 <!--External link. supported types are discord, github, youtube, twitch, x, paypal, patreon-->
 <ExternalLink Type="github" Url="https://github.com/River-Mochi/MagicHearse" />
