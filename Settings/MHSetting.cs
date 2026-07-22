@@ -76,9 +76,12 @@ namespace MagicHearse
         // Default OFF to avoid surprise conflicts with ConfigXML or other building mods.
         private bool m_ControlWorkers;
 
-        // Cemetery auto-reset is a sub-toggle inside FD.
-        // Default ON so full cemeteries self-empty as soon as FD is enabled.
+        // Cemetery auto-reset under Funeral Director. Default ON.
         private bool m_AutoResetCemetery = true;
+
+        // Cemetery auto-reset under Magic Clean. Its OWN field with a different default (OFF): Magic Clean
+        // removes corpses before burial so cemeteries rarely fill -- opt in there only if you need it.
+        private bool m_MagicResetCemetery;
 
         public MHSetting(IMod mod)
             : base(mod)
@@ -100,16 +103,14 @@ namespace MagicHearse
             set => m_EnableMagicHearse = value;
         }
 
-        // Second "view" of the same m_AutoResetCemetery preference (also shown under Funeral Director as
-        // AutoResetCemetery), surfaced here so Magic-Clean users get it too. Magic and FD are mutually
-        // exclusive, so only one of the two views is ever visible at a time.
+        // Magic Clean's own cemetery-reset toggle -- independent of the FD one, and OFF by default.
         [SettingsUISection(ActionsTab, AutoCleanGrp)]
         [SettingsUIHideByCondition(typeof(MHSetting), nameof(EnableMagicHearse), true)]
-        [SettingsUISetter(typeof(MHSetting), nameof(SetAutoResetCemetery))]
+        [SettingsUISetter(typeof(MHSetting), nameof(SetMagicResetCemetery))]
         public bool MagicResetCemetery
         {
-            get => m_AutoResetCemetery;
-            set => m_AutoResetCemetery = value;
+            get => m_MagicResetCemetery;
+            set => m_MagicResetCemetery = value;
         }
 
         // --------------------------------------------------------------------
@@ -304,7 +305,8 @@ namespace MagicHearse
             m_FuneralDirector = false;
 
             m_ControlWorkers = false;
-            m_AutoResetCemetery = true;
+            m_AutoResetCemetery = true;    // FD cemetery reset: ON
+            m_MagicResetCemetery = false;  // Magic cemetery reset: OFF (opt-in)
 
             ProcScalar = kDefaultPercent;
             FleetScalar = kDefaultPercent;

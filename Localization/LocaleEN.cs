@@ -62,21 +62,24 @@ namespace MagicHearse
                 // Auto Clean (magic)
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.EnableMagicHearse)), "Enable Magic Clean" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.EnableMagicHearse)),
-                    "**Auto removes dead citizens** that are waiting for a hearse.\n" +
-                    "Turn off both checkboxes to disable the mod without removing it."
+                    "Auto removes dead corpses that require transport (hearse).\n" +
+                    "Enable auto magic system is mutually exclusive with self-manage, pick one or the other.\n"+
+                    "Turn off all checkboxes to disable the mod without removing it."
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.MagicResetCemetery)), "Reset when full" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.MagicResetCemetery)), "Reset full cemeteries" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.MagicResetCemetery)),
-                    "**Empties a cemetery** when it's full so it's not blocked with a FULL icon.\n" +
-                    "Magic Clean removes most dead before burial — this still clears any cemetery that's **already full**.\n" +
-                    "Default ON"
+                    "**Empties any full cemetery** so it's not blocked with a FULL icon.\n" +
+                    "Magic Clean removes most corpses before burial — this still clears any cemetery that's **already full**.\n" +
+                    "[ ✓ ] Default ON.\n" +
+                    "If you don't have any full cemeteries and this is not a concern; you always leave magic clean on,\n" +
+                    " then you could turn this off, there is no need."
                 },
 
                 // Self Manage (FD)
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.FuneralDirector)), "Funeral Director" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.FuneralDirector)),
-                    "Self manage everything.\n" +
+                    "Self manage and optimize normal game death systems.\n" +
                     "**Scale values:** rate, fleet, storage.\n" +
                     "Optional: **increase workers** too."
                 },
@@ -91,7 +94,7 @@ namespace MagicHearse
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.FleetScalar)),
                     "**Maximum hearses** per facility.\n" +
                     "**100%** = vanilla game default.\n" +
-                    "**[o_o]** Too many hearses may affect traffic depending on death rate."
+                    "**[Note]** Too many hearses may affect traffic depending on death rate."
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StorageScalar)), "Cemetery storage" },
@@ -100,22 +103,22 @@ namespace MagicHearse
                     "**100%** = vanilla game default."
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.AutoResetCemetery)), "Reset when full" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.AutoResetCemetery)), "Reset full cemetery" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.AutoResetCemetery)),
                     "**Empties a cemetery** when it's full so it's not blocked with a FULL icon above the building.\n" +
-                    "Don't need to delete/rebuild full cemetaries anymore.\n" +
+                    "No need to delete and rebuild full cemetaries anymore.\n" +
                     "Pairs with the **Cemetery storage** slider: size your cemeteries, then let them recycle so you never have to demolish a full one again.\n" +
-                    "Default ON"
+                    "<[ ✓ ] Default ON>"
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.HearseSpeedScalar)), "Hearse speed" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.HearseSpeedScalar)),
-                    "**Increases hearse max speed**.\n" +
+                    "**Increases hearse maximum allowed driving speed**.\n" +
                     "**100%** = vanilla game default.\n" +
                     "<Road speed limits still apply>.\n\n" +
                     "Also scales acceleration/braking (gentle) so the new top speed does not create extreme launch/stop behavior.\n" +
-                    "Note: even if the hearse’s max speed is increased, its actual driving speed is basically:\n" +
-                    "(vehicle max, road speed limit, AI safe speed, traffic)"
+                    "Note: even if the hearse’s max speed is increased, its actual driving speed is influenced by:\n" +
+                    "vehicle max allowed, road speed limit, Game's own AI safe speed (curves, road damage), and traffic."
 
                 },
 

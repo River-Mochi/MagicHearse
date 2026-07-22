@@ -62,73 +62,66 @@ namespace MagicHearse
                 // Auto Clean (magic)
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.EnableMagicHearse)), "Bật dọn dẹp ma thuật" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.EnableMagicHearse)),
-                    "**Tự động xóa cư dân đã chết** đang chờ xe tang.\\n" +
+                    "**Tự động xóa cư dân đã chết** đang chờ xe tang.\n" +
                     "Tắt cả hai ô chọn để vô hiệu hóa mod mà không cần gỡ mod."
-                },
-
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.MagicResetCemetery)), "Reset when full" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.MagicResetCemetery)),
-                    "**Empties a cemetery** when it's full so it's not blocked with a FULL icon.\n" +
-                    "Magic Clean removes most dead before burial — this still clears any cemetery that's **already full**.\n" +
-                    "Default ON"
                 },
 
                 // Self Manage (FD)
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.FuneralDirector)), "Quản lý dịch vụ tang lễ" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.FuneralDirector)),
-                    "Tự quản lý mọi thứ.\\n" +
-                    "**Điều chỉnh hệ số:** tốc độ, đội xe, sức chứa.\\n" +
+                    "Tự quản lý mọi thứ.\n" +
+                    "**Điều chỉnh hệ số:** tốc độ, đội xe, sức chứa.\n" +
                     "Tùy chọn: cũng có thể **tăng số nhân công**."
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.ProcScalar)), "Tốc độ xử lý" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.ProcScalar)),
-                    "**Tốc độ xử lý của cơ sở** (hỏa táng)\\n" +
+                    "**Tốc độ xử lý của cơ sở** (hỏa táng)\n" +
                     "**100%** = mặc định của game gốc."
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.FleetScalar)), "Quy mô đội xe" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.FleetScalar)),
-                    "**Số xe tang tối đa** cho mỗi cơ sở.\\n" +
-                    "**100%** = mặc định của game gốc.\\n" +
+                    "**Số xe tang tối đa** cho mỗi cơ sở.\n" +
+                    "**100%** = mặc định của game gốc.\n" +
                     "**[o_o]** Quá nhiều xe tang có thể ảnh hưởng giao thông, tùy theo tỷ lệ tử vong."
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StorageScalar)), "Sức chứa nghĩa trang" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StorageScalar)),
-                    "**Sức chứa của tòa nhà nghĩa trang chính**.\\n" +
+                    "**Sức chứa của tòa nhà nghĩa trang chính**.\n" +
                     "**100%** = mặc định của game gốc."
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.AutoResetCemetery)), "Tự dọn khi đầy" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.AutoResetCemetery)),
-                    "**Tự động dọn trống nghĩa trang** ngay khi đầy.\\n" +
-                    "Số phần mộ đang dùng được đặt lại về 0 — giống như xây lại, nhưng tức thì và tự động.\\n" +
-                    "Kết hợp với thanh trượt **Sức chứa nghĩa trang**: đặt quy mô nghĩa trang rồi để chúng tái sử dụng, nên không cần phá nghĩa trang đã đầy.\\n" +
+                    "**Tự động dọn trống nghĩa trang** ngay khi đầy.\n" +
+                    "Số phần mộ đang dùng được đặt lại về 0 — giống như xây lại, nhưng tức thì và tự động.\n" +
+                    "Kết hợp với thanh trượt **Sức chứa nghĩa trang**: đặt quy mô nghĩa trang rồi để chúng tái sử dụng, nên không cần phá nghĩa trang đã đầy.\n" +
                     "Mặc định BẬT khi **Quản lý dịch vụ tang lễ** đang hoạt động."
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.HearseSpeedScalar)), "Tốc độ xe tang" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.HearseSpeedScalar)),
-                    "**Tăng tốc độ tối đa của xe tang**.\\n" +
-                    "**100%** = mặc định của game gốc.\\n" +
-                    "<Giới hạn tốc độ đường vẫn áp dụng>.\\n\\n" +
-                    "Đồng thời điều chỉnh nhẹ gia tốc và phanh để tốc độ tối đa mới không gây tăng tốc hoặc dừng quá gắt.\\n" +
-                    "Lưu ý: dù tốc độ tối đa của xe tang được tăng, tốc độ chạy thực tế về cơ bản vẫn phụ thuộc vào:\\n" +
+                    "**Tăng tốc độ tối đa của xe tang**.\n" +
+                    "**100%** = mặc định của game gốc.\n" +
+                    "<Giới hạn tốc độ đường vẫn áp dụng>.\n\n" +
+                    "Đồng thời điều chỉnh nhẹ gia tốc và phanh để tốc độ tối đa mới không gây tăng tốc hoặc dừng quá gắt.\n" +
+                    "Lưu ý: dù tốc độ tối đa của xe tang được tăng, tốc độ chạy thực tế về cơ bản vẫn phụ thuộc vào:\n" +
                     "(tốc độ tối đa của xe, giới hạn đường, tốc độ an toàn của AI, giao thông)"
                 },
 
                 // Workers compatibility toggle
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.ControlWorkers)), "Điều khiển nhân công tối đa" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.ControlWorkers)),
-                    "Chế độ tương thích:\\n" +
-                    "**Bật [✓]** để tăng số nhân công.\\n" +
+                    "Chế độ tương thích:\n" +
+                    "**Bật [✓]** để tăng số nhân công.\n" +
                     "**[o_o]** Để TẮT nếu muốn **ConfigXML** hoặc mod khác điều khiển nhân công dịch vụ tang lễ."
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.WorkersScalar)), "Nhân công tối đa" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.WorkersScalar)),
-                    "**Tăng số nhân công tối đa** được phép.\\n" +
+                    "**Tăng số nhân công tối đa** được phép.\n" +
                     "**100%** = mặc định của game gốc."
                 },
 
@@ -144,19 +137,19 @@ namespace MagicHearse
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusSummary2)), "Số lượng" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StatusSummary2)),
-                    "**Tổng theo tháng** từ thống kê game.\\n" +
-                    "**Hỏa táng tối đa/tháng** = mục Xử lý/tháng trong bảng thông tin của game.\\n" +
+                    "**Tổng theo tháng** từ thống kê game.\n" +
+                    "**Hỏa táng tối đa/tháng** = mục Xử lý/tháng trong bảng thông tin của game.\n" +
                     "Đây là số thi thể tối đa mà các lò hỏa táng có thể xử lý mỗi tháng."
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusSummary3)), "Cơ sở" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StatusSummary3)),
-                    "**Công suất hoạt động của công trình:** tổng xe tang, công trình và nhân công tối đa.\\n\\n" +
-                    "**Ghi chú:**\\n" +
-                    "▪ Xe tang: đang hoạt động, không đỗ / (Tổng* xe tang)\\n" +
-                    "▪ *Tổng xe tang:\\n" +
-                    "== bao gồm xe tang đang bảo trì (ví dụ: ngân sách dịch vụ thấp), \\n" +
-                    "== không bao gồm xe tang của công trình bị tắt.\\n" +
+                    "**Công suất hoạt động của công trình:** tổng xe tang, công trình và nhân công tối đa.\n\n" +
+                    "**Ghi chú:**\n" +
+                    "▪ Xe tang: đang hoạt động, không đỗ / (Tổng* xe tang)\n" +
+                    "▪ *Tổng xe tang:\n" +
+                    "== bao gồm xe tang đang bảo trì (ví dụ: ngân sách dịch vụ thấp), \n" +
+                    "== không bao gồm xe tang của công trình bị tắt.\n" +
                     "▪ Quét trạng thái chỉ chạy khi menu Tùy chọn đang mở (hoặc khi dùng thanh trượt); " +
                     "không chạy mỗi khung hình trong thành phố, nên gần như không ảnh hưởng hiệu năng :)"
                 },
@@ -173,8 +166,8 @@ namespace MagicHearse
                 // Cemetery reset tally (session status; row + named list below Assets)
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusSummary4)), "Nghĩa trang" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StatusSummary4)),
-                    "**Nghĩa trang được tự động dọn trong phiên này** bằng tùy chọn Tự dọn khi đầy.\\n" +
-                    "Hiển thị tổng số lần đặt lại và số nghĩa trang khác nhau.\\n" +
+                    "**Nghĩa trang được tự động dọn trong phiên này** bằng tùy chọn Tự dọn khi đầy.\n" +
+                    "Hiển thị tổng số lần đặt lại và số nghĩa trang khác nhau.\n" +
                     "Xóa khi khởi động lại hoặc khi đổi thành phố."
                 },
 
