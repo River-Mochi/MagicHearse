@@ -70,7 +70,7 @@ namespace MagicHearse
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.MagicResetCemetery)), "Reset full cemetery" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.MagicResetCemetery)),
-                    "**Empties any full cemetery** so it's not blocked with a FULL icon.\n" +
+                    "**Empties a full cemetery** so it's not blocked with a FULL icon.\n" +
                     "Magic Clean removes most corpses before burial — this still clears any cemetery that's **already full**.\n" +
                     "<[ ] Default OFF>.\n" +
                     "Enable this only if Magic clean mode should also empty cemeteries that are already full.\n" +
@@ -106,9 +106,10 @@ namespace MagicHearse
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.AutoResetCemetery)), "Reset full cemetery" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.AutoResetCemetery)),
-                    "**Empties a cemetery** when it's full so it's not blocked with a FULL icon above the building.\n" +
+                    "**Empties a full cemetery** so it's not blocked with a FULL icon above the building.\n" +
                     "No need to delete and rebuild full cemeteries anymore.\n" +
-                    "Pairs with the **Cemetery storage** slider: size your cemeteries, then let them recycle so you never have to demolish a full one again.\n" +
+                    "Pairs with the **Cemetery storage** slider: size your cemeteries,\n" +
+                    "then let them recycle the land so you never have to demolish a full one again.\n" +
                     "<[ ✓ ] Default ON>"
                 },
 
