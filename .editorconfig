@@ -1,4 +1,4 @@
-# File: .editorconfig version 0.6.4
+# File: .editorconfig version 0.6.5
 # Purpose:
 #   - Consistent whitespace + LF line endings across normal repo files.
 #   - CRLF for classic Visual Studio .sln files.
@@ -63,6 +63,9 @@ trim_trailing_whitespace = false
 # C# files
 # =========================
 [*.cs]
+# Public CS2 settings members are reflection entry points.
+dotnet_code_quality.CA1822.api_surface = private, internal
+
 # Sort usings without adding blank lines between namespace groups.
 dotnet_sort_system_directives_first = true
 dotnet_separate_import_directive_groups = false
