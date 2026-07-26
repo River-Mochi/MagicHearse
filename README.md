@@ -1,4 +1,4 @@
-# Magic Hearse + Funeral Director + HR Dept + Status Report
+# Magic Hearse + Funeral Director
 
 > Two modes:
 > **Auto Clean** removes dead citizens instantly, or
