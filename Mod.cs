@@ -131,7 +131,7 @@ namespace MagicHearse
             }
         }
 
-        private static void MigrateLegacySettingsFile()
+        private static void MigrateLegacySettingsFile( )
         {
             try
             {
@@ -157,7 +157,7 @@ namespace MagicHearse
                 // Two files are ambiguous. Do not overwrite either one automatically.
                 if (File.Exists(correctLocation))
                 {
-                    LogUtils.Warn(() =>
+                    LogUtils.Warn(( ) =>
                         "Both legacy and standard MagicHearse settings files exist; migration was skipped.");
                     return;
                 }
@@ -199,7 +199,7 @@ namespace MagicHearse
                 {
                     // Moving only the physical file would leave the game's in-memory
                     // settings entry pointed at the old location.
-                    LogUtils.Warn(() =>
+                    LogUtils.Warn(( ) =>
                         "Legacy MagicHearse settings file was found, but its Asset Database entry was not found. Migration was skipped.");
                     return;
                 }
@@ -213,20 +213,35 @@ namespace MagicHearse
                 // physical path to the new physical path for this running session.
                 dataSource.DeleteEntryFromDatabase(oldGuid);
                 dataSource.AddEntryFromDatabase(
-                    AssetDataPath.Create(
-                        $"ModsSettings/{ModId}/{ModId}.coc",
-                        EscapeStrategy.None),
-                    typeof(SettingAsset),
-                    oldGuid);
+                    AssetDataPath.Create($"ModsSettings/{ModId}/{ModId}.coc", EscapeStrategy.None),
+                    typeof(SettingAsset), oldGuid);
 
-                LogUtils.Info(() =>
-                    "Migrated settings to ModsSettings/MagicHearse/MagicHearse.coc.");
+                SourceMeta remappedMeta = dataSource.GetMeta(oldGuid);
+
+                bool newFileExists = File.Exists(correctLocation);
+                bool oldFileRemoved = !File.Exists(oldLocation);
+                bool pathRemapped =
+                    !string.IsNullOrEmpty(remappedMeta.path) &&
+                    string.Equals(
+                        Path.GetFullPath(remappedMeta.path),
+                        Path.GetFullPath(correctLocation),
+                        StringComparison.OrdinalIgnoreCase);
+
+                if (newFileExists && oldFileRemoved && pathRemapped)
+                {
+                    LogUtils.Info(( ) =>
+                        "Migrated settings to ModsSettings/MagicHearse/MagicHearse.coc.");
+                }
+                else
+                {
+                    LogUtils.Warn(( ) =>
+                        $"Settings migration could not be fully verified: " +
+                        $"new file={newFileExists}, old removed={oldFileRemoved}, GUID remapped={pathRemapped}.");
+                }
             }
             catch (Exception ex)
             {
-                // Migration failure must not prevent the mod from loading.
-                LogUtils.Warn(() =>
-                    $"Settings migration failed: {ex.GetType().Name}: {ex.Message}");
+                LogUtils.Warn(() => $"Settings migration failed: {ex.GetType().Name}: {ex.Message}");
             }
         }
 

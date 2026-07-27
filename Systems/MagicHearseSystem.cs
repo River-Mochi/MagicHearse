@@ -8,10 +8,6 @@
 
 // File: Systems/MagicHearseSystem.cs
 // Purpose: Removes dead citizens that are waiting for transport.
-// Notes:
-// - Uses a simple ECS chunk job.
-// - Update interval throttles execution to avoid spikes.
-// - Guaranteed to eventually clean all eligible citizens.
 
 namespace MagicHearse
 {
