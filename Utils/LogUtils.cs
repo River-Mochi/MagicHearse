@@ -35,12 +35,13 @@
 //   Lazy message construction:  LogUtils.Debug(() => $"message {value}");
 //   Warn once:                  LogUtils.WarnOnce("key", () => "message");
 //
-// Simple string overloads are easiest to read.
-// Func<string> overloads build the message only after the log-level check.
-// In update/render/entity loops, log only rare or throttled events.
-// Lazy messages: used in hot paths, i.e., OnUpdate, rendering, tool hover, entity loops.
+// Simple string overloads are easiest for one-time messages.
+// Func<string> delays message construction until after the log-level check.
+// It does not throttle: every enabled call still appends to the file.
+// In update/render/entity loops, log only rare or throttled events (this is dangerous).
 // Use WarnOnce or another throttle for messages that could repeat.
-// Helper methods cover Info/Warn/Error/Debug/Trace; TryLog accepts any Colossal/CS2 Level.
+// Helpers cover Info/Warn/Error/Debug/Trace/Verbose.
+// TryLog accepts Critical/Fatal/Emergency or another Colossal Level.
 
 namespace CS2Shared.RiverMochi
 {
@@ -58,13 +59,13 @@ namespace CS2Shared.RiverMochi
         private static readonly HashSet<string> s_WarnOnceKeys = new(StringComparer.Ordinal);
 
         // Safety cap only; the HashSet starts empty and grows as unique WarnOnce keys are used.
-        private const int kMaxWarnOnceKeys = 2048; 
+        private const int kMaxWarnOnceKeys = 2048;
 
         // Used only if the passed ILog is null or its metadata throws during early startup/shutdown.
         private static string s_FallbackLogName = string.Empty;
 
         // Optional default logger for short calls such as LogUtils.Info("message").
-        // It is remembered when a mod calls Configure("kModId", s_Log) or SetDefaultLog(s_Log).
+        // It is remembered when a mod calls Configure(kModId, s_Log) or SetDefaultLog(s_Log).
         private static ILog? s_DefaultLog = null;
 
         // Optional one-time setup: pass your mod id so fallback writes can still find kModName.log.
@@ -224,6 +225,30 @@ namespace CS2Shared.RiverMochi
             TryLog(log, Level.Trace, messageFactory);
         }
 
+        // Simple verbose log.
+        public static void Verbose(string message)
+        {
+            TryLog(s_DefaultLog, Level.Verbose, () => message);
+        }
+
+        // Simple verbose log with explicit logger.
+        public static void Verbose(ILog? log, string message)
+        {
+            TryLog(log, Level.Verbose, () => message);
+        }
+
+        // Lazy verbose log.
+        public static void Verbose(Func<string> messageFactory)
+        {
+            TryLog(s_DefaultLog, Level.Verbose, messageFactory);
+        }
+
+        // Lazy verbose log with explicit logger.
+        public static void Verbose(ILog? log, Func<string> messageFactory)
+        {
+            TryLog(log, Level.Verbose, messageFactory);
+        }
+
         // Logs a warning only once per remembered logger+key so hot update loops cannot spam the log.
         public static bool WarnOnce(string key, Func<string> messageFactory, Exception? exception = null)
         {
@@ -345,7 +370,7 @@ namespace CS2Shared.RiverMochi
                 writer.Write('[');
                 writer.Write(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss,fff"));
                 writer.Write("] [");
-                writer.Write(level?.name ?? "INFO");    // Colossal's Level is a class that already supplies its name.
+                writer.Write(level?.name ?? "INFO");    // Colossal's Level is a class and already supplies its name.
                 writer.Write("]  ");
                 writer.WriteLine(message ?? string.Empty);
                 if (exception != null)
@@ -415,7 +440,6 @@ namespace CS2Shared.RiverMochi
                 return true;
             }
         }
-
      
     }
 }
