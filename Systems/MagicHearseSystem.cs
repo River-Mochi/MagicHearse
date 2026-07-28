@@ -11,7 +11,6 @@
 
 namespace MagicHearse
 {
-    using CS2Shared.RiverMochi;     // LogUtils Debug build
     using Game;                     // GameSystemBase, SystemUpdatePhase, GameMode
     using Game.Citizens;            // Citizen, HealthProblem
     using Game.Common;              // Deleted, Temp
@@ -48,7 +47,7 @@ namespace MagicHearse
             m_EndFrameBarrier = World.GetOrCreateSystemManaged<EndFrameBarrier>();
 
 #if DEBUG
-            LogUtils.Info(() => "MH System created.");
+            CS2Shared.RiverMochi.LogUtils.Info(() => "MH System created.");
 #endif
 
             RequireForUpdate(m_DeadCitizenQuery);

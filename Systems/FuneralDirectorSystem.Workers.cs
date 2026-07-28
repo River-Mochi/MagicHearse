@@ -12,7 +12,6 @@
 
 namespace MagicHearse
 {
-    using CS2Shared.RiverMochi; // LogUtils Debug build
     using Game.Buildings;       // InstalledUpgrade, Student
     using Game.City;            // CityUtils
     using Game.Common;          // Deleted, Owner
@@ -144,7 +143,7 @@ namespace MagicHearse
 #if DEBUG
             if (touched > 0)
             {
-                LogUtils.Info(() => $"[FD] Placed workers refreshed {touched} deathcare buildings.");
+                CS2Shared.RiverMochi.LogUtils.Info(() => $"[FD] Placed workers refreshed {touched} deathcare buildings.");
             }
 #endif
         }
