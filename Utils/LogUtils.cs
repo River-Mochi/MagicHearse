@@ -36,9 +36,9 @@
 //   Warn once:                  LogUtils.WarnOnce("key", () => "message");
 //
 // Simple string overloads are easiest to read.
-// Func<string> overloads are lazy: the message is built only after the log level check.
-// Use lazy messages in hot paths such as OnUpdate, rendering, tool hover, or entity loops.
-// Note: helper levels are limited to Info/Warn/Error/Debug/Trace for CS2 compatibility.
+// Func<string> overloads are lazy: message is built only after the log level check.
+// Lazy messages: used in hot paths, i.e., OnUpdate, rendering, tool hover, entity loops.
+// Note: helper levels limited to Info/Warn/Error/Debug/Trace for CS2 compatibility.
 
 namespace CS2Shared.RiverMochi
 {
