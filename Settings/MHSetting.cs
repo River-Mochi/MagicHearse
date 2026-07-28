@@ -22,10 +22,10 @@ namespace MagicHearse
     [SettingsUITabOrder(kActionsTab, kAboutTab)]
     [SettingsUIGroupOrder(
         kAutoCleanGrp, kSelfManageGrp, kAdvancedGrp, kStatusGrp,
-        kAboutInfoGrp, kAboutLinksGrp)]
+        kAboutInfoGrp, kAboutLinksGrp, kDebugGrp)]
     [SettingsUIShowGroupName(
         kAutoCleanGrp, kSelfManageGrp, kAdvancedGrp,
-        kStatusGrp, kAboutLinksGrp)]
+        kStatusGrp, kAboutLinksGrp, kDebugGrp)]
     public sealed partial class MHSetting : ModSetting
     {
         // ---- TABS ----
@@ -41,6 +41,7 @@ namespace MagicHearse
         // ---- GROUPS (ABOUT) ----
         public const string kAboutInfoGrp = "AboutInfo";
         public const string kAboutLinksGrp = "AboutLinks";
+        public const string kDebugGrp = "Debug";
 
         // ---- TUNABLE CONSTANTS ----
         private const int kDefaultPercent = 100;
@@ -237,36 +238,6 @@ namespace MagicHearse
             }
         }
 
-        [SettingsUISection(kActionsTab, kStatusGrp)]
-        public string StatusDispatch
-        {
-            get
-            {
-                try { DeathcareStatus.RefreshIfNeeded(); } catch { }
-                return DeathcareStatus.SummaryDispatch ?? string.Empty;
-            }
-        }
-
-        [SettingsUISection(kActionsTab, kStatusGrp)]
-        public string StatusHearses
-        {
-            get
-            {
-                try { DeathcareStatus.RefreshIfNeeded(); } catch { }
-                return DeathcareStatus.SummaryHearses ?? string.Empty;
-            }
-        }
-
-        [SettingsUISection(kActionsTab, kStatusGrp)]
-        public string StatusFacilities
-        {
-            get
-            {
-                try { DeathcareStatus.RefreshIfNeeded(); } catch { }
-                return DeathcareStatus.SummaryFacilities ?? string.Empty;
-            }
-        }
-
         // Cemetery auto-reset tally (session): a summary row + one packed row naming the cemeteries.
         [SettingsUISection(kActionsTab, kStatusGrp)]
         public string StatusSummary4
@@ -322,6 +293,25 @@ namespace MagicHearse
                 {
                     // Silent catch; worst case the link does nothing.
                 }
+            }
+        }
+
+        // --------------------------------------------------------------------
+        // ABOUT – DEBUG
+        // --------------------------------------------------------------------
+
+        [SettingsUIButton]
+        [SettingsUISection(kAboutTab, kDebugGrp)]
+        public bool LogReport
+        {
+            set
+            {
+                if (!value)
+                {
+                    return;
+                }
+
+                DeathcareLogReport.Write();
             }
         }
 

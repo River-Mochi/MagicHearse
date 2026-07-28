@@ -57,6 +57,7 @@ namespace MagicHearse
                 { m_Setting.GetOptionGroupLocaleID(MHSetting.kStatusGrp),      "Statut" },
                 { m_Setting.GetOptionGroupLocaleID(MHSetting.kAboutInfoGrp),   "Infos du mod" },
                 { m_Setting.GetOptionGroupLocaleID(MHSetting.kAboutLinksGrp),  "Liens" },
+                { m_Setting.GetOptionGroupLocaleID(MHSetting.kDebugGrp),       "Débogage" },
 
                 // Auto Clean (magic)
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.EnableMagicHearse)), "Activer le nettoyage magique" },
@@ -166,21 +167,6 @@ namespace MagicHearse
                     "elle ne s’exécute pas à chaque image en ville et n’a donc pratiquement aucun impact sur les performances :)"
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusDispatch)), "Répartition" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StatusDispatch)),
-                    "Collectes affectées, non affectées et extérieures. L’extérieur est inclus dans affectées."
-                },
-
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusHearses)), "Corbillards" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StatusHearses)),
-                    "En mission = envoyé vers une collecte. Transport = corps à bord."
-                },
-
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusFacilities)), "Établissements" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StatusFacilities)),
-                    "Établissements actifs pleins, sans corbillard disponible ou avec des corps en attente de traitement."
-                },
-
                 // Status text templates
                 { "MH_STATUS_NOT_LOADED", "Statut non chargé." },
                 { "MH_STATUS_NO_CITY_LOADED", "Aucune ville chargée." },
@@ -189,9 +175,6 @@ namespace MagicHearse
                 { "MH_STATUS_LINE1", "{0} en attente | {1} décès/mo | mis à jour {2}" },
                 { "MH_STATUS_LINE2", "{0} crémation max/mo | {1}/{2} tombes utilisées" },
                 { "MH_STATUS_LINE3", "{0} / {1} corbillards | {2} / {3} bâtiments | {4} employés max" },
-                { "MH_STATUS_DISPATCH", "{0} affectés | {1} non affectés | {2} service extérieur" },
-                { "MH_STATUS_HEARSES", "{0} au repos | {1} en mission | {2} transport | {3} retour | {4} désactivés" },
-                { "MH_STATUS_FACILITIES", "{0} pleins | {1} sans corbillard disponible | {2} file de traitement" },
 
                 // Cemetery reset tally (session status; row + named list below Assets)
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusSummary4)), "Cimetière" },
@@ -219,6 +202,11 @@ namespace MagicHearse
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.OpenParadoxMods)), "Paradox Mods" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.OpenParadoxMods)),
                     "Ouvre la page Paradox Mods de l'auteur." },
+
+                // Debug report
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.LogReport)), "Rapport du journal" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.LogReport)),
+                    "Écrit un rapport détaillé des services funéraires et des problèmes probables dans MagicHearse.log." },
             };
         }
 
@@ -226,3 +214,4 @@ namespace MagicHearse
         { }
     }
 }
+

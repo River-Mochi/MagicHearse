@@ -57,6 +57,7 @@ namespace MagicHearse
                 { m_Setting.GetOptionGroupLocaleID(MHSetting.kStatusGrp),      "상태" },
                 { m_Setting.GetOptionGroupLocaleID(MHSetting.kAboutInfoGrp),   "모드 정보" },
                 { m_Setting.GetOptionGroupLocaleID(MHSetting.kAboutLinksGrp),  "링크" },
+                { m_Setting.GetOptionGroupLocaleID(MHSetting.kDebugGrp),       "디버그" },
 
                 // Auto Clean (magic)
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.EnableMagicHearse)), "마법 정리 활성화" },
@@ -166,21 +167,6 @@ namespace MagicHearse
                     "도시에서 매 프레임 실행되지 않으므로 성능 영향은 사실상 거의 없습니다 :)"
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusDispatch)), "배차" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StatusDispatch)),
-                    "수거 요청의 배정, 미배정, 외부 서비스. 외부 서비스는 배정에 포함됩니다."
-                },
-
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusHearses)), "영구차" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StatusHearses)),
-                    "출동 = 수거하러 이동 중, 운구 중 = 시신을 싣고 있음."
-                },
-
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusFacilities)), "시설" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StatusFacilities)),
-                    "가득 찼거나 사용 가능한 영구차가 없거나 시신 처리 대기 중인 활성 시설입니다."
-                },
-
                 // Status text templates
                 { "MH_STATUS_NOT_LOADED", "상태를 불러오지 못했습니다." },
                 { "MH_STATUS_NO_CITY_LOADED", "도시가 로드되지 않았습니다." },
@@ -189,9 +175,6 @@ namespace MagicHearse
                 { "MH_STATUS_LINE1", "{0} 대기 | {1} 사망/월 | 업데이트 {2}" },
                 { "MH_STATUS_LINE2", "{0} 화장 최대/월 | {1}/{2} 무덤 사용" },
                 { "MH_STATUS_LINE3", "{0} / {1} 영구차 | {2} / {3} 건물 | {4} 최대 근로자" },
-                { "MH_STATUS_DISPATCH", "{0} 배정 | {1} 미배정 | {2} 외부 서비스" },
-                { "MH_STATUS_HEARSES", "{0} 대기 | {1} 출동 | {2} 운구 중 | {3} 복귀 | {4} 비활성" },
-                { "MH_STATUS_FACILITIES", "{0} 가득 참 | {1} 사용 가능한 영구차 없음 | {2} 처리 대기" },
 
                 // Cemetery reset tally (session status; row + named list below Assets)
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusSummary4)), "묘지" },
@@ -219,6 +202,11 @@ namespace MagicHearse
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.OpenParadoxMods)), "Paradox Mods" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.OpenParadoxMods)),
                     "작성자의 Paradox Mods 페이지를 엽니다." },
+
+                // Debug report
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.LogReport)), "로그 보고서" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.LogReport)),
+                    "상세한 사망 관리 정보와 예상 문제 지점을 MagicHearse.log에 기록합니다." },
             };
         }
 
@@ -226,3 +214,4 @@ namespace MagicHearse
         { }
     }
 }
+

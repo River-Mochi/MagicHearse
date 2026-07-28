@@ -88,8 +88,10 @@ Hello, Bonjour, Hallo, Hola, Ciao, こんにちは, 안녕하세요, 你好, Cze
 <Dependency Id="" />
 <!--Change log for new version. Single line or multi line. Supports minimal markdown subset-->
 <ChangeLog>
-- Added extra verification when moving settings from older versions.
 - Clarified Status and cemetery descriptions.
+- Added a detailed Log Report button for deathcare troubleshooting.
+- Improved Status report efficiency while Options is open.
+- Added extra verification when moving settings from older versions.
 - Internal reliability and logging maintenance.
 </ChangeLog>
 <!--External link. supported types are discord, github, youtube, twitch, x, paypal, patreon-->

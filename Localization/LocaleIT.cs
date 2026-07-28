@@ -57,6 +57,7 @@ namespace MagicHearse
                 { m_Setting.GetOptionGroupLocaleID(MHSetting.kStatusGrp),      "Stato" },
                 { m_Setting.GetOptionGroupLocaleID(MHSetting.kAboutInfoGrp),   "Info mod" },
                 { m_Setting.GetOptionGroupLocaleID(MHSetting.kAboutLinksGrp),  "Link" },
+                { m_Setting.GetOptionGroupLocaleID(MHSetting.kDebugGrp),       "Debug" },
 
                 // Auto Clean (magic)
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.EnableMagicHearse)), "Abilita pulizia magica" },
@@ -166,21 +167,6 @@ namespace MagicHearse
                     "non viene eseguita a ogni fotogramma in città, quindi non ha praticamente alcun impatto sulle prestazioni :)"
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusDispatch)), "Assegnazioni" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StatusDispatch)),
-                    "Ritiri assegnati, non assegnati e di servizio esterno. Esterno è incluso negli assegnati."
-                },
-
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusHearses)), "Carri funebri" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StatusHearses)),
-                    "Inviati = diretti a un ritiro. In trasporto = salma a bordo."
-                },
-
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusFacilities)), "Strutture" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StatusFacilities)),
-                    "Strutture attive piene, senza carro disponibile o con salme in attesa di lavorazione."
-                },
-
                 // Status text templates
                 { "MH_STATUS_NOT_LOADED", "Stato non caricato." },
                 { "MH_STATUS_NO_CITY_LOADED", "Nessuna città caricata." },
@@ -189,9 +175,6 @@ namespace MagicHearse
                 { "MH_STATUS_LINE1", "{0} in attesa | {1} morti/mese | aggiornato {2}" },
                 { "MH_STATUS_LINE2", "{0} cremazione max/mese | {1}/{2} tombe usate" },
                 { "MH_STATUS_LINE3", "{0} / {1} carri funebri | {2} / {3} edifici | {4} lavoratori max" },
-                { "MH_STATUS_DISPATCH", "{0} assegnati | {1} non assegnati | {2} servizio esterno" },
-                { "MH_STATUS_HEARSES", "{0} inattivi | {1} inviati | {2} in trasporto | {3} di ritorno | {4} disabilitati" },
-                { "MH_STATUS_FACILITIES", "{0} pieni | {1} senza carro disponibile | {2} coda di lavorazione" },
 
                 // Cemetery reset tally (session status; row + named list below Assets)
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusSummary4)), "Cimitero" },
@@ -219,6 +202,11 @@ namespace MagicHearse
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.OpenParadoxMods)), "Paradox Mods" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.OpenParadoxMods)),
                     "Apre la pagina Paradox Mods dell'autore." },
+
+                // Debug report
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.LogReport)), "Rapporto di log" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.LogReport)),
+                    "Scrive un rapporto dettagliato sui servizi funebri e sui probabili problemi in MagicHearse.log." },
             };
         }
 
@@ -226,3 +214,4 @@ namespace MagicHearse
         { }
     }
 }
+

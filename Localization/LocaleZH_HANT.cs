@@ -57,6 +57,7 @@ namespace MagicHearse
                 { m_Setting.GetOptionGroupLocaleID(MHSetting.kStatusGrp),      "狀態" },
                 { m_Setting.GetOptionGroupLocaleID(MHSetting.kAboutInfoGrp),   "模組資訊" },
                 { m_Setting.GetOptionGroupLocaleID(MHSetting.kAboutLinksGrp),  "連結" },
+                { m_Setting.GetOptionGroupLocaleID(MHSetting.kDebugGrp),       "偵錯" },
 
                 // Auto Clean (magic)
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.EnableMagicHearse)), "啟用魔法清理" },
@@ -166,21 +167,6 @@ namespace MagicHearse
                     "不會在城市中每幀執行，所以基本上沒有性能影響 :)"
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusDispatch)), "調度" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StatusDispatch)),
-                    "已指派、未指派及城外服務的接運請求。城外服務計入已指派。"
-                },
-
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusHearses)), "靈車" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StatusHearses)),
-                    "已派出 = 正前往接運；運送中 = 車上已有遺體。"
-                },
-
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusFacilities)), "設施" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StatusFacilities)),
-                    "已滿、無可用靈車或有遺體等待處理的運作中設施。"
-                },
-
                 // Status text templates
                 { "MH_STATUS_NOT_LOADED", "狀態未載入。" },
                 { "MH_STATUS_NO_CITY_LOADED", "未載入城市。" },
@@ -189,9 +175,6 @@ namespace MagicHearse
                 { "MH_STATUS_LINE1", "{0} 等待 | {1} 死亡/月 | 更新於 {2}" },
                 { "MH_STATUS_LINE2", "{0} 火化上限/月 | {1}/{2} 墓位已用" },
                 { "MH_STATUS_LINE3", "{0} / {1} 靈車 | {2} / {3} 建築 | {4} 最大工人" },
-                { "MH_STATUS_DISPATCH", "{0} 已指派 | {1} 未指派 | {2} 城外服務" },
-                { "MH_STATUS_HEARSES", "{0} 閒置 | {1} 已派出 | {2} 運送中 | {3} 返回中 | {4} 已停用" },
-                { "MH_STATUS_FACILITIES", "{0} 已滿 | {1} 無可用靈車 | {2} 等待處理" },
 
                 // Cemetery reset tally (session status; row + named list below Assets)
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusSummary4)), "墓地" },
@@ -219,6 +202,11 @@ namespace MagicHearse
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.OpenParadoxMods)), "Paradox Mods" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.OpenParadoxMods)),
                     "開啟作者的 Paradox Mods 頁面。" },
+
+                // Debug report
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.LogReport)), "日誌報告" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.LogReport)),
+                    "將詳細的殯葬服務報告和可能的問題寫入 MagicHearse.log。" },
             };
         }
 
@@ -226,3 +214,4 @@ namespace MagicHearse
         { }
     }
 }
+

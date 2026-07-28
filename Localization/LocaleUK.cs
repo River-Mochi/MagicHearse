@@ -58,6 +58,7 @@ namespace MagicHearse
                 { m_Setting.GetOptionGroupLocaleID(MHSetting.kStatusGrp), "Стан" },
                 { m_Setting.GetOptionGroupLocaleID(MHSetting.kAboutInfoGrp), "Інформація про мод" },
                 { m_Setting.GetOptionGroupLocaleID(MHSetting.kAboutLinksGrp), "Посилання" },
+                { m_Setting.GetOptionGroupLocaleID(MHSetting.kDebugGrp),       "Налагодження" },
 
                 // Auto Clean (magic)
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.EnableMagicHearse)), "Увімкнути магічне очищення" },
@@ -165,21 +166,6 @@ namespace MagicHearse
                     "воно не працює щокадрово в місті, тому практично не впливає на продуктивність :)"
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusDispatch)), "Призначення" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StatusDispatch)),
-                    "Виклики призначені, без призначення та зовнішні. Зовнішні входять до призначених."
-                },
-
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusHearses)), "Катафалки" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StatusHearses)),
-                    "Відправлені = їдуть на виклик. Транспортують = тіло в машині."
-                },
-
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusFacilities)), "Заклади" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StatusFacilities)),
-                    "Активні заклади, які заповнені, без доступного катафалка або мають тіла в черзі обробки."
-                },
-
                 // Status text templates
                 { "MH_STATUS_NOT_LOADED", "Стан не завантажено." },
                 { "MH_STATUS_NO_CITY_LOADED", "Місто не завантажено." },
@@ -188,9 +174,6 @@ namespace MagicHearse
                 { "MH_STATUS_LINE1", "{0} очікують | {1} смертей/міс. | оновлено {2}" },
                 { "MH_STATUS_LINE2", "{0} макс. кремацій/міс. | {1}/{2} могил зайнято" },
                 { "MH_STATUS_LINE3", "{0} / {1} катафалків | {2} / {3} будівель | {4} макс. працівників" },
-                { "MH_STATUS_DISPATCH", "{0} призначено | {1} без призначення | {2} зовнішня служба" },
-                { "MH_STATUS_HEARSES", "{0} вільні | {1} відправлені | {2} транспортують | {3} повертаються | {4} вимкнені" },
-                { "MH_STATUS_FACILITIES", "{0} заповнені | {1} без доступного катафалка | {2} черга обробки" },
 
                 // Cemetery reset tally (session status; row + named list below Assets)
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusSummary4)), "Кладовища" },
@@ -216,6 +199,11 @@ namespace MagicHearse
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.OpenParadoxMods)), "Paradox Mods" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.OpenParadoxMods)), "Відкриває сторінку модів автора на Paradox Mods." },
+
+                // Debug report
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.LogReport)), "Звіт у журналі" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.LogReport)),
+                    "Записує докладний звіт про похоронні служби та ймовірні проблеми у MagicHearse.log." },
             };
         }
 
@@ -223,3 +211,4 @@ namespace MagicHearse
         { }
     }
 }
+

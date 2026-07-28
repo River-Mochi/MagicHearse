@@ -7,7 +7,7 @@
 // ================= </copyright> ======================
 
 // File: Systems/Status/DeathcareStatusSystem.cs
-// Purpose: Builds raw deathcare stats on-demand for the Options Status.
+// Purpose: Builds raw deathcare stats on demand for Status and Log Report.
 
 namespace MagicHearse
 {
@@ -18,7 +18,6 @@ namespace MagicHearse
     using Game.City;            // StatisticType (DeathRate)
     using Game.Common;          // Deleted, Owner
     using Game.Companies;       // WorkProvider, ServiceDispatch
-    using Game.Objects;         // OutsideConnection
     using Game.Prefabs;         // PrefabRef, DeathcareFacilityData, InstalledUpgrade, UpgradeUtils
     using Game.Simulation;      // CityStatisticsSystem, Dispatched, SimulationSystem
     using Game.Tools;           // Temp
@@ -33,8 +32,10 @@ namespace MagicHearse
             public readonly float DeathsPerMonth;
             public readonly float ProcessingRate;
 
-            public readonly long Hearses;          // current total (slots)
-            public readonly long WorkingHearses;   // non-parked vehicles
+            public readonly long Hearses;          // active fleet capacity slots
+            public readonly long SpawnedHearses;   // entities owned by active in-city facilities
+            public readonly long ParkedHearses;    // spawned entities with ParkedCar
+            public readonly long WorkingHearses;   // spawned entities without ParkedCar
 
             public readonly long CemeteryUse;
             public readonly long CemeteryCapacity;
@@ -64,6 +65,8 @@ namespace MagicHearse
                 float deathsPerMonth,
                 float processingRate,
                 long hearses,
+                long spawnedHearses,
+                long parkedHearses,
                 long workingHearses,
                 long cemeteryUse,
                 long cemeteryCapacity,
@@ -88,6 +91,8 @@ namespace MagicHearse
                 ProcessingRate = processingRate;
 
                 Hearses = hearses;
+                SpawnedHearses = spawnedHearses;
+                ParkedHearses = parkedHearses;
                 WorkingHearses = workingHearses;
 
                 CemeteryUse = cemeteryUse;
@@ -179,6 +184,8 @@ namespace MagicHearse
 
             float processingRate = 0f;
             long hearses = 0;
+            long spawnedHearses = 0;
+            long parkedHearses = 0;
             long workingHearses = 0;
             long cemeteryUse = 0;
             long cemeteryCapacity = 0;
@@ -324,6 +331,8 @@ namespace MagicHearse
                         continue;
                     }
 
+                    spawnedHearses++;
+
                     HearseFlags state = hearseLookup[hearseEntity].m_State;
 
                     if ((state & HearseFlags.Disabled) != 0)
@@ -347,7 +356,11 @@ namespace MagicHearse
                         hearseIdle++;
                     }
 
-                    if (!parkedLookup.HasComponent(hearseEntity))
+                    if (parkedLookup.HasComponent(hearseEntity))
+                    {
+                        parkedHearses++;
+                    }
+                    else
                     {
                         workingHearses++;
                     }
@@ -411,6 +424,8 @@ namespace MagicHearse
                 deathsPerMonth: deathsPerMonth,
                 processingRate: processingRate,
                 hearses: hearses,
+                spawnedHearses: spawnedHearses,
+                parkedHearses: parkedHearses,
                 workingHearses: workingHearses,
                 cemeteryUse: cemeteryUse,
                 cemeteryCapacity: cemeteryCapacity,

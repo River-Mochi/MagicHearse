@@ -30,9 +30,6 @@ namespace MagicHearse
         internal const string kKeyLine1 = "MH_STATUS_LINE1";
         internal const string kKeyLine2 = "MH_STATUS_LINE2";
         internal const string kKeyLine3 = "MH_STATUS_LINE3";
-        internal const string kKeyDispatch = "MH_STATUS_DISPATCH";
-        internal const string kKeyHearses = "MH_STATUS_HEARSES";
-        internal const string kKeyFacilities = "MH_STATUS_FACILITIES";
         internal const string kKeyLine4 = "MH_STATUS_LINE4";
         internal const string kKeyCemeteryNone = "MH_STATUS_CEMETERY_NONE";
         internal const string kKeyCemeteryRow = "MH_STATUS_CEMETERY_ROW";
@@ -48,12 +45,6 @@ namespace MagicHearse
         private const string kFallbackLine1 = "{0} waiting | {1} deaths/mo | updated {2}";
         private const string kFallbackLine2 = "{0} cremate max/mo | {1}/{2} graves used";
         private const string kFallbackLine3 = "{0} / {1} hearses | {2} / {3} buildings | {4} max workers";
-        private const string kFallbackDispatch =
-            "{0} assigned | {1} unassigned | {2} outside service";
-        private const string kFallbackHearses =
-            "{0} idle | {1} sent | {2} carrying | {3} returning | {4} disabled";
-        private const string kFallbackFacilities =
-            "{0} full | {1} no available hearse | {2} processing queue";
         private const string kFallbackLine4 = "resets: {0} · cemeteries: {1}";
         private const string kFallbackCemeteryNone = "none this session";
         private const string kFallbackCemeteryRow = "{0} ×{1}";
@@ -63,9 +54,6 @@ namespace MagicHearse
         public static string SummaryLine1 { get; private set; } = string.Empty;
         public static string SummaryLine2 { get; private set; } = string.Empty;
         public static string SummaryLine3 { get; private set; } = string.Empty;
-        public static string SummaryDispatch { get; private set; } = string.Empty;
-        public static string SummaryHearses { get; private set; } = string.Empty;
-        public static string SummaryFacilities { get; private set; } = string.Empty;
         public static string SummaryLine4 { get; private set; } = string.Empty;
         public static string SummaryCemetery1 { get; private set; } = string.Empty;
 
@@ -86,7 +74,6 @@ namespace MagicHearse
             SummaryLine1 = Localize(kKeyStatusNotLoaded, kFallbackStatusNotLoaded);
             SummaryLine2 = string.Empty;
             SummaryLine3 = string.Empty;
-            ClearDiagnosticLines();
             ClearCemeteryLines();
         }
 
@@ -127,8 +114,7 @@ namespace MagicHearse
                 SummaryLine1 = Localize(kKeyNoCityLoaded, kFallbackNoCityLoaded);
                 SummaryLine2 = Localize(kKeyStatsNotAvail, kFallbackStatsNotAvail);
                 SummaryLine3 = string.Empty;
-                ClearDiagnosticLines();
-                ClearCemeteryLines();
+                    ClearCemeteryLines();
                 return;
             }
 
@@ -162,8 +148,7 @@ namespace MagicHearse
                 SummaryLine1 = Localize(kKeyStatusNotLoaded, kFallbackStatusNotLoaded);
                 SummaryLine2 = string.Empty;
                 SummaryLine3 = string.Empty;
-                ClearDiagnosticLines();
-                ClearCemeteryLines();
+                    ClearCemeteryLines();
 
                 LogUtils.WarnOnce("MH_STATUS_SNAPSHOT_EXCEPTION", () =>
                     $"[MH] Status snapshot failed: {ex.GetType().Name}: {ex.Message}");
@@ -203,44 +188,11 @@ namespace MagicHearse
                 Format0(snap.MaxWorkers)        // {4}
             );
 
-            SummaryDispatch = SafeFormat(
-                kKeyDispatch,
-                fallbackFormat: kFallbackDispatch,
-                Format0(snap.DeadAssigned),        // {0}
-                Format0(snap.DeadUnassigned),      // {1}
-                Format0(snap.DeadAssignedOutside)  // {2}
-            );
-
-            SummaryHearses = SafeFormat(
-                kKeyHearses,
-                fallbackFormat: kFallbackHearses,
-                Format0(snap.HearseIdle),          // {0}
-                Format0(snap.HearseDispatched),    // {1}
-                Format0(snap.HearseTransporting),  // {2}
-                Format0(snap.HearseReturning),     // {3}
-                Format0(snap.HearseDisabled)       // {4}
-            );
-
-            SummaryFacilities = SafeFormat(
-                kKeyFacilities,
-                fallbackFormat: kFallbackFacilities,
-                snap.FullFacilities,                    // {0}
-                snap.FacilitiesWithoutAvailableHearse,  // {1}
-                snap.FacilitiesWithProcessingQueue      // {2}
-            );
-
             // Cemetery auto-reset tally (session-scoped; populated by CemeteryResetSystem).
             ApplyCemeterySection(world.GetOrCreateSystemManaged<CemeteryResetSystem>());
         }
 
         // ---- Helpers -------
-
-        private static void ClearDiagnosticLines()
-        {
-            SummaryDispatch = string.Empty;
-            SummaryHearses = string.Empty;
-            SummaryFacilities = string.Empty;
-        }
 
         private static void ClearCemeteryLines()
         {
@@ -346,3 +298,4 @@ namespace MagicHearse
         private static string Format0(long v) => v.ToString("N0");
     }
 }
+

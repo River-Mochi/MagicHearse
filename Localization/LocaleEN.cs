@@ -58,6 +58,7 @@ namespace MagicHearse
                 { m_Setting.GetOptionGroupLocaleID(MHSetting.kStatusGrp),      "Status" },
                 { m_Setting.GetOptionGroupLocaleID(MHSetting.kAboutInfoGrp),   "Mod info" },
                 { m_Setting.GetOptionGroupLocaleID(MHSetting.kAboutLinksGrp),  "Links" },
+                { m_Setting.GetOptionGroupLocaleID(MHSetting.kDebugGrp),       "Debug" },
 
                 // Auto Clean (magic)
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.EnableMagicHearse)), "Enable Magic Clean" },
@@ -168,21 +169,6 @@ namespace MagicHearse
                     "does not run per-frame in the city, so basically no performance impact :)"
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusDispatch)), "Dispatch" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StatusDispatch)),
-                    "Assigned, unassigned, and outside-service pickups. Outside is included in assigned."
-                },
-
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusHearses)), "Hearses" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StatusHearses)),
-                    "Sent = dispatched to pickup. Carrying = corpse onboard."
-                },
-
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusFacilities)), "Facilities" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StatusFacilities)),
-                    "Active facilities that are full, have no available hearse, or have bodies waiting to process."
-                },
-
                 // Status text templates
                 { "MH_STATUS_NOT_LOADED", "Status not loaded." },
                 { "MH_STATUS_NO_CITY_LOADED", "No city loaded." },
@@ -191,9 +177,6 @@ namespace MagicHearse
                 { "MH_STATUS_LINE1", "{0} waiting | {1} deaths/mo | updated {2}" },
                 { "MH_STATUS_LINE2", "{0} cremate max/mo | {1}/{2} graves used" },
                 { "MH_STATUS_LINE3", "{0} / {1} hearses | {2} / {3} buildings | {4} max workers" },
-                { "MH_STATUS_DISPATCH", "{0} assigned | {1} unassigned | {2} outside service" },
-                { "MH_STATUS_HEARSES", "{0} idle | {1} sent | {2} carrying | {3} returning | {4} disabled" },
-                { "MH_STATUS_FACILITIES", "{0} full | {1} no available hearse | {2} processing queue" },
 
                 // Cemetery reset tally (session status; row + named list below Assets)
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusSummary4)), "Cemetery" },
@@ -221,6 +204,11 @@ namespace MagicHearse
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.OpenParadoxMods)), "Paradox Mods" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.OpenParadoxMods)),
                     "Opens the author’s Paradox mods page." },
+
+                // Debug report
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.LogReport)), "Log Report" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.LogReport)),
+                    "Writes a detailed deathcare report and likely problem areas to MagicHearse.log." },
             };
         }
 
@@ -228,3 +216,4 @@ namespace MagicHearse
         { }
     }
 }
+

@@ -57,6 +57,7 @@ namespace MagicHearse
                 { m_Setting.GetOptionGroupLocaleID(MHSetting.kStatusGrp),      "ステータス" },
                 { m_Setting.GetOptionGroupLocaleID(MHSetting.kAboutInfoGrp),   "Mod情報" },
                 { m_Setting.GetOptionGroupLocaleID(MHSetting.kAboutLinksGrp),  "リンク" },
+                { m_Setting.GetOptionGroupLocaleID(MHSetting.kDebugGrp),       "デバッグ" },
 
                 // Auto Clean (magic)
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.EnableMagicHearse)), "魔法クリーンを有効化" },
@@ -166,21 +167,6 @@ namespace MagicHearse
                     "都市内で毎フレーム動くわけではないので、基本的にパフォーマンスへの影響はほぼありません :)"
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusDispatch)), "配車" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StatusDispatch)),
-                    "回収依頼の割当済み・未割当・市外サービス。市外は割当済みに含まれます。"
-                },
-
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusHearses)), "霊柩車" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StatusHearses)),
-                    "出動中＝回収へ移動中、搬送中＝遺体を積載中。"
-                },
-
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusFacilities)), "施設" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StatusFacilities)),
-                    "満杯、利用可能な霊柩車なし、または処理待ちの遺体がある稼働中施設。"
-                },
-
                 // Status text templates
                 { "MH_STATUS_NOT_LOADED", "ステータス未読み込み。" },
                 { "MH_STATUS_NO_CITY_LOADED", "都市が読み込まれていません。" },
@@ -189,9 +175,6 @@ namespace MagicHearse
                 { "MH_STATUS_LINE1", "{0} 待機 | {1} 死亡/月 | 更新 {2}" },
                 { "MH_STATUS_LINE2", "{0} 火葬上限/月 | {1}/{2} 墓使用" },
                 { "MH_STATUS_LINE3", "{0} / {1} 霊柩車 | {2} / {3} 建物 | {4} 最大労働者" },
-                { "MH_STATUS_DISPATCH", "{0} 割当済み | {1} 未割当 | {2} 市外サービス" },
-                { "MH_STATUS_HEARSES", "{0} 待機中 | {1} 出動中 | {2} 搬送中 | {3} 帰還中 | {4} 無効" },
-                { "MH_STATUS_FACILITIES", "{0} 満杯 | {1} 利用可能な霊柩車なし | {2} 処理待ち" },
 
                 // Cemetery reset tally (session status; row + named list below Assets)
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusSummary4)), "墓地" },
@@ -219,6 +202,11 @@ namespace MagicHearse
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.OpenParadoxMods)), "Paradox Mods" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.OpenParadoxMods)),
                     "作者の Paradox Mods ページを開きます。" },
+
+                // Debug report
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.LogReport)), "ログレポート" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.LogReport)),
+                    "詳細なデスケア情報と考えられる問題箇所を MagicHearse.log に書き込みます。" },
             };
         }
 
@@ -226,3 +214,4 @@ namespace MagicHearse
         { }
     }
 }
+

@@ -57,6 +57,7 @@ namespace MagicHearse
                 { m_Setting.GetOptionGroupLocaleID(MHSetting.kStatusGrp),      "状态" },
                 { m_Setting.GetOptionGroupLocaleID(MHSetting.kAboutInfoGrp),   "模组信息" },
                 { m_Setting.GetOptionGroupLocaleID(MHSetting.kAboutLinksGrp),  "链接" },
+                { m_Setting.GetOptionGroupLocaleID(MHSetting.kDebugGrp),       "调试" },
 
                 // Auto Clean (magic)
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.EnableMagicHearse)), "启用魔法清理" },
@@ -166,21 +167,6 @@ namespace MagicHearse
                     "不会在城市中每帧运行，因此基本没有性能影响 :)"
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusDispatch)), "调度" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StatusDispatch)),
-                    "已分配、未分配和城外服务的接运请求。城外服务计入已分配。"
-                },
-
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusHearses)), "灵车" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StatusHearses)),
-                    "已派出 = 正前往接运；运送中 = 车上已有遗体。"
-                },
-
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusFacilities)), "设施" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StatusFacilities)),
-                    "已满、无可用灵车或有遗体等待处理的运行中设施。"
-                },
-
                 // Status text templates
                 { "MH_STATUS_NOT_LOADED", "状态未加载。" },
                 { "MH_STATUS_NO_CITY_LOADED", "未加载城市。" },
@@ -189,9 +175,6 @@ namespace MagicHearse
                 { "MH_STATUS_LINE1", "{0} 等待 | {1} 死亡/月 | 更新于 {2}" },
                 { "MH_STATUS_LINE2", "{0} 火化上限/月 | {1}/{2} 墓位已用" },
                 { "MH_STATUS_LINE3", "{0} / {1} 灵车 | {2} / {3} 建筑 | {4} 最大工人" },
-                { "MH_STATUS_DISPATCH", "{0} 已分配 | {1} 未分配 | {2} 城外服务" },
-                { "MH_STATUS_HEARSES", "{0} 空闲 | {1} 已派出 | {2} 运送中 | {3} 返回中 | {4} 已禁用" },
-                { "MH_STATUS_FACILITIES", "{0} 已满 | {1} 无可用灵车 | {2} 等待处理" },
 
                 // Cemetery reset tally (session status; row + named list below Assets)
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusSummary4)), "墓地" },
@@ -219,9 +202,15 @@ namespace MagicHearse
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.OpenParadoxMods)), "Paradox Mods" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.OpenParadoxMods)),
                     "打开作者的 Paradox Mods 页面。" },
+
+                // Debug report
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.LogReport)), "日志报告" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.LogReport)),
+                    "将详细的殡葬服务报告和可能的问题写入 MagicHearse.log。" },
             };
         }
         public void Unload()
         { }
     }
 }
+
