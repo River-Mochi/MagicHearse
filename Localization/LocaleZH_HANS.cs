@@ -1,4 +1,4 @@
-// <copyright file="LocaleZH_CN.cs" company="River-Mochi">
+// <copyright file="LocaleZH_HANS.cs" company="River-Mochi">
 // Copyright (c) 2026 River-Mochi. All rights reserved.
 // Licensed under the MIT License. You may not use this file except in compliance with this License.
 // See LICENSE file in the project root for full license information.
@@ -6,7 +6,7 @@
 // all copies or substantial portions of this code.
 // ================= </copyright> ======================
 
-// File: Localization/LocaleZH_CN.cs
+// File: Localization/LocaleZH_HANS.cs
 // Simplified Chinese zh-HANS locale for Magic Hearse.
 
 namespace MagicHearse
@@ -16,14 +16,14 @@ namespace MagicHearse
 
     /// <summary>
     /// Simplified Chinese localization source for Magic Hearse [MH].</summary>
-    public sealed class LocaleZH_CN : IDictionarySource
+    public sealed class LocaleZH_HANS : IDictionarySource
     {
         private readonly MHSetting m_Setting;
 
         /// <summary>
         /// Constructs the Simplified Chinese locale generator.</summary>
         /// <param name="setting">Settings object used for locale IDs.</param>
-        public LocaleZH_CN(MHSetting setting)
+        public LocaleZH_HANS(MHSetting setting)
         {
             m_Setting = setting;
         }

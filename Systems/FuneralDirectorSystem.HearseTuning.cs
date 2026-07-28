@@ -12,11 +12,10 @@
 namespace MagicHearse
 {
     using CS2Shared.RiverMochi; // LogUtils — required by generated SystemAPI
-    using Game.Prefabs;      // CarPrefab, HearseData
-    using Unity.Collections; // Required by generated SystemAPI code.
-    using Unity.Entities;    // Entity, RefRW, SystemAPI
-    using Unity.Mathematics; // math.*
-
+    using Game.Prefabs;         // CarPrefab, HearseData
+    using Unity.Collections;    // Required by generated SystemAPI code.
+    using Unity.Entities;       // Entity, RefRW, SystemAPI
+    using Unity.Mathematics;    // math.*
 
     public sealed partial class FuneralDirectorSystem
     {

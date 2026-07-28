@@ -94,7 +94,7 @@ namespace MagicHearse
                     localizationManager.AddSource("ko-KR", new LocaleKO(setting));
                     localizationManager.AddSource("pl-PL", new LocalePL(setting));
                     localizationManager.AddSource("pt-BR", new LocalePT_BR(setting));
-                    localizationManager.AddSource("zh-HANS", new LocaleZH_CN(setting));
+                    localizationManager.AddSource("zh-HANS", new LocaleZH_HANS(setting));
                     localizationManager.AddSource("zh-HANT", new LocaleZH_HANT(setting));
                     // next are locales not officially supported, languages mods needed to use these.
                     localizationManager.AddSource("pt-PT", new LocalePT_PT(setting));

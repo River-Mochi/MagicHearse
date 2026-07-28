@@ -21,7 +21,7 @@ namespace MagicHearse
     using Game;                           // GameSystemBase, GameMode
     using Game.Prefabs;                   // PrefabSystem, PrefabBase
     using Unity.Collections;              // Allocator
-    using Unity.Entities;                 // Entity, EntityQuery, EntityCommandBuffer, SystemAPI, RefRW/RefRO
+    using Unity.Entities;                 // Entity, EntityCommandBuffer, SystemAPI
     using Unity.Mathematics;              // math.*
 
     public sealed partial class FuneralDirectorSystem : GameSystemBase

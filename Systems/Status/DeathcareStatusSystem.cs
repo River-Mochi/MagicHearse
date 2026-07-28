@@ -6,13 +6,12 @@
 // all copies or substantial portions of this code.
 // ================= </copyright> ======================
 
-// File: Systems/DeathcareStatusSystem.cs
+// File: Systems/Status/DeathcareStatusSystem.cs
 // Purpose: Builds raw deathcare stats on-demand for the Options Status.
 
 namespace MagicHearse
 {
     using System;               // DateTime
-
     using Game;                 // GameSystemBase
     using Game.Buildings;       // Building, DeathcareFacility, BuildingUtils
     using Game.Citizens;        // Citizen, HealthProblem, HealthProblemFlags
@@ -23,7 +22,6 @@ namespace MagicHearse
     using Game.Simulation;      // CityStatisticsSystem
     using Game.Tools;           // Temp
     using Game.Vehicles;        // Hearse, ParkedCar
-
     using Unity.Collections;    // NativeArray, Allocator
     using Unity.Entities;       // Entity, EntityQuery, lookups, buffers, chunks
 
@@ -91,18 +89,21 @@ namespace MagicHearse
             m_CityStats = World.GetOrCreateSystemManaged<CityStatisticsSystem>();
 
             m_DeathcarePlacedQuery = SystemAPI.QueryBuilder()
-                .WithAll<Game.Buildings.DeathcareFacility, Building, ServiceDispatch, PrefabRef>()
-                .WithNone<Temp, Deleted>()
+                .WithAll<
+                    Game.Buildings.DeathcareFacility,
+                    Game.Buildings.Building, ServiceDispatch,
+                    Game.Prefabs.PrefabRef>()
+                .WithNone<Game.Tools.Temp, Game.Common.Deleted>()
                 .Build();
 
             m_DeadWaitingQuery = SystemAPI.QueryBuilder()
-                .WithAll<Citizen, HealthProblem>()
-                .WithNone<Temp, Deleted>()
+                .WithAll<Game.Citizens.Citizen, Game.Citizens.HealthProblem>()
+                .WithNone<Game.Tools.Temp, Game.Common.Deleted>()
                 .Build();
 
             // All hearse vehicles currently in the world.
             m_HearseQuery = SystemAPI.QueryBuilder()
-                .WithAll<Hearse, Owner>()
+                .WithAll<Game.Vehicles.Hearse, Game.Common.Owner>()
                 .WithNone<Temp, Deleted>()
                 .Build();
         }

@@ -13,13 +13,13 @@
 namespace MagicHearse
 {
     using CS2Shared.RiverMochi; // LogUtils Debug build
-    using Game.Buildings;    // InstalledUpgrade, Student
-    using Game.City;         // CityUtils
-    using Game.Common;       // Deleted, Owner
-    using Game.Companies;    // WorkProvider
-    using Game.Prefabs;      // PrefabRef, WorkplaceData
-    using Unity.Collections; // Allocator, NativeArray
-    using Unity.Entities;    // EntityCommandBuffer, ComponentLookup, BufferLookup
+    using Game.Buildings;       // InstalledUpgrade, Student
+    using Game.City;            // CityUtils
+    using Game.Common;          // Deleted, Owner
+    using Game.Companies;       // WorkProvider
+    using Game.Prefabs;         // PrefabRef, WorkplaceData
+    using Unity.Collections;    // Allocator, NativeArray
+    using Unity.Entities;       // EntityCommandBuffer, ComponentLookup, BufferLookup
 
     public sealed partial class FuneralDirectorSystem
     {

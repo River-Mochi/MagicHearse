@@ -6,9 +6,8 @@
 // all copies or substantial portions of this code.
 // ================= </copyright> ======================
 
-// File: Systems/DeathcareStatus.cs
-// Purpose:
-// - Builds cached, localized Status text while the Options UI requests it.
+// File: Systems/Status/DeathcareStatus.cs
+// Purpose: Builds cached, localized Status text for Options UI requests.
 // - Localization + formatting safety handled here; DeathcareStatusSystem returns raw numbers only.
 
 namespace MagicHearse

@@ -11,6 +11,7 @@
 
 namespace MagicHearse
 {
+    using MagicHearse;
     using Unity.Entities; // World
 
     public sealed partial class MHSetting
