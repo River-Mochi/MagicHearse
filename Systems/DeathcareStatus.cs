@@ -7,28 +7,26 @@
 // ================= </copyright> ======================
 
 // File: Systems/DeathcareStatus.cs
-// Purpose: UI-facing cached Status snapshot strings for Options UI.
-// Notes:
-// - Refresh driven by OptionsUI getters (only when Options is open, not city).
-// - Cache invalidates on main-menu <-> city transitions (prevents stale on city switching).
-// - Localization + formatting safety is handled here; DeathcareStatusSystem returns raw numbers only.
+// Purpose:
+// - Builds cached, localized Status text while the Options UI requests it.
+// - Localization + formatting safety handled here; DeathcareStatusSystem returns raw numbers only.
 
 namespace MagicHearse
 {
-    using CS2Shared.RiverMochi;        // LogUtils
-    using Game;                        // IsGame()
-    using Game.SceneFlow;              // GameManager
     using System;                      // DateTime, TimeSpan, Math, Exception
     using System.Collections.Generic;  // List
     using System.Text;                 // StringBuilder
+    using CS2Shared.RiverMochi;        // LogUtils
+    using Game;                        // IsGame()
+    using Game.SceneFlow;              // GameManager
     using Unity.Entities;              // World
     using UnityEngine;                 // Time.frameCount
 
     public static class DeathcareStatus
     {
-        // Throttle refresh while Options UI is open.
+        // Refresh driven by OptionsUI getters (only when Options is open, not city).
         // NOTE: Do not set to 0 (would refresh every UI poll).
-        public static int RefreshIntervalSeconds { get; set; } = 15;
+        public static int RefreshIntervalSeconds { get; set; } = 15;    // Throttle refresh while Options UI open.
 
         // Locale keys (add to all Locale*.cs)
         internal const string KeyStatusNotLoaded = "MH_STATUS_NOT_LOADED";
@@ -237,7 +235,7 @@ namespace MagicHearse
                 return;
             }
 
-            // Summary row shows the totals; the packed row names the cemeteries (with "+N more" spill),
+            // Summary row shows totals; packed row names the cemeteries (with "+N more" spill),
             // so nothing is hidden even when a city has more cemeteries than fit on one line.
             SummaryLine4 = SafeFormat(KeyLine4, FallbackLine4, total, resetSys.DistinctCemeteryCount);
             SummaryCemetery1 = BuildPackedCemeteries(resetSys);
@@ -310,7 +308,7 @@ namespace MagicHearse
                 LogUtils.WarnOnce("MH_STATUS_BAD_FORMAT_" + key, () =>
                     $"[MH] Status format error. Key={key} Args={args.Length}");
 
-                // Try English fallback format.
+                // Try English fallback.
                 try { return string.Format(fallbackFormat, args); }
                 catch { return fallbackFormat; }
             }

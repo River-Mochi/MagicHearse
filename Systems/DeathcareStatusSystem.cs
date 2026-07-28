@@ -7,6 +7,7 @@
 // ================= </copyright> ======================
 
 // File: Systems/DeathcareStatusSystem.cs
+// Purpose:
 
 namespace MagicHearse
 {

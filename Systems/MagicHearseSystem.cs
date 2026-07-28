@@ -7,7 +7,7 @@
 // ================= </copyright> ======================
 
 // File: Systems/MagicHearseSystem.cs
-// Purpose: Removes dead citizens that are waiting for transport.
+// Purpose: Removes dead coprses that are waiting for transport.
 
 namespace MagicHearse
 {
