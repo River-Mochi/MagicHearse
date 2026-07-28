@@ -88,11 +88,9 @@ Hello, Bonjour, Hallo, Hola, Ciao, こんにちは, 안녕하세요, 你好, Cze
 <Dependency Id="" />
 <!--Change log for new version. Single line or multi line. Supports minimal markdown subset-->
 <ChangeLog>
-<ChangeLog>
 - Added extra verification when moving settings from older versions.
 - Clarified Status and cemetery descriptions.
 - Internal reliability and logging maintenance.
-</ChangeLog>
 </ChangeLog>
 <!--External link. supported types are discord, github, youtube, twitch, x, paypal, patreon-->
 <ExternalLink Type="github" Url="https://github.com/River-Mochi/MagicHearse" />

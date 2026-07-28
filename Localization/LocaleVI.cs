@@ -165,6 +165,21 @@ namespace MagicHearse
                     "không chạy mỗi khung hình trong thành phố, nên gần như không ảnh hưởng hiệu năng :)"
                 },
 
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusDispatch)), "Điều phối" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StatusDispatch)),
+                    "Lượt đón đã phân công, chưa phân công và bên ngoài. Bên ngoài được tính trong đã phân công."
+                },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusHearses)), "Xe tang" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StatusHearses)),
+                    "Đã điều động = đang đến điểm đón. Đang chở = có thi thể trên xe."
+                },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusFacilities)), "Cơ sở" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StatusFacilities)),
+                    "Cơ sở đang hoạt động nhưng đầy, không có xe tang sẵn sàng hoặc có thi thể chờ xử lý."
+                },
+
                 // Status text templates
                 { "MH_STATUS_NOT_LOADED", "Chưa tải trạng thái." },
                 { "MH_STATUS_NO_CITY_LOADED", "Chưa tải thành phố." },
@@ -173,6 +188,9 @@ namespace MagicHearse
                 { "MH_STATUS_LINE1", "{0} đang chờ | {1} ca tử vong/tháng | cập nhật {2}" },
                 { "MH_STATUS_LINE2", "{0} hỏa táng tối đa/tháng | {1}/{2} phần mộ đã dùng" },
                 { "MH_STATUS_LINE3", "{0} / {1} xe tang | {2} / {3} công trình | {4} nhân công tối đa" },
+                { "MH_STATUS_DISPATCH", "{0} đã phân công | {1} chưa phân công | {2} dịch vụ bên ngoài" },
+                { "MH_STATUS_HEARSES", "{0} nhàn rỗi | {1} đã điều động | {2} đang chở | {3} đang về | {4} bị tắt" },
+                { "MH_STATUS_FACILITIES", "{0} đầy | {1} không có xe tang sẵn sàng | {2} hàng chờ xử lý" },
 
                 // Cemetery reset tally (session status; row + named list below Assets)
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusSummary4)), "Nghĩa trang" },

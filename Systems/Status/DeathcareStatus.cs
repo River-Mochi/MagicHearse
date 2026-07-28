@@ -12,7 +12,7 @@
 
 namespace MagicHearse
 {
-    using System;                      // DateTime, TimeSpan, Math, Exception
+    using System;                      // Math, Exception
     using System.Collections.Generic;  // List
     using System.Text;                 // StringBuilder
     using Colossal.Localization;
@@ -20,14 +20,9 @@ namespace MagicHearse
     using Game;                        // IsGame()
     using Game.SceneFlow;              // GameManager
     using Unity.Entities;              // World
-    using UnityEngine;                 // Time.frameCount
 
     public static class DeathcareStatus
     {
-        // Refresh driven by OptionsUI getters (only when Options is open, not city).
-        // NOTE: Do not set to 0 (would refresh every UI poll).
-        public static int RefreshIntervalSeconds { get; set; } = 15;    // Throttle refresh while Options UI open.
-
         // Locale keys (add to all Locale*.cs)
         internal const string kKeyStatusNotLoaded = "MH_STATUS_NOT_LOADED";
         internal const string kKeyNoCityLoaded = "MH_STATUS_NO_CITY_LOADED";
@@ -35,6 +30,9 @@ namespace MagicHearse
         internal const string kKeyLine1 = "MH_STATUS_LINE1";
         internal const string kKeyLine2 = "MH_STATUS_LINE2";
         internal const string kKeyLine3 = "MH_STATUS_LINE3";
+        internal const string kKeyDispatch = "MH_STATUS_DISPATCH";
+        internal const string kKeyHearses = "MH_STATUS_HEARSES";
+        internal const string kKeyFacilities = "MH_STATUS_FACILITIES";
         internal const string kKeyLine4 = "MH_STATUS_LINE4";
         internal const string kKeyCemeteryNone = "MH_STATUS_CEMETERY_NONE";
         internal const string kKeyCemeteryRow = "MH_STATUS_CEMETERY_ROW";
@@ -50,6 +48,12 @@ namespace MagicHearse
         private const string kFallbackLine1 = "{0} waiting | {1} deaths/mo | updated {2}";
         private const string kFallbackLine2 = "{0} cremate max/mo | {1}/{2} graves used";
         private const string kFallbackLine3 = "{0} / {1} hearses | {2} / {3} buildings | {4} max workers";
+        private const string kFallbackDispatch =
+            "{0} assigned | {1} unassigned | {2} outside service";
+        private const string kFallbackHearses =
+            "{0} idle | {1} sent | {2} carrying | {3} returning | {4} disabled";
+        private const string kFallbackFacilities =
+            "{0} full | {1} no available hearse | {2} processing queue";
         private const string kFallbackLine4 = "resets: {0} · cemeteries: {1}";
         private const string kFallbackCemeteryNone = "none this session";
         private const string kFallbackCemeteryRow = "{0} ×{1}";
@@ -59,6 +63,9 @@ namespace MagicHearse
         public static string SummaryLine1 { get; private set; } = string.Empty;
         public static string SummaryLine2 { get; private set; } = string.Empty;
         public static string SummaryLine3 { get; private set; } = string.Empty;
+        public static string SummaryDispatch { get; private set; } = string.Empty;
+        public static string SummaryHearses { get; private set; } = string.Empty;
+        public static string SummaryFacilities { get; private set; } = string.Empty;
         public static string SummaryLine4 { get; private set; } = string.Empty;
         public static string SummaryCemetery1 { get; private set; } = string.Empty;
 
@@ -68,19 +75,18 @@ namespace MagicHearse
         // Cache state
         private static bool s_WasInGame;
         private static bool s_HasSnapshotThisCity;
-        private static long s_LastRefreshTicksUtc;
-        private static int s_LastUiFrame = -1;
+        private static uint s_LastSnapshotSimulationFrame = uint.MaxValue;
 
         /// <summary>Clears snapshot so next getter refreshes (prevents stale data after city switches).</summary>
         public static void InvalidateCache()
         {
             s_HasSnapshotThisCity = false;
-            s_LastRefreshTicksUtc = 0;
-            s_LastUiFrame = -1;
+            s_LastSnapshotSimulationFrame = uint.MaxValue;
 
             SummaryLine1 = Localize(kKeyStatusNotLoaded, kFallbackStatusNotLoaded);
             SummaryLine2 = string.Empty;
             SummaryLine3 = string.Empty;
+            ClearDiagnosticLines();
             ClearCemeteryLines();
         }
 
@@ -88,7 +94,7 @@ namespace MagicHearse
         public static void MarkDirty()
         {
             s_HasSnapshotThisCity = false;
-            s_LastRefreshTicksUtc = 0;
+            s_LastSnapshotSimulationFrame = uint.MaxValue;
         }
 
         // Called by MHSetting.cs getters.
@@ -99,15 +105,6 @@ namespace MagicHearse
             {
                 return;
             }
-
-            // Frame guard: MHSetting.cs calls this once per Status getter per UI draw (several getters).
-            int frame = Time.frameCount;
-            if (frame == s_LastUiFrame)
-            {
-                return;
-            }
-
-            s_LastUiFrame = frame;
 
             if (string.IsNullOrEmpty(SummaryLine1))
             {
@@ -130,49 +127,42 @@ namespace MagicHearse
                 SummaryLine1 = Localize(kKeyNoCityLoaded, kFallbackNoCityLoaded);
                 SummaryLine2 = Localize(kKeyStatsNotAvail, kFallbackStatsNotAvail);
                 SummaryLine3 = string.Empty;
+                ClearDiagnosticLines();
                 ClearCemeteryLines();
                 return;
             }
 
-            long nowUtc = DateTime.UtcNow.Ticks;
+            DeathcareStatusSystem statusSystem =
+                world.GetOrCreateSystemManaged<DeathcareStatusSystem>();
 
-            // First snapshot after load OR dirty => refresh immediately.
-            if (!s_HasSnapshotThisCity)
-            {
-                BuildSnapshotSafe(world);
-                s_HasSnapshotThisCity = true;
-                s_LastRefreshTicksUtc = nowUtc;
-                return;
-            }
+            uint simulationFrame = statusSystem.CurrentSimulationFrame;
 
-            // Throttle refresh while Options UI is open.
-            int interval = RefreshIntervalSeconds;
-            if (interval < 1)
-            {
-                interval = 15;
-            }
-
-            long nextAllowed = s_LastRefreshTicksUtc + TimeSpan.FromSeconds(interval).Ticks;
-            if (nowUtc < nextAllowed)
+            // Options pauses the city. Same simulation frame means the snapshot is still current.
+            if (s_HasSnapshotThisCity &&
+                s_LastSnapshotSimulationFrame == simulationFrame)
             {
                 return;
             }
 
-            BuildSnapshotSafe(world);
-            s_LastRefreshTicksUtc = nowUtc;
+            BuildSnapshotSafe(world, statusSystem);
+            s_HasSnapshotThisCity = true;
+            s_LastSnapshotSimulationFrame = simulationFrame;
         }
 
-        private static void BuildSnapshotSafe(World world)
+        private static void BuildSnapshotSafe(
+            World world,
+            DeathcareStatusSystem statusSystem)
         {
             try
             {
-                BuildAndApplySnapshot(world);
+                BuildAndApplySnapshot(world, statusSystem);
             }
             catch (Exception ex)
             {
                 SummaryLine1 = Localize(kKeyStatusNotLoaded, kFallbackStatusNotLoaded);
                 SummaryLine2 = string.Empty;
                 SummaryLine3 = string.Empty;
+                ClearDiagnosticLines();
                 ClearCemeteryLines();
 
                 LogUtils.WarnOnce("MH_STATUS_SNAPSHOT_EXCEPTION", () =>
@@ -180,10 +170,11 @@ namespace MagicHearse
             }
         }
 
-        private static void BuildAndApplySnapshot(World world)
+        private static void BuildAndApplySnapshot(
+            World world,
+            DeathcareStatusSystem statusSystem)
         {
-            DeathcareStatusSystem sys = world.GetOrCreateSystemManaged<DeathcareStatusSystem>();
-            DeathcareStatusSystem.Snapshot snap = sys.BuildSnapshot();
+            DeathcareStatusSystem.Snapshot snap = statusSystem.BuildSnapshot();
 
             string refreshedTime = snap.SnapshotTimeLocal.ToString("HH:mm:ss");
 
@@ -212,11 +203,44 @@ namespace MagicHearse
                 Format0(snap.MaxWorkers)        // {4}
             );
 
+            SummaryDispatch = SafeFormat(
+                kKeyDispatch,
+                fallbackFormat: kFallbackDispatch,
+                Format0(snap.DeadAssigned),        // {0}
+                Format0(snap.DeadUnassigned),      // {1}
+                Format0(snap.DeadAssignedOutside)  // {2}
+            );
+
+            SummaryHearses = SafeFormat(
+                kKeyHearses,
+                fallbackFormat: kFallbackHearses,
+                Format0(snap.HearseIdle),          // {0}
+                Format0(snap.HearseDispatched),    // {1}
+                Format0(snap.HearseTransporting),  // {2}
+                Format0(snap.HearseReturning),     // {3}
+                Format0(snap.HearseDisabled)       // {4}
+            );
+
+            SummaryFacilities = SafeFormat(
+                kKeyFacilities,
+                fallbackFormat: kFallbackFacilities,
+                snap.FullFacilities,                    // {0}
+                snap.FacilitiesWithoutAvailableHearse,  // {1}
+                snap.FacilitiesWithProcessingQueue      // {2}
+            );
+
             // Cemetery auto-reset tally (session-scoped; populated by CemeteryResetSystem).
             ApplyCemeterySection(world.GetOrCreateSystemManaged<CemeteryResetSystem>());
         }
 
         // ---- Helpers -------
+
+        private static void ClearDiagnosticLines()
+        {
+            SummaryDispatch = string.Empty;
+            SummaryHearses = string.Empty;
+            SummaryFacilities = string.Empty;
+        }
 
         private static void ClearCemeteryLines()
         {

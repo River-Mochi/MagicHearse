@@ -237,6 +237,36 @@ namespace MagicHearse
             }
         }
 
+        [SettingsUISection(kActionsTab, kStatusGrp)]
+        public string StatusDispatch
+        {
+            get
+            {
+                try { DeathcareStatus.RefreshIfNeeded(); } catch { }
+                return DeathcareStatus.SummaryDispatch ?? string.Empty;
+            }
+        }
+
+        [SettingsUISection(kActionsTab, kStatusGrp)]
+        public string StatusHearses
+        {
+            get
+            {
+                try { DeathcareStatus.RefreshIfNeeded(); } catch { }
+                return DeathcareStatus.SummaryHearses ?? string.Empty;
+            }
+        }
+
+        [SettingsUISection(kActionsTab, kStatusGrp)]
+        public string StatusFacilities
+        {
+            get
+            {
+                try { DeathcareStatus.RefreshIfNeeded(); } catch { }
+                return DeathcareStatus.SummaryFacilities ?? string.Empty;
+            }
+        }
+
         // Cemetery auto-reset tally (session): a summary row + one packed row naming the cemeteries.
         [SettingsUISection(kActionsTab, kStatusGrp)]
         public string StatusSummary4

@@ -165,6 +165,21 @@ namespace MagicHearse
                     "nie działa co klatkę w mieście, więc praktycznie brak wpływu na wydajność :)"
                 },
 
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusDispatch)), "Przydział" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StatusDispatch)),
+                    "Odbiory przydzielone, bez przydziału i zewnętrzne. Zewnętrzne są częścią przydzielonych."
+                },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusHearses)), "Karawany" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StatusHearses)),
+                    "Wysłane = jadą po odbiór. Transportują = zwłoki są w pojeździe."
+                },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusFacilities)), "Obiekty" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StatusFacilities)),
+                    "Aktywne obiekty pełne, bez dostępnego karawanu lub z ciałami oczekującymi na przetworzenie."
+                },
+
                 // Status text templates
                 { "MH_STATUS_NOT_LOADED", "Status nie został załadowany." },
                 { "MH_STATUS_NO_CITY_LOADED", "Brak wczytanego miasta." },
@@ -173,6 +188,9 @@ namespace MagicHearse
                 { "MH_STATUS_LINE1", "{0} czeka | {1} zgony/mies. | zaktualizowano {2}" },
                 { "MH_STATUS_LINE2", "{0} kremacje max/mies. | {1}/{2} groby użyte" },
                 { "MH_STATUS_LINE3", "{0} / {1} karawany | {2} / {3} budynki | {4} maks. pracownicy" },
+                { "MH_STATUS_DISPATCH", "{0} przydzielono | {1} bez przydziału | {2} usługa zewnętrzna" },
+                { "MH_STATUS_HEARSES", "{0} wolne | {1} wysłane | {2} transportują | {3} wracają | {4} wyłączone" },
+                { "MH_STATUS_FACILITIES", "{0} pełne | {1} bez dostępnego karawanu | {2} kolejka przetwarzania" },
 
                 // Cemetery reset tally (session status; row + named list below Assets)
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusSummary4)), "Cmentarz" },

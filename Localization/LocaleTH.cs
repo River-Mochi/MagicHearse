@@ -167,6 +167,21 @@ namespace MagicHearse
                     "ไม่ทำงานทุกเฟรมในเมือง จึงแทบไม่ส่งผลต่อประสิทธิภาพ :)"
                 },
 
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusDispatch)), "การมอบหมาย" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StatusDispatch)),
+                    "งานรับศพที่มอบหมายแล้ว ยังไม่มอบหมาย และบริการนอกเมือง โดยบริการนอกเมืองรวมอยู่ในมอบหมายแล้ว"
+                },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusHearses)), "รถขนศพ" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StatusHearses)),
+                    "ออกปฏิบัติงาน = กำลังไปรับศพ กำลังขนศพ = มีศพอยู่บนรถ"
+                },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusFacilities)), "สถานที่" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StatusFacilities)),
+                    "สถานที่ที่เปิดใช้งานแต่เต็ม ไม่มีรถขนศพพร้อมใช้ หรือมีศพรอดำเนินการ"
+                },
+
                 // Status text templates
                 { "MH_STATUS_NOT_LOADED", "ยังไม่ได้โหลดสถานะ" },
                 { "MH_STATUS_NO_CITY_LOADED", "ยังไม่ได้โหลดเมือง" },
@@ -175,6 +190,9 @@ namespace MagicHearse
                 { "MH_STATUS_LINE1", "รอรับ {0} | เสียชีวิต {1}/เดือน | อัปเดต {2}" },
                 { "MH_STATUS_LINE2", "เผาได้สูงสุด {0}/เดือน | ใช้หลุมศพ {1}/{2}" },
                 { "MH_STATUS_LINE3", "รถขนศพ {0} / {1} | อาคาร {2} / {3} | คนงานสูงสุด {4}" },
+                { "MH_STATUS_DISPATCH", "มอบหมายแล้ว {0} | ยังไม่มอบหมาย {1} | บริการนอกเมือง {2}" },
+                { "MH_STATUS_HEARSES", "ว่าง {0} | ออกปฏิบัติงาน {1} | กำลังขนศพ {2} | กำลังกลับ {3} | ปิดใช้งาน {4}" },
+                { "MH_STATUS_FACILITIES", "เต็ม {0} | ไม่มีรถขนศพพร้อมใช้ {1} | รอดำเนินการ {2}" },
 
                 // Cemetery reset tally (session status; row + named list below Assets)
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusSummary4)), "สุสาน" },

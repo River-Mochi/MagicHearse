@@ -18,10 +18,11 @@ namespace MagicHearse
     using Game.City;            // StatisticType (DeathRate)
     using Game.Common;          // Deleted, Owner
     using Game.Companies;       // WorkProvider, ServiceDispatch
+    using Game.Objects;         // OutsideConnection
     using Game.Prefabs;         // PrefabRef, DeathcareFacilityData, InstalledUpgrade, UpgradeUtils
-    using Game.Simulation;      // CityStatisticsSystem
+    using Game.Simulation;      // CityStatisticsSystem, Dispatched, SimulationSystem
     using Game.Tools;           // Temp
-    using Game.Vehicles;        // Hearse, ParkedCar
+    using Game.Vehicles;        // Hearse, HearseFlags, ParkedCar
     using Unity.Collections;    // NativeArray, Allocator
     using Unity.Entities;       // Entity, EntityQuery, lookups, buffers, chunks
 
@@ -43,6 +44,19 @@ namespace MagicHearse
             public readonly int TotalFacilities;
 
             public readonly long DeadWaiting;
+            public readonly long DeadAssigned;
+            public readonly long DeadUnassigned;
+            public readonly long DeadAssignedOutside;
+
+            public readonly long HearseIdle;
+            public readonly long HearseDispatched;
+            public readonly long HearseTransporting;
+            public readonly long HearseReturning;
+            public readonly long HearseDisabled;
+
+            public readonly int FullFacilities;
+            public readonly int FacilitiesWithoutAvailableHearse;
+            public readonly int FacilitiesWithProcessingQueue;
 
             public readonly DateTime SnapshotTimeLocal;
 
@@ -57,6 +71,17 @@ namespace MagicHearse
                 int activeFacilities,
                 int totalFacilities,
                 long deadWaiting,
+                long deadAssigned,
+                long deadUnassigned,
+                long deadAssignedOutside,
+                long hearseIdle,
+                long hearseDispatched,
+                long hearseTransporting,
+                long hearseReturning,
+                long hearseDisabled,
+                int fullFacilities,
+                int facilitiesWithoutAvailableHearse,
+                int facilitiesWithProcessingQueue,
                 DateTime snapshotTimeLocal)
             {
                 DeathsPerMonth = deathsPerMonth;
@@ -73,20 +98,38 @@ namespace MagicHearse
                 TotalFacilities = totalFacilities;
 
                 DeadWaiting = deadWaiting;
+                DeadAssigned = deadAssigned;
+                DeadUnassigned = deadUnassigned;
+                DeadAssignedOutside = deadAssignedOutside;
+
+                HearseIdle = hearseIdle;
+                HearseDispatched = hearseDispatched;
+                HearseTransporting = hearseTransporting;
+                HearseReturning = hearseReturning;
+                HearseDisabled = hearseDisabled;
+
+                FullFacilities = fullFacilities;
+                FacilitiesWithoutAvailableHearse = facilitiesWithoutAvailableHearse;
+                FacilitiesWithProcessingQueue = facilitiesWithProcessingQueue;
+
                 SnapshotTimeLocal = snapshotTimeLocal;
             }
         }
 
         private CityStatisticsSystem m_CityStats = null!;
+        private SimulationSystem m_SimulationSystem = null!;
         private EntityQuery m_DeathcarePlacedQuery;
         private EntityQuery m_DeadWaitingQuery;
         private EntityQuery m_HearseQuery;
+
+        public uint CurrentSimulationFrame => m_SimulationSystem.frameIndex;
 
         protected override void OnCreate()
         {
             base.OnCreate();
 
             m_CityStats = World.GetOrCreateSystemManaged<CityStatisticsSystem>();
+            m_SimulationSystem = World.GetOrCreateSystemManaged<SimulationSystem>();
 
             m_DeathcarePlacedQuery = SystemAPI.QueryBuilder()
                 .WithAll<
@@ -106,6 +149,9 @@ namespace MagicHearse
                 .WithAll<Game.Vehicles.Hearse, Owner>()
                 .WithNone<Temp, Deleted>()
                 .Build();
+
+            // Options calls BuildSnapshot() directly; no live simulation update is needed.
+            Enabled = false;
         }
 
         protected override void OnUpdate()
@@ -127,6 +173,7 @@ namespace MagicHearse
 
             BufferLookup<InstalledUpgrade> upgradesLookup = GetBufferLookup<InstalledUpgrade>(true);
             BufferLookup<Efficiency> effLookup = GetBufferLookup<Efficiency>(true);
+            BufferLookup<Patient> patientLookup = GetBufferLookup<Patient>(true);
 
             float deathsPerMonth = m_CityStats.GetStatisticValue(StatisticType.DeathRate);
 
@@ -139,6 +186,9 @@ namespace MagicHearse
 
             int totalFacilities = 0;
             int activeFacilities = 0;
+            int fullFacilities = 0;
+            int facilitiesWithoutAvailableHearse = 0;
+            int facilitiesWithProcessingQueue = 0;
 
             // Add capacity and worker totals from every placed deathcare facility.
             using (NativeArray<Entity> entities = m_DeathcarePlacedQuery.ToEntityArray(Allocator.Temp))
@@ -189,13 +239,38 @@ namespace MagicHearse
                     processingRate += efficiency * data.m_ProcessingRate;
                     hearses += data.m_HearseCapacity;
 
+                    Game.Buildings.DeathcareFacility facility =
+                        buildingDcLookup.HasComponent(facilityEntity)
+                            ? buildingDcLookup[facilityEntity]
+                            : default;
+
+                    if ((facility.m_Flags & DeathcareFacilityFlags.IsFull) != 0)
+                    {
+                        fullFacilities++;
+                    }
+
+                    if (data.m_HearseCapacity > 0 &&
+                        (facility.m_Flags & DeathcareFacilityFlags.HasAvailableHearses) == 0)
+                    {
+                        facilitiesWithoutAvailableHearse++;
+                    }
+
+                    bool hasProcessingQueue =
+                        data.m_ProcessingRate > 0f &&
+                        ((patientLookup.TryGetBuffer(
+                                facilityEntity,
+                                out DynamicBuffer<Patient> patients) &&
+                            patients.Length > 0) ||
+                         facility.m_LongTermStoredCount > 0);
+
+                    if (hasProcessingQueue)
+                    {
+                        facilitiesWithProcessingQueue++;
+                    }
+
                     if (data.m_LongTermStorage)
                     {
-                        if (buildingDcLookup.HasComponent(facilityEntity))
-                        {
-                            cemeteryUse += buildingDcLookup[facilityEntity].m_LongTermStoredCount;
-                        }
-
+                        cemeteryUse += facility.m_LongTermStoredCount;
                         cemeteryCapacity += data.m_StorageCapacity;
                     }
 
@@ -211,17 +286,20 @@ namespace MagicHearse
             ComponentLookup<ParkedCar> parkedLookup = GetComponentLookup<ParkedCar>(true);
             ComponentLookup<Game.Buildings.DeathcareFacility> deathcareBuildingLookup =
                 GetComponentLookup<Game.Buildings.DeathcareFacility>(true);
+            ComponentLookup<Game.Vehicles.Hearse> hearseLookup =
+                GetComponentLookup<Game.Vehicles.Hearse>(true);
+
+            long hearseIdle = 0;
+            long hearseDispatched = 0;
+            long hearseTransporting = 0;
+            long hearseReturning = 0;
+            long hearseDisabled = 0;
 
             using (NativeArray<Entity> hearseEntities = m_HearseQuery.ToEntityArray(Allocator.Temp))
             {
                 for (int i = 0; i < hearseEntities.Length; i++)
                 {
                     Entity hearseEntity = hearseEntities[i];
-
-                    if (parkedLookup.HasComponent(hearseEntity))
-                    {
-                        continue;
-                    }
 
                     if (!ownerLookup.HasComponent(hearseEntity))
                     {
@@ -246,16 +324,49 @@ namespace MagicHearse
                         continue;
                     }
 
-                    workingHearses++;
+                    HearseFlags state = hearseLookup[hearseEntity].m_State;
+
+                    if ((state & HearseFlags.Disabled) != 0)
+                    {
+                        hearseDisabled++;
+                    }
+                    else if ((state & HearseFlags.Transporting) != 0)
+                    {
+                        hearseTransporting++;
+                    }
+                    else if ((state & HearseFlags.Dispatched) != 0)
+                    {
+                        hearseDispatched++;
+                    }
+                    else if ((state & HearseFlags.Returning) != 0)
+                    {
+                        hearseReturning++;
+                    }
+                    else
+                    {
+                        hearseIdle++;
+                    }
+
+                    if (!parkedLookup.HasComponent(hearseEntity))
+                    {
+                        workingHearses++;
+                    }
                 }
             }
 
             // Count dead citizens who still require transport.
             long deadWaiting = 0;
+            long deadAssigned = 0;
+            long deadUnassigned = 0;
+            long deadAssignedOutside = 0;
             const HealthProblemFlags Want =
                 HealthProblemFlags.Dead | HealthProblemFlags.RequireTransport;
             ComponentTypeHandle<HealthProblem> hpType =
                 GetComponentTypeHandle<HealthProblem>(isReadOnly: true);
+            ComponentLookup<Dispatched> dispatchedLookup = GetComponentLookup<Dispatched>(true);
+            ComponentLookup<Game.Objects.OutsideConnection> outsideConnectionLookup =
+                GetComponentLookup<Game.Objects.OutsideConnection>(true);
+            EntityStorageInfoLookup entityLookup = GetEntityStorageInfoLookup();
 
             using (NativeArray<ArchetypeChunk> chunks =
                 m_DeadWaitingQuery.ToArchetypeChunkArray(Allocator.Temp))
@@ -270,6 +381,27 @@ namespace MagicHearse
                         if ((hp[j].m_Flags & Want) == Want)
                         {
                             deadWaiting++;
+
+                            Entity request = hp[j].m_HealthcareRequest;
+                            if (request == Entity.Null ||
+                                !entityLookup.Exists(request) ||
+                                !dispatchedLookup.TryGetComponent(request, out Dispatched dispatched) ||
+                                dispatched.m_Handler == Entity.Null ||
+                                !entityLookup.Exists(dispatched.m_Handler))
+                            {
+                                deadUnassigned++;
+                                continue;
+                            }
+
+                            deadAssigned++;
+                            if (IsOutsideHandler(
+                                    dispatched.m_Handler,
+                                    entityLookup,
+                                    outsideConnectionLookup,
+                                    ownerLookup))
+                            {
+                                deadAssignedOutside++;
+                            }
                         }
                     }
                 }
@@ -286,7 +418,39 @@ namespace MagicHearse
                 activeFacilities: activeFacilities,
                 totalFacilities: totalFacilities,
                 deadWaiting: deadWaiting,
+                deadAssigned: deadAssigned,
+                deadUnassigned: deadUnassigned,
+                deadAssignedOutside: deadAssignedOutside,
+                hearseIdle: hearseIdle,
+                hearseDispatched: hearseDispatched,
+                hearseTransporting: hearseTransporting,
+                hearseReturning: hearseReturning,
+                hearseDisabled: hearseDisabled,
+                fullFacilities: fullFacilities,
+                facilitiesWithoutAvailableHearse: facilitiesWithoutAvailableHearse,
+                facilitiesWithProcessingQueue: facilitiesWithProcessingQueue,
                 snapshotTimeLocal: DateTime.Now);
+        }
+
+        // Outside-service dispatch can point to the connection itself or to one of its hearses.
+        private static bool IsOutsideHandler(
+            Entity handler,
+            EntityStorageInfoLookup entityLookup,
+            ComponentLookup<Game.Objects.OutsideConnection> outsideConnectionLookup,
+            ComponentLookup<Owner> ownerLookup)
+        {
+            if (outsideConnectionLookup.HasComponent(handler))
+            {
+                return true;
+            }
+
+            if (!ownerLookup.TryGetComponent(handler, out Owner owner) ||
+                !entityLookup.Exists(owner.m_Owner))
+            {
+                return false;
+            }
+
+            return outsideConnectionLookup.HasComponent(owner.m_Owner);
         }
     }
 }

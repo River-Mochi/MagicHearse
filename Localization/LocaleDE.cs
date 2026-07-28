@@ -166,6 +166,21 @@ namespace MagicHearse
                     "er läuft nicht in jedem Frame der Stadt und hat daher praktisch keine Leistungsauswirkungen :)"
                 },
 
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusDispatch)), "Zuweisung" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StatusDispatch)),
+                    "Zugewiesene, nicht zugewiesene und externe Abholungen. Extern ist in „zugewiesen“ enthalten."
+                },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusHearses)), "Leichenwagen" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StatusHearses)),
+                    "Unterwegs = zur Abholung geschickt. Transport = Leiche an Bord."
+                },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusFacilities)), "Anlagen" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StatusFacilities)),
+                    "Aktive Anlagen, die voll sind, keinen verfügbaren Leichenwagen haben oder Leichen zur Verarbeitung haben."
+                },
+
                 // Status text templates
                 { "MH_STATUS_NOT_LOADED", "Status nicht geladen." },
                 { "MH_STATUS_NO_CITY_LOADED", "Keine Stadt geladen." },
@@ -174,6 +189,9 @@ namespace MagicHearse
                 { "MH_STATUS_LINE1", "{0} warten | {1} Tote/Monat | aktualisiert {2}" },
                 { "MH_STATUS_LINE2", "{0} Kremation max/Monat | {1}/{2} Gräber belegt" },
                 { "MH_STATUS_LINE3", "{0} / {1} Leichenwagen | {2} / {3} Gebäude | {4} max. Mitarbeiter" },
+                { "MH_STATUS_DISPATCH", "{0} zugewiesen | {1} nicht zugewiesen | {2} externer Dienst" },
+                { "MH_STATUS_HEARSES", "{0} frei | {1} unterwegs | {2} transportieren | {3} Rückfahrt | {4} deaktiviert" },
+                { "MH_STATUS_FACILITIES", "{0} voll | {1} ohne verfügbaren Leichenwagen | {2} in Bearbeitung" },
 
                 // Cemetery reset tally (session status; row + named list below Assets)
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusSummary4)), "Friedhof" },

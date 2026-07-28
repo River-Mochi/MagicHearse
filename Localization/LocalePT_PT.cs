@@ -165,6 +165,21 @@ namespace MagicHearse
                     "não é executada a cada frame na cidade, por isso praticamente não afeta o desempenho :)"
                 },
 
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusDispatch)), "Despacho" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StatusDispatch)),
+                    "Recolhas atribuídas, não atribuídas e externas. Externo está incluído em atribuídas."
+                },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusHearses)), "Carros funerários" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StatusHearses)),
+                    "Enviados = a caminho de uma recolha. Em transporte = corpo a bordo."
+                },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusFacilities)), "Instalações" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StatusFacilities)),
+                    "Instalações ativas cheias, sem carro disponível ou com corpos à espera de processamento."
+                },
+
                 // Status text templates
                 { "MH_STATUS_NOT_LOADED", "Estado não carregado." },
                 { "MH_STATUS_NO_CITY_LOADED", "Nenhuma cidade carregada." },
@@ -173,6 +188,9 @@ namespace MagicHearse
                 { "MH_STATUS_LINE1", "{0} à espera | {1} mortes/mês | atualizado {2}" },
                 { "MH_STATUS_LINE2", "{0} cremações máx./mês | {1}/{2} sepulturas ocupadas" },
                 { "MH_STATUS_LINE3", "{0} / {1} carros funerários | {2} / {3} edifícios | {4} trabalhadores máx." },
+                { "MH_STATUS_DISPATCH", "{0} atribuídos | {1} não atribuídos | {2} serviço externo" },
+                { "MH_STATUS_HEARSES", "{0} livres | {1} enviados | {2} em transporte | {3} a regressar | {4} desativados" },
+                { "MH_STATUS_FACILITIES", "{0} cheios | {1} sem carro disponível | {2} fila de processamento" },
 
                 // Cemetery reset tally (session status; row + named list below Assets)
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusSummary4)), "Cemitério" },
