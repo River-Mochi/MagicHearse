@@ -36,7 +36,7 @@ namespace MagicHearse
             return 262144 / kUpdatesPerDay;
         }
 
-        protected override void OnCreate( )
+        protected override void OnCreate()
         {
             base.OnCreate();
 
@@ -63,7 +63,7 @@ namespace MagicHearse
             DeathcareStatus.InvalidateCache();
         }
 
-        protected override void OnUpdate( )
+        protected override void OnUpdate()
         {
             JobHandle handle = new MagicHearseJob
             {

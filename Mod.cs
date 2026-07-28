@@ -30,7 +30,7 @@ namespace MagicHearse
         public const string kModId = "MagicHearse";
         public const string kModTag = "[MH]";
 
-        // Which build is loaded. Shown in the log banner AND the About tab so it is obvious at a glance.
+        // Build that is loaded shows in the log banner AND the About tab so it's obvious.
 #if DEBUG
         public const string kBuildType = "DEBUG";
 #else
@@ -127,7 +127,7 @@ namespace MagicHearse
             }
         }
 
-        private static void MigrateLegacySettingsFile( )
+        private static void MigrateLegacySettingsFile()
         {
             try
             {
