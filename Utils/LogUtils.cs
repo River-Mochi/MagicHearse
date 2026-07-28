@@ -7,7 +7,7 @@
 // ================= </copyright> ======================
 
 // File: Utils/LogUtils.cs
-// Version: 0.6.7 based on River-Mochi shared CS2 utilities.
+// Version: 0.6.9 based on River-Mochi shared CS2 utilities.
 // Purpose: popup-safe direct-file logging helpers for CS2 mods.
 // Why: routine Info/Warn/Error are written with .NET FileStream/StreamWriter
 //   instead of sending every message through Colossal's logger write path, which
