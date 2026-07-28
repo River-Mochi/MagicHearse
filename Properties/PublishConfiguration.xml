@@ -46,13 +46,13 @@ Adjust Buildings:
 - No Harmony (more reliable on patch days).
 
 ## Support and Feedback
-- If the mod works for you, give it a Like! It's free!
+- If the mod works for you, give it a like, easiest way to support free mods!
 - Feedback: GitHub or Discord links on the right.
 
 ## Credits
 - River-Mochi: author
-- Inspired by Wayz's original Magical Hearse (retired)
 - yenyang: technical consultant
+- Inspired by Wayz's original Magical Hearse (retired)
 - Toud: Polish translation review
 - StarQ: tech advisory
 - Obelix, Toud, Necko1996: release testing, screenshots
@@ -64,7 +64,7 @@ Hello, Bonjour, Hallo, Hola, Ciao, こんにちは, 안녕하세요, 你好, Cze
 
 - Only if using Magic mode ✅ if there is a corpse and it needs transport, it's cleaned up. Looks like magic but the secret is flags.
 - Mod does not stop death - it's just very fast corpse cleanup.
-- Safe removal: ff you used sliders, you can remove the mod, and keep same values on buildings until they are deleted. Or set sliders to 100% > uncheck Funeral Director > save city one time (fast vanilla reset).
+- Safe removal: if you used sliders, you can remove the mod, and keep same values on buildings until they are deleted. Or set sliders to 100% > uncheck Funeral Director > save city one time (fast vanilla reset).
 - Bonus: disable all checkboxes ✅, turns off all mod death work, and still see real Status reports in the Options menu.
 - Status only works when inside the menu; no performance impact to in-game city.
 
@@ -88,7 +88,11 @@ Hello, Bonjour, Hallo, Hola, Ciao, こんにちは, 안녕하세요, 你好, Cze
 <Dependency Id="" />
 <!--Change log for new version. Single line or multi line. Supports minimal markdown subset-->
 <ChangeLog>
-
+<ChangeLog>
+- Improved settings-file migration checks for older installs.
+- Clarified Status report and cemetery descriptions.
+- Internal refactor logging and maintenance.
+</ChangeLog>
 </ChangeLog>
 <!--External link. supported types are discord, github, youtube, twitch, x, paypal, patreon-->
 <ExternalLink Type="github" Url="https://github.com/River-Mochi/MagicHearse" />

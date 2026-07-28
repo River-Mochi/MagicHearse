@@ -40,14 +40,14 @@
 // It does not throttle: every enabled call still appends to the file.
 // In update/render/entity loops, log only rare or throttled events (this is dangerous).
 // Use WarnOnce or another throttle for messages that could repeat.
-// Helpers cover Info/Warn/Error/Debug/Trace/Verbose.
-// TryLog accepts Critical/Fatal/Emergency or another Colossal Level.
+// Helpers cover Info/Warn/Error/Debug/Trace.
+// TryLog also accepts Verbose/Critical/Fatal/Emergency or another Colossal Level.
 
 namespace CS2Shared.RiverMochi
 {
     using System;
     using System.Collections.Generic;
-    using System.Globalization;     // timestamps for every Window culture.
+    using System.Globalization;     // stable timestamp format
     using System.IO;
     using Colossal.Logging;
 
@@ -56,7 +56,7 @@ namespace CS2Shared.RiverMochi
         private static readonly object s_WarnOnceLock = new();
         private static readonly object s_FileWriteLock = new();
 
-        // Per-process key cache so hot-path warnings show once instead of repeating every update.
+        // Remembers WarnOnce keys so repeated calls do not rewrite the same warning.
         private static readonly HashSet<string> s_WarnOnceKeys = new(StringComparer.Ordinal);
 
         // Safety cap only; the HashSet starts empty and grows as unique WarnOnce keys are used.
@@ -226,14 +226,13 @@ namespace CS2Shared.RiverMochi
             TryLog(log, Level.Trace, messageFactory);
         }
 
-
-        // Logs a warning only once per remembered logger+key so hot update loops cannot spam the log.
+        // Logs once per default logger+key; later calls with the same key are ignored (reduce spam).
         public static bool WarnOnce(string key, Func<string> messageFactory, Exception? exception = null)
         {
             return WarnOnce(s_DefaultLog, key, messageFactory, exception);
         }
 
-        // Logs a warning only once per logger+key so hot update loops cannot spam the log.
+        // Logs once per logger+key; later calls with the same key are ignored (reduce spam).
         public static bool WarnOnce(ILog? log, string key, Func<string> messageFactory, Exception? exception = null)
         {
             if (string.IsNullOrEmpty(key) || messageFactory == null)
@@ -418,7 +417,6 @@ namespace CS2Shared.RiverMochi
                 // If Colossal logging state is in flux, prefer keeping direct-file logging alive.
                 return true;
             }
-        }
-     
+        }     
     }
 }
