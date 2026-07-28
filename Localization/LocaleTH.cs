@@ -35,7 +35,7 @@ namespace MagicHearse
             IList<IDictionaryEntryError> errors,
             Dictionary<string, int> indexCounts)
         {
-            string title = Mod.ModName;
+            string title = Mod.kModName;
 
             if (!string.IsNullOrEmpty(Mod.ModVersion))
             {
@@ -48,16 +48,16 @@ namespace MagicHearse
                 { m_Setting.GetSettingsLocaleID(), title },
 
                 // Tabs
-                { m_Setting.GetOptionTabLocaleID(MHSetting.ActionsTab), "การทำงาน" },
-                { m_Setting.GetOptionTabLocaleID(MHSetting.AboutTab), "เกี่ยวกับ" },
+                { m_Setting.GetOptionTabLocaleID(MHSetting.kActionsTab), "การทำงาน" },
+                { m_Setting.GetOptionTabLocaleID(MHSetting.kAboutTab), "เกี่ยวกับ" },
 
                 // Groups
-                { m_Setting.GetOptionGroupLocaleID(MHSetting.AutoCleanGrp),   "ล้างอัตโนมัติ" },
-                { m_Setting.GetOptionGroupLocaleID(MHSetting.SelfManageGrp),  "จัดการเอง" },
-                { m_Setting.GetOptionGroupLocaleID(MHSetting.AdvancedGrp),    "ขั้นสูง" },
-                { m_Setting.GetOptionGroupLocaleID(MHSetting.StatusGrp),      "สถานะ" },
-                { m_Setting.GetOptionGroupLocaleID(MHSetting.AboutInfoGrp),   "ข้อมูลม็อด" },
-                { m_Setting.GetOptionGroupLocaleID(MHSetting.AboutLinksGrp),  "ลิงก์" },
+                { m_Setting.GetOptionGroupLocaleID(MHSetting.kAutoCleanGrp),   "ล้างอัตโนมัติ" },
+                { m_Setting.GetOptionGroupLocaleID(MHSetting.kSelfManageGrp),  "จัดการเอง" },
+                { m_Setting.GetOptionGroupLocaleID(MHSetting.kAdvancedGrp),    "ขั้นสูง" },
+                { m_Setting.GetOptionGroupLocaleID(MHSetting.kStatusGrp),      "สถานะ" },
+                { m_Setting.GetOptionGroupLocaleID(MHSetting.kAboutInfoGrp),   "ข้อมูลม็อด" },
+                { m_Setting.GetOptionGroupLocaleID(MHSetting.kAboutLinksGrp),  "ลิงก์" },
 
                 // Auto Clean (magic)
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.EnableMagicHearse)), "เปิดใช้ Magic Clean" },

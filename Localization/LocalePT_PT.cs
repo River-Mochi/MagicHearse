@@ -35,7 +35,7 @@ namespace MagicHearse
             IList<IDictionaryEntryError> errors,
             Dictionary<string, int> indexCounts)
         {
-            string title = Mod.ModName;
+            string title = Mod.kModName;
 
             if (!string.IsNullOrEmpty(Mod.ModVersion))
             {
@@ -48,16 +48,16 @@ namespace MagicHearse
                 { m_Setting.GetSettingsLocaleID(), title },
 
                 // Tabs
-                { m_Setting.GetOptionTabLocaleID(MHSetting.ActionsTab), "Ações" },
-                { m_Setting.GetOptionTabLocaleID(MHSetting.AboutTab), "Sobre" },
+                { m_Setting.GetOptionTabLocaleID(MHSetting.kActionsTab), "Ações" },
+                { m_Setting.GetOptionTabLocaleID(MHSetting.kAboutTab), "Sobre" },
 
                 // Groups
-                { m_Setting.GetOptionGroupLocaleID(MHSetting.AutoCleanGrp), "Limpeza automática" },
-                { m_Setting.GetOptionGroupLocaleID(MHSetting.SelfManageGrp), "Gestão manual" },
-                { m_Setting.GetOptionGroupLocaleID(MHSetting.AdvancedGrp), "Avançado" },
-                { m_Setting.GetOptionGroupLocaleID(MHSetting.StatusGrp), "Estado" },
-                { m_Setting.GetOptionGroupLocaleID(MHSetting.AboutInfoGrp), "Informação do mod" },
-                { m_Setting.GetOptionGroupLocaleID(MHSetting.AboutLinksGrp), "Ligações" },
+                { m_Setting.GetOptionGroupLocaleID(MHSetting.kAutoCleanGrp), "Limpeza automática" },
+                { m_Setting.GetOptionGroupLocaleID(MHSetting.kSelfManageGrp), "Gestão manual" },
+                { m_Setting.GetOptionGroupLocaleID(MHSetting.kAdvancedGrp), "Avançado" },
+                { m_Setting.GetOptionGroupLocaleID(MHSetting.kStatusGrp), "Estado" },
+                { m_Setting.GetOptionGroupLocaleID(MHSetting.kAboutInfoGrp), "Informação do mod" },
+                { m_Setting.GetOptionGroupLocaleID(MHSetting.kAboutLinksGrp), "Ligações" },
 
                 // Auto Clean (magic)
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.EnableMagicHearse)), "Ativar limpeza mágica" },

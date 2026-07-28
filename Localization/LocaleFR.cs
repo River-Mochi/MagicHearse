@@ -34,7 +34,7 @@ namespace MagicHearse
             IList<IDictionaryEntryError> errors,
             Dictionary<string, int> indexCounts)
         {
-            string title = Mod.ModName;
+            string title = Mod.kModName;
 
             if (!string.IsNullOrEmpty(Mod.ModVersion))
             {
@@ -47,16 +47,16 @@ namespace MagicHearse
                 { m_Setting.GetSettingsLocaleID(), title },
 
                 // Tabs
-                { m_Setting.GetOptionTabLocaleID(MHSetting.ActionsTab), "Actions" },
-                { m_Setting.GetOptionTabLocaleID(MHSetting.AboutTab), "À propos" },
+                { m_Setting.GetOptionTabLocaleID(MHSetting.kActionsTab), "Actions" },
+                { m_Setting.GetOptionTabLocaleID(MHSetting.kAboutTab), "À propos" },
 
                 // Groups
-                { m_Setting.GetOptionGroupLocaleID(MHSetting.AutoCleanGrp),   "Nettoyage auto" },
-                { m_Setting.GetOptionGroupLocaleID(MHSetting.SelfManageGrp),  "Gestion autonome" },
-                { m_Setting.GetOptionGroupLocaleID(MHSetting.AdvancedGrp),    "Avancé" },
-                { m_Setting.GetOptionGroupLocaleID(MHSetting.StatusGrp),      "Statut" },
-                { m_Setting.GetOptionGroupLocaleID(MHSetting.AboutInfoGrp),   "Infos du mod" },
-                { m_Setting.GetOptionGroupLocaleID(MHSetting.AboutLinksGrp),  "Liens" },
+                { m_Setting.GetOptionGroupLocaleID(MHSetting.kAutoCleanGrp),   "Nettoyage auto" },
+                { m_Setting.GetOptionGroupLocaleID(MHSetting.kSelfManageGrp),  "Gestion autonome" },
+                { m_Setting.GetOptionGroupLocaleID(MHSetting.kAdvancedGrp),    "Avancé" },
+                { m_Setting.GetOptionGroupLocaleID(MHSetting.kStatusGrp),      "Statut" },
+                { m_Setting.GetOptionGroupLocaleID(MHSetting.kAboutInfoGrp),   "Infos du mod" },
+                { m_Setting.GetOptionGroupLocaleID(MHSetting.kAboutLinksGrp),  "Liens" },
 
                 // Auto Clean (magic)
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.EnableMagicHearse)), "Activer le nettoyage magique" },

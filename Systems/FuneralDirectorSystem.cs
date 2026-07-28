@@ -150,7 +150,7 @@ namespace MagicHearse
                 int baseStorage = authoring.m_StorageCapacity;
                 bool baseLongTerm = authoring.m_LongTermStorage;
 
-                Game.Prefabs.DeathcareFacilityData newData = new Game.Prefabs.DeathcareFacilityData
+                DeathcareFacilityData newData = new()
                 {
                     m_HearseCapacity = baseHearses,
                     m_StorageCapacity = baseStorage,
@@ -190,7 +190,7 @@ namespace MagicHearse
             ApplyHearseCarTuning(hearseSpeedScalar);
 
             // 2) WorkplaceData on deathcare prefab entities (optional)
-            EntityCommandBuffer ecb = new EntityCommandBuffer(Allocator.Temp);
+            EntityCommandBuffer ecb = new(Allocator.Temp);
 
             if (controlWorkers)
             {
@@ -235,7 +235,7 @@ namespace MagicHearse
 
                     wp.ValueRW = newWp;
 
-                    MHWorkplaceMarker marker = new MHWorkplaceMarker
+                    MHWorkplaceMarker marker = new()
                     {
                         MaxWorkers = newWp.m_MaxWorkers,
                         MinWorkers = newWp.m_MinimumWorkersLimit,
@@ -308,7 +308,7 @@ namespace MagicHearse
 
             ApplyHearseCarTuning(1f);
 
-            EntityCommandBuffer ecb = new EntityCommandBuffer(Allocator.Temp);
+            EntityCommandBuffer ecb = new(Allocator.Temp);
 
             foreach ((RefRW<Game.Prefabs.WorkplaceData> wp, RefRO<MHWorkplaceMarker> marker, Entity entity) in SystemAPI
                          .Query<RefRW<Game.Prefabs.WorkplaceData>, RefRO<MHWorkplaceMarker>>()

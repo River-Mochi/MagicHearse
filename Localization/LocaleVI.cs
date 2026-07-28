@@ -35,7 +35,7 @@ namespace MagicHearse
             IList<IDictionaryEntryError> errors,
             Dictionary<string, int> indexCounts)
         {
-            string title = Mod.ModName;
+            string title = Mod.kModName;
 
             if (!string.IsNullOrEmpty(Mod.ModVersion))
             {
@@ -48,16 +48,16 @@ namespace MagicHearse
                 { m_Setting.GetSettingsLocaleID(), title },
 
                 // Tabs
-                { m_Setting.GetOptionTabLocaleID(MHSetting.ActionsTab), "Hành động" },
-                { m_Setting.GetOptionTabLocaleID(MHSetting.AboutTab), "Giới thiệu" },
+                { m_Setting.GetOptionTabLocaleID(MHSetting.kActionsTab), "Hành động" },
+                { m_Setting.GetOptionTabLocaleID(MHSetting.kAboutTab), "Giới thiệu" },
 
                 // Groups
-                { m_Setting.GetOptionGroupLocaleID(MHSetting.AutoCleanGrp), "Dọn dẹp tự động" },
-                { m_Setting.GetOptionGroupLocaleID(MHSetting.SelfManageGrp), "Tự quản lý" },
-                { m_Setting.GetOptionGroupLocaleID(MHSetting.AdvancedGrp), "Nâng cao" },
-                { m_Setting.GetOptionGroupLocaleID(MHSetting.StatusGrp), "Trạng thái" },
-                { m_Setting.GetOptionGroupLocaleID(MHSetting.AboutInfoGrp), "Thông tin mod" },
-                { m_Setting.GetOptionGroupLocaleID(MHSetting.AboutLinksGrp), "Liên kết" },
+                { m_Setting.GetOptionGroupLocaleID(MHSetting.kAutoCleanGrp), "Dọn dẹp tự động" },
+                { m_Setting.GetOptionGroupLocaleID(MHSetting.kSelfManageGrp), "Tự quản lý" },
+                { m_Setting.GetOptionGroupLocaleID(MHSetting.kAdvancedGrp), "Nâng cao" },
+                { m_Setting.GetOptionGroupLocaleID(MHSetting.kStatusGrp), "Trạng thái" },
+                { m_Setting.GetOptionGroupLocaleID(MHSetting.kAboutInfoGrp), "Thông tin mod" },
+                { m_Setting.GetOptionGroupLocaleID(MHSetting.kAboutLinksGrp), "Liên kết" },
 
                 // Auto Clean (magic)
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.EnableMagicHearse)), "Bật dọn dẹp ma thuật" },

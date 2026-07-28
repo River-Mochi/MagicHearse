@@ -11,7 +11,7 @@
 
 namespace MagicHearse
 {
-    using CS2Shared.RiverMochi;     // LogUtils
+    using CS2Shared.RiverMochi;     // LogUtils Debug build
     using Game;                     // GameSystemBase, SystemUpdatePhase, GameMode
     using Game.Citizens;            // Citizen, HealthProblem
     using Game.Common;              // Deleted, Temp
@@ -28,12 +28,12 @@ namespace MagicHearse
         private EndFrameBarrier m_EndFrameBarrier = null!; // assigned in OnCreate
 
         // Lower frequency reduces spike risk; increase to clean faster.
-        public const int UpdatesPerDay = 256;
+        public const int kUpdatesPerDay = 256;
 
         public override int GetUpdateInterval(SystemUpdatePhase phase)
         {
             // Game ticksPerDay constant = 262144.
-            return 262144 / UpdatesPerDay;
+            return 262144 / kUpdatesPerDay;
         }
 
         protected override void OnCreate( )

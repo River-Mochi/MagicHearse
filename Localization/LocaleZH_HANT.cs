@@ -34,7 +34,7 @@ namespace MagicHearse
             IList<IDictionaryEntryError> errors,
             Dictionary<string, int> indexCounts)
         {
-            string title = Mod.ModName;
+            string title = Mod.kModName;
 
             if (!string.IsNullOrEmpty(Mod.ModVersion))
             {
@@ -47,16 +47,16 @@ namespace MagicHearse
                 { m_Setting.GetSettingsLocaleID(), title },
 
                 // Tabs
-                { m_Setting.GetOptionTabLocaleID(MHSetting.ActionsTab), "操作" },
-                { m_Setting.GetOptionTabLocaleID(MHSetting.AboutTab), "關於" },
+                { m_Setting.GetOptionTabLocaleID(MHSetting.kActionsTab), "操作" },
+                { m_Setting.GetOptionTabLocaleID(MHSetting.kAboutTab), "關於" },
 
                 // Groups
-                { m_Setting.GetOptionGroupLocaleID(MHSetting.AutoCleanGrp),   "自動清理" },
-                { m_Setting.GetOptionGroupLocaleID(MHSetting.SelfManageGrp),  "手動管理" },
-                { m_Setting.GetOptionGroupLocaleID(MHSetting.AdvancedGrp),    "進階" },
-                { m_Setting.GetOptionGroupLocaleID(MHSetting.StatusGrp),      "狀態" },
-                { m_Setting.GetOptionGroupLocaleID(MHSetting.AboutInfoGrp),   "模組資訊" },
-                { m_Setting.GetOptionGroupLocaleID(MHSetting.AboutLinksGrp),  "連結" },
+                { m_Setting.GetOptionGroupLocaleID(MHSetting.kAutoCleanGrp),   "自動清理" },
+                { m_Setting.GetOptionGroupLocaleID(MHSetting.kSelfManageGrp),  "手動管理" },
+                { m_Setting.GetOptionGroupLocaleID(MHSetting.kAdvancedGrp),    "進階" },
+                { m_Setting.GetOptionGroupLocaleID(MHSetting.kStatusGrp),      "狀態" },
+                { m_Setting.GetOptionGroupLocaleID(MHSetting.kAboutInfoGrp),   "模組資訊" },
+                { m_Setting.GetOptionGroupLocaleID(MHSetting.kAboutLinksGrp),  "連結" },
 
                 // Auto Clean (magic)
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.EnableMagicHearse)), "啟用魔法清理" },

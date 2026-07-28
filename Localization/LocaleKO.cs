@@ -34,7 +34,7 @@ namespace MagicHearse
             IList<IDictionaryEntryError> errors,
             Dictionary<string, int> indexCounts)
         {
-            string title = Mod.ModName;
+            string title = Mod.kModName;
 
             if (!string.IsNullOrEmpty(Mod.ModVersion))
             {
@@ -47,16 +47,16 @@ namespace MagicHearse
                 { m_Setting.GetSettingsLocaleID(), title },
 
                 // Tabs
-                { m_Setting.GetOptionTabLocaleID(MHSetting.ActionsTab), "작업" },
-                { m_Setting.GetOptionTabLocaleID(MHSetting.AboutTab), "정보" },
+                { m_Setting.GetOptionTabLocaleID(MHSetting.kActionsTab), "작업" },
+                { m_Setting.GetOptionTabLocaleID(MHSetting.kAboutTab), "정보" },
 
                 // Groups
-                { m_Setting.GetOptionGroupLocaleID(MHSetting.AutoCleanGrp),   "자동 정리" },
-                { m_Setting.GetOptionGroupLocaleID(MHSetting.SelfManageGrp),  "수동 관리" },
-                { m_Setting.GetOptionGroupLocaleID(MHSetting.AdvancedGrp),    "고급" },
-                { m_Setting.GetOptionGroupLocaleID(MHSetting.StatusGrp),      "상태" },
-                { m_Setting.GetOptionGroupLocaleID(MHSetting.AboutInfoGrp),   "모드 정보" },
-                { m_Setting.GetOptionGroupLocaleID(MHSetting.AboutLinksGrp),  "링크" },
+                { m_Setting.GetOptionGroupLocaleID(MHSetting.kAutoCleanGrp),   "자동 정리" },
+                { m_Setting.GetOptionGroupLocaleID(MHSetting.kSelfManageGrp),  "수동 관리" },
+                { m_Setting.GetOptionGroupLocaleID(MHSetting.kAdvancedGrp),    "고급" },
+                { m_Setting.GetOptionGroupLocaleID(MHSetting.kStatusGrp),      "상태" },
+                { m_Setting.GetOptionGroupLocaleID(MHSetting.kAboutInfoGrp),   "모드 정보" },
+                { m_Setting.GetOptionGroupLocaleID(MHSetting.kAboutLinksGrp),  "링크" },
 
                 // Auto Clean (magic)
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.EnableMagicHearse)), "마법 정리 활성화" },

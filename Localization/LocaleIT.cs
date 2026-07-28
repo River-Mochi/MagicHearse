@@ -34,7 +34,7 @@ namespace MagicHearse
             IList<IDictionaryEntryError> errors,
             Dictionary<string, int> indexCounts)
         {
-            string title = Mod.ModName;
+            string title = Mod.kModName;
 
             if (!string.IsNullOrEmpty(Mod.ModVersion))
             {
@@ -47,16 +47,16 @@ namespace MagicHearse
                 { m_Setting.GetSettingsLocaleID(), title },
 
                 // Tabs
-                { m_Setting.GetOptionTabLocaleID(MHSetting.ActionsTab), "Azioni" },
-                { m_Setting.GetOptionTabLocaleID(MHSetting.AboutTab), "Informazioni" },
+                { m_Setting.GetOptionTabLocaleID(MHSetting.kActionsTab), "Azioni" },
+                { m_Setting.GetOptionTabLocaleID(MHSetting.kAboutTab), "Informazioni" },
 
                 // Groups
-                { m_Setting.GetOptionGroupLocaleID(MHSetting.AutoCleanGrp),   "Pulizia automatica" },
-                { m_Setting.GetOptionGroupLocaleID(MHSetting.SelfManageGrp),  "Gestione manuale" },
-                { m_Setting.GetOptionGroupLocaleID(MHSetting.AdvancedGrp),    "Avanzate" },
-                { m_Setting.GetOptionGroupLocaleID(MHSetting.StatusGrp),      "Stato" },
-                { m_Setting.GetOptionGroupLocaleID(MHSetting.AboutInfoGrp),   "Info mod" },
-                { m_Setting.GetOptionGroupLocaleID(MHSetting.AboutLinksGrp),  "Link" },
+                { m_Setting.GetOptionGroupLocaleID(MHSetting.kAutoCleanGrp),   "Pulizia automatica" },
+                { m_Setting.GetOptionGroupLocaleID(MHSetting.kSelfManageGrp),  "Gestione manuale" },
+                { m_Setting.GetOptionGroupLocaleID(MHSetting.kAdvancedGrp),    "Avanzate" },
+                { m_Setting.GetOptionGroupLocaleID(MHSetting.kStatusGrp),      "Stato" },
+                { m_Setting.GetOptionGroupLocaleID(MHSetting.kAboutInfoGrp),   "Info mod" },
+                { m_Setting.GetOptionGroupLocaleID(MHSetting.kAboutLinksGrp),  "Link" },
 
                 // Auto Clean (magic)
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.EnableMagicHearse)), "Abilita pulizia magica" },

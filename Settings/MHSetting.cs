@@ -19,28 +19,28 @@ namespace MagicHearse
     using UnityEngine;               // Application.OpenURL
 
     [FileLocation("ModsSettings/MagicHearse/MagicHearse")]
-    [SettingsUITabOrder(ActionsTab, AboutTab)]
+    [SettingsUITabOrder(kActionsTab, kAboutTab)]
     [SettingsUIGroupOrder(
-        AutoCleanGrp, SelfManageGrp, AdvancedGrp, StatusGrp,
-        AboutInfoGrp, AboutLinksGrp)]
+        kAutoCleanGrp, kSelfManageGrp, kAdvancedGrp, kStatusGrp,
+        kAboutInfoGrp, kAboutLinksGrp)]
     [SettingsUIShowGroupName(
-        AutoCleanGrp, SelfManageGrp, AdvancedGrp,
-        StatusGrp, AboutLinksGrp)]
+        kAutoCleanGrp, kSelfManageGrp, kAdvancedGrp,
+        kStatusGrp, kAboutLinksGrp)]
     public sealed partial class MHSetting : ModSetting
     {
         // ---- TABS ----
-        public const string ActionsTab = "Actions";
-        public const string AboutTab = "About";
+        public const string kActionsTab = "Actions";
+        public const string kAboutTab = "About";
 
         // ---- GROUPS (ACTIONS) ----
-        public const string AutoCleanGrp = "AutoClean";
-        public const string SelfManageGrp = "SelfManage";
-        public const string AdvancedGrp = "Advanced";
-        public const string StatusGrp = "Status";
+        public const string kAutoCleanGrp = "AutoClean";
+        public const string kSelfManageGrp = "SelfManage";
+        public const string kAdvancedGrp = "Advanced";
+        public const string kStatusGrp = "Status";
 
         // ---- GROUPS (ABOUT) ----
-        public const string AboutInfoGrp = "AboutInfo";
-        public const string AboutLinksGrp = "AboutLinks";
+        public const string kAboutInfoGrp = "AboutInfo";
+        public const string kAboutLinksGrp = "AboutLinks";
 
         // ---- TUNABLE CONSTANTS ----
         private const int kDefaultPercent = 100;
@@ -95,7 +95,7 @@ namespace MagicHearse
         // ACTIONS – AUTO CLEAN
         // --------------------------------------------------------------------
 
-        [SettingsUISection(ActionsTab, AutoCleanGrp)]
+        [SettingsUISection(kActionsTab, kAutoCleanGrp)]
         [SettingsUISetter(typeof(MHSetting), nameof(SetEnableMagicHearse))]
         public bool EnableMagicHearse
         {
@@ -104,7 +104,7 @@ namespace MagicHearse
         }
 
         // Magic Clean's own cemetery-reset toggle -- independent of the FD one, and OFF by default.
-        [SettingsUISection(ActionsTab, AutoCleanGrp)]
+        [SettingsUISection(kActionsTab, kAutoCleanGrp)]
         [SettingsUIHideByCondition(typeof(MHSetting), nameof(EnableMagicHearse), true)]
         [SettingsUISetter(typeof(MHSetting), nameof(SetMagicResetCemetery))]
         public bool MagicResetCemetery
@@ -117,7 +117,7 @@ namespace MagicHearse
         // ACTIONS – SELF MANAGE (FD)
         // --------------------------------------------------------------------
 
-        [SettingsUISection(ActionsTab, SelfManageGrp)]
+        [SettingsUISection(kActionsTab, kSelfManageGrp)]
         [SettingsUISetter(typeof(MHSetting), nameof(SetFuneralDirector))]
         public bool FuneralDirector
         {
@@ -126,19 +126,19 @@ namespace MagicHearse
         }
 
         [SettingsUISlider(min = kProcMin, max = kProcMax, step = kProcStep, scalarMultiplier = 1, unit = Unit.kPercentage)]
-        [SettingsUISection(ActionsTab, SelfManageGrp)]
+        [SettingsUISection(kActionsTab, kSelfManageGrp)]
         [SettingsUIHideByCondition(typeof(MHSetting), nameof(FuneralDirector), true)]
         [SettingsUISetter(typeof(MHSetting), nameof(SetProcScalar))]
         public int ProcScalar { get; set; } = kDefaultPercent;
 
         [SettingsUISlider(min = kFleetMin, max = kFleetMax, step = kFleetStep, scalarMultiplier = 1, unit = Unit.kPercentage)]
-        [SettingsUISection(ActionsTab, SelfManageGrp)]
+        [SettingsUISection(kActionsTab, kSelfManageGrp)]
         [SettingsUIHideByCondition(typeof(MHSetting), nameof(FuneralDirector), true)]
         [SettingsUISetter(typeof(MHSetting), nameof(SetFleetScalar))]
         public int FleetScalar { get; set; } = kDefaultPercent;
 
         [SettingsUISlider(min = kStorageMin, max = kStorageMax, step = kStorageStep, scalarMultiplier = 1, unit = Unit.kPercentage)]
-        [SettingsUISection(ActionsTab, SelfManageGrp)]
+        [SettingsUISection(kActionsTab, kSelfManageGrp)]
         [SettingsUIHideByCondition(typeof(MHSetting), nameof(FuneralDirector), true)]
         [SettingsUISetter(typeof(MHSetting), nameof(SetStorageScalar))]
         public int StorageScalar { get; set; } = kDefaultPercent;
@@ -146,7 +146,7 @@ namespace MagicHearse
         // Instance-level companion to Cemetery storage slider: empties a placed
         // cemetery back to 0 the moment the game flags it full. Independent of capacity,
         // so both can be used together.
-        [SettingsUISection(ActionsTab, SelfManageGrp)]
+        [SettingsUISection(kActionsTab, kSelfManageGrp)]
         [SettingsUIHideByCondition(typeof(MHSetting), nameof(FuneralDirector), true)]
         [SettingsUISetter(typeof(MHSetting), nameof(SetAutoResetCemetery))]
         public bool AutoResetCemetery
@@ -156,13 +156,13 @@ namespace MagicHearse
         }
 
         [SettingsUISlider(min = kHearseSpeedMin, max = kHearseSpeedMax, step = kHearseSpeedStep, scalarMultiplier = 1, unit = Unit.kPercentage)]
-        [SettingsUISection(ActionsTab, SelfManageGrp)]
+        [SettingsUISection(kActionsTab, kSelfManageGrp)]
         [SettingsUIHideByCondition(typeof(MHSetting), nameof(FuneralDirector), true)]
         [SettingsUISetter(typeof(MHSetting), nameof(SetHearseSpeedScalar))]
         public int HearseSpeedScalar { get; set; } = kDefaultPercent;
 
         [SettingsUIButton]
-        [SettingsUISection(ActionsTab, SelfManageGrp)]
+        [SettingsUISection(kActionsTab, kSelfManageGrp)]
         [SettingsUIHideByCondition(typeof(MHSetting), nameof(FuneralDirector), true)]
         public bool ResetGameDefaults
         {
@@ -188,7 +188,7 @@ namespace MagicHearse
         // ACTIONS – ADVANCED (Workers compatibility)
         // --------------------------------------------------------------------
 
-        [SettingsUISection(ActionsTab, AdvancedGrp)]
+        [SettingsUISection(kActionsTab, kAdvancedGrp)]
         [SettingsUIHideByCondition(typeof(MHSetting), nameof(FuneralDirector), true)]
         [SettingsUISetter(typeof(MHSetting), nameof(SetControlWorkers))]
         public bool ControlWorkers
@@ -198,7 +198,7 @@ namespace MagicHearse
         }
 
         [SettingsUISlider(min = kWorkersMin, max = kWorkersMax, step = kWorkersStep, scalarMultiplier = 1, unit = Unit.kPercentage)]
-        [SettingsUISection(ActionsTab, AdvancedGrp)]
+        [SettingsUISection(kActionsTab, kAdvancedGrp)]
         [SettingsUIHideByCondition(typeof(MHSetting), nameof(WorkersControlEnabled), true)]
         [SettingsUISetter(typeof(MHSetting), nameof(SetWorkersScalar))]
         public int WorkersScalar { get; set; } = kDefaultPercent;
@@ -207,7 +207,7 @@ namespace MagicHearse
         // ACTIONS – STATUS (getters must never throw)
         // --------------------------------------------------------------------
 
-        [SettingsUISection(ActionsTab, StatusGrp)]
+        [SettingsUISection(kActionsTab, kStatusGrp)]
         public string StatusSummary1
         {
             get
@@ -217,7 +217,7 @@ namespace MagicHearse
             }
         }
 
-        [SettingsUISection(ActionsTab, StatusGrp)]
+        [SettingsUISection(kActionsTab, kStatusGrp)]
         public string StatusSummary2
         {
             get
@@ -227,7 +227,7 @@ namespace MagicHearse
             }
         }
 
-        [SettingsUISection(ActionsTab, StatusGrp)]
+        [SettingsUISection(kActionsTab, kStatusGrp)]
         public string StatusSummary3
         {
             get
@@ -238,7 +238,7 @@ namespace MagicHearse
         }
 
         // Cemetery auto-reset tally (session): a summary row + one packed row naming the cemeteries.
-        [SettingsUISection(ActionsTab, StatusGrp)]
+        [SettingsUISection(kActionsTab, kStatusGrp)]
         public string StatusSummary4
         {
             get
@@ -248,7 +248,7 @@ namespace MagicHearse
             }
         }
 
-        [SettingsUISection(ActionsTab, StatusGrp)]
+        [SettingsUISection(kActionsTab, kStatusGrp)]
         public string StatusCemetery1
         {
             get
@@ -262,19 +262,19 @@ namespace MagicHearse
         // ABOUT – INFO (no header)
         // --------------------------------------------------------------------
 
-        [SettingsUISection(AboutTab, AboutInfoGrp)]
-        public string AboutName => Mod.ModName;
+        [SettingsUISection(kAboutTab, kAboutInfoGrp)]
+        public string AboutName => Mod.kModName;
 
-        [SettingsUISection(AboutTab, AboutInfoGrp)]
-        public string AboutVersion => Mod.ModVersion + "  [" + Mod.BuildType + "]";
+        [SettingsUISection(kAboutTab, kAboutInfoGrp)]
+        public string AboutVersion => Mod.ModVersion + "  [" + Mod.kBuildType + "]";
 
         // --------------------------------------------------------------------
         // ABOUT – LINKS
         // --------------------------------------------------------------------
 
         [SettingsUIButton]
-        [SettingsUIButtonGroup(AboutLinksGrp)]
-        [SettingsUISection(AboutTab, AboutLinksGrp)]
+        [SettingsUIButtonGroup(kAboutLinksGrp)]
+        [SettingsUISection(kAboutTab, kAboutLinksGrp)]
         public bool OpenParadoxMods
         {
             set

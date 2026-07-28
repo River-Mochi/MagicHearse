@@ -7,45 +7,23 @@
 // ================= </copyright> ======================
 
 // File: Systems/CemeteryResetSystem.cs
-// Purpose: Auto-empties cemeteries the moment the game flags them full (Funeral Director option).
-// Notes:
-// - Instance-level: zeroes Game.Buildings.DeathcareFacility.m_LongTermStoredCount on placed buildings.
-//   Independent of the Cemetery-storage slider (which scales PREFAB capacity), so the two compose.
-// - Why this instance write is safe (InstanceEntities.md "Strategy 3"): 0 is the game's own valid
-//   "empty cemetery" state (every cemetery starts there and the AI system handles count==0 natively),
-//   only DeathcareFacilityAISystem touches this field so we are not fighting a recompute, there is no
-//   baseline to preserve/restore (so no marker needed), and the write is NOT a structural change.
-//   Net effect == vanilla "bulldoze + rebuild" minus the rebuild. No Harmony, no reflection.
-// - Leaves the IsFull flag alone on purpose: DeathcareFacilityAISystem clears the flag AND removes the
-//   "facility full" notification on its next tick once it sees room again. Clearing it here would orphan
-//   that icon (the game only removes it while the flag is still set).
-// - Continuous assist-style scan (same shape/idiom as MagicGarbage's GarbagePriorityAssistSystem and
-//   MagicHearse's own FuneralDirectorSystem), NOT a one-shot: it must keep watching as buildings fill.
-//   No Burst/job -- cities have very few cemeteries, so a stateless main-thread scan costs microseconds
-//   and is far easier to diagnose. SystemAPI.Query completes the deathcare job dependency for us.
-// - Session tally (for the Options Status report): counts resets per cemetery + total. Names are resolved
-//   via NameSystem only at the moment of an actual reset (rare), so there is no per-frame city cost. All
-//   of it clears on city load/switch (OnGameLoadingComplete), matching the rest of the Status report.
+// Purpose: Empties full cemeteries for either active mode and tracks session reset counts.
 
 namespace MagicHearse
 {
+    using System.Collections.Generic;      // Dictionary, List
     using Colossal.Serialization.Entities; // Purpose
-    using CS2Shared.RiverMochi;            // LogUtils
+    using CS2Shared.RiverMochi;            // LogUtils, DEBUG build
     using Game;                            // GameSystemBase, SystemUpdatePhase, GameMode
     using Game.Buildings;                  // DeathcareFacility, DeathcareFacilityFlags
     using Game.Common;                     // Deleted
     using Game.Tools;                      // Temp
-    using System.Collections.Generic;      // Dictionary, List
     using Unity.Entities;                  // SystemAPI, RefRW, Entity
 
     public sealed partial class CemeteryResetSystem : GameSystemBase
     {
-        // Watchdog cadence in sim ticks (named-const idiom shared with GarbagePriorityAssistSystem, which
-        // also uses 128). The game's DeathcareFacilityAISystem updates fullness on a 256-tick beat; scanning
-        // at 128 puts two of our passes inside each of those windows, so a newly-full cemetery is always
-        // caught and reset before the game's next pass -- no matter how our schedule phase lines up against
-        // the game's. Work is filtered to a tiny subset (full cemeteries only), so this cadence is near-free.
-        public const int UpdateIntervalFrames = 128;
+        // Frequent enough to catch full cemeteries quickly; query is tiny.
+        public const int kUpdateIntervalFrames = 128;
 
         /// <summary>One cemetery's session tally: how many times it was emptied, plus its display name.</summary>
         public struct Tally
@@ -118,14 +96,13 @@ namespace MagicHearse
 
         public override int GetUpdateInterval(SystemUpdatePhase phase)
         {
-            return UpdateIntervalFrames;
+            return kUpdateIntervalFrames;
         }
 
         protected override void OnUpdate()
         {
-            // Main-thread RefRW scan. SystemAPI.Query completes the deathcare job dependency for us, and
-            // WithNone matches the game's own deathcare query so we see exactly the buildings whose IsFull
-            // flag it maintains. Fully qualified to avoid the Game.Prefabs.DeathcareFacility name clash.
+            // Few cemeteries, this main-thread scan is cheap.
+            // SystemAPI completes the component dependency before the RefRW scan.
             foreach ((RefRW<Game.Buildings.DeathcareFacility> facilityRef, Entity entity) in SystemAPI
                          .Query<RefRW<Game.Buildings.DeathcareFacility>>()
                          .WithNone<Deleted, Temp>()
@@ -137,6 +114,8 @@ namespace MagicHearse
                 // cycle (count is already 0 while we wait for the game to clear the flag).
                 if ((facility.m_Flags & DeathcareFacilityFlags.IsFull) != 0 && facility.m_LongTermStoredCount > 0)
                 {
+                    // Clears a placed cemetery only; storage slider changes prefab capacity.
+                    // Leave IsFull alone so vanilla also clears the full notification next tick.
                     facilityRef.ValueRW.m_LongTermStoredCount = 0;
                     m_JustReset.Add(entity);
                 }

@@ -34,7 +34,7 @@ namespace MagicHearse
             IList<IDictionaryEntryError> errors,
             Dictionary<string, int> indexCounts)
         {
-            string title = Mod.ModName;
+            string title = Mod.kModName;
 
             if (!string.IsNullOrEmpty(Mod.ModVersion))
             {
@@ -47,16 +47,16 @@ namespace MagicHearse
                 { m_Setting.GetSettingsLocaleID(), title },
 
                 // Tabs
-                { m_Setting.GetOptionTabLocaleID(MHSetting.ActionsTab), "アクション" },
-                { m_Setting.GetOptionTabLocaleID(MHSetting.AboutTab), "情報" },
+                { m_Setting.GetOptionTabLocaleID(MHSetting.kActionsTab), "アクション" },
+                { m_Setting.GetOptionTabLocaleID(MHSetting.kAboutTab), "情報" },
 
                 // Groups
-                { m_Setting.GetOptionGroupLocaleID(MHSetting.AutoCleanGrp),   "自動クリーン" },
-                { m_Setting.GetOptionGroupLocaleID(MHSetting.SelfManageGrp),  "手動管理" },
-                { m_Setting.GetOptionGroupLocaleID(MHSetting.AdvancedGrp),    "詳細設定" },
-                { m_Setting.GetOptionGroupLocaleID(MHSetting.StatusGrp),      "ステータス" },
-                { m_Setting.GetOptionGroupLocaleID(MHSetting.AboutInfoGrp),   "Mod情報" },
-                { m_Setting.GetOptionGroupLocaleID(MHSetting.AboutLinksGrp),  "リンク" },
+                { m_Setting.GetOptionGroupLocaleID(MHSetting.kAutoCleanGrp),   "自動クリーン" },
+                { m_Setting.GetOptionGroupLocaleID(MHSetting.kSelfManageGrp),  "手動管理" },
+                { m_Setting.GetOptionGroupLocaleID(MHSetting.kAdvancedGrp),    "詳細設定" },
+                { m_Setting.GetOptionGroupLocaleID(MHSetting.kStatusGrp),      "ステータス" },
+                { m_Setting.GetOptionGroupLocaleID(MHSetting.kAboutInfoGrp),   "Mod情報" },
+                { m_Setting.GetOptionGroupLocaleID(MHSetting.kAboutLinksGrp),  "リンク" },
 
                 // Auto Clean (magic)
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.EnableMagicHearse)), "魔法クリーンを有効化" },

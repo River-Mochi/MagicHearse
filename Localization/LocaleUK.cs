@@ -35,7 +35,7 @@ namespace MagicHearse
             IList<IDictionaryEntryError> errors,
             Dictionary<string, int> indexCounts)
         {
-            string title = Mod.ModName;
+            string title = Mod.kModName;
 
             if (!string.IsNullOrEmpty(Mod.ModVersion))
             {
@@ -48,16 +48,16 @@ namespace MagicHearse
                 { m_Setting.GetSettingsLocaleID(), title },
 
                 // Tabs
-                { m_Setting.GetOptionTabLocaleID(MHSetting.ActionsTab), "Дії" },
-                { m_Setting.GetOptionTabLocaleID(MHSetting.AboutTab), "Про мод" },
+                { m_Setting.GetOptionTabLocaleID(MHSetting.kActionsTab), "Дії" },
+                { m_Setting.GetOptionTabLocaleID(MHSetting.kAboutTab), "Про мод" },
 
                 // Groups
-                { m_Setting.GetOptionGroupLocaleID(MHSetting.AutoCleanGrp), "Автоочищення" },
-                { m_Setting.GetOptionGroupLocaleID(MHSetting.SelfManageGrp), "Самостійне керування" },
-                { m_Setting.GetOptionGroupLocaleID(MHSetting.AdvancedGrp), "Додатково" },
-                { m_Setting.GetOptionGroupLocaleID(MHSetting.StatusGrp), "Стан" },
-                { m_Setting.GetOptionGroupLocaleID(MHSetting.AboutInfoGrp), "Інформація про мод" },
-                { m_Setting.GetOptionGroupLocaleID(MHSetting.AboutLinksGrp), "Посилання" },
+                { m_Setting.GetOptionGroupLocaleID(MHSetting.kAutoCleanGrp), "Автоочищення" },
+                { m_Setting.GetOptionGroupLocaleID(MHSetting.kSelfManageGrp), "Самостійне керування" },
+                { m_Setting.GetOptionGroupLocaleID(MHSetting.kAdvancedGrp), "Додатково" },
+                { m_Setting.GetOptionGroupLocaleID(MHSetting.kStatusGrp), "Стан" },
+                { m_Setting.GetOptionGroupLocaleID(MHSetting.kAboutInfoGrp), "Інформація про мод" },
+                { m_Setting.GetOptionGroupLocaleID(MHSetting.kAboutLinksGrp), "Посилання" },
 
                 // Auto Clean (magic)
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.EnableMagicHearse)), "Увімкнути магічне очищення" },

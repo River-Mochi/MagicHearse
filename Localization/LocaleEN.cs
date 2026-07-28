@@ -35,7 +35,7 @@ namespace MagicHearse
             IList<IDictionaryEntryError> errors,
             Dictionary<string, int> indexCounts)
         {
-            string title = Mod.ModName;
+            string title = Mod.kModName;
 
             if (!string.IsNullOrEmpty(Mod.ModVersion))
             {
@@ -48,16 +48,16 @@ namespace MagicHearse
                 { m_Setting.GetSettingsLocaleID(), title },
 
                 // Tabs
-                { m_Setting.GetOptionTabLocaleID(MHSetting.ActionsTab), "Actions" },
-                { m_Setting.GetOptionTabLocaleID(MHSetting.AboutTab), "About" },
+                { m_Setting.GetOptionTabLocaleID(MHSetting.kActionsTab), "Actions" },
+                { m_Setting.GetOptionTabLocaleID(MHSetting.kAboutTab), "About" },
 
                 // Groups
-                { m_Setting.GetOptionGroupLocaleID(MHSetting.AutoCleanGrp),   "Auto Clean" },
-                { m_Setting.GetOptionGroupLocaleID(MHSetting.SelfManageGrp),  "Self Manage" },
-                { m_Setting.GetOptionGroupLocaleID(MHSetting.AdvancedGrp),    "Advanced" },
-                { m_Setting.GetOptionGroupLocaleID(MHSetting.StatusGrp),      "Status" },
-                { m_Setting.GetOptionGroupLocaleID(MHSetting.AboutInfoGrp),   "Mod info" },
-                { m_Setting.GetOptionGroupLocaleID(MHSetting.AboutLinksGrp),  "Links" },
+                { m_Setting.GetOptionGroupLocaleID(MHSetting.kAutoCleanGrp),   "Auto Clean" },
+                { m_Setting.GetOptionGroupLocaleID(MHSetting.kSelfManageGrp),  "Self Manage" },
+                { m_Setting.GetOptionGroupLocaleID(MHSetting.kAdvancedGrp),    "Advanced" },
+                { m_Setting.GetOptionGroupLocaleID(MHSetting.kStatusGrp),      "Status" },
+                { m_Setting.GetOptionGroupLocaleID(MHSetting.kAboutInfoGrp),   "Mod info" },
+                { m_Setting.GetOptionGroupLocaleID(MHSetting.kAboutLinksGrp),  "Links" },
 
                 // Auto Clean (magic)
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.EnableMagicHearse)), "Enable Magic Clean" },

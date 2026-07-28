@@ -14,38 +14,34 @@ namespace MagicHearse
     using System;                     // Exception, StringComparison, Type
     using System.IO;                  // Directory, File, Path
     using System.Reflection;          // Assembly (version)
-
     using Colossal;                   // Hash128
     using Colossal.IO.AssetDatabase;  // AssetDatabase, AssetDataPath, SettingAsset
     using Colossal.Localization;      // LocalizationManager
     using Colossal.Logging;           // ILog, LogManager
     using Colossal.PSI.Environment;   // EnvPath
-
     using CS2Shared.RiverMochi;       // LogUtils
-
     using Game;                       // UpdateSystem, SystemUpdatePhase
     using Game.Modding;               // IMod
     using Game.SceneFlow;             // GameManager
-    using static Game.UI.Menu.AssetUploadPanelUISystem;
 
     public sealed class Mod : IMod
     {
-        public const string ModName = "Magic Hearse";
-        public const string ModId = "MagicHearse";
-        public const string ModTag = "[MH]";
+        public const string kModName = "Magic Hearse";
+        public const string kModId = "MagicHearse";
+        public const string kModTag = "[MH]";
 
         // Which build is loaded. Shown in the log banner AND the About tab so it is obvious at a glance.
 #if DEBUG
-        public const string BuildType = "DEBUG";
+        public const string kBuildType = "DEBUG";
 #else
-        public const string BuildType = "RELEASE";
+        public const string kBuildType = "RELEASE";
 #endif
 
         public static readonly string ModVersion =
             Assembly.GetExecutingAssembly().GetName().Version?.ToString(3) ?? "1.0.0";
 
         public static readonly ILog s_Log =
-            LogManager.GetLogger(ModId).SetShowsErrorsInUI(
+            LogManager.GetLogger(kModId).SetShowsErrorsInUI(
 #if DEBUG
                 true
 #else
@@ -59,12 +55,12 @@ namespace MagicHearse
 
         public void OnLoad(UpdateSystem updateSystem)
         {
-            LogUtils.Configure(ModId, s_Log);
+            LogUtils.Configure(kModId, s_Log);
 
             if (!s_BannerLogged)
             {
                 s_BannerLogged = true;  // one-time banner
-                LogUtils.Info(() => $"{ModName} {ModTag} v{ModVersion} [{BuildType}] OnLoad");
+                LogUtils.Info(() => $"{kModName} {kModTag} v{ModVersion} [{kBuildType}] OnLoad");
             }
 
             GameManager? gameManager = GameManager.instance;
@@ -76,7 +72,7 @@ namespace MagicHearse
 
             MigrateLegacySettingsFile();
 
-            MHSetting setting = new MHSetting(this);
+            MHSetting setting = new(this);
             Settings = setting;
 
             // Locales are best-effort: one guard + one try/catch so a bad source never crashes load.
@@ -112,7 +108,7 @@ namespace MagicHearse
                 }
             }
 
-            AssetDatabase.global.LoadSettings(ModId, setting, new MHSetting(this));
+            AssetDatabase.global.LoadSettings(kModId, setting, new MHSetting(this));
             setting.RegisterInOptionsUI();
 
             updateSystem.UpdateAfter<FuneralDirectorSystem>(SystemUpdatePhase.PrefabUpdate);
@@ -138,7 +134,7 @@ namespace MagicHearse
                 string oldLocation = Path.Combine(
                     EnvPath.kUserDataPath,
                     "ModsSettings",
-                    $"{ModId}.coc");
+                    $"{kModId}.coc");
 
                 if (!File.Exists(oldLocation))
                 {
@@ -148,16 +144,16 @@ namespace MagicHearse
                 string directory = Path.Combine(
                     EnvPath.kUserDataPath,
                     "ModsSettings",
-                    ModId);
+                    kModId);
 
                 string correctLocation = Path.Combine(
                     directory,
-                    $"{ModId}.coc");
+                    $"{kModId}.coc");
 
                 // Two files are ambiguous. Do not overwrite either one automatically.
                 if (File.Exists(correctLocation))
                 {
-                    LogUtils.Warn(( ) =>
+                    LogUtils.Warn(() =>
                         "Both legacy and standard MagicHearse settings files exist; migration was skipped.");
                     return;
                 }
@@ -199,7 +195,7 @@ namespace MagicHearse
                 {
                     // Moving only the physical file would leave the game's in-memory
                     // settings entry pointed at the old location.
-                    LogUtils.Warn(( ) =>
+                    LogUtils.Warn(() =>
                         "Legacy MagicHearse settings file was found, but its Asset Database entry was not found. Migration was skipped.");
                     return;
                 }
@@ -213,7 +209,7 @@ namespace MagicHearse
                 // physical path to the new physical path for this running session.
                 dataSource.DeleteEntryFromDatabase(oldGuid);
                 dataSource.AddEntryFromDatabase(
-                    AssetDataPath.Create($"ModsSettings/{ModId}/{ModId}.coc", EscapeStrategy.None),
+                    AssetDataPath.Create($"ModsSettings/{kModId}/{kModId}.coc", EscapeStrategy.None),
                     typeof(SettingAsset), oldGuid);
 
                 SourceMeta remappedMeta = dataSource.GetMeta(oldGuid);
@@ -229,12 +225,12 @@ namespace MagicHearse
 
                 if (newFileExists && oldFileRemoved && pathRemapped)
                 {
-                    LogUtils.Info(( ) =>
+                    LogUtils.Info(() =>
                         "Migrated settings to ModsSettings/MagicHearse/MagicHearse.coc.");
                 }
                 else
                 {
-                    LogUtils.Warn(( ) =>
+                    LogUtils.Warn(() =>
                         $"Settings migration could not be fully verified: " +
                         $"new file={newFileExists}, old removed={oldFileRemoved}, GUID remapped={pathRemapped}.");
                 }

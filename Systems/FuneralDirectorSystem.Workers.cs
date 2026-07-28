@@ -12,7 +12,7 @@
 
 namespace MagicHearse
 {
-    using CS2Shared.RiverMochi; // LogUtils
+    using CS2Shared.RiverMochi; // LogUtils Debug build
     using Game.Buildings;    // InstalledUpgrade, Student
     using Game.City;         // CityUtils
     using Game.Common;       // Deleted, Owner
@@ -41,7 +41,7 @@ namespace MagicHearse
                 GetComponentLookup<WorkplaceData>(isReadOnly: true);      
 
             // CityUtils.GetCityServiceWorkplaceMaxWorkers is shared for service buildings.
-            // The method is defined to accept SchoolData + Student lookups.
+            // method is defined to accept SchoolData + Student lookups.
             // Deathcare does not use those branches, but the lookups must be supplied to call the helper and keep vanilla logic.
             ComponentLookup<Game.Prefabs.SchoolData> schoolDataLookup =
                 GetComponentLookup<SchoolData>(isReadOnly: true);
@@ -58,37 +58,36 @@ namespace MagicHearse
             int touched = 0;
 
             // On-demand pass; query is filtered to placed (existing) DeathcareFacility entities.
-            // ToEntityArray uses native memory (Allocator.Temp) and avoids managed GC allocations.
-            using (NativeArray<Entity> entities = m_PlacedDeathcareQuery.ToEntityArray(Allocator.Temp))
+            // ToEntityArray uses native memory (Allocator.Temp), avoids managed GC allocations.
+            using NativeArray<Entity> entities = m_PlacedDeathcareQuery.ToEntityArray(Allocator.Temp);
+            for (int i = 0; i < entities.Length; i++)
             {
-                for (int i = 0; i < entities.Length; i++)
+                Entity e = entities[i];
+
+                Entity ownerEntity = e;
+                if (ownerLookup.HasComponent(e))
                 {
-                    Entity e = entities[i];
+                    ownerEntity = ownerLookup[e].m_Owner;
+                }
 
-                    Entity ownerEntity = e;
-                    if (ownerLookup.HasComponent(e))
-                    {
-                        ownerEntity = ownerLookup[e].m_Owner;
-                    }
+                if (deletedLookup.HasComponent(ownerEntity))
+                {
+                    continue;
+                }
 
-                    if (deletedLookup.HasComponent(ownerEntity))
-                    {
-                        continue;
-                    }
+                // Never add WorkProvider; only mutate if it already exists.
+                if (!workProviderLookup.HasComponent(ownerEntity))
+                {
+                    continue;
+                }
 
-                    // Never add WorkProvider; only mutate if it already exists.
-                    if (!workProviderLookup.HasComponent(ownerEntity))
-                    {
-                        continue;
-                    }
-
-                    // CityUtils indexes PrefabRef on the owner entity.
-                    if (!prefabRefLookup.HasComponent(ownerEntity))
-                    {
-                        continue;
-                    }
-                    // Preserved CityUtils computation path for vanilla-aligned behavior.
-                    int maxWorkers = CityUtils.GetCityServiceWorkplaceMaxWorkers(
+                // CityUtils indexes PrefabRef on the owner entity.
+                if (!prefabRefLookup.HasComponent(ownerEntity))
+                {
+                    continue;
+                }
+                // Preserved CityUtils computation path for vanilla-aligned behavior.
+                int maxWorkers = CityUtils.GetCityServiceWorkplaceMaxWorkers(
                         ownerEntity,
                         ref prefabRefLookup,
                         ref upgradesLookup,
@@ -97,47 +96,49 @@ namespace MagicHearse
                         ref schoolDataLookup,
                         ref studentLookup);
 
-                    if (maxWorkers <= 0)
-                    {
-                        continue;
-                    }
+                if (maxWorkers <= 0)
+                {
+                    continue;
+                }
 
-                    WorkProvider existing = workProviderLookup[ownerEntity];
+                WorkProvider existing = workProviderLookup[ownerEntity];
 
-                    bool providerNeedsUpdate = existing.m_MaxWorkers != maxWorkers;
+                bool providerNeedsUpdate = existing.m_MaxWorkers != maxWorkers;
 
-                    bool markerNeedsUpdate =
+                bool markerNeedsUpdate =
                         !markerLookup.HasComponent(ownerEntity) ||
                         markerLookup[ownerEntity].MaxWorkers != maxWorkers;
 
-                    if (!providerNeedsUpdate && !markerNeedsUpdate)
-                    {
-                        continue;
-                    }
-
-                    if (providerNeedsUpdate)
-                    {
-                        WorkProvider updated = existing;
-                        updated.m_MaxWorkers = maxWorkers;
-                        ecb.SetComponent(ownerEntity, updated);
-                    }
-
-                    if (markerNeedsUpdate)
-                    {
-                        WorkProviderMax marker = new WorkProviderMax { MaxWorkers = maxWorkers };
-
-                        if (markerLookup.HasComponent(ownerEntity))
-                        {
-                            ecb.SetComponent(ownerEntity, marker);
-                        }
-                        else
-                        {
-                            ecb.AddComponent(ownerEntity, marker);
-                        }
-                    }
-
-                    touched++;
+                if (!providerNeedsUpdate && !markerNeedsUpdate)
+                {
+                    continue;
                 }
+
+                if (providerNeedsUpdate)
+                {
+                    WorkProvider updated = existing;
+                    updated.m_MaxWorkers = maxWorkers;
+                    ecb.SetComponent(ownerEntity, updated);
+                }
+
+                if (markerNeedsUpdate)
+                {
+                    WorkProviderMax marker = new()
+                    {
+                        MaxWorkers = maxWorkers
+                    };
+
+                    if (markerLookup.HasComponent(ownerEntity))
+                    {
+                        ecb.SetComponent(ownerEntity, marker);
+                    }
+                    else
+                    {
+                        ecb.AddComponent(ownerEntity, marker);
+                    }
+                }
+
+                touched++;
             }
 
 #if DEBUG
@@ -175,40 +176,39 @@ namespace MagicHearse
             ComponentLookup<WorkProviderMax> markerLookup =
                 GetComponentLookup<WorkProviderMax>(isReadOnly: true);
 
-            using (NativeArray<Entity> entities = m_PlacedDeathcareMarkedQuery.ToEntityArray(Allocator.Temp))
+            using NativeArray<Entity> entities = m_PlacedDeathcareMarkedQuery.ToEntityArray(Allocator.Temp);
+            for (int i = 0; i < entities.Length; i++)
             {
-                for (int i = 0; i < entities.Length; i++)
+                Entity ownerEntity = entities[i];
+
+                if (deletedLookup.HasComponent(ownerEntity) || !workProviderLookup.HasComponent(ownerEntity))
                 {
-                    Entity ownerEntity = entities[i];
+                    ecb.RemoveComponent<WorkProviderMax>(ownerEntity);
+                    continue;
+                }
 
-                    if (deletedLookup.HasComponent(ownerEntity) || !workProviderLookup.HasComponent(ownerEntity))
-                    {
-                        ecb.RemoveComponent<WorkProviderMax>(ownerEntity);
-                        continue;
-                    }
+                if (!markerLookup.HasComponent(ownerEntity))
+                {
+                    continue;
+                }
 
-                    if (!markerLookup.HasComponent(ownerEntity))
-                    {
-                        continue;
-                    }
+                WorkProvider current = workProviderLookup[ownerEntity];
+                WorkProviderMax marker = markerLookup[ownerEntity];
 
-                    WorkProvider current = workProviderLookup[ownerEntity];
-                    WorkProviderMax marker = markerLookup[ownerEntity];
+                // Restore only when value still matches last MH write (don't stomp other mods).
+                if (current.m_MaxWorkers != marker.MaxWorkers)
+                {
+                    ecb.RemoveComponent<WorkProviderMax>(ownerEntity);
+                    continue;
+                }
 
-                    // Restore only when value still matches last MH write (don't stomp other mods).
-                    if (current.m_MaxWorkers != marker.MaxWorkers)
-                    {
-                        ecb.RemoveComponent<WorkProviderMax>(ownerEntity);
-                        continue;
-                    }
+                if (!prefabRefLookup.HasComponent(ownerEntity))
+                {
+                    ecb.RemoveComponent<WorkProviderMax>(ownerEntity);
+                    continue;
+                }
 
-                    if (!prefabRefLookup.HasComponent(ownerEntity))
-                    {
-                        ecb.RemoveComponent<WorkProviderMax>(ownerEntity);
-                        continue;
-                    }
-
-                    int maxWorkers = CityUtils.GetCityServiceWorkplaceMaxWorkers(
+                int maxWorkers = CityUtils.GetCityServiceWorkplaceMaxWorkers(
                         ownerEntity,
                         ref prefabRefLookup,
                         ref upgradesLookup,
@@ -217,15 +217,14 @@ namespace MagicHearse
                         ref schoolDataLookup,
                         ref studentLookup);
 
-                    if (maxWorkers > 0 && maxWorkers != current.m_MaxWorkers)
-                    {
-                        WorkProvider updated = current;
-                        updated.m_MaxWorkers = maxWorkers;
-                        ecb.SetComponent(ownerEntity, updated);
-                    }
-
-                    ecb.RemoveComponent<WorkProviderMax>(ownerEntity);
+                if (maxWorkers > 0 && maxWorkers != current.m_MaxWorkers)
+                {
+                    WorkProvider updated = current;
+                    updated.m_MaxWorkers = maxWorkers;
+                    ecb.SetComponent(ownerEntity, updated);
                 }
+
+                ecb.RemoveComponent<WorkProviderMax>(ownerEntity);
             }
         }
 
