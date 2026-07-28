@@ -29,31 +29,31 @@ namespace MagicHearse
         public static int RefreshIntervalSeconds { get; set; } = 15;    // Throttle refresh while Options UI open.
 
         // Locale keys (add to all Locale*.cs)
-        internal const string KeyStatusNotLoaded = "MH_STATUS_NOT_LOADED";
-        internal const string KeyNoCityLoaded = "MH_STATUS_NO_CITY_LOADED";
-        internal const string KeyStatsNotAvail = "MH_STATUS_STATS_NOT_AVAIL";
-        internal const string KeyLine1 = "MH_STATUS_LINE1";
-        internal const string KeyLine2 = "MH_STATUS_LINE2";
-        internal const string KeyLine3 = "MH_STATUS_LINE3";
-        internal const string KeyLine4 = "MH_STATUS_LINE4";
-        internal const string KeyCemeteryNone = "MH_STATUS_CEMETERY_NONE";
-        internal const string KeyCemeteryRow = "MH_STATUS_CEMETERY_ROW";
-        internal const string KeyCemeteryMore = "MH_STATUS_CEMETERY_MORE";
+        internal const string kKeyStatusNotLoaded = "MH_STATUS_NOT_LOADED";
+        internal const string kKeyNoCityLoaded = "MH_STATUS_NO_CITY_LOADED";
+        internal const string kKeyStatsNotAvail = "MH_STATUS_STATS_NOT_AVAIL";
+        internal const string kKeyLine1 = "MH_STATUS_LINE1";
+        internal const string kKeyLine2 = "MH_STATUS_LINE2";
+        internal const string kKeyLine3 = "MH_STATUS_LINE3";
+        internal const string kKeyLine4 = "MH_STATUS_LINE4";
+        internal const string kKeyCemeteryNone = "MH_STATUS_CEMETERY_NONE";
+        internal const string kKeyCemeteryRow = "MH_STATUS_CEMETERY_ROW";
+        internal const string kKeyCemeteryMore = "MH_STATUS_CEMETERY_MORE";
 
         // Rough character budget for the packed cemetery-names row before it spills to "+N more".
-        private const int CemeteryNameBudget = 46;
+        private const int kCemeteryNameBudget = 46;
 
         // English fallbacks (placeholders must match BuildAndApplySnapshot arg lists)
-        private const string FallbackStatusNotLoaded = "Status not loaded.";
-        private const string FallbackNoCityLoaded   = "No city loaded.";
-        private const string FallbackStatsNotAvail  = "No city... ¯\\_(ツ)_/¯ ...No stats";
-        private const string FallbackLine1 = "{0} waiting | {1} deaths/mo | updated {2}";
-        private const string FallbackLine2 = "{0} cremate max/mo | {1}/{2} graves used";
-        private const string FallbackLine3 = "{0} / {1} hearses | {2} / {3} buildings | {4} max workers";
-        private const string FallbackLine4 = "resets: {0} · cemeteries: {1}";
-        private const string FallbackCemeteryNone = "none this session";
-        private const string FallbackCemeteryRow = "{0} ×{1}";
-        private const string FallbackCemeteryMore = "+{0} more";
+        private const string kFallbackStatusNotLoaded = "Status not loaded.";
+        private const string kFallbackNoCityLoaded   = "No city loaded.";
+        private const string kFallbackStatsNotAvail  = "No city... ¯\\_(ツ)_/¯ ...No stats";
+        private const string kFallbackLine1 = "{0} waiting | {1} deaths/mo | updated {2}";
+        private const string kFallbackLine2 = "{0} cremate max/mo | {1}/{2} graves used";
+        private const string kFallbackLine3 = "{0} / {1} hearses | {2} / {3} buildings | {4} max workers";
+        private const string kFallbackLine4 = "resets: {0} · cemeteries: {1}";
+        private const string kFallbackCemeteryNone = "none this session";
+        private const string kFallbackCemeteryRow = "{0} ×{1}";
+        private const string kFallbackCemeteryMore = "+{0} more";
 
         // Public UI strings read by MHSetting.cs getters
         public static string SummaryLine1 { get; private set; } = string.Empty;
@@ -78,7 +78,7 @@ namespace MagicHearse
             s_LastRefreshTicksUtc = 0;
             s_LastUiFrame = -1;
 
-            SummaryLine1 = Localize(KeyStatusNotLoaded, FallbackStatusNotLoaded);
+            SummaryLine1 = Localize(kKeyStatusNotLoaded, kFallbackStatusNotLoaded);
             SummaryLine2 = string.Empty;
             SummaryLine3 = string.Empty;
             ClearCemeteryLines();
@@ -111,7 +111,7 @@ namespace MagicHearse
 
             if (string.IsNullOrEmpty(SummaryLine1))
             {
-                SummaryLine1 = Localize(KeyStatusNotLoaded, FallbackStatusNotLoaded);
+                SummaryLine1 = Localize(kKeyStatusNotLoaded, kFallbackStatusNotLoaded);
             }
 
             GameManager gm = GameManager.instance;
@@ -127,8 +127,8 @@ namespace MagicHearse
             // If no city loaded, re-localize these two lines when UI refreshes
             if (!isGame)
             {
-                SummaryLine1 = Localize(KeyNoCityLoaded, FallbackNoCityLoaded);
-                SummaryLine2 = Localize(KeyStatsNotAvail, FallbackStatsNotAvail);
+                SummaryLine1 = Localize(kKeyNoCityLoaded, kFallbackNoCityLoaded);
+                SummaryLine2 = Localize(kKeyStatsNotAvail, kFallbackStatsNotAvail);
                 SummaryLine3 = string.Empty;
                 ClearCemeteryLines();
                 return;
@@ -170,7 +170,7 @@ namespace MagicHearse
             }
             catch (Exception ex)
             {
-                SummaryLine1 = Localize(KeyStatusNotLoaded, FallbackStatusNotLoaded);
+                SummaryLine1 = Localize(kKeyStatusNotLoaded, kFallbackStatusNotLoaded);
                 SummaryLine2 = string.Empty;
                 SummaryLine3 = string.Empty;
                 ClearCemeteryLines();
@@ -188,23 +188,23 @@ namespace MagicHearse
             string refreshedTime = snap.SnapshotTimeLocal.ToString("HH:mm:ss");
 
             SummaryLine1 = SafeFormat(
-                KeyLine1,
-                fallbackFormat: FallbackLine1,
+                kKeyLine1,
+                fallbackFormat: kFallbackLine1,
                 Format0(snap.DeadWaiting),      // {0}
                 Format0(snap.DeathsPerMonth),   // {1}
                 refreshedTime);                 // {2}
 
             SummaryLine2 = SafeFormat(
-                KeyLine2,
-                fallbackFormat: FallbackLine2,
+                kKeyLine2,
+                fallbackFormat: kFallbackLine2,
                 Format0(snap.ProcessingRate),   // {0} <- game’s “handling capacity/mo”
                 Format0(snap.CemeteryUse),      // {1}
                 Format0(snap.CemeteryCapacity)  // {2}
             );
 
             SummaryLine3 = SafeFormat(
-                KeyLine3,
-                fallbackFormat: FallbackLine3,
+                kKeyLine3,
+                fallbackFormat: kFallbackLine3,
                 Format0(snap.WorkingHearses),   // {0}
                 Format0(snap.Hearses),          // {1}
                 snap.ActiveFacilities,          // {2}
@@ -230,14 +230,14 @@ namespace MagicHearse
 
             if (total <= 0)
             {
-                SummaryLine4 = Localize(KeyCemeteryNone, FallbackCemeteryNone);
+                SummaryLine4 = Localize(kKeyCemeteryNone, kFallbackCemeteryNone);
                 SummaryCemetery1 = string.Empty;
                 return;
             }
 
             // Summary row shows totals; packed row names the cemeteries (with "+N more" spill),
             // so nothing is hidden even when a city has more cemeteries than fit on one line.
-            SummaryLine4 = SafeFormat(KeyLine4, FallbackLine4, total, resetSys.DistinctCemeteryCount);
+            SummaryLine4 = SafeFormat(kKeyLine4, kFallbackLine4, total, resetSys.DistinctCemeteryCount);
             SummaryCemetery1 = BuildPackedCemeteries(resetSys);
         }
 
@@ -253,10 +253,10 @@ namespace MagicHearse
             for (int i = 0; i < s_TopBuffer.Count; i++)
             {
                 CemeteryResetSystem.Tally tally = s_TopBuffer[i];
-                string entry = SafeFormat(KeyCemeteryRow, FallbackCemeteryRow, tally.Name ?? string.Empty, tally.Count);
+                string entry = SafeFormat(kKeyCemeteryRow, kFallbackCemeteryRow, tally.Name ?? string.Empty, tally.Count);
 
                 int sep = shown == 0 ? 0 : 3; // " · "
-                if (shown > 0 && sb.Length + sep + entry.Length > CemeteryNameBudget)
+                if (shown > 0 && sb.Length + sep + entry.Length > kCemeteryNameBudget)
                 {
                     break;
                 }
@@ -278,7 +278,7 @@ namespace MagicHearse
                     sb.Append(" · ");
                 }
 
-                sb.Append(SafeFormat(KeyCemeteryMore, FallbackCemeteryMore, remaining));
+                sb.Append(SafeFormat(kKeyCemeteryMore, kFallbackCemeteryMore, remaining));
             }
 
             return sb.ToString();

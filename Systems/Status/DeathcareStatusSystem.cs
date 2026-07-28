@@ -93,17 +93,17 @@ namespace MagicHearse
                     Game.Buildings.DeathcareFacility,
                     Game.Buildings.Building, ServiceDispatch,
                     Game.Prefabs.PrefabRef>()
-                .WithNone<Game.Tools.Temp, Game.Common.Deleted>()
+                .WithNone<Temp, Deleted>()
                 .Build();
 
             m_DeadWaitingQuery = SystemAPI.QueryBuilder()
                 .WithAll<Game.Citizens.Citizen, Game.Citizens.HealthProblem>()
-                .WithNone<Game.Tools.Temp, Game.Common.Deleted>()
+                .WithNone<Temp, Deleted>()
                 .Build();
 
             // All hearse vehicles currently in the world.
             m_HearseQuery = SystemAPI.QueryBuilder()
-                .WithAll<Game.Vehicles.Hearse, Game.Common.Owner>()
+                .WithAll<Game.Vehicles.Hearse, Owner>()
                 .WithNone<Temp, Deleted>()
                 .Build();
         }

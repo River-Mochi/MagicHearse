@@ -49,12 +49,11 @@ namespace CS2Shared.RiverMochi
 
     public static class LogUtils
     {
-        private static readonly object s_WarnOnceLock = new object();
-        private static readonly object s_FileWriteLock = new object();
+        private static readonly object s_WarnOnceLock = new();
+        private static readonly object s_FileWriteLock = new();
 
         // Per-process key cache so hot-path warnings show once instead of repeating every update.
-        private static readonly HashSet<string> s_WarnOnceKeys =
-            new HashSet<string>(StringComparer.Ordinal);
+        private static readonly HashSet<string> s_WarnOnceKeys = new(StringComparer.Ordinal);
 
         private const int kMaxWarnOnceKeys = 2048;
 
@@ -339,7 +338,7 @@ namespace CS2Shared.RiverMochi
                     FileMode.Append,
                     FileAccess.Write,
                     FileShare.ReadWrite);
-                using StreamWriter writer = new StreamWriter(stream);
+                using StreamWriter writer = new(stream);
                 writer.Write('[');
                 writer.Write(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss,fff"));
                 writer.Write("] [");
