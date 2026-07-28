@@ -89,9 +89,9 @@ Hello, Bonjour, Hallo, Hola, Ciao, こんにちは, 안녕하세요, 你好, Cze
 <!--Change log for new version. Single line or multi line. Supports minimal markdown subset-->
 <ChangeLog>
 <ChangeLog>
-- Improved settings-file migration checks for older installs.
-- Clarified Status report and cemetery descriptions.
-- Internal refactor logging and maintenance.
+- Added extra verification when moving settings from older versions.
+- Clarified Status and cemetery descriptions.
+- Internal reliability and logging maintenance.
 </ChangeLog>
 </ChangeLog>
 <!--External link. supported types are discord, github, youtube, twitch, x, paypal, patreon-->
