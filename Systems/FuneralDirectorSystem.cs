@@ -134,7 +134,8 @@ namespace MagicHearse
             bool controlWorkers = setting.ControlWorkers;
             float workersScalar = setting.WorkersScalar * 0.01f;
 
-            // 1) DeathcareFacilityData on prefab entities
+            // Scale from authoring values so repeated setting changes never stack.
+            // DeathcareFacilityData on prefab entities
             foreach ((RefRW<Game.Prefabs.DeathcareFacilityData> dc, Entity entity) in SystemAPI
                          .Query<RefRW<Game.Prefabs.DeathcareFacilityData>>()
                          .WithAll<Game.Prefabs.PrefabData>()

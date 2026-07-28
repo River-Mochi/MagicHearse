@@ -22,7 +22,7 @@ namespace MagicHearse
 
     public sealed partial class CemeteryResetSystem : GameSystemBase
     {
-        // Frequent enough to catch full cemeteries quickly; query is tiny.
+        // Frequent enough to catch full cemeteries quickly; the query is tiny.
         public const int kUpdateIntervalFrames = 128;
 
         /// <summary>One cemetery's session tally: how many times it was emptied, plus its display name.</summary>
@@ -34,12 +34,12 @@ namespace MagicHearse
 
         private Game.UI.NameSystem m_NameSystem = null!;
 
-        // Session tally, cleared on city load/switch. Entity-keyed -> must be cleared there (stale otherwise).
+        // Entity keys only make sense for the current city, so clear them on every load/switch.
         private int m_SessionResetTotal;
-        private readonly Dictionary<Entity, Tally> m_Tallies = new Dictionary<Entity, Tally>();
+        private readonly Dictionary<Entity, Tally> m_Tallies = new();
 
-        // Reused per-update buffer so name resolution happens AFTER the RefRW scan, not during it.
-        private readonly List<Entity> m_JustReset = new List<Entity>();
+        // Reuse this buffer so name lookups happen after the RefRW scan.
+        private readonly List<Entity> m_JustReset = new();
 
         /// <summary>Total cemetery resets this session (all cemeteries).</summary>
         public int SessionResetTotal => m_SessionResetTotal;
@@ -70,13 +70,13 @@ namespace MagicHearse
         {
             base.OnCreate();
 
-            // Mod.OnLoad + the FD/AutoReset setters flip this on when both toggles are ON.
+            // Mod.OnLoad and the setting setters enable this when either active mode wants cemetery reset.
             Enabled = false;
 
             m_NameSystem = World.GetOrCreateSystemManaged<Game.UI.NameSystem>();
 
-            // Gate: only run in a city that actually has a deathcare building.
-            RequireForUpdate<Game.Buildings.DeathcareFacility>();
+            // Do not run in a city with no deathcare buildings.
+            RequireForUpdate<DeathcareFacility>();
 
 #if DEBUG
             LogUtils.Info(() => "[MH] CemeteryReset system created.");
@@ -87,8 +87,7 @@ namespace MagicHearse
         {
             base.OnGameLoadingComplete(purpose, mode);
 
-            // Session-scoped tally: clear on every city load/switch so it never carries across cities
-            // (and so the Entity keys never go stale). Matches how the rest of the Status report resets.
+            // Reset the session totals and discard Entity keys from the previous city.
             m_SessionResetTotal = 0;
             m_Tallies.Clear();
             m_JustReset.Clear();
@@ -101,28 +100,27 @@ namespace MagicHearse
 
         protected override void OnUpdate()
         {
-            // Few cemeteries, this main-thread scan is cheap.
+            // Cities have few cemeteries, so this main-thread scan is cheap.
             // SystemAPI completes the component dependency before the RefRW scan.
-            foreach ((RefRW<Game.Buildings.DeathcareFacility> facilityRef, Entity entity) in SystemAPI
-                         .Query<RefRW<Game.Buildings.DeathcareFacility>>()
+            foreach ((RefRW<DeathcareFacility> facilityRef, Entity entity) in SystemAPI
+                         .Query<RefRW<DeathcareFacility>>()
                          .WithNone<Deleted, Temp>()
                          .WithEntityAccess())
             {
                 DeathcareFacility facility = facilityRef.ValueRO;
 
-                // Only long-term cemeteries ever carry IsFull. Guard on count so we write once per fill
-                // cycle (count is already 0 while we wait for the game to clear the flag).
-                if ((facility.m_Flags & DeathcareFacilityFlags.IsFull) != 0 && facility.m_LongTermStoredCount > 0)
+                // Count must still be positive so this runs only once per fill cycle.
+                if ((facility.m_Flags & DeathcareFacilityFlags.IsFull) != 0 &&
+                    facility.m_LongTermStoredCount > 0)
                 {
-                    // Clears a placed cemetery only; storage slider changes prefab capacity.
-                    // Leave IsFull alone so vanilla also clears the full notification next tick.
+                    // empties the placed cemetery; the storage slider changes prefab capacity.
+                    // Leave IsFull alone so vanilla clears it and its notification on the next tick.
                     facilityRef.ValueRW.m_LongTermStoredCount = 0;
                     m_JustReset.Add(entity);
                 }
             }
 
-            // Tally after the write-scan so NameSystem reads happen outside the RefRW query iteration.
-            // This only runs on the rare pass where a cemetery actually filled up.
+            // Resolve names only on the rare pass where a cemetery was actually emptied.
             for (int i = 0; i < m_JustReset.Count; i++)
             {
                 RecordReset(m_JustReset[i]);
@@ -135,10 +133,16 @@ namespace MagicHearse
         {
             m_SessionResetTotal++;
 
-            // Name resolution touches localization; keep it from ever breaking the scan.
+            // Name lookup failure must never stop cemetery resetting.
             string name;
-            try { name = m_NameSystem.GetRenderedLabelName(cemetery); }
-            catch { name = string.Empty; }
+            try
+            {
+                name = m_NameSystem.GetRenderedLabelName(cemetery);
+            }
+            catch
+            {
+                name = string.Empty;
+            }
 
             if (m_Tallies.TryGetValue(cemetery, out Tally tally))
             {
@@ -148,7 +152,11 @@ namespace MagicHearse
             }
             else
             {
-                m_Tallies[cemetery] = new Tally { Count = 1, Name = name };
+                m_Tallies[cemetery] = new Tally
+                {
+                    Count = 1,
+                    Name = name,
+                };
             }
         }
     }

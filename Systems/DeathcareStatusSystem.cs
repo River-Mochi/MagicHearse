@@ -7,7 +7,7 @@
 // ================= </copyright> ======================
 
 // File: Systems/DeathcareStatusSystem.cs
-// Purpose:
+// Purpose: Builds raw deathcare stats on-demand for the Options Status.
 
 namespace MagicHearse
 {
@@ -82,7 +82,6 @@ namespace MagicHearse
         private CityStatisticsSystem m_CityStats = null!;
         private EntityQuery m_DeathcarePlacedQuery;
         private EntityQuery m_DeadWaitingQuery;
-
         private EntityQuery m_HearseQuery;
 
         protected override void OnCreate()
@@ -101,30 +100,28 @@ namespace MagicHearse
                 .WithNone<Temp, Deleted>()
                 .Build();
 
-            // all hearse vehicles that exist in the world
+            // All hearse vehicles currently in the world.
             m_HearseQuery = SystemAPI.QueryBuilder()
-                .WithAll<Game.Vehicles.Hearse, Owner>()
+                .WithAll<Hearse, Owner>()
                 .WithNone<Temp, Deleted>()
                 .Build();
         }
 
         protected override void OnUpdate()
         {
-          // Intentionally empty: this system is queried on-demand by the Options UI and required to avoid build errors.
+            // GameSystemBase requires this override; BuildSnapshot() does the work on demand.
         }
 
         public Snapshot BuildSnapshot()
         {
-            // Main-thread read of live component data. SystemAPI covers the types it iterates, but NOT the
-            // random-access ComponentLookup/BufferLookup reads below (prefab data, upgrades, efficiency),
-            // nor the chunk walk further down. The system form completes every type this system declared,
-            // so one call blankets all of them. Near-free here: Options is open, so the sim is paused.
-            // Same shape as RiderControl's Options-UI status snapshot.
+            // Finish jobs this system depends on before reading live data on the main thread.
             CompleteDependency();
 
+            // These read-only lookups reach from placed buildings to prefab and upgrade data.
             ComponentLookup<PrefabRef> prefabRefLookup = GetComponentLookup<PrefabRef>(true);
             ComponentLookup<DeathcareFacilityData> dcLookup = GetComponentLookup<DeathcareFacilityData>(true);
-            ComponentLookup<Game.Buildings.DeathcareFacility> buildingDcLookup = GetComponentLookup<Game.Buildings.DeathcareFacility>(true);
+            ComponentLookup<Game.Buildings.DeathcareFacility> buildingDcLookup =
+                GetComponentLookup<Game.Buildings.DeathcareFacility>(true);
             ComponentLookup<WorkProvider> workProviderLookup = GetComponentLookup<WorkProvider>(true);
 
             BufferLookup<InstalledUpgrade> upgradesLookup = GetBufferLookup<InstalledUpgrade>(true);
@@ -142,103 +139,125 @@ namespace MagicHearse
             int totalFacilities = 0;
             int activeFacilities = 0;
 
+            // Add capacity and worker totals from every placed deathcare facility.
             using (NativeArray<Entity> entities = m_DeathcarePlacedQuery.ToEntityArray(Allocator.Temp))
             {
                 for (int i = 0; i < entities.Length; i++)
                 {
-                    Entity e = entities[i];
+                    Entity facilityEntity = entities[i];
 
-                    if (!prefabRefLookup.HasComponent(e))
+                    if (!prefabRefLookup.HasComponent(facilityEntity))
+                    {
                         continue;
+                    }
 
-                    Entity prefab = prefabRefLookup[e].m_Prefab;
+                    Entity prefab = prefabRefLookup[facilityEntity].m_Prefab;
 
                     DeathcareFacilityData data = dcLookup.HasComponent(prefab) ? dcLookup[prefab] : default;
 
-                    if (upgradesLookup.TryGetBuffer(e, out DynamicBuffer<InstalledUpgrade> upgrades) && upgrades.Length != 0)
+                    if (upgradesLookup.TryGetBuffer(
+                            facilityEntity,
+                            out DynamicBuffer<InstalledUpgrade> upgrades) &&
+                        upgrades.Length != 0)
                     {
                         UpgradeUtils.CombineStats(ref data, upgrades, ref prefabRefLookup, ref dcLookup);
                     }
 
-                    if (data.m_ProcessingRate <= 0f && data.m_HearseCapacity <= 0 && data.m_StorageCapacity <= 0)
+                    if (data.m_ProcessingRate <= 0f &&
+                        data.m_HearseCapacity <= 0 &&
+                        data.m_StorageCapacity <= 0)
+                    {
                         continue;
+                    }
 
                     totalFacilities++;
 
                     float efficiency = 1f;
-                    if (effLookup.TryGetBuffer(e, out DynamicBuffer<Efficiency> effBuf))
+                    if (effLookup.TryGetBuffer(facilityEntity, out DynamicBuffer<Efficiency> effBuf))
                     {
                         efficiency = BuildingUtils.GetEfficiency(effBuf);
                     }
 
-                    if (efficiency <= 0f)   // Building is disabled, don't count it
+                    // Disabled facilities count toward total buildings, but not active capacity.
+                    if (efficiency <= 0f)
+                    {
                         continue;
+                    }
 
-                    activeFacilities++;     // Only hearse from enabled buildings.
-
+                    activeFacilities++;
                     processingRate += efficiency * data.m_ProcessingRate;
                     hearses += data.m_HearseCapacity;
 
                     if (data.m_LongTermStorage)
                     {
-                        if (buildingDcLookup.HasComponent(e))
+                        if (buildingDcLookup.HasComponent(facilityEntity))
                         {
-                            cemeteryUse += buildingDcLookup[e].m_LongTermStoredCount;
+                            cemeteryUse += buildingDcLookup[facilityEntity].m_LongTermStoredCount;
                         }
 
                         cemeteryCapacity += data.m_StorageCapacity;
                     }
 
-                    if (workProviderLookup.HasComponent(e))
+                    if (workProviderLookup.HasComponent(facilityEntity))
                     {
-                        maxWorkers += workProviderLookup[e].m_MaxWorkers;
+                        maxWorkers += workProviderLookup[facilityEntity].m_MaxWorkers;
                     }
                 }
             }
 
-            // Count “working” hearses = Hearse without ParkedCar,
-            // and only if the owner building is active (efficiency > 0).
+            // A working hearse is not parked and belongs to an active deathcare building.
             ComponentLookup<Owner> ownerLookup = GetComponentLookup<Owner>(true);
             ComponentLookup<ParkedCar> parkedLookup = GetComponentLookup<ParkedCar>(true);
-            ComponentLookup<Game.Buildings.DeathcareFacility> deathcareBuildingLookup = GetComponentLookup<Game.Buildings.DeathcareFacility>(true);
+            ComponentLookup<Game.Buildings.DeathcareFacility> deathcareBuildingLookup =
+                GetComponentLookup<Game.Buildings.DeathcareFacility>(true);
 
             using (NativeArray<Entity> hearseEntities = m_HearseQuery.ToEntityArray(Allocator.Temp))
             {
                 for (int i = 0; i < hearseEntities.Length; i++)
                 {
-                    Entity v = hearseEntities[i];
+                    Entity hearseEntity = hearseEntities[i];
 
-                    if (parkedLookup.HasComponent(v))
-                        continue; // parked -> not working
-
-                    if (!ownerLookup.HasComponent(v))
-                        continue;
-
-                    Entity owner = ownerLookup[v].m_Owner;
-
-                    // Only count hearses owned by a deathcare facility building
-                    if (!deathcareBuildingLookup.HasComponent(owner))
-                        continue;
-
-                    float eff = 1f;
-                    if (effLookup.TryGetBuffer(owner, out DynamicBuffer<Efficiency> buf))
+                    if (parkedLookup.HasComponent(hearseEntity))
                     {
-                        eff = BuildingUtils.GetEfficiency(buf);
+                        continue;
                     }
 
-                    if (eff <= 0f)
-                        continue; // owner building disabled/out-of-service
+                    if (!ownerLookup.HasComponent(hearseEntity))
+                    {
+                        continue;
+                    }
+
+                    Entity owner = ownerLookup[hearseEntity].m_Owner;
+
+                    if (!deathcareBuildingLookup.HasComponent(owner))
+                    {
+                        continue;
+                    }
+
+                    float ownerEfficiency = 1f;
+                    if (effLookup.TryGetBuffer(owner, out DynamicBuffer<Efficiency> ownerEfficiencies))
+                    {
+                        ownerEfficiency = BuildingUtils.GetEfficiency(ownerEfficiencies);
+                    }
+
+                    if (ownerEfficiency <= 0f)
+                    {
+                        continue;
+                    }
 
                     workingHearses++;
                 }
             }
 
-            // Dead waiting (unchanged)
+            // Count dead citizens who still require transport.
             long deadWaiting = 0;
-            const HealthProblemFlags Want = HealthProblemFlags.Dead | HealthProblemFlags.RequireTransport;
-            ComponentTypeHandle<HealthProblem> hpType = GetComponentTypeHandle<HealthProblem>(isReadOnly: true);
+            const HealthProblemFlags Want =
+                HealthProblemFlags.Dead | HealthProblemFlags.RequireTransport;
+            ComponentTypeHandle<HealthProblem> hpType =
+                GetComponentTypeHandle<HealthProblem>(isReadOnly: true);
 
-            using (NativeArray<ArchetypeChunk> chunks = m_DeadWaitingQuery.ToArchetypeChunkArray(Allocator.Temp))
+            using (NativeArray<ArchetypeChunk> chunks =
+                m_DeadWaitingQuery.ToArchetypeChunkArray(Allocator.Temp))
             {
                 for (int c = 0; c < chunks.Length; c++)
                 {
@@ -258,8 +277,8 @@ namespace MagicHearse
             return new Snapshot(
                 deathsPerMonth: deathsPerMonth,
                 processingRate: processingRate,
-                hearses: hearses,                 // total
-                workingHearses: workingHearses,   // not parked
+                hearses: hearses,
+                workingHearses: workingHearses,
                 cemeteryUse: cemeteryUse,
                 cemeteryCapacity: cemeteryCapacity,
                 maxWorkers: maxWorkers,

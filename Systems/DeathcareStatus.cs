@@ -16,6 +16,7 @@ namespace MagicHearse
     using System;                      // DateTime, TimeSpan, Math, Exception
     using System.Collections.Generic;  // List
     using System.Text;                 // StringBuilder
+    using Colossal.Localization;
     using CS2Shared.RiverMochi;        // LogUtils
     using Game;                        // IsGame()
     using Game.SceneFlow;              // GameManager
@@ -63,7 +64,7 @@ namespace MagicHearse
         public static string SummaryCemetery1 { get; private set; } = string.Empty;
 
         // Reused buffer for the top-N cemetery tallies (UI thread only).
-        private static readonly List<CemeteryResetSystem.Tally> s_TopBuffer = new List<CemeteryResetSystem.Tally>();
+        private static readonly List<CemeteryResetSystem.Tally> s_TopBuffer = new();
 
         // Cache state
         private static bool s_WasInGame;
@@ -247,7 +248,7 @@ namespace MagicHearse
         {
             resetSys.CopyTopEmptied(s_TopBuffer, 32);
 
-            StringBuilder sb = new StringBuilder();
+            StringBuilder sb = new();
             int shown = 0;
 
             for (int i = 0; i < s_TopBuffer.Count; i++)
@@ -286,7 +287,7 @@ namespace MagicHearse
 
         private static string Localize(string entryId, string fallback)
         {
-            var dict = GameManager.instance?.localizationManager?.activeDictionary;
+            LocalizationDictionary? dict = GameManager.instance?.localizationManager?.activeDictionary;
             if (dict != null && dict.TryGetValue(entryId, out string value) && !string.IsNullOrEmpty(value))
             {
                 return value;

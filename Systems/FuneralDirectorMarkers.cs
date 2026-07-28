@@ -6,7 +6,7 @@
 // all copies or substantial portions of this code.
 // ================= </copyright> ======================
 
-// File: Systems/FuneralDirectorSystem.Markers.cs
+// File: Systems/FuneralDirectorSystemMarkers.cs
 // Purpose: Tracking components used by FuneralDirectorSystem (safe restore + non-stomp behavior).
 
 namespace MagicHearse
