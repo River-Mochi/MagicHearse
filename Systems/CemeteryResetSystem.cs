@@ -13,7 +13,6 @@ namespace MagicHearse
 {
     using System.Collections.Generic;      // Dictionary, List
     using Colossal.Serialization.Entities; // Purpose
-    using CS2Shared.RiverMochi;            // LogUtils, DEBUG build
     using Game;                            // GameSystemBase, SystemUpdatePhase, GameMode
     using Game.Buildings;                  // DeathcareFacility, DeathcareFacilityFlags
     using Game.Common;                     // Deleted
@@ -79,7 +78,7 @@ namespace MagicHearse
             RequireForUpdate<DeathcareFacility>();
 
 #if DEBUG
-            LogUtils.Info(() => "[MH] CemeteryReset system created.");
+            CS2Shared.RiverMochi.LogUtils.Info(() => "[MH] CemeteryReset system created.");
 #endif
         }
 

@@ -164,14 +164,14 @@ namespace MagicHearse
                 bool oldEntryFound = false;
                 Hash128 oldGuid = default;
 
-                foreach ((Type type, Hash128 hash) entry in dataSource.Enumerate())
+                foreach ((Type type, Hash128 hash) in dataSource.Enumerate())
                 {
-                    if (entry.type != typeof(SettingAsset))
+                    if (type != typeof(SettingAsset))
                     {
                         continue;
                     }
 
-                    SourceMeta meta = dataSource.GetMeta(entry.hash);
+                    SourceMeta meta = dataSource.GetMeta(hash);
                     if (string.IsNullOrEmpty(meta.path))
                     {
                         continue;
@@ -186,7 +186,7 @@ namespace MagicHearse
                         continue;
                     }
 
-                    oldGuid = entry.hash;
+                    oldGuid = hash;
                     oldEntryFound = true;
                     break;
                 }
