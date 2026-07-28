@@ -96,7 +96,7 @@ namespace MagicHearse
                     localizationManager.AddSource("pt-BR", new LocalePT_BR(setting));
                     localizationManager.AddSource("zh-HANS", new LocaleZH_HANS(setting));
                     localizationManager.AddSource("zh-HANT", new LocaleZH_HANT(setting));
-                    // next are locales not officially supported, languages mods needed to use these.
+                    // next are locales not officially supported, localization mods needed to use these.
                     localizationManager.AddSource("pt-PT", new LocalePT_PT(setting));
                     localizationManager.AddSource("th-TH", new LocaleTH(setting));
                     localizationManager.AddSource("uk-UA", new LocaleUK(setting));
