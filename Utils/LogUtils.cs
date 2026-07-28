@@ -32,13 +32,15 @@
 // How to use:
 //   Simple one-time logs:       LogUtils.Info("message");
 //   Warnings/errors:            LogUtils.Warn("message", ex); / LogUtils.Error("message", ex);
-//   Inside loops/update/render:  LogUtils.Info(() => $"message {value}");
+//   Lazy message construction:  LogUtils.Debug(() => $"message {value}");
 //   Warn once:                  LogUtils.WarnOnce("key", () => "message");
 //
 // Simple string overloads are easiest to read.
-// Func<string> overloads are lazy: message is built only after the log level check.
+// Func<string> overloads build the message only after the log-level check.
+// In update/render/entity loops, log only rare or throttled events.
 // Lazy messages: used in hot paths, i.e., OnUpdate, rendering, tool hover, entity loops.
-// Note: helper levels limited to Info/Warn/Error/Debug/Trace for CS2 compatibility.
+// Use WarnOnce or another throttle for messages that could repeat.
+// Helper methods cover Info/Warn/Error/Debug/Trace; TryLog accepts any Colossal/CS2 Level.
 
 namespace CS2Shared.RiverMochi
 {
@@ -55,7 +57,8 @@ namespace CS2Shared.RiverMochi
         // Per-process key cache so hot-path warnings show once instead of repeating every update.
         private static readonly HashSet<string> s_WarnOnceKeys = new(StringComparer.Ordinal);
 
-        private const int kMaxWarnOnceKeys = 2048;
+        // Safety cap only; the HashSet starts empty and grows as unique WarnOnce keys are used.
+        private const int kMaxWarnOnceKeys = 2048; 
 
         // Used only if the passed ILog is null or its metadata throws during early startup/shutdown.
         private static string s_FallbackLogName = string.Empty;
@@ -342,10 +345,9 @@ namespace CS2Shared.RiverMochi
                 writer.Write('[');
                 writer.Write(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss,fff"));
                 writer.Write("] [");
-                writer.Write(GetLevelName(level));
+                writer.Write(level?.name ?? "INFO");    // Colossal's Level is a class that already supplies its name.
                 writer.Write("]  ");
                 writer.WriteLine(message ?? string.Empty);
-
                 if (exception != null)
                 {
                     writer.WriteLine(exception);
@@ -414,22 +416,6 @@ namespace CS2Shared.RiverMochi
             }
         }
 
-        // Format level names like Colossal logs so kModName.log remains easy to grep.
-        private static string GetLevelName(Level level)
-        {
-            if (level == Level.Warn)
-            { return "WARN"; }
-
-            if (level == Level.Error)
-            { return "ERROR"; }
-
-            if (level == Level.Debug)
-            { return "DEBUG"; }
-
-            if (level == Level.Trace)
-            { return "TRACE"; }
-
-            return "INFO";
-        }
+     
     }
 }
