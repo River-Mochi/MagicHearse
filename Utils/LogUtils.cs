@@ -8,10 +8,8 @@
 
 // File: Utils/LogUtils.cs
 // Version: 0.6.9 based on River-Mochi shared CS2 utilities.
-// Purpose: popup-safe direct-file logging helpers for CS2 mods.
-// Why: routine Info/Warn/Error are written with .NET FileStream/StreamWriter
-//   instead of sending every message through Colossal's logger write path, which
-//   can surface UI popups if its internal stream fails.
+// Purpose: reduce Colossal logger NRE popups with direct .NET file logging.
+// Why: routine mod logs bypass Colossal's logger write path.
 //
 // Setup in Mod.cs:
 //   public static readonly ILog s_Log =
@@ -29,19 +27,13 @@
 //       LogUtils.Info("Mod loaded.");
 //   }
 //
-// How to use:
+// Usage:
 //   Simple one-time logs:       LogUtils.Info("message");
 //   Warnings/errors:            LogUtils.Warn("message", ex); / LogUtils.Error("message", ex);
 //   Lazy message construction:  LogUtils.Debug(() => $"message {value}");
 //   Warn once:                  LogUtils.WarnOnce("key", () => "message");
 //
-// Simple string overloads are easiest for one-time messages.
-// Func<string> delays message construction until after the log-level check.
-// It does not throttle: every enabled call still appends to the file.
-// In update/render/entity loops, log only rare or throttled events (this is dangerous).
-// Use WarnOnce or another throttle for messages that could repeat.
-// Helpers cover Info/Warn/Error/Debug/Trace.
-// TryLog also accepts Verbose/Critical/Fatal/Emergency or another Colossal Level.
+// Helpers: Info/Warn/Error/Debug/Trace. TryLog accepts any Colossal Level.
 
 namespace CS2Shared.RiverMochi
 {
@@ -69,7 +61,7 @@ namespace CS2Shared.RiverMochi
         // It is remembered when a mod calls Configure(kModId, s_Log) or SetDefaultLog(s_Log).
         private static ILog? s_DefaultLog = null;
 
-        // Optional one-time setup: pass your mod id so fallback writes can still find kModName.log.
+        // Optional one-time setup: pass your mod id so fallback writes can still find kModId.log.
         public static void Configure(string fallbackLogName)
         {
             if (string.IsNullOrWhiteSpace(fallbackLogName))
@@ -118,7 +110,7 @@ namespace CS2Shared.RiverMochi
             TryLog(log, Level.Info, () => message);
         }
 
-        // Lazy info log for hot paths or expensive message construction.
+        // Lazy info log; delays message construction until Info is enabled.
         public static void Info(Func<string> messageFactory)
         {
             TryLog(s_DefaultLog, Level.Info, messageFactory);
@@ -319,7 +311,7 @@ namespace CS2Shared.RiverMochi
             }
         }
 
-        // Writes directly to kModName.log using .NET, bypassing Colossal's logger write path.
+        // Writes directly to the mod log using .NET, bypassing Colossal's logger write path.
         private static void AppendDirect(ILog? log, Level level, string message, Exception? exception)
         {
             string logPath = GetLogPath(log);
@@ -417,6 +409,6 @@ namespace CS2Shared.RiverMochi
                 // If Colossal logging state is in flux, prefer keeping direct-file logging alive.
                 return true;
             }
-        }     
+        }
     }
 }
