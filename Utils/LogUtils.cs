@@ -47,6 +47,7 @@ namespace CS2Shared.RiverMochi
 {
     using System;
     using System.Collections.Generic;
+    using System.Globalization;     // timestamps for every Window culture.
     using System.IO;
     using Colossal.Logging;
 
@@ -225,29 +226,6 @@ namespace CS2Shared.RiverMochi
             TryLog(log, Level.Trace, messageFactory);
         }
 
-        // Simple verbose log.
-        public static void Verbose(string message)
-        {
-            TryLog(s_DefaultLog, Level.Verbose, () => message);
-        }
-
-        // Simple verbose log with explicit logger.
-        public static void Verbose(ILog? log, string message)
-        {
-            TryLog(log, Level.Verbose, () => message);
-        }
-
-        // Lazy verbose log.
-        public static void Verbose(Func<string> messageFactory)
-        {
-            TryLog(s_DefaultLog, Level.Verbose, messageFactory);
-        }
-
-        // Lazy verbose log with explicit logger.
-        public static void Verbose(ILog? log, Func<string> messageFactory)
-        {
-            TryLog(log, Level.Verbose, messageFactory);
-        }
 
         // Logs a warning only once per remembered logger+key so hot update loops cannot spam the log.
         public static bool WarnOnce(string key, Func<string> messageFactory, Exception? exception = null)
@@ -368,7 +346,8 @@ namespace CS2Shared.RiverMochi
                     FileShare.ReadWrite);
                 using StreamWriter writer = new(stream);
                 writer.Write('[');
-                writer.Write(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss,fff"));
+
+                writer.Write(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss,fff", CultureInfo.InvariantCulture));
                 writer.Write("] [");
                 writer.Write(level?.name ?? "INFO");    // Colossal's Level is a class and already supplies its name.
                 writer.Write("]  ");
