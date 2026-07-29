@@ -60,8 +60,13 @@ namespace MagicHearse
             AppendDispatch(report, snap);
             AppendHearses(report, snap);
             AppendFacilities(report, snap);
+            AppendWarningProgress(report, snap);
             AppendCemeteries(report, world, snap);
             AppendFocus(report, snap);
+
+#if DEBUG
+            report.Append(statusSystem.BuildDebugRequestSamples());
+#endif
 
             report.AppendLine("===========================================================");
             return report.ToString();
@@ -95,45 +100,132 @@ namespace MagicHearse
             StringBuilder report,
             DeathcareStatusSystem.Snapshot snap)
         {
+            long pipelineTotal =
+                snap.DeadNoRequest +
+                snap.DeadWaitingForDispatch +
+                snap.DeadPathfinding +
+                snap.DeadRetryCooldown +
+                snap.DeadAssignedFacility +
+                snap.DeadAssignedHearse +
+                snap.DeadOther;
+
             report.AppendLine();
-            report.AppendLine("DEATHS AND DISPATCH");
-            report.AppendLine($"  Dead waiting for pickup: {Format0(snap.DeadWaiting)}");
-            report.AppendLine($"  Assigned to a service: {Format0(snap.DeadAssigned)}");
-            report.AppendLine($"  Not currently assigned: {Format0(snap.DeadUnassigned)}");
-            report.AppendLine($"  Incoming outside-service assignments: {Format0(snap.DeadAssignedOutside)}");
-            report.AppendLine($"  Assignment total check: {Format0(snap.DeadAssigned + snap.DeadUnassigned)}");
+            report.AppendLine("CORPSES AND PICKUP PIPELINE");
+            report.AppendLine(
+                $"  Dead + RequireTransport total: {Format0(snap.DeadRequiringTransport)}");
+            report.AppendLine(
+                $"  Waiting outside for pickup: {Format0(snap.DeadWaiting)}");
+            report.AppendLine(
+                $"  Already inside a hearse (returning): {Format0(snap.DeadInsideHearse)}");
+            report.AppendLine(
+                $"  Already delivered to a facility: {Format0(snap.DeadAtFacility)}");
+            report.AppendLine(
+                $"  Location total check: {Format0(snap.DeadWaiting + snap.DeadInsideHearse + snap.DeadAtFacility)}");
             report.AppendLine($"  Deaths per month: {Format0(snap.DeathsPerMonth)}");
-            report.AppendLine("  Note: outside service is included in assigned.");
-            report.AppendLine("  Outside service means a hearse can come from an outside connection into the city;");
-            report.AppendLine("  it does not mean a city-owned hearse was sent outside to provide service.");
+
+            report.AppendLine();
+            report.AppendLine("  Waiting outside for pickup, by current stage:");
+            report.AppendLine($"    No request yet: {Format0(snap.DeadNoRequest)}");
+            report.AppendLine(
+                $"    Waiting for dispatch group: {Format0(snap.DeadWaitingForDispatch)}");
+            report.AppendLine($"    Pathfinding: {Format0(snap.DeadPathfinding)}");
+            report.AppendLine(
+                $"    Failed / retry cooldown: {Format0(snap.DeadRetryCooldown)}");
+            report.AppendLine(
+                $"    Assigned to facility: {Format0(snap.DeadAssignedFacility)}");
+            report.AppendLine(
+                $"    Assigned to hearse: {Format0(snap.DeadAssignedHearse)}");
+            report.AppendLine(
+                $"    Other / needs investigation: {Format0(snap.DeadOther)}");
+            report.AppendLine(
+                $"    Waiting-stage total check: {Format0(pipelineTotal)}");
+
+            report.AppendLine(
+                $"  Incoming outside-service cases in these categories: {Format0(snap.DeadAssignedOutside)}");
+            report.AppendLine();
+            report.AppendLine("  Failed dispatch attempts among corpses still waiting outside:");
+            report.AppendLine(
+                $"    With at least one failed attempt: {Format0(snap.WaitingWithFailedDispatches)}");
+            report.AppendLine(
+                $"    With {DeathcareStatusSystem.kRepeatedDispatchFailureThreshold}+ failed attempts: " +
+                $"{Format0(snap.WaitingWithRepeatedDispatchFailures)}");
+            report.AppendLine(
+                $"    Highest failed-attempt count: {snap.MaxDispatchFailCount}");
+            report.AppendLine("  Meaning:");
+            report.AppendLine(
+                "    Assigned to facility = a deathcare facility was selected, but its hearse");
+            report.AppendLine(
+                "    has not taken ownership of the request yet.");
+            report.AppendLine(
+                "    Assigned to hearse = a hearse is going to the corpse.");
+            report.AppendLine(
+                "    Already inside hearse = pickup is complete and the corpse is returning.");
+            report.AppendLine(
+                "    Outside service = a hearse can enter from an outside connection;");
+            report.AppendLine(
+                "    it does not mean a city-owned hearse was sent outside.");
         }
 
         private static void AppendHearses(
             StringBuilder report,
             DeathcareStatusSystem.Snapshot snap)
         {
-            long unusedSlots = Math.Max(0L, snap.Hearses - snap.SpawnedHearses);
-            long stateTotal =
-                snap.HearseIdle + snap.HearseDispatched + snap.HearseTransporting +
-                snap.HearseReturning + snap.HearseDisabled;
+            long unusedEntitySlots = Math.Max(0L, snap.Hearses - snap.SpawnedHearses);
+            long parkedTotal =
+                snap.ParkedAvailableHearses + snap.ParkedDisabledHearses;
+            long onRoadTotal =
+                snap.HearseDispatched +
+                snap.HearseTransporting +
+                snap.HearseReturning +
+                snap.HearseOtherOnRoad +
+                snap.HearseDisabledOnRoad;
 
             report.AppendLine();
             report.AppendLine("HEARSES OWNED BY ACTIVE IN-CITY FACILITIES");
-            report.AppendLine($"  Fleet capacity slots: {Format0(snap.Hearses)}");
-            report.AppendLine($"  Spawned hearse entities: {Format0(snap.SpawnedHearses)}");
-            report.AppendLine($"  Parked hearse entities: {Format0(snap.ParkedHearses)}");
-            report.AppendLine($"  On-road / active hearse entities: {Format0(snap.WorkingHearses)}");
-            report.AppendLine($"  Capacity slots without a spawned entity: {Format0(unusedSlots)}");
-            report.AppendLine("  State breakdown (each spawned hearse is counted once):");
-            report.AppendLine($"    No active state / idle: {Format0(snap.HearseIdle)}");
-            report.AppendLine($"    Sent to pickup: {Format0(snap.HearseDispatched)}");
-            report.AppendLine($"    Carrying a corpse: {Format0(snap.HearseTransporting)}");
-            report.AppendLine($"    Returning: {Format0(snap.HearseReturning)}");
-            report.AppendLine($"    Disabled flag: {Format0(snap.HearseDisabled)}");
-            report.AppendLine($"    State total check: {Format0(stateTotal)}");
-            report.AppendLine("  Explanation: fleet capacity is the maximum number of vehicle slots, not the");
-            report.AppendLine("  number of hearse entities that currently exist. Parked is a separate position");
-            report.AppendLine("  count and normally overlaps the no-active-state / idle state.");
+            report.AppendLine(
+                $"  Configured fleet capacity slots: {Format0(snap.Hearses)}");
+            report.AppendLine(
+                $"  Usable on-road slots at current budget/efficiency: {Format0(snap.BudgetHearseCapacity)}");
+            report.AppendLine(
+                $"  Spawned hearse entities: {Format0(snap.SpawnedHearses)}");
+            report.AppendLine(
+                $"    Parked (exact ParkedCar component): {Format0(snap.ParkedHearses)}");
+            report.AppendLine(
+                $"    On-road: {Format0(snap.WorkingHearses)}");
+            report.AppendLine(
+                $"    Spawned total check: {Format0(snap.ParkedHearses + snap.WorkingHearses)}");
+            report.AppendLine(
+                $"  Configured slots with no hearse entity: {Format0(unusedEntitySlots)}");
+
+            report.AppendLine();
+            report.AppendLine("  Parked breakdown:");
+            report.AppendLine(
+                $"    Available parked hearses: {Format0(snap.ParkedAvailableHearses)}");
+            report.AppendLine(
+                $"    Disabled parked hearses: {Format0(snap.ParkedDisabledHearses)}");
+            report.AppendLine($"    Parked total check: {Format0(parkedTotal)}");
+
+            report.AppendLine();
+            report.AppendLine("  On-road breakdown (each on-road hearse counted once):");
+            report.AppendLine(
+                $"    Going to pickup: {Format0(snap.HearseDispatched)}");
+            report.AppendLine(
+                $"    Returning with corpse: {Format0(snap.HearseTransporting)}");
+            report.AppendLine(
+                $"    Returning without corpse: {Format0(snap.HearseReturning)}");
+            report.AppendLine(
+                $"    Other on-road state: {Format0(snap.HearseOtherOnRoad)}");
+            report.AppendLine(
+                $"    Disabled on-road: {Format0(snap.HearseDisabledOnRoad)}");
+            report.AppendLine($"    On-road total check: {Format0(onRoadTotal)}");
+
+            report.AppendLine();
+            report.AppendLine(
+                "  Parked means the vehicle has ParkedCar. It never means stopped at a");
+            report.AppendLine(
+                "  traffic light. A configured slot with no entity is normal: the facility");
+            report.AppendLine(
+                "  can spawn a hearse when a valid dispatch reaches it.");
         }
 
         private static void AppendFacilities(
@@ -142,14 +234,57 @@ namespace MagicHearse
         {
             report.AppendLine();
             report.AppendLine("FACILITIES AND PROCESSING");
-            report.AppendLine($"  Active facilities: {snap.ActiveFacilities} of {snap.TotalFacilities} placed");
-            report.AppendLine($"  Cremation processing max per month: {Format0(snap.ProcessingRate)}");
-            report.AppendLine($"  Max workers at active facilities: {Format0(snap.MaxWorkers)}");
-            report.AppendLine($"  Active facilities flagged full: {snap.FullFacilities}");
-            report.AppendLine($"  Active facilities reporting no available hearse: {snap.FacilitiesWithoutAvailableHearse}");
-            report.AppendLine($"  Active facilities with bodies waiting to process: {snap.FacilitiesWithProcessingQueue}");
-            report.AppendLine("  A zero means the game is not reporting that condition at this snapshot;");
-            report.AppendLine("  it is not a recommendation by itself.");
+            report.AppendLine(
+                $"  Active facilities: {snap.ActiveFacilities} of {snap.TotalFacilities} placed");
+            report.AppendLine(
+                $"  Cremation processing max per month: {Format0(snap.ProcessingRate)}");
+            report.AppendLine(
+                $"  Max workers at active facilities: {Format0(snap.MaxWorkers)}");
+            report.AppendLine(
+                $"  Active facilities flagged full: {snap.FullFacilities}");
+            report.AppendLine(
+                $"  Active facilities with no room for another body: {snap.FacilitiesWithoutRoomForBodies}");
+            report.AppendLine(
+                $"  Active facilities reporting no available hearse: {snap.FacilitiesWithoutAvailableHearse}");
+            report.AppendLine(
+                $"  Active facilities with zero usable dispatch slots: {snap.FacilitiesWithZeroDispatchCapacity}");
+            report.AppendLine(
+                $"  Active facilities with bodies waiting to process: {snap.FacilitiesWithProcessingQueue}");
+            report.AppendLine(
+                "  Processing rate does not directly send more hearses. It helps dispatch");
+            report.AppendLine(
+                "  indirectly only when a facility has no room for another body.");
+        }
+
+        private static void AppendWarningProgress(
+            StringBuilder report,
+            DeathcareStatusSystem.Snapshot snap)
+        {
+            report.AppendLine();
+            report.AppendLine("HEARSE WARNING ICON PROGRESS");
+            report.AppendLine(
+                $"  Live game warning setting: {snap.TransportWarningTime:0.###} simulation seconds");
+            report.AppendLine(
+                $"  Internal HealthProblem.m_Timer limit: {snap.TransportWarningTimerLimit}");
+            report.AppendLine(
+                $"  Highest timer among corpses waiting outside: {snap.MaxWaitingTimer}");
+            report.AppendLine(
+                $"  Below halfway to warning: {Format0(snap.WaitingBelowHalfWarning)}");
+            report.AppendLine(
+                $"  Halfway to warning: {Format0(snap.WaitingHalfwayToWarning)}");
+            report.AppendLine(
+                $"  At warning limit: {Format0(snap.WaitingAtWarning)}");
+            report.AppendLine(
+                $"  Warning-progress total check: {Format0(snap.WaitingBelowHalfWarning + snap.WaitingHalfwayToWarning + snap.WaitingAtWarning)}");
+            report.AppendLine(
+                $"  Critical overlap ({DeathcareStatusSystem.kRepeatedDispatchFailureThreshold}+ failed attempts and at least halfway): " +
+                $"{Format0(snap.RepeatedFailuresHalfwayToWarning)}");
+            report.AppendLine(
+                "  m_Timer is a small progress counter, not elapsed time. It stops at the");
+            report.AppendLine(
+                "  warning limit, so existing game data cannot provide an exact wait duration.");
+            report.AppendLine(
+                "  Faster game speed reaches the same simulation-time limit sooner in real time.");
         }
 
         private static void AppendCemeteries(
@@ -159,12 +294,15 @@ namespace MagicHearse
         {
             report.AppendLine();
             report.AppendLine("CEMETERIES");
-            report.AppendLine($"  Graves used: {Format0(snap.CemeteryUse)} of {Format0(snap.CemeteryCapacity)}");
+            report.AppendLine(
+                $"  Graves used: {Format0(snap.CemeteryUse)} of {Format0(snap.CemeteryCapacity)}");
 
             CemeteryResetSystem resetSystem =
                 world.GetOrCreateSystemManaged<CemeteryResetSystem>();
-            report.AppendLine($"  Resets this session: {resetSystem.SessionResetTotal}");
-            report.AppendLine($"  Cemeteries reset this session: {resetSystem.DistinctCemeteryCount}");
+            report.AppendLine(
+                $"  Resets this session: {resetSystem.SessionResetTotal}");
+            report.AppendLine(
+                $"  Cemeteries reset this session: {resetSystem.DistinctCemeteryCount}");
 
             if (resetSystem.SessionResetTotal <= 0)
             {
@@ -192,79 +330,140 @@ namespace MagicHearse
 
             if (snap.DeadWaiting <= 0)
             {
-                report.AppendLine("  No current corpse-pickup backlog was found.");
+                report.AppendLine(
+                    "  No corpse currently waiting outside for pickup.");
+                if (snap.DeadInsideHearse > 0 || snap.DeadAtFacility > 0)
+                {
+                    report.AppendLine(
+                        $"  {Format0(snap.DeadInsideHearse)} are already returning in hearses and " +
+                        $"{Format0(snap.DeadAtFacility)} are already at a facility.");
+                }
+
                 return;
             }
 
             bool found = false;
 
-            if (snap.DeadUnassigned > 0)
+            if (snap.FacilitiesWithoutRoomForBodies > 0)
             {
                 found = true;
-                report.AppendLine($"  - Dispatch: {Format0(snap.DeadUnassigned)} waiting corpses have no current service assignment.");
-                if (snap.FacilitiesWithoutAvailableHearse > 0)
-                {
-                    report.AppendLine($"    {snap.FacilitiesWithoutAvailableHearse} active facilities report no available hearse.");
-                    report.AppendLine("    Check service budget/fleet size and whether hearses are tied up in traffic.");
-                }
-                else
-                {
-                    report.AppendLine("    Hearse availability is not the obvious limit in this snapshot.");
-                    report.AppendLine("    Check road access and service-district restrictions, then let the city run");
-                    report.AppendLine("    and repeat the report to see whether assignments are merely still being matched.");
-                }
+                report.AppendLine(
+                    $"  - Processing/storage: {snap.FacilitiesWithoutRoomForBodies} active facilities");
+                report.AppendLine(
+                    "    have no room for another body, which blocks those facilities from");
+                report.AppendLine(
+                    "    accepting more hearse work. Raise processing/storage or add facilities.");
             }
 
-            if (snap.DeadAssigned > 0)
+            if (snap.DeadRetryCooldown > 0)
             {
                 found = true;
-                report.AppendLine($"  - Travel: {Format0(snap.DeadAssigned)} waiting corpses already have a service assignment.");
-                report.AppendLine("    If they remain waiting, route distance and traffic are the likely things to inspect.");
+                report.AppendLine(
+                    $"  - Failed routes: {Format0(snap.DeadRetryCooldown)} pickup requests are in retry cooldown.");
+                report.AppendLine(
+                    "    Check road access, disconnected roads, and service-district restrictions.");
+                report.AppendLine(
+                    "    More fleet capacity alone will not fix failed paths.");
             }
 
-            if (snap.DeadAssignedOutside > 0)
+            if (snap.RepeatedFailuresHalfwayToWarning > 0)
             {
                 found = true;
-                report.AppendLine($"  - Outside service: {Format0(snap.DeadAssignedOutside)} assignments are incoming from outside connections.");
-                report.AppendLine("    They can take longer because the hearse starts outside the city.");
+                report.AppendLine(
+                    $"  - Repeated dispatch trouble: {Format0(snap.RepeatedFailuresHalfwayToWarning)} corpses");
+                report.AppendLine(
+                    $"    have {DeathcareStatusSystem.kRepeatedDispatchFailureThreshold}+ failed attempts and are at least");
+                report.AppendLine(
+                    "    halfway to the hearse warning. DEBUG builds list sample Entity IDs.");
+            }
+
+            if (snap.DeadNoRequest > 0)
+            {
+                found = true;
+                report.AppendLine(
+                    $"  - Request creation: {Format0(snap.DeadNoRequest)} waiting corpses have no valid");
+                report.AppendLine(
+                    "    hearse request yet. Let the city run briefly and repeat the report.");
+                report.AppendLine(
+                    "    DEBUG builds list sample citizen Entity IDs for investigation.");
+            }
+
+            long beingMatched = snap.DeadWaitingForDispatch + snap.DeadPathfinding;
+            if (beingMatched > 0)
+            {
+                found = true;
+                report.AppendLine(
+                    $"  - Matching now: {Format0(beingMatched)} requests are waiting for their dispatch");
+                report.AppendLine(
+                    "    update group or pathfinding. This is pipeline work, not proven failure.");
+            }
+
+            long assignedPickup = snap.DeadAssignedFacility + snap.DeadAssignedHearse;
+            if (assignedPickup > 0)
+            {
+                found = true;
+                report.AppendLine(
+                    $"  - Pickup underway: {Format0(assignedPickup)} waiting corpses already have a");
+                report.AppendLine(
+                    "    facility or hearse assignment. Traffic and route distance affect these.");
+            }
+
+            if (snap.BudgetHearseCapacity < snap.Hearses)
+            {
+                found = true;
+                report.AppendLine(
+                    $"  - Budget/efficiency currently allows {Format0(snap.BudgetHearseCapacity)} of");
+                report.AppendLine(
+                    $"    {Format0(snap.Hearses)} configured on-road hearse slots.");
+            }
+
+            if (snap.BudgetHearseCapacity > 0 &&
+                snap.WorkingHearses >= snap.BudgetHearseCapacity)
+            {
+                found = true;
+                report.AppendLine(
+                    "  - Fleet: all currently usable on-road hearse slots are occupied.");
+                report.AppendLine(
+                    "    More service budget/fleet capacity can help if valid requests remain.");
+            }
+
+            if (snap.ProcessingRate > 0f &&
+                snap.DeathsPerMonth > snap.ProcessingRate)
+            {
+                found = true;
+                report.AppendLine(
+                    $"  - Long-term processing: deaths/month ({Format0(snap.DeathsPerMonth)})");
+                report.AppendLine(
+                    $"    exceed cremation max/month ({Format0(snap.ProcessingRate)}).");
+                report.AppendLine(
+                    "    Raise processing rate or add crematorium capacity.");
             }
 
             if (snap.FullFacilities > 0)
             {
                 found = true;
-                report.AppendLine($"  - Storage: {snap.FullFacilities} active deathcare facilities are flagged full.");
-                report.AppendLine("    Empty/increase cemetery storage or add processing capacity.");
-            }
-
-            if (snap.ProcessingRate > 0f && snap.DeathsPerMonth > snap.ProcessingRate)
-            {
-                found = true;
-                report.AppendLine($"  - Processing: deaths/month ({Format0(snap.DeathsPerMonth)}) exceed cremation max/month ({Format0(snap.ProcessingRate)}).");
-                report.AppendLine("    Raise processing rate or add crematorium capacity if processing queues keep growing.");
+                report.AppendLine(
+                    $"  - Storage: {snap.FullFacilities} active deathcare facilities are flagged full.");
             }
 
             if (snap.CemeteryCapacity > 0 &&
                 snap.CemeteryUse * 10 >= snap.CemeteryCapacity * 9)
             {
                 found = true;
-                report.AppendLine("  - Cemetery storage is at least 90% full.");
-            }
-
-            if (snap.FacilitiesWithProcessingQueue > 0)
-            {
-                found = true;
-                report.AppendLine($"  - Processing queue: {snap.FacilitiesWithProcessingQueue} active facilities currently contain bodies awaiting processing.");
-                report.AppendLine("    A short queue is normal; focus on it only if the count persists or grows.");
+                report.AppendLine(
+                    "  - Cemetery storage is at least 90% full.");
             }
 
             if (!found)
             {
-                report.AppendLine("  No single capacity or dispatch problem is proven by this snapshot.");
+                report.AppendLine(
+                    "  No single capacity, request, or pathfinding problem is proven here.");
             }
         }
 
         private static string OnOff(bool value) => value ? "ON" : "OFF";
-        private static string Format0(float value) => ((long)Math.Round(value)).ToString("N0");
+        private static string Format0(float value) =>
+            ((long)Math.Round(value)).ToString("N0");
         private static string Format0(long value) => value.ToString("N0");
     }
 }

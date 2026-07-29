@@ -207,10 +207,14 @@ namespace MagicHearse
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.LogReport)), "日志报告" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.LogReport)),
                     "将详细的殡葬服务报告和可能的问题写入 MagicHearse.log。" },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.OpenLog)), "打开日志" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.OpenLog)),
+                    "如果存在，则打开 **Logs/MagicHearse.log**。\n" +
+                    "如果尚未找到文件，则改为打开 Logs 文件夹。" },
             };
         }
         public void Unload()
         { }
     }
 }
-

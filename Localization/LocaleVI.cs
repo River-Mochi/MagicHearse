@@ -204,6 +204,11 @@ namespace MagicHearse
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.LogReport)), "Báo cáo nhật ký" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.LogReport)),
                     "Ghi báo cáo dịch vụ mai táng chi tiết và các vấn đề có thể xảy ra vào MagicHearse.log." },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.OpenLog)), "Mở log" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.OpenLog)),
+                    "Mở **Logs/MagicHearse.log** nếu có.\n" +
+                    "Nếu chưa tìm thấy file, sẽ mở thư mục Logs." },
             };
         }
 
@@ -211,4 +216,3 @@ namespace MagicHearse
         { }
     }
 }
-

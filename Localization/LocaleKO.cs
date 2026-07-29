@@ -207,6 +207,11 @@ namespace MagicHearse
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.LogReport)), "로그 보고서" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.LogReport)),
                     "상세한 사망 관리 정보와 예상 문제 지점을 MagicHearse.log에 기록합니다." },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.OpenLog)), "로그 열기" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.OpenLog)),
+                    "**Logs/MagicHearse.log**가 있으면 엽니다.\n" +
+                    "파일이 아직 없으면 대신 Logs 폴더를 엽니다." },
             };
         }
 
@@ -214,4 +219,3 @@ namespace MagicHearse
         { }
     }
 }
-

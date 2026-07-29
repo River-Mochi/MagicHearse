@@ -55,7 +55,8 @@ namespace MagicHearse
 
         public void OnLoad(UpdateSystem updateSystem)
         {
-            LogUtils.Configure(kModId, s_Log);
+            // Also configures LogUtils.
+            ShellOpen.Configure(s_Log, kModId, kModTag);
 
             if (!s_BannerLogged)
             {

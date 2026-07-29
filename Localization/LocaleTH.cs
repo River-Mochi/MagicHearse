@@ -208,6 +208,11 @@ namespace MagicHearse
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.LogReport)), "รายงานบันทึก" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.LogReport)),
                     "เขียนรายงานระบบจัดการศพแบบละเอียดและจุดที่อาจมีปัญหาไปยัง MagicHearse.log" },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.OpenLog)), "เปิดไฟล์บันทึก" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.OpenLog)),
+                    "เปิด **Logs/MagicHearse.log** หากมีไฟล์นี้\n" +
+                    "หากยังไม่พบไฟล์ จะเปิดโฟลเดอร์ Logs แทน" },
             };
         }
 
@@ -215,4 +220,3 @@ namespace MagicHearse
         { }
     }
 }
-

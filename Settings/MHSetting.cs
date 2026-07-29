@@ -13,6 +13,7 @@ namespace MagicHearse
 {
     using System;                    // Exception
     using Colossal.IO.AssetDatabase; // FileLocation
+    using CS2Shared.RiverMochi;      // ShellOpen
     using Game.Modding;              // IMod, ModSetting
     using Game.Settings;             // Settings UI attributes
     using Game.UI;                   // Unit
@@ -42,6 +43,7 @@ namespace MagicHearse
         public const string kAboutInfoGrp = "AboutInfo";
         public const string kAboutLinksGrp = "AboutLinks";
         public const string kDebugGrp = "Debug";
+        public const string kDebugButtonsRow = "DebugButtonsRow";
 
         // ---- TUNABLE CONSTANTS ----
         private const int kDefaultPercent = 100;
@@ -301,6 +303,7 @@ namespace MagicHearse
         // --------------------------------------------------------------------
 
         [SettingsUIButton]
+        [SettingsUIButtonGroup(kDebugButtonsRow)]
         [SettingsUISection(kAboutTab, kDebugGrp)]
         public bool LogReport
         {
@@ -312,6 +315,22 @@ namespace MagicHearse
                 }
 
                 DeathcareLogReport.Write();
+            }
+        }
+
+        [SettingsUIButton]
+        [SettingsUIButtonGroup(kDebugButtonsRow)]
+        [SettingsUISection(kAboutTab, kDebugGrp)]
+        public bool OpenLog
+        {
+            set
+            {
+                if (!value)
+                {
+                    return;
+                }
+
+                ShellOpen.OpenModLogOrLogsFolder();
             }
         }
 
