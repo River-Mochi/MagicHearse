@@ -177,6 +177,9 @@ namespace MagicHearse
                 { "MH_STATUS_LINE1", "{0} waiting | {1} deaths/mo | updated {2}" },
                 { "MH_STATUS_LINE2", "{0} cremate max/mo | {1}/{2} graves used" },
                 { "MH_STATUS_LINE3", "{0} / {1} hearses | {2} / {3} buildings | {4} max workers" },
+                { "MH_STATUS_PROCESSING_SUGGESTED", "Suggested now: ~{0}% processing" },
+                { "MH_STATUS_PROCESSING_MORE", "Suggested now: 500% processing + more active facilities" },
+                { "MH_STATUS_PROCESSING_NONE", "Suggested: turn on/add crematoriums" },
 
                 // Cemetery reset tally (session status; row + named list below Assets)
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusSummary4)), "Cemetery" },

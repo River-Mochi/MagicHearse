@@ -7,9 +7,8 @@
 // ================= </copyright> ======================
 
 // File: Systems/Status/DeathcareStatusSystem.Debug.cs
-// Purpose: DEBUG-only Scene Explorer-style samples written by the Log Report button.
+// Purpose: On-demand Scene Explorer-style samples written by Log Report in all builds.
 
-#if DEBUG
 namespace MagicHearse
 {
     using System.Text;         // StringBuilder
@@ -22,11 +21,11 @@ namespace MagicHearse
 
     public sealed partial class DeathcareStatusSystem
     {
-        public string BuildDebugRequestSamples()
+        public string BuildRequestSamples()
         {
             CompleteDependency();
 
-            const int SamplesPerStage = 3;
+            const int SamplesPerStage = 5;
             const HealthProblemFlags Want =
                 HealthProblemFlags.Dead | HealthProblemFlags.RequireTransport;
 
@@ -67,7 +66,7 @@ namespace MagicHearse
                     StringBuilder sample =
                         samples[stageIndex] ??= new StringBuilder();
 
-                    AppendDebugSample(
+                    AppendRequestSample(
                         sample,
                         citizen,
                         healthProblem,
@@ -80,9 +79,9 @@ namespace MagicHearse
 
             StringBuilder report = new();
             report.AppendLine();
-            report.AppendLine("DEBUG CORPSE / REQUEST SAMPLES");
+            report.AppendLine("CORPSE / REQUEST SAMPLES");
             report.AppendLine(
-                $"  Up to {SamplesPerStage} samples per category; Entity IDs work with Scene Explorer.");
+                $"  Up to {SamplesPerStage} samples per category; IDs use Scene Explorer Index:Version.");
 
             for (int i = 0; i < (int)CorpseStage.Count; i++)
             {
@@ -101,7 +100,7 @@ namespace MagicHearse
             return report.ToString();
         }
 
-        private void AppendDebugSample(
+        private void AppendRequestSample(
             StringBuilder report,
             Entity citizen,
             HealthProblem healthProblem,
@@ -110,17 +109,18 @@ namespace MagicHearse
             in CorpseLookups lookups,
             ComponentLookup<TravelPurpose> travelPurposeLookup)
         {
-            report.AppendLine($"    Citizen: {citizen}");
+            report.AppendLine($"    Citizen: {FormatEntity(citizen)}");
             report.AppendLine(
                 $"      HealthProblem: flags={healthProblem.m_Flags}, " +
-                $"timer={healthProblem.m_Timer}, request={healthProblem.m_HealthcareRequest}");
+                $"timer={healthProblem.m_Timer}, " +
+                $"request={FormatEntity(healthProblem.m_HealthcareRequest)}");
 
             if (lookups.CurrentBuilding.TryGetComponent(
                     citizen,
                     out CurrentBuilding currentBuilding))
             {
                 report.AppendLine(
-                    $"      CurrentBuilding: {currentBuilding.m_CurrentBuilding}");
+                    $"      CurrentBuilding: {FormatEntity(currentBuilding.m_CurrentBuilding)}");
             }
             else
             {
@@ -132,14 +132,14 @@ namespace MagicHearse
                     out CurrentTransport currentTransport))
             {
                 report.AppendLine(
-                    $"      CurrentTransport: {currentTransport.m_CurrentTransport}");
+                    $"      CurrentTransport: {FormatEntity(currentTransport.m_CurrentTransport)}");
 
                 if (lookups.CurrentVehicle.TryGetComponent(
                         currentTransport.m_CurrentTransport,
                         out CurrentVehicle currentVehicle))
                 {
                     report.AppendLine(
-                        $"      CurrentVehicle: {currentVehicle.m_Vehicle} " +
+                        $"      CurrentVehicle: {FormatEntity(currentVehicle.m_Vehicle)} " +
                         $"flags={currentVehicle.m_Flags}");
                 }
             }
@@ -164,7 +164,7 @@ namespace MagicHearse
                         out HealthcareRequest healthcareRequest))
                 {
                     report.AppendLine(
-                        $"      HealthcareRequest: citizen={healthcareRequest.m_Citizen}, " +
+                        $"      HealthcareRequest: citizen={FormatEntity(healthcareRequest.m_Citizen)}, " +
                         $"type={healthcareRequest.m_Type}");
                 }
 
@@ -182,7 +182,7 @@ namespace MagicHearse
                         out Dispatched dispatched))
                 {
                     report.AppendLine(
-                        $"      Dispatched: handler={dispatched.m_Handler}");
+                        $"      Dispatched: handler={FormatEntity(dispatched.m_Handler)}");
                 }
 
                 if (lookups.PathInformation.TryGetComponent(
@@ -190,8 +190,8 @@ namespace MagicHearse
                         out PathInformation pathInformation))
                 {
                     report.AppendLine(
-                        $"      PathInformation: origin={pathInformation.m_Origin}, " +
-                        $"destination={pathInformation.m_Destination}");
+                        $"      PathInformation: origin={FormatEntity(pathInformation.m_Origin)}, " +
+                        $"destination={FormatEntity(pathInformation.m_Destination)}");
                     report.AppendLine(
                         $"        distance={pathInformation.m_Distance:0.###}, " +
                         $"duration={pathInformation.m_Duration:0.###}, " +
@@ -214,6 +214,12 @@ namespace MagicHearse
             report.AppendLine(
                 $"      MH category: {GetStageLabel(stage)}, outsideService={outsideService}");
         }
+
+        private static string FormatEntity(Entity entity)
+        {
+            return entity == Entity.Null
+                ? "none"
+                : $"{entity.Index}:{entity.Version}";
+        }
     }
 }
-#endif

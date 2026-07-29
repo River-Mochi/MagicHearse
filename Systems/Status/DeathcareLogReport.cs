@@ -63,10 +63,7 @@ namespace MagicHearse
             AppendWarningProgress(report, snap);
             AppendCemeteries(report, world, snap);
             AppendFocus(report, snap);
-
-#if DEBUG
-            report.Append(statusSystem.BuildDebugRequestSamples());
-#endif
+            report.Append(statusSystem.BuildRequestSamples());
 
             report.AppendLine("===========================================================");
             return report.ToString();
@@ -359,11 +356,13 @@ namespace MagicHearse
             {
                 found = true;
                 report.AppendLine(
-                    $"  - Failed routes: {Format0(snap.DeadRetryCooldown)} pickup requests are in retry cooldown.");
+                    $"  - Pickup trouble: {Format0(snap.DeadRetryCooldown)} requests are in retry cooldown.");
                 report.AppendLine(
-                    "    Check road access, disconnected roads, and service-district restrictions.");
+                    "    This can mean no eligible facility/hearse, no body storage room,");
                 report.AppendLine(
-                    "    More fleet capacity alone will not fix failed paths.");
+                    "    a service-district restriction, or a road/path problem.");
+                report.AppendLine(
+                    "    More fleet capacity alone will not fix a failed pickup match.");
             }
 
             if (snap.RepeatedFailuresHalfwayToWarning > 0)
@@ -374,7 +373,7 @@ namespace MagicHearse
                 report.AppendLine(
                     $"    have {DeathcareStatusSystem.kRepeatedDispatchFailureThreshold}+ failed attempts and are at least");
                 report.AppendLine(
-                    "    halfway to the hearse warning. DEBUG builds list sample Entity IDs.");
+                    "    halfway to the hearse warning. Samples below list Scene Explorer IDs.");
             }
 
             if (snap.DeadNoRequest > 0)
@@ -385,7 +384,7 @@ namespace MagicHearse
                 report.AppendLine(
                     "    hearse request yet. Let the city run briefly and repeat the report.");
                 report.AppendLine(
-                    "    DEBUG builds list sample citizen Entity IDs for investigation.");
+                    "    Samples below list citizen Entity IDs for investigation.");
             }
 
             long beingMatched = snap.DeadWaitingForDispatch + snap.DeadPathfinding;
@@ -435,8 +434,21 @@ namespace MagicHearse
                     $"  - Long-term processing: deaths/month ({Format0(snap.DeathsPerMonth)})");
                 report.AppendLine(
                     $"    exceed cremation max/month ({Format0(snap.ProcessingRate)}).");
-                report.AppendLine(
-                    "    Raise processing rate or add crematorium capacity.");
+
+                int suggestedPercent =
+                    DeathcareStatus.GetSuggestedProcessingPercent(snap);
+                if (suggestedPercent <= 500)
+                {
+                    report.AppendLine(
+                        $"    Suggested now: about {suggestedPercent}% processing with the currently");
+                    report.AppendLine(
+                        $"    active facilities ({snap.ActiveFacilities} of {snap.TotalFacilities}).");
+                }
+                else
+                {
+                    report.AppendLine(
+                        "    Suggested now: 500% processing plus more active crematorium capacity.");
+                }
             }
 
             if (snap.FullFacilities > 0)
@@ -462,6 +474,7 @@ namespace MagicHearse
         }
 
         private static string OnOff(bool value) => value ? "ON" : "OFF";
+
         private static string Format0(float value) =>
             ((long)Math.Round(value)).ToString("N0");
         private static string Format0(long value) => value.ToString("N0");

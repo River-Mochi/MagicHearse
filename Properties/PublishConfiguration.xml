@@ -89,10 +89,11 @@ Hello, Bonjour, Hallo, Hola, Ciao, こんにちは, 안녕하세요, 你好, Cze
 <!--Change log for new version. Single line or multi line. Supports minimal markdown subset-->
 <ChangeLog>
 - Clarified Status and cemetery descriptions.
-- Added a detailed Log Report button for deathcare troubleshooting.
+- Added a detailed Log Report button for deathcare troubleshooting and open log button.
 - Improved Status report efficiency while Options is open.
 - Added extra verification when moving settings from older versions.
 - Internal reliability and logging maintenance.
+- Improved deathcare diagnostics with exact parked-hearse, pickup-stage, warning-progress, and failed-dispatch reporting.
 </ChangeLog>
 <!--External link. supported types are discord, github, youtube, twitch, x, paypal, patreon-->
 <ExternalLink Type="github" Url="https://github.com/River-Mochi/MagicHearse" />

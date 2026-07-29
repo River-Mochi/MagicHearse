@@ -209,7 +209,6 @@ namespace MagicHearse
                    lookups.OutsideConnection.HasComponent(owner.m_Owner);
         }
 
-#if DEBUG
         private static string GetStageLabel(CorpseStage stage)
         {
             return stage switch
@@ -225,6 +224,5 @@ namespace MagicHearse
                 _ => "Other / needs investigation",
             };
         }
-#endif
     }
 }

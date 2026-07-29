@@ -175,6 +175,9 @@ namespace MagicHearse
                 { "MH_STATUS_LINE1", "{0} 等待 | {1} 死亡/月 | 更新於 {2}" },
                 { "MH_STATUS_LINE2", "{0} 火化上限/月 | {1}/{2} 墓位已用" },
                 { "MH_STATUS_LINE3", "{0} / {1} 靈車 | {2} / {3} 建築 | {4} 最大工人" },
+                { "MH_STATUS_PROCESSING_SUGGESTED", "目前建議：處理速度約 {0}%" },
+                { "MH_STATUS_PROCESSING_MORE", "目前建議：處理速度 500% + 更多營運中的設施" },
+                { "MH_STATUS_PROCESSING_NONE", "建議：啟用/增建火葬場" },
 
                 // Cemetery reset tally (session status; row + named list below Assets)
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusSummary4)), "墓地" },

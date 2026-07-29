@@ -30,6 +30,12 @@ namespace MagicHearse
         internal const string kKeyLine1 = "MH_STATUS_LINE1";
         internal const string kKeyLine2 = "MH_STATUS_LINE2";
         internal const string kKeyLine3 = "MH_STATUS_LINE3";
+        internal const string kKeyProcessingSuggested =
+            "MH_STATUS_PROCESSING_SUGGESTED";
+        internal const string kKeyProcessingMore =
+            "MH_STATUS_PROCESSING_MORE";
+        internal const string kKeyProcessingNone =
+            "MH_STATUS_PROCESSING_NONE";
         internal const string kKeyLine4 = "MH_STATUS_LINE4";
         internal const string kKeyCemeteryNone = "MH_STATUS_CEMETERY_NONE";
         internal const string kKeyCemeteryRow = "MH_STATUS_CEMETERY_ROW";
@@ -45,6 +51,12 @@ namespace MagicHearse
         private const string kFallbackLine1 = "{0} waiting | {1} deaths/mo | updated {2}";
         private const string kFallbackLine2 = "{0} cremate max/mo | {1}/{2} graves used";
         private const string kFallbackLine3 = "{0} / {1} hearses | {2} / {3} buildings | {4} max workers";
+        private const string kFallbackProcessingSuggested =
+            "Suggested now: ~{0}% processing";
+        private const string kFallbackProcessingMore =
+            "Suggested now: 500% processing + more active facilities";
+        private const string kFallbackProcessingNone =
+            "Suggested: turn on/add crematoriums";
         private const string kFallbackLine4 = "resets: {0} · cemeteries: {1}";
         private const string kFallbackCemeteryNone = "none this session";
         private const string kFallbackCemeteryRow = "{0} ×{1}";
@@ -177,6 +189,7 @@ namespace MagicHearse
                 Format0(snap.CemeteryUse),      // {1}
                 Format0(snap.CemeteryCapacity)  // {2}
             );
+            AppendProcessingSuggestion(snap);
 
             SummaryLine3 = SafeFormat(
                 kKeyLine3,
@@ -193,6 +206,61 @@ namespace MagicHearse
         }
 
         // ---- Helpers -------
+
+        private static void AppendProcessingSuggestion(
+            DeathcareStatusSystem.Snapshot snap)
+        {
+            if (snap.DeathsPerMonth <= 0f ||
+                snap.DeathsPerMonth <= snap.ProcessingRate)
+            {
+                return;
+            }
+
+            string suggestion;
+            if (snap.ProcessingRate <= 0f)
+            {
+                suggestion = Localize(
+                    kKeyProcessingNone,
+                    kFallbackProcessingNone);
+            }
+            else
+            {
+                int suggestedPercent =
+                    GetSuggestedProcessingPercent(snap);
+
+                suggestion = suggestedPercent <= 500
+                    ? SafeFormat(
+                        kKeyProcessingSuggested,
+                        kFallbackProcessingSuggested,
+                        suggestedPercent)
+                    : Localize(
+                        kKeyProcessingMore,
+                        kFallbackProcessingMore);
+            }
+
+            SummaryLine2 += " · " + suggestion;
+        }
+
+        internal static int GetSuggestedProcessingPercent(
+            DeathcareStatusSystem.Snapshot snap)
+        {
+            if (snap.ProcessingRate <= 0f || snap.DeathsPerMonth <= 0f)
+            {
+                return 0;
+            }
+
+            MHSetting? settings = Mod.Settings;
+            int currentPercent =
+                settings != null && settings.FuneralDirector
+                    ? Math.Max(100, settings.ProcScalar)
+                    : 100;
+
+            double needed =
+                currentPercent * (double)snap.DeathsPerMonth / snap.ProcessingRate;
+
+            // Match the Funeral Director slider's 10% steps.
+            return Math.Max(100, (int)(Math.Ceiling(needed / 10d) * 10d));
+        }
 
         private static void ClearCemeteryLines()
         {
@@ -298,4 +366,3 @@ namespace MagicHearse
         private static string Format0(long v) => v.ToString("N0");
     }
 }
-

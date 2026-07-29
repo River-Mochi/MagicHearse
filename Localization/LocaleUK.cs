@@ -174,6 +174,9 @@ namespace MagicHearse
                 { "MH_STATUS_LINE1", "{0} очікують | {1} смертей/міс. | оновлено {2}" },
                 { "MH_STATUS_LINE2", "{0} макс. кремацій/міс. | {1}/{2} могил зайнято" },
                 { "MH_STATUS_LINE3", "{0} / {1} катафалків | {2} / {3} будівель | {4} макс. працівників" },
+                { "MH_STATUS_PROCESSING_SUGGESTED", "Поточна порада: обробка ~{0}%" },
+                { "MH_STATUS_PROCESSING_MORE", "Поточна порада: обробка 500% + більше активних закладів" },
+                { "MH_STATUS_PROCESSING_NONE", "Порада: увімкніть/додайте крематорії" },
 
                 // Cemetery reset tally (session status; row + named list below Assets)
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusSummary4)), "Кладовища" },
