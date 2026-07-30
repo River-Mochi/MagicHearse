@@ -92,7 +92,7 @@ namespace MagicHearse
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.ProcScalar)), "Processing rate" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.ProcScalar)),        
                     "**Facility processing speed** — cremations and gradual cemetery turnover.\n" +
-                    ""Higher values free body storage and cemetery graves sooner.\n" +
+                    "Higher values free body storage and cemetery graves sooner.\n" +
                         "**100%** = vanilla game default."
                 },
 
