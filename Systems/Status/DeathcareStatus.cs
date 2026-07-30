@@ -217,7 +217,7 @@ namespace MagicHearse
             }
 
             string suggestion;
-            if (snap.ProcessingRate <= 0f)
+            if (snap.CrematoriumProcessingRate <= 0f)
             {
                 suggestion = Localize(
                     kKeyProcessingNone,
@@ -255,8 +255,18 @@ namespace MagicHearse
                     ? Math.Max(100, settings.ProcScalar)
                     : 100;
 
+            if (snap.CrematoriumProcessingRate <= 0f)
+            {
+                return 0;
+            }
+
+            // Cemetery turnover is controlled separately, so only calculate the
+            // crematorium increase needed after its current contribution.
+            double crematoriumRateNeeded =
+                Math.Max(0d, snap.DeathsPerMonth - snap.CemeteryTurnoverRate);
             double needed =
-                currentPercent * (double)snap.DeathsPerMonth / snap.ProcessingRate;
+                currentPercent * crematoriumRateNeeded /
+                snap.CrematoriumProcessingRate;
 
             // Match the Funeral Director slider's 10% steps.
             return Math.Max(100, (int)(Math.Ceiling(needed / 10d) * 10d));

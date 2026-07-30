@@ -124,6 +124,12 @@ namespace MagicHearse
             RequestFdApplyIfEnabled();
         }
 
+        private void SetCemeteryTurnoverScalar(int value)
+        {
+            CemeteryTurnoverScalar = value;
+            RequestFdApplyIfEnabled();
+        }
+
         private void SetFleetScalar(int value)
         {
             FleetScalar = value;
@@ -153,12 +159,13 @@ namespace MagicHearse
             m_AutoResetCemetery = value;
 
             World? world = GetWorld();
-            if (world == null)
+            if (world != null)
             {
-                return;
+                SyncCemeteryResetSystem(world);
             }
 
-            SyncCemeteryResetSystem(world);
+            // Switch cemetery processing between vanilla and the saved turnover rate.
+            RequestFdApplyIfEnabled();
         }
 
         private void SetMagicResetCemetery(bool value)
@@ -181,4 +188,3 @@ namespace MagicHearse
         }
     }
 }
-

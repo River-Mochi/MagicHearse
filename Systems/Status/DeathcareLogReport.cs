@@ -84,9 +84,14 @@ namespace MagicHearse
             report.AppendLine($"  Magic Clean: {OnOff(settings.EnableMagicHearse)}");
             report.AppendLine($"  Magic cemetery reset: {OnOff(settings.MagicResetCemetery)}");
             report.AppendLine($"  Funeral Director: {OnOff(settings.FuneralDirector)}");
-            report.AppendLine($"  Processing rate: {settings.ProcScalar}%");
+            report.AppendLine($"  Crematorium processing: {settings.ProcScalar}%");
             report.AppendLine($"  Fleet size: {settings.FleetScalar}%");
             report.AppendLine($"  Cemetery storage: {settings.StorageScalar}%");
+            report.AppendLine(
+                $"  Cemetery turnover: {settings.CemeteryTurnoverScalar}% " +
+                (settings.AutoResetCemetery
+                    ? "(saved; reset uses vanilla 100%)"
+                    : "(active)"));
             report.AppendLine($"  Hearse speed: {settings.HearseSpeedScalar}%");
             report.AppendLine($"  Funeral Director cemetery reset: {OnOff(settings.AutoResetCemetery)}");
             report.AppendLine($"  Control workers: {OnOff(settings.ControlWorkers)}");
@@ -234,7 +239,11 @@ namespace MagicHearse
             report.AppendLine(
                 $"  Active facilities: {snap.ActiveFacilities} of {snap.TotalFacilities} placed");
             report.AppendLine(
-                $"  Cremation processing max per month: {Format0(snap.ProcessingRate)}");
+                $"  Total handling max per month: {Format0(snap.ProcessingRate)}");
+            report.AppendLine(
+                $"    Crematorium processing: {Format0(snap.CrematoriumProcessingRate)}");
+            report.AppendLine(
+                $"    Cemetery turnover: {Format0(snap.CemeteryTurnoverRate)}");
             report.AppendLine(
                 $"  Max workers at active facilities: {Format0(snap.MaxWorkers)}");
             report.AppendLine(
@@ -433,21 +442,26 @@ namespace MagicHearse
                 report.AppendLine(
                     $"  - Long-term processing: deaths/month ({Format0(snap.DeathsPerMonth)})");
                 report.AppendLine(
-                    $"    exceed cremation max/month ({Format0(snap.ProcessingRate)}).");
+                    $"    exceed total handling max/month ({Format0(snap.ProcessingRate)}).");
 
                 int suggestedPercent =
                     DeathcareStatus.GetSuggestedProcessingPercent(snap);
-                if (suggestedPercent <= 500)
+                if (suggestedPercent <= 0)
                 {
                     report.AppendLine(
-                        $"    Suggested now: about {suggestedPercent}% processing with the currently");
+                        "    Suggested now: turn on or add crematoriums.");
+                }
+                else if (suggestedPercent <= 500)
+                {
                     report.AppendLine(
-                        $"    active facilities ({snap.ActiveFacilities} of {snap.TotalFacilities}).");
+                        $"    Suggested now: about {suggestedPercent}% crematorium processing with");
+                    report.AppendLine(
+                        $"    the currently active facilities ({snap.ActiveFacilities} of {snap.TotalFacilities}).");
                 }
                 else
                 {
                     report.AppendLine(
-                        "    Suggested now: 500% processing plus more active crematorium capacity.");
+                        "    Suggested now: 500% crematorium processing plus more active crematorium capacity.");
                 }
             }
 

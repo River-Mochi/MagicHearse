@@ -104,6 +104,8 @@ namespace MagicHearse
             int transportWarningTimerLimit = (int)(transportWarningTime * (15f / 64f));
 
             float processingRate = 0f;
+            float crematoriumProcessingRate = 0f;
+            float cemeteryTurnoverRate = 0f;
             long hearses = 0;
             long budgetHearseCapacity = 0;
             long cemeteryUse = 0;
@@ -176,7 +178,19 @@ namespace MagicHearse
                     }
 
                     activeFacilities++;
-                    processingRate += efficiency * data.m_ProcessingRate;
+                    float activeProcessingRate =
+                        efficiency * data.m_ProcessingRate;
+                    processingRate += activeProcessingRate;
+
+                    if (data.m_LongTermStorage)
+                    {
+                        cemeteryTurnoverRate += activeProcessingRate;
+                    }
+                    else
+                    {
+                        crematoriumProcessingRate += activeProcessingRate;
+                    }
+
                     hearses += data.m_HearseCapacity;
 
                     int currentDispatchCapacity = BuildingUtils.GetVehicleCapacity(
@@ -463,6 +477,8 @@ namespace MagicHearse
             return new Snapshot(
                 deathsPerMonth: deathsPerMonth,
                 processingRate: processingRate,
+                crematoriumProcessingRate: crematoriumProcessingRate,
+                cemeteryTurnoverRate: cemeteryTurnoverRate,
                 hearses: hearses,
                 budgetHearseCapacity: budgetHearseCapacity,
                 spawnedHearses: spawnedHearses,

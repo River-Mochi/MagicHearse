@@ -125,6 +125,10 @@ namespace MagicHearse
         private void ApplyScalars(MHSetting setting)
         {
             float procScalar = setting.ProcScalar * 0.01f;
+            float cemeteryTurnoverScalar =
+                setting.AutoResetCemetery
+                    ? 1f
+                    : setting.CemeteryTurnoverScalar * 0.01f;
             float fleetScalar = setting.FleetScalar * 0.01f;
             float storageScalar = setting.StorageScalar * 0.01f;
 
@@ -158,7 +162,14 @@ namespace MagicHearse
                     m_ProcessingRate = baseRate,
                 };
 
-                newData.m_ProcessingRate = baseRate <= 0f ? 0f : math.max(0.01f, baseRate * procScalar);
+                float rateScalar = baseLongTerm
+                    ? cemeteryTurnoverScalar
+                    : procScalar;
+
+                newData.m_ProcessingRate =
+                    baseRate <= 0f
+                        ? 0f
+                        : math.max(0.01f, baseRate * rateScalar);
 
                 if (baseHearses <= 0)
                 {

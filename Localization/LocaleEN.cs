@@ -13,10 +13,6 @@ namespace MagicHearse
 {
     using System.Collections.Generic; // IEnumerable, Dictionary, KeyValuePair
     using Colossal; // IDictionarySource, IDictionaryEntryError
-    using Colossal.IO.AssetDatabase;
-    using Game.Areas;
-    using Game.Common;
-    using Game.Objects;
 
     /// <summary>
     /// English localization source for Magic Hearse [MH].</summary>
@@ -89,11 +85,11 @@ namespace MagicHearse
                     "Optional: **increase workers** too."
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.ProcScalar)), "Processing rate" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.ProcScalar)),        
-                    "**Facility processing speed** — cremations and gradual cemetery turnover.\n" +
-                    "Higher values free body storage and cemetery graves sooner.\n" +
-                        "**100%** = vanilla game default."
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.ProcScalar)), "Crematorium processing" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.ProcScalar)),
+                    "**Crematorium processing speed.**\n" +
+                    "Higher values cremate bodies and free facility storage sooner.\n" +
+                    "**100%** = vanilla game default."
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.FleetScalar)), "Fleet size" },
@@ -106,6 +102,8 @@ namespace MagicHearse
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StorageScalar)), "Cemetery storage" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StorageScalar)),
                     "**Cemetery storage capacity** for the main building.\n" +
+                    "More capacity lets a full cemetery accept pickups again.\n" +
+                    "It does not send more hearses unless lack of room was blocking the facility.\n" +
                     "**100%** = vanilla game default."
                 },
 
@@ -113,9 +111,16 @@ namespace MagicHearse
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.AutoResetCemetery)),
                     "**Empties a full cemetery** so it's not blocked with a FULL icon above the building.\n" +
                     "No need to delete and rebuild full cemeteries anymore.\n" +
-                    "Pairs with the **Cemetery storage** slider: size your cemeteries,\n" +
-                    "then let them recycle the land so you never have to demolish a full one again.\n" +
+                    "Turn this OFF to use gradual **Cemetery turnover rate** instead.\n" +
                     "<[ ✓ ] Default ON>"
+                },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.CemeteryTurnoverScalar)), "Cemetery turnover rate" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.CemeteryTurnoverScalar)),
+                    "**Gradually frees occupied cemetery graves.**\n" +
+                    "If cemeteries still show the FULL icon too often, increase this slider.\n" +
+                    "Higher values make grave spaces available again faster than vanilla.\n" +
+                    "**100%** = vanilla game default."
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.HearseSpeedScalar)), "Hearse speed" },
@@ -181,8 +186,8 @@ namespace MagicHearse
                 { "MH_STATUS_LINE1", "{0} waiting | {1} deaths/mo | updated {2}" },
                 { "MH_STATUS_LINE2", "{0} cremate max/mo | {1}/{2} graves used" },
                 { "MH_STATUS_LINE3", "{0} / {1} hearses | {2} / {3} buildings | {4} max workers" },
-                { "MH_STATUS_PROCESSING_SUGGESTED", "Suggested now: ~{0}% processing" },
-                { "MH_STATUS_PROCESSING_MORE", "Suggested now: 500% processing + more active facilities" },
+                { "MH_STATUS_PROCESSING_SUGGESTED", "Suggested now: ~{0}% crematorium processing" },
+                { "MH_STATUS_PROCESSING_MORE", "Suggested now: 500% crematorium processing + more active facilities" },
                 { "MH_STATUS_PROCESSING_NONE", "Suggested: turn on/add crematoriums" },
 
                 // Cemetery reset tally (session status; row + named list below Assets)

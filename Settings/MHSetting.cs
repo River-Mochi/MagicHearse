@@ -94,6 +94,9 @@ namespace MagicHearse
         // UI condition helper: WorkersScalar only visible when FD + ControlWorkers are ON.
         public bool WorkersControlEnabled => m_FuneralDirector && m_ControlWorkers;
 
+        // Gradual turnover is the alternative to instant cemetery reset.
+        public bool CemeteryTurnoverEnabled => m_FuneralDirector && !m_AutoResetCemetery;
+
         // --------------------------------------------------------------------
         // ACTIONS – AUTO CLEAN
         // --------------------------------------------------------------------
@@ -158,6 +161,12 @@ namespace MagicHearse
             set => m_AutoResetCemetery = value;
         }
 
+        [SettingsUISlider(min = kProcMin, max = kProcMax, step = kProcStep, scalarMultiplier = 1, unit = Unit.kPercentage)]
+        [SettingsUISection(kActionsTab, kSelfManageGrp)]
+        [SettingsUIHideByCondition(typeof(MHSetting), nameof(CemeteryTurnoverEnabled), true)]
+        [SettingsUISetter(typeof(MHSetting), nameof(SetCemeteryTurnoverScalar))]
+        public int CemeteryTurnoverScalar { get; set; } = kDefaultPercent;
+
         [SettingsUISlider(min = kHearseSpeedMin, max = kHearseSpeedMax, step = kHearseSpeedStep, scalarMultiplier = 1, unit = Unit.kPercentage)]
         [SettingsUISection(kActionsTab, kSelfManageGrp)]
         [SettingsUIHideByCondition(typeof(MHSetting), nameof(FuneralDirector), true)]
@@ -177,6 +186,7 @@ namespace MagicHearse
                 }
 
                 ProcScalar = kDefaultPercent;
+                CemeteryTurnoverScalar = kDefaultPercent;
                 FleetScalar = kDefaultPercent;
                 StorageScalar = kDefaultPercent;
                 HearseSpeedScalar = kDefaultPercent;
@@ -348,6 +358,7 @@ namespace MagicHearse
             m_MagicResetCemetery = false;  // Magic cemetery reset: OFF (opt-in)
 
             ProcScalar = kDefaultPercent;
+            CemeteryTurnoverScalar = kDefaultPercent;
             FleetScalar = kDefaultPercent;
             StorageScalar = kDefaultPercent;
             HearseSpeedScalar = kDefaultPercent;

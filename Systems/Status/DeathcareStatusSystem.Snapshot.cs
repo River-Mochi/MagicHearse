@@ -19,6 +19,8 @@ namespace MagicHearse
         {
             public readonly float DeathsPerMonth;
             public readonly float ProcessingRate;
+            public readonly float CrematoriumProcessingRate;
+            public readonly float CemeteryTurnoverRate;
 
             public readonly long Hearses;                // configured fleet slots
             public readonly long BudgetHearseCapacity;   // slots usable at current efficiency/budget
@@ -74,6 +76,8 @@ namespace MagicHearse
             public Snapshot(
                 float deathsPerMonth,
                 float processingRate,
+                float crematoriumProcessingRate,
+                float cemeteryTurnoverRate,
                 long hearses,
                 long budgetHearseCapacity,
                 long spawnedHearses,
@@ -122,6 +126,8 @@ namespace MagicHearse
             {
                 DeathsPerMonth = deathsPerMonth;
                 ProcessingRate = processingRate;
+                CrematoriumProcessingRate = crematoriumProcessingRate;
+                CemeteryTurnoverRate = cemeteryTurnoverRate;
 
                 Hearses = hearses;
                 BudgetHearseCapacity = budgetHearseCapacity;
