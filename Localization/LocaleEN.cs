@@ -12,8 +12,11 @@
 namespace MagicHearse
 {
     using System.Collections.Generic; // IEnumerable, Dictionary, KeyValuePair
-
     using Colossal; // IDictionarySource, IDictionaryEntryError
+    using Colossal.IO.AssetDatabase;
+    using Game.Areas;
+    using Game.Common;
+    using Game.Objects;
 
     /// <summary>
     /// English localization source for Magic Hearse [MH].</summary>
@@ -87,9 +90,10 @@ namespace MagicHearse
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.ProcScalar)), "Processing rate" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.ProcScalar)),
-                    "**Facility processing speed** (cremations)\n" +
-                    "**100%** = vanilla game default."
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.ProcScalar)),        
+                    "**Facility processing speed** — cremations and gradual cemetery turnover.\n" +
+                    ""Higher values free body storage and cemetery graves sooner.\n" +
+                        "**100%** = vanilla game default."
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.FleetScalar)), "Fleet size" },
