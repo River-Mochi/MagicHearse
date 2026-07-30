@@ -88,6 +88,7 @@ Hello, Bonjour, Hallo, Hola, Ciao, こんにちは, 안녕하세요, 你好, Cze
 <Dependency Id="" />
 <!--Change log for new version. Single line or multi line. Supports minimal markdown subset-->
 <ChangeLog>
+- Added Turkish
 - Clarified Status and cemetery descriptions.
 - Added a detailed Log Report button for deathcare troubleshooting and open log button.
 - Improved Status report efficiency while Options is open.

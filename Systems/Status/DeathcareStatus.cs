@@ -23,7 +23,7 @@ namespace MagicHearse
 
     public static class DeathcareStatus
     {
-        // Locale keys (add to all Locale*.cs)
+        // Locale keys
         internal const string kKeyStatusNotLoaded = "MH_STATUS_NOT_LOADED";
         internal const string kKeyNoCityLoaded = "MH_STATUS_NO_CITY_LOADED";
         internal const string kKeyStatsNotAvail = "MH_STATUS_STATS_NOT_AVAIL";
@@ -41,7 +41,7 @@ namespace MagicHearse
         internal const string kKeyCemeteryRow = "MH_STATUS_CEMETERY_ROW";
         internal const string kKeyCemeteryMore = "MH_STATUS_CEMETERY_MORE";
 
-        // Rough character budget for the packed cemetery-names row before it spills to "+N more".
+        // Rough character limit for packed cemetery-names row before it spills to "+N more".
         private const int kCemeteryNameBudget = 46;
 
         // English fallbacks (placeholders must match BuildAndApplySnapshot arg lists)
@@ -69,7 +69,7 @@ namespace MagicHearse
         public static string SummaryLine4 { get; private set; } = string.Empty;
         public static string SummaryCemetery1 { get; private set; } = string.Empty;
 
-        // Reused buffer for the top-N cemetery tallies (UI thread only).
+        // Reused buffer for the top-N cemetery tallies.
         private static readonly List<CemeteryResetSystem.Tally> s_TopBuffer = new();
 
         // Cache state
@@ -279,8 +279,7 @@ namespace MagicHearse
                 return;
             }
 
-            // Summary row shows totals; packed row names the cemeteries (with "+N more" spill),
-            // so nothing is hidden even when a city has more cemeteries than fit on one line.
+            // Summary row shows totals; packed row names the cemeteries (with "+N more" spill)
             SummaryLine4 = SafeFormat(kKeyLine4, kFallbackLine4, total, resetSys.DistinctCemeteryCount);
             SummaryCemetery1 = BuildPackedCemeteries(resetSys);
         }

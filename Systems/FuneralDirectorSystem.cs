@@ -9,10 +9,9 @@
 // File: Systems/FuneralDirectorSystem.cs
 // Purpose: “Self Manage” Funeral Director [FD] that applies multipliers to PREFABS.
 // Notes:
-// - Performant: runs only on-demand (when settings change or on game load), then disables itself.
+// - runs only on-demand (settings change), then disables itself.
 // - Reads TRUE vanilla baselines from PrefabSystem -> PrefabBase authoring components (NOT PrefabRef).
-// - Writes changes to Game.Prefabs.DeathcareFacilityData and WorkplaceData on prefab entities.
-// - Workers control is optional; placed-building worker cache can be recomputed one-shot via WorkProvider.m_MaxWorkers.
+// - Workers control optional; placed-building worker cache can be recomputed one-shot via WorkProvider.m_MaxWorkers.
 
 namespace MagicHearse
 {

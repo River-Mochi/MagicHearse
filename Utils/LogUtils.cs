@@ -340,7 +340,7 @@ namespace CS2Shared.RiverMochi
 
                 writer.Write(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss,fff", CultureInfo.InvariantCulture));
                 writer.Write("] [");
-                writer.Write(level?.name ?? "INFO");    // Colossal's Level is a class and already supplies its name.
+                writer.Write(level?.name ?? "INFO");    // Colossal's Level is a class that already supplies its name.
                 writer.Write("]  ");
                 writer.WriteLine(message ?? string.Empty);
                 if (exception != null)
@@ -379,7 +379,7 @@ namespace CS2Shared.RiverMochi
             }
         }
 
-        // Keeps the logger name lookup isolated because ILog metadata can be fragile during startup.
+        // Keeps logger name lookup isolated because ILog metadata can be fragile at startup.
         private static string GetLogName(ILog? log)
         {
             try
@@ -397,7 +397,7 @@ namespace CS2Shared.RiverMochi
             }
         }
 
-        // If level checks fail because logging is in flux, keep direct-file logging available.
+        // If level checks fail because logging in flux, keep direct-file logging available.
         private static bool IsLevelEnabled(ILog? log, Level level)
         {
             try
@@ -406,7 +406,7 @@ namespace CS2Shared.RiverMochi
             }
             catch
             {
-                // If Colossal logging state is in flux, prefer keeping direct-file logging alive.
+                // If Colossal logging state in flux, prefer keeping direct-file logging alive.
                 return true;
             }
         }
