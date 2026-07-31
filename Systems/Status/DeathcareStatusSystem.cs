@@ -18,12 +18,12 @@ namespace MagicHearse
     using Game.City;                 // StatisticType (DeathRate)
     using Game.Common;               // Deleted, Owner
     using Game.Companies;            // WorkProvider, ServiceDispatch
-    using Game.Prefabs;              // PrefabRef, DeathcareFacilityData, InstalledUpgrade
+    using Game.Prefabs;              // PrefabRef, InstalledUpgrade
     using Game.Simulation;           // CityStatisticsSystem, ServiceRequest, Dispatched
     using Game.Tools;                // Temp
     using Game.Vehicles;             // Hearse, HearseFlags, ParkedCar
     using Unity.Collections;         // NativeArray, Allocator
-    using Unity.Entities;            // Entity, EntityQuery, lookups, buffers, chunks
+    using Unity.Entities;            // EntityQuery, lookups, buffers, chunks
 
     public sealed partial class DeathcareStatusSystem : GameSystemBase
     {
@@ -62,19 +62,19 @@ namespace MagicHearse
                 .WithAll<HealthcareParameterData>()
                 .Build();
 
-            // All hearse vehicles currently in the world.
+            // All hearses currently in the world.
             m_HearseQuery = SystemAPI.QueryBuilder()
                 .WithAll<Game.Vehicles.Hearse, Owner>()
                 .WithNone<Temp, Deleted>()
                 .Build();
 
-            // Options calls BuildSnapshot() directly; no live simulation update is needed.
+            // Options calls BuildSnapshot() direct; no live simu update needed.
             Enabled = false;
         }
 
         protected override void OnUpdate()
         {
-            // GameSystemBase requires this override; BuildSnapshot() does the work on demand.
+            // GameSystemBase needs this; BuildSnapshot() does work on demand.
         }
 
         public Snapshot BuildSnapshot()

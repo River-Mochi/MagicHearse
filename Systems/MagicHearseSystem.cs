@@ -26,7 +26,7 @@ namespace MagicHearse
         private EntityQuery m_DeadCitizenQuery;
         private EndFrameBarrier m_EndFrameBarrier = null!; // assigned in OnCreate
 
-        // Lower frequency reduces spike risk; increase to clean faster.
+        // Lower frequency reduces spike risk; increase cleans faster.
         public const int kUpdatesPerDay = 256;
 
         public override int GetUpdateInterval(SystemUpdatePhase phase)

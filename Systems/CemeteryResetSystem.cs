@@ -74,7 +74,6 @@ namespace MagicHearse
 
             m_NameSystem = World.GetOrCreateSystemManaged<Game.UI.NameSystem>();
 
-            // Do not run in a city with no deathcare buildings.
             RequireForUpdate<DeathcareFacility>();
 
 #if DEBUG

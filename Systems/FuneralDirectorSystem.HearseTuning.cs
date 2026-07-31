@@ -12,7 +12,6 @@
 namespace MagicHearse
 {
     using Game.Prefabs;         // CarPrefab, HearseData
-    // using Unity.Collections;    // Required by generated SystemAPI code.
     using Unity.Entities;       // Entity, RefRW, SystemAPI
     using Unity.Mathematics;    // math.*
 
@@ -27,7 +26,7 @@ namespace MagicHearse
 
             foreach ((RefRW<Game.Prefabs.CarData> car, Entity prefabEntity) in SystemAPI
                          .Query<RefRW<Game.Prefabs.CarData>>()
-                         .WithAll<Game.Prefabs.PrefabData, Game.Prefabs.HearseData>() // prefab hearses only
+                         .WithAll<Game.Prefabs.PrefabData, Game.Prefabs.HearseData>()
                          .WithEntityAccess())
             {
                 if (!TryGetCarBase(prefabEntity, out CarPrefab carPrefab))
