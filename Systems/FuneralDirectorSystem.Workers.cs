@@ -84,7 +84,7 @@ namespace MagicHearse
                 {
                     continue;
                 }
-                // Preserved CityUtils computate path to be vanilla-aligned.
+                // Preserved CityUtils computes path to be vanilla-aligned.
                 int maxWorkers = CityUtils.GetCityServiceWorkplaceMaxWorkers(
                         ownerEntity,
                         ref prefabRefLookup,
