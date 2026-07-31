@@ -26,12 +26,13 @@ namespace MagicHearse
         private EntityQuery m_DeadCitizenQuery;
         private EndFrameBarrier m_EndFrameBarrier = null!; // assigned in OnCreate
 
-        // Lower frequency reduces spike risk; increase cleans faster.
-        public const int kUpdatesPerDay = 256;
+
+        // Increase this for faster cleanup, lower is better for performance.
+        public const int kUpdatesPerDay = 256;  // 256 passes run every 1,024 ticks.
 
         public override int GetUpdateInterval(SystemUpdatePhase phase)
         {
-            // Game ticksPerDay constant = 262144.
+            // CS2 has 262,144 ticks/day constant.
             return 262144 / kUpdatesPerDay;
         }
 

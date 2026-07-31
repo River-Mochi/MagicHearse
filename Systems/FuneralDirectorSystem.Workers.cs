@@ -39,9 +39,7 @@ namespace MagicHearse
             ComponentLookup<Game.Prefabs.WorkplaceData> workplaceDataLookup =
                 GetComponentLookup<WorkplaceData>(isReadOnly: true);      
 
-            // CityUtils.GetCityServiceWorkplaceMaxWorkers is shared for service buildings.
-            // method is defined to accept SchoolData + Student lookups.
-            // Deathcare does not use those, but the lookups are needed to call the helper and keep vanilla logic.
+            // CityUtils requires SchoolData and Student lookups even though deathcare does not use those branches.
             ComponentLookup<Game.Prefabs.SchoolData> schoolDataLookup =
                 GetComponentLookup<SchoolData>(isReadOnly: true);
 
@@ -62,6 +60,7 @@ namespace MagicHearse
             {
                 Entity e = entities[i];
 
+                // WorkProvider may live on the owner rather than a queried deathcare entity.
                 Entity ownerEntity = e;
                 if (ownerLookup.HasComponent(e))
                 {
@@ -84,7 +83,8 @@ namespace MagicHearse
                 {
                     continue;
                 }
-                // Preserved CityUtils computes path to be vanilla-aligned.
+
+                // Use game's CityUtils calculation so upgrades and service rules stay vanilla-aligned.
                 int maxWorkers = CityUtils.GetCityServiceWorkplaceMaxWorkers(
                         ownerEntity,
                         ref prefabRefLookup,
