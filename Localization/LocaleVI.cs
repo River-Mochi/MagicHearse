@@ -185,8 +185,8 @@ namespace MagicHearse
                 { "MH_STATUS_LINE1", "{0} đang chờ | {1} ca tử vong/tháng | cập nhật {2}" },
                 { "MH_STATUS_LINE2", "{0} xử lý tối đa/tháng | {1}/{2} phần mộ đã dùng" },
                 { "MH_STATUS_LINE3", "{0} / {1} xe tang | {2} / {3} công trình | {4} nhân công tối đa" },
-                { "MH_STATUS_PROCESSING_SUGGESTED", "Đề xuất hiện tại: tốc độ xử lý ~{0}%" },
-                { "MH_STATUS_PROCESSING_MORE", "Đề xuất hiện tại: xử lý 500% + thêm cơ sở đang hoạt động" },
+                { "MH_STATUS_PROCESSING_SUGGESTED", "Đề xuất hiện tại: xử lý tại lò hỏa táng ~{0}%" },
+                { "MH_STATUS_PROCESSING_MORE", "Đề xuất hiện tại: xử lý tại lò hỏa táng 500% + thêm cơ sở đang hoạt động" },
                 { "MH_STATUS_PROCESSING_NONE", "Đề xuất: bật/thêm lò hỏa táng" },
 
                 // Cemetery reset tally (session status; row + named list below Assets)

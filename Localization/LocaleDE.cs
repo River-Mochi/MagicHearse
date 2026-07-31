@@ -186,8 +186,8 @@ namespace MagicHearse
                 { "MH_STATUS_LINE1", "{0} warten | {1} Tote/Monat | aktualisiert {2}" },
                 { "MH_STATUS_LINE2", "{0} max. Kapazität/Monat | {1}/{2} Gräber belegt" },
                 { "MH_STATUS_LINE3", "{0} / {1} Leichenwagen | {2} / {3} Gebäude | {4} max. Mitarbeiter" },
-                { "MH_STATUS_PROCESSING_SUGGESTED", "Aktueller Vorschlag: ~{0}% Verarbeitungsrate" },
-                { "MH_STATUS_PROCESSING_MORE", "Aktueller Vorschlag: 500% Verarbeitungsrate + mehr aktive Einrichtungen" },
+                { "MH_STATUS_PROCESSING_SUGGESTED", "Aktueller Vorschlag: ~{0}% Krematoriumsverarbeitung" },
+                { "MH_STATUS_PROCESSING_MORE", "Aktueller Vorschlag: 500% Krematoriumsverarbeitung + mehr aktive Einrichtungen" },
                 { "MH_STATUS_PROCESSING_NONE", "Vorschlag: Krematorien aktivieren/hinzufügen" },
 
                 // Cemetery reset tally (session status; row + named list below Assets)

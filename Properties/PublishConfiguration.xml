@@ -12,7 +12,7 @@
 
 - Control Crematoriums and Cemeteries without in-city bloat that reduces performance.
 - Cemetery overflow is handled - no stuck full cemeteries.
-- Choose if you want to self-manage with all your own settings for Processing rate, number of hearses, or Capacity of Cemeteries, and more.
+- Choose if you want to self-manage crematorium processing, hearses, cemetery capacity/turnover, and more.
 - or if you prefer auto-clean of death notices.
 - Status report can be used with no other functions enabled! It is Worth checking out!
 
@@ -20,9 +20,10 @@
 
 Adjust Buildings:
 
-- Processing rate (crematoriums)
+- Crematorium processing
 - Fleet size (max hearses per facility)
 - Cemetery storage multiplier
+- Choose instant full-cemetery reset or gradual cemetery turnover
 - Hearse speed (pedal to the metal)
 - Change number of Max Workers.
 - Compatibility Toggle ✅ turn OFF workers if you prefer to use ConfigXML mod or other mod for death worker numbers.
@@ -36,7 +37,7 @@ Adjust Buildings:
 
 ## Bonus Status Report
 - All major death stats - finally we know how many are Dead!!
-- Scan only happens in the Options menu or when a slider is used (lightweight, no city per-frame impact).
+- Scan only happens when Options requests Status or when Log Report is pressed (no city per-frame Status scan).
 
 ## Features
 - Toggle on/off without restarting the game.
@@ -57,8 +58,8 @@ Adjust Buildings:
 - StarQ: tech advisory
 - Obelix, Toud, Necko1996: release testing, screenshots
 
-### 13+ Languages
-Hello, Bonjour, Hallo, Hola, Ciao, こんにちは, 안녕하세요, 你好, Cześć, Olá, Привіт, Xin chào, สวัสดี
+### 16 Languages
+Hello, Bonjour, Hallo, Hola, Ciao, こんにちは, 안녕하세요, 你好, Cześć, Olá, Merhaba, Привіт, Xin chào, สวัสดี
 
 ## How it works
 
@@ -88,7 +89,8 @@ Hello, Bonjour, Hallo, Hola, Ciao, こんにちは, 안녕하세요, 你好, Cze
 <Dependency Id="" />
 <!--Change log for new version. Single line or multi line. Supports minimal markdown subset-->
 <ChangeLog>
-- Added Turkish
+- Added Turkish.
+- Added an independent Cemetery turnover rate slider when instant reset is off.
 - Clarified Status and cemetery descriptions.
 - Added a detailed Log Report button for deathcare troubleshooting and open log button.
 - Improved Status report efficiency while Options is open.

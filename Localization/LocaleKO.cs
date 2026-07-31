@@ -186,8 +186,8 @@ namespace MagicHearse
                 { "MH_STATUS_LINE1", "{0} 대기 | {1} 사망/월 | 업데이트 {2}" },
                 { "MH_STATUS_LINE2", "{0} 월 최대 처리 | {1}/{2} 무덤 사용" },
                 { "MH_STATUS_LINE3", "{0} / {1} 영구차 | {2} / {3} 건물 | {4} 최대 근로자" },
-                { "MH_STATUS_PROCESSING_SUGGESTED", "현재 제안: 처리 속도 약 {0}%" },
-                { "MH_STATUS_PROCESSING_MORE", "현재 제안: 처리 속도 500% + 가동 시설 추가" },
+                { "MH_STATUS_PROCESSING_SUGGESTED", "현재 제안: 화장터 처리 속도 약 {0}%" },
+                { "MH_STATUS_PROCESSING_MORE", "현재 제안: 화장터 처리 속도 500% + 가동 시설 추가" },
                 { "MH_STATUS_PROCESSING_NONE", "제안: 화장장을 가동/추가하세요" },
 
                 // Cemetery reset tally (session status; row + named list below Assets)

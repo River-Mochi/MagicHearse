@@ -60,10 +60,10 @@ Performance note: status scanning happens only when Options requests it or when 
 ---
 
 ## Languages
-15 languages supported:
+16 languages supported:
 - Français, Deutsch, Español, Italiano, English
 - 日本語, 한국어, Polski, Português (Brasil), 简体中文, 繁體中文
-- Português (Portugal), Українська, Tiếng Việt, ไทย
+- Português (Portugal), Türkçe, Українська, Tiếng Việt, ไทย
 
 ---
 
