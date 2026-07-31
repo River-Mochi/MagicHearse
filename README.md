@@ -12,7 +12,7 @@
 
 - **Auto Clean (Magic):** instantly removes dead citizens waiting for a hearse.
 - **Funeral Director (Self Manage):** scales **deathcare facility prefabs**
-	- processing, fleet, storage, hearse speed
+	- crematorium processing, fleet, cemetery storage/turnover, hearse speed
 	- optional max workers
 
 Notes:
@@ -30,11 +30,13 @@ Notes:
 | **Enable Magic** | Removes citizens flagged **Dead + RequireTransport**. |
 
 ### Option 2: Funeral Director (Self Manage)
-| Slider | What it changes |
+| Setting | What it changes |
 |---|---|
-| **Processing rate** | Crematorium processing speed multiplier |
+| **Crematorium processing** | Cremation speed multiplier |
 | **Fleet size** | Max hearses per facility multiplier |
 | **Cemetery storage** | Long-term storage capacity multiplier |
+| **Reset full cemetery** | Instantly empties a full cemetery |
+| **Cemetery turnover rate** | Gradually frees occupied graves when instant reset is off |
 | **Hearse Speed** | Speed multiplier (road limits still apply) |
 | **Max workers** | (Advanced) scales max workers for deathcare facilities (existing + new buildings) |
 
@@ -50,10 +52,10 @@ Includes:
 
 A lightweight status report in the Options UI:
 - **Dead waiting** (needs hearse pickup)
-- **Deaths/month** vs **Cremation max/mo**
+- **Deaths/month** vs **Handling max/mo**
 - **Active assets:** hearses, buildings, cemetery use, empty graves, max workers
 
-Performance note: status scanning happens **only while Options is open** (refresh ~ every 15 seconds).
+Performance note: status scanning happens only when Options requests it or when **Log Report** is pressed. It does not run every simulation update.
 
 ---
 

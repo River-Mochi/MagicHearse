@@ -85,9 +85,10 @@ namespace MagicHearse
                     "선택: **근로자 수**도 증가."
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.ProcScalar)), "처리 속도" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.ProcScalar)), "화장터 처리" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.ProcScalar)),
-                    "**시설 처리 속도** (화장)\n" +
+                    "**화장터 처리 속도.**\n" +
+                    "값이 높을수록 시신을 더 빨리 화장하고 시설 저장 공간을 더 빨리 비웁니다.\n" +
                     "**100%** = 바닐라 기본값."
                 },
 
@@ -101,6 +102,8 @@ namespace MagicHearse
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StorageScalar)), "묘지 저장" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StorageScalar)),
                     "메인 건물의 **묘지 저장 용량**.\n" +
+                    "용량을 늘리면 가득 찬 묘지가 다시 시신 수거를 받을 수 있습니다.\n" +
+                    "공간 부족으로 시설이 막힌 경우가 아니면 영구차를 더 보내지는 않습니다.\n" +
                     "**100%** = 바닐라 기본값."
                 },
 
@@ -108,8 +111,16 @@ namespace MagicHearse
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.AutoResetCemetery)),
                     "묘지가 가득 차면 **묘지를 비워** 건물 위의 가득 참 아이콘으로 운영이 중단되지 않게 합니다.\n" +
                     "더 이상 가득 찬 묘지를 철거하고 다시 지을 필요가 없습니다.\n" +
-                    "**묘지 저장** 슬라이더와 함께 사용하세요. 묘지 크기를 정한 뒤 재사용되도록 두면 가득 찬 묘지를 다시 철거할 필요가 없습니다.\n" +
+                    "이 옵션을 끄면 대신 점진적인 **묘지 자리 순환 속도**를 사용할 수 있습니다.\n" +
                     "<[ ✓ ] 기본값 ON>"
+                },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.CemeteryTurnoverScalar)), "묘지 자리 순환 속도" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.CemeteryTurnoverScalar)),
+                    "**사용 중인 묘지 자리를 서서히 다시 사용할 수 있게 합니다.**\n" +
+                    "묘지에 가득 참 아이콘이 너무 자주 표시되면 이 슬라이더를 높이세요.\n" +
+                    "값이 높을수록 바닐라보다 묘지 자리가 더 빨리 다시 비워집니다.\n" +
+                    "**100%** = 바닐라 기본값."
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.HearseSpeedScalar)), "영구차 속도" },
@@ -151,8 +162,8 @@ namespace MagicHearse
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusSummary2)), "물량" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StatusSummary2)),
                      "게임 통계의 **월간 합계**.\n" +
-                     "**화장 최대/월** = 게임 Handling/월 정보 패널.\n" +
-                     "이는 화장장이 한 달에 처리할 수 있는 최대 시신 수입니다."
+                     "**월 최대 처리** = 현재 효율의 화장터 처리와 묘지 자리 순환을 합한 값입니다.\n" +
+                     "활성 장례 시설 전체가 한 달에 처리할 수 있는 최대 시신 수입니다."
                  },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusSummary3)), "자산" },
@@ -173,7 +184,7 @@ namespace MagicHearse
                 { "MH_STATUS_STATS_NOT_AVAIL", "도시 없음... ¯\\_(ツ)_/¯ ...통계 없음" },
 
                 { "MH_STATUS_LINE1", "{0} 대기 | {1} 사망/월 | 업데이트 {2}" },
-                { "MH_STATUS_LINE2", "{0} 화장 최대/월 | {1}/{2} 무덤 사용" },
+                { "MH_STATUS_LINE2", "{0} 월 최대 처리 | {1}/{2} 무덤 사용" },
                 { "MH_STATUS_LINE3", "{0} / {1} 영구차 | {2} / {3} 건물 | {4} 최대 근로자" },
                 { "MH_STATUS_PROCESSING_SUGGESTED", "현재 제안: 처리 속도 약 {0}%" },
                 { "MH_STATUS_PROCESSING_MORE", "현재 제안: 처리 속도 500% + 가동 시설 추가" },

@@ -86,9 +86,10 @@ namespace MagicHearse
                     "Додатково можна **збільшити кількість працівників**."
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.ProcScalar)), "Швидкість обробки" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.ProcScalar)), "Обробка в крематорії" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.ProcScalar)),
-                    "**Швидкість роботи закладу** (кремації)\n" +
+                    "**Швидкість обробки в крематорії.**\n" +
+                    "Вищі значення швидше кремують тіла й звільняють сховище закладу.\n" +
                     "**100%** = стандартне значення гри."
                 },
 
@@ -102,6 +103,8 @@ namespace MagicHearse
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StorageScalar)), "Місткість кладовища" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StorageScalar)),
                     "**Місткість головної будівлі кладовища**.\n" +
+                    "Більша місткість дозволяє заповненому кладовищу знову приймати тіла.\n" +
+                    "Вона не відправляє більше катафалків, якщо лише брак місця не блокував заклад.\n" +
                     "**100%** = стандартне значення гри."
                 },
 
@@ -109,8 +112,16 @@ namespace MagicHearse
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.AutoResetCemetery)),
                     "**Очищає кладовище**, коли воно заповнене, щоб його не блокувала піктограма «ЗАПОВНЕНО» над будівлею.\n" +
                     "Більше не потрібно видаляти й перебудовувати заповнені кладовища.\n" +
-                    "Працює разом із повзунком **Місткість кладовища**: налаштуйте розмір кладовищ і дозвольте їм повторно використовуватися, щоб більше ніколи не зносити заповнене кладовище.\n" +
+                    "Вимкніть цю опцію, щоб натомість використовувати поступове **Звільнення місць на кладовищі**.\n" +
                     "<[ ✓ ] УВІМКНЕНО за замовчуванням>"
+                },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.CemeteryTurnoverScalar)), "Звільнення місць на кладовищі" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.CemeteryTurnoverScalar)),
+                    "**Поступово звільняє зайняті місця на кладовищі.**\n" +
+                    "Якщо кладовища й далі надто часто показують піктограму «ЗАПОВНЕНО», збільште цей повзунок.\n" +
+                    "Вищі значення звільняють місця швидше, ніж у стандартній грі.\n" +
+                    "**100%** = стандартне значення гри."
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.HearseSpeedScalar)), "Швидкість катафалка" },
@@ -150,8 +161,8 @@ namespace MagicHearse
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusSummary2)), "Обсяг" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StatusSummary2)),
                     "**Місячні підсумки** зі статистики гри.\n" +
-                    "**Макс. кремацій/міс.** = показник Обробка/міс. на інформаційній панелі гри.\n" +
-                    "Це максимальна кількість тіл, яку крематорії можуть обробити за місяць."
+                    "**Макс. обробка/міс.** = обробка в крематоріях плюс звільнення місць на кладовищах за поточної ефективності.\n" +
+                    "Це максимальна кількість тіл, яку всі активні ритуальні заклади можуть обробити за місяць."
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusSummary3)), "Ресурси" },
@@ -172,7 +183,7 @@ namespace MagicHearse
                 { "MH_STATUS_STATS_NOT_AVAIL", "Немає міста... ¯\\_(ツ)_/¯ ...Немає статистики" },
 
                 { "MH_STATUS_LINE1", "{0} очікують | {1} смертей/міс. | оновлено {2}" },
-                { "MH_STATUS_LINE2", "{0} макс. кремацій/міс. | {1}/{2} могил зайнято" },
+                { "MH_STATUS_LINE2", "{0} макс. обробка/міс. | {1}/{2} могил зайнято" },
                 { "MH_STATUS_LINE3", "{0} / {1} катафалків | {2} / {3} будівель | {4} макс. працівників" },
                 { "MH_STATUS_PROCESSING_SUGGESTED", "Поточна порада: обробка ~{0}%" },
                 { "MH_STATUS_PROCESSING_MORE", "Поточна порада: обробка 500% + більше активних закладів" },

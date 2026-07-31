@@ -30,7 +30,7 @@ namespace MagicHearse
         public const string kModId = "MagicHearse";
         public const string kModTag = "[MH]";
 
-        // Build that is loaded shows in the log banner AND the About tab so it's obvious.
+        // Shown in both the log banner and About tab.
 #if DEBUG
         public const string kBuildType = "DEBUG";
 #else
@@ -55,12 +55,11 @@ namespace MagicHearse
 
         public void OnLoad(UpdateSystem updateSystem)
         {
-            // Also configures LogUtils.
             ShellOpen.Configure(s_Log, kModId, kModTag);
 
             if (!s_BannerLogged)
             {
-                s_BannerLogged = true;  // one-time banner
+                s_BannerLogged = true;
                 LogUtils.Info(() => $"{kModName} {kModTag} v{ModVersion} [{kBuildType}] OnLoad");
             }
 
@@ -76,7 +75,7 @@ namespace MagicHearse
             MHSetting setting = new(this);
             Settings = setting;
 
-            // Locales are best-effort: one guard + one try/catch so a bad source never crashes load.
+            // Locale failures must not stop the mod from loading.
             LocalizationManager? localizationManager = gameManager.localizationManager;
             if (localizationManager == null)
             {
@@ -97,7 +96,7 @@ namespace MagicHearse
                     localizationManager.AddSource("pt-BR", new LocalePT_BR(setting));
                     localizationManager.AddSource("zh-HANS", new LocaleZH_HANS(setting));
                     localizationManager.AddSource("zh-HANT", new LocaleZH_HANT(setting));
-                    // next are locales not officially supported, localization mods needed to use these.
+                    // These locales need a localization mod because CS2 does not officially expose them.
                     localizationManager.AddSource("pt-PT", new LocalePT_PT(setting));
                     localizationManager.AddSource("th-TH", new LocaleTH(setting));
                     localizationManager.AddSource("uk-UA", new LocaleUK(setting));

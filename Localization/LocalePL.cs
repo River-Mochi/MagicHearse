@@ -85,9 +85,10 @@ namespace MagicHearse
                     "Opcjonalnie: **zwiększ pracowników** też."
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.ProcScalar)), "Szybkość przetwarzania" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.ProcScalar)), "Przetwarzanie w krematorium" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.ProcScalar)),
-                    "**Szybkość przetwarzania obiektu** (kremacje)\n" +
+                    "**Szybkość przetwarzania w krematorium.**\n" +
+                    "Wyższe wartości szybciej kremują ciała i zwalniają miejsce w obiekcie.\n" +
                     "**100%** = domyślne ustawienie gry (vanilla)."
                 },
 
@@ -101,6 +102,8 @@ namespace MagicHearse
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StorageScalar)), "Pojemność cmentarza" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StorageScalar)),
                     "**Pojemność magazynu cmentarza** dla głównego budynku.\n" +
+                    "Większa pojemność pozwala pełnemu cmentarzowi ponownie przyjmować odbiory.\n" +
+                    "Nie wysyła więcej karawanów, chyba że brak miejsca blokował obiekt.\n" +
                     "**100%** = domyślne ustawienie gry (vanilla)."
                 },
 
@@ -108,8 +111,16 @@ namespace MagicHearse
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.AutoResetCemetery)),
                     "**Opróżnia cmentarz**, gdy jest pełny, aby nie blokowała go ikona PEŁNY nad budynkiem.\n" +
                     "Nie trzeba już usuwać i odbudowywać pełnych cmentarzy.\n" +
-                    "Współpracuje z suwakiem **Pojemność cmentarza**: ustaw wielkość cmentarzy i pozwól na ich ponowne wykorzystanie, aby nigdy więcej nie burzyć pełnego cmentarza.\n" +
+                    "Wyłącz tę opcję, aby zamiast niej używać stopniowego **Tempa zwalniania grobów**.\n" +
                     "<[ ✓ ] Domyślnie WŁ.>"
+                },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.CemeteryTurnoverScalar)), "Tempo zwalniania grobów" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.CemeteryTurnoverScalar)),
+                    "**Stopniowo zwalnia zajęte miejsca na cmentarzu.**\n" +
+                    "Jeśli cmentarze nadal zbyt często pokazują ikonę PEŁNY, zwiększ ten suwak.\n" +
+                    "Wyższe wartości zwalniają miejsca szybciej niż w grze vanilla.\n" +
+                    "**100%** = domyślne ustawienie gry (vanilla)."
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.HearseSpeedScalar)), "Prędkość karawanu" },
@@ -150,8 +161,8 @@ namespace MagicHearse
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusSummary2)), "Wolumen" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StatusSummary2)),
                      "**Miesięczne sumy** ze statystyk gry.\n" +
-                     "**Kremacje max/mies.** = panel info Handling/mies. w grze.\n" +
-                     "To maksymalna liczba ciał, które mogłyby zostać przetworzone przez krematoria w miesiącu."
+                     "**Maks. obsługa/mies.** = przetwarzanie w krematoriach plus zwalnianie grobów przy bieżącej wydajności.\n" +
+                     "To maksymalna liczba ciał, którą wszystkie aktywne obiekty pogrzebowe mogą obsłużyć w miesiącu."
                  },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusSummary3)), "Zasoby" },
@@ -172,7 +183,7 @@ namespace MagicHearse
                 { "MH_STATUS_STATS_NOT_AVAIL", "Brak miasta... ¯\\_(ツ)_/¯ ...Brak statystyk" },
 
                 { "MH_STATUS_LINE1", "{0} czeka | {1} zgony/mies. | zaktualizowano {2}" },
-                { "MH_STATUS_LINE2", "{0} kremacje max/mies. | {1}/{2} groby użyte" },
+                { "MH_STATUS_LINE2", "{0} maks. obsługa/mies. | {1}/{2} groby użyte" },
                 { "MH_STATUS_LINE3", "{0} / {1} karawany | {2} / {3} budynki | {4} maks. pracownicy" },
                 { "MH_STATUS_PROCESSING_SUGGESTED", "Sugerowane teraz: przetwarzanie ~{0}%" },
                 { "MH_STATUS_PROCESSING_MORE", "Sugerowane teraz: przetwarzanie 500% + więcej aktywnych obiektów" },

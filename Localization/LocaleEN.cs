@@ -162,8 +162,8 @@ namespace MagicHearse
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusSummary2)), "Volume" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StatusSummary2)),
                      "**Monthly totals** from game stats.\n" +
-                     "**Cremation max/mo** = game's Handling/mo. info panel.\n" +
-                     "This is the maximum bodies that could be processed by crematoriums per month."
+                     "**Handling max/mo** = crematorium processing plus cemetery turnover at current efficiency.\n" +
+                     "This is the maximum bodies all active deathcare facilities could handle per month."
                  },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusSummary3)), "Assets" },
@@ -184,7 +184,7 @@ namespace MagicHearse
                 { "MH_STATUS_STATS_NOT_AVAIL", "No city... ¯\\_(ツ)_/¯ ...No stats" },
 
                 { "MH_STATUS_LINE1", "{0} waiting | {1} deaths/mo | updated {2}" },
-                { "MH_STATUS_LINE2", "{0} cremate max/mo | {1}/{2} graves used" },
+                { "MH_STATUS_LINE2", "{0} handling max/mo | {1}/{2} graves used" },
                 { "MH_STATUS_LINE3", "{0} / {1} hearses | {2} / {3} buildings | {4} max workers" },
                 { "MH_STATUS_PROCESSING_SUGGESTED", "Suggested now: ~{0}% crematorium processing" },
                 { "MH_STATUS_PROCESSING_MORE", "Suggested now: 500% crematorium processing + more active facilities" },

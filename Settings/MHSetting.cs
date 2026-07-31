@@ -75,15 +75,13 @@ namespace MagicHearse
         private bool m_EnableMagicHearse = true;
         private bool m_FuneralDirector;
 
-        // Workers control is a sub-toggle inside FD.
-        // Default OFF to avoid surprise conflicts with ConfigXML or other building mods.
+        // Default OFF so ConfigXML or another building mod can own worker counts.
         private bool m_ControlWorkers;
 
-        // Cemetery auto-reset under Funeral Director. Default ON.
+        // FD defaults to instant reset.
         private bool m_AutoResetCemetery = true;
 
-        // Cemetery auto-reset under Magic Clean. Its OWN field with a different default (OFF): Magic Clean
-        // removes corpses before burial so cemeteries rarely fill -- opt in there only if you need it.
+        // Magic removes most corpses before burial, so its separate reset stays opt-in.
         private bool m_MagicResetCemetery;
 
         public MHSetting(IMod mod)
@@ -91,10 +89,10 @@ namespace MagicHearse
         {
         }
 
-        // UI condition helper: WorkersScalar only visible when FD + ControlWorkers are ON.
+        // Options shows Max workers only when FD and worker control are both on.
         public bool WorkersControlEnabled => m_FuneralDirector && m_ControlWorkers;
 
-        // Gradual turnover is the alternative to instant cemetery reset.
+        // Options shows gradual turnover only when FD is on and instant reset is off.
         public bool CemeteryTurnoverEnabled => m_FuneralDirector && !m_AutoResetCemetery;
 
         // --------------------------------------------------------------------
@@ -109,7 +107,6 @@ namespace MagicHearse
             set => m_EnableMagicHearse = value;
         }
 
-        // Magic Clean's own cemetery-reset toggle -- independent of the FD one, and OFF by default.
         [SettingsUISection(kActionsTab, kAutoCleanGrp)]
         [SettingsUIHideByCondition(typeof(MHSetting), nameof(EnableMagicHearse), true)]
         [SettingsUISetter(typeof(MHSetting), nameof(SetMagicResetCemetery))]
@@ -149,9 +146,7 @@ namespace MagicHearse
         [SettingsUISetter(typeof(MHSetting), nameof(SetStorageScalar))]
         public int StorageScalar { get; set; } = kDefaultPercent;
 
-        // Instance-level companion to Cemetery storage slider: empties a placed
-        // cemetery back to 0 the moment the game flags it full. Independent of capacity,
-        // so both can be used together.
+        // Instant reset and gradual turnover are exclusive in the UI; storage works with either.
         [SettingsUISection(kActionsTab, kSelfManageGrp)]
         [SettingsUIHideByCondition(typeof(MHSetting), nameof(FuneralDirector), true)]
         [SettingsUISetter(typeof(MHSetting), nameof(SetAutoResetCemetery))]
@@ -303,7 +298,7 @@ namespace MagicHearse
                 }
                 catch (Exception)
                 {
-                    // Silent catch; worst case the link does nothing.
+                    // A failed browser launch should not break Options.
                 }
             }
         }
@@ -354,8 +349,8 @@ namespace MagicHearse
             m_FuneralDirector = false;
 
             m_ControlWorkers = false;
-            m_AutoResetCemetery = true;    // FD cemetery reset: ON
-            m_MagicResetCemetery = false;  // Magic cemetery reset: OFF (opt-in)
+            m_AutoResetCemetery = true;
+            m_MagicResetCemetery = false;
 
             ProcScalar = kDefaultPercent;
             CemeteryTurnoverScalar = kDefaultPercent;

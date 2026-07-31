@@ -85,9 +85,10 @@ namespace MagicHearse
                     "Optionnel : **augmenter les employés** aussi."
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.ProcScalar)), "Vitesse de traitement" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.ProcScalar)), "Traitement du crématorium" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.ProcScalar)),
-                    "**Vitesse de traitement des établissements** (crémations)\n" +
+                    "**Vitesse de traitement du crématorium.**\n" +
+                    "Des valeurs plus élevées incinèrent les corps et libèrent plus vite le stockage de l’établissement.\n" +
                     "**100%** = valeur vanilla du jeu."
                 },
 
@@ -101,6 +102,8 @@ namespace MagicHearse
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StorageScalar)), "Stockage du cimetière" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StorageScalar)),
                     "**Capacité de stockage du cimetière** pour le bâtiment principal.\n" +
+                    "Une capacité supérieure permet à un cimetière plein d’accepter de nouveau des enlèvements.\n" +
+                    "Elle n’envoie pas plus de corbillards, sauf si le manque de place bloquait l’établissement.\n" +
                     "**100%** = valeur vanilla du jeu."
                 },
 
@@ -108,8 +111,16 @@ namespace MagicHearse
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.AutoResetCemetery)),
                     "**Vide un cimetière** lorsqu’il est plein afin qu’il ne reste pas bloqué par l’icône PLEIN au-dessus du bâtiment.\n" +
                     "Il n’est plus nécessaire de supprimer et reconstruire les cimetières pleins.\n" +
-                    "Fonctionne avec le curseur **Stockage du cimetière** : dimensionnez vos cimetières, puis laissez-les se réutiliser pour ne plus jamais devoir en démolir un plein.\n" +
+                    "Désactivez cette option pour utiliser à la place la **Libération progressive des tombes**.\n" +
                     "<[ ✓ ] Activé par défaut>"
+                },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.CemeteryTurnoverScalar)), "Libération progressive des tombes" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.CemeteryTurnoverScalar)),
+                    "**Libère progressivement les tombes occupées du cimetière.**\n" +
+                    "Si les cimetières affichent encore trop souvent l’icône PLEIN, augmentez ce curseur.\n" +
+                    "Des valeurs plus élevées rendent les tombes disponibles plus vite que dans le jeu vanilla.\n" +
+                    "**100%** = valeur vanilla du jeu."
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.HearseSpeedScalar)), "Vitesse du corbillard" },
@@ -151,8 +162,8 @@ namespace MagicHearse
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusSummary2)), "Volume" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StatusSummary2)),
                      "**Totaux mensuels** depuis les stats du jeu.\n" +
-                     "**Crémation max/mo** = panneau d'info « Handling/mo » du jeu.\n" +
-                     "C'est le nombre maximum de corps pouvant être traités par les crématoriums par mois."
+                     "**Traitement max./mois** = traitement des crématoriums plus renouvellement des cimetières à l’efficacité actuelle.\n" +
+                     "C’est le nombre maximal de corps que tous les établissements funéraires actifs peuvent gérer par mois."
                  },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusSummary3)), "Ressources" },
@@ -173,7 +184,7 @@ namespace MagicHearse
                 { "MH_STATUS_STATS_NOT_AVAIL", "Pas de ville... ¯\\_(ツ)_/¯ ...Pas de stats" },
 
                 { "MH_STATUS_LINE1", "{0} en attente | {1} décès/mo | mis à jour {2}" },
-                { "MH_STATUS_LINE2", "{0} crémation max/mo | {1}/{2} tombes utilisées" },
+                { "MH_STATUS_LINE2", "{0} traitement max./mois | {1}/{2} tombes utilisées" },
                 { "MH_STATUS_LINE3", "{0} / {1} corbillards | {2} / {3} bâtiments | {4} employés max" },
                 { "MH_STATUS_PROCESSING_SUGGESTED", "Suggestion actuelle : traitement à ~{0} %" },
                 { "MH_STATUS_PROCESSING_MORE", "Suggestion actuelle : traitement à 500 % + plus d'établissements actifs" },

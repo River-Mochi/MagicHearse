@@ -257,7 +257,7 @@ namespace MagicHearse
             report.AppendLine(
                 $"  Active facilities with bodies waiting to process: {snap.FacilitiesWithProcessingQueue}");
             report.AppendLine(
-                "  Processing rate does not directly send more hearses. It helps dispatch");
+                "  Handling capacity does not directly send more hearses. It helps dispatch");
             report.AppendLine(
                 "  indirectly only when a facility has no room for another body.");
         }
@@ -472,6 +472,7 @@ namespace MagicHearse
                     $"  - Storage: {snap.FullFacilities} active deathcare facilities are flagged full.");
             }
 
+            // Report-only warning at 90%; this does not change cemetery behavior.
             if (snap.CemeteryCapacity > 0 &&
                 snap.CemeteryUse * 10 >= snap.CemeteryCapacity * 9)
             {

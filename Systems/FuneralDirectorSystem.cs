@@ -7,11 +7,10 @@
 // ================= </copyright> ======================
 
 // File: Systems/FuneralDirectorSystem.cs
-// Purpose: “Self Manage” Funeral Director [FD] that applies multipliers to PREFABS.
-// Notes:
-// - runs only on-demand (settings change), then disables itself.
-// - Reads TRUE vanilla baselines from PrefabSystem -> PrefabBase authoring components (NOT PrefabRef).
-// - Workers control optional; placed-building worker cache can be recomputed one-shot via WorkProvider.m_MaxWorkers.
+// Purpose: Applies Funeral Director multipliers to deathcare prefabs.
+// Runs once after loading or settings changes, then disables itself.
+// Reads vanilla baselines from PrefabBase authoring components, not PrefabRef.
+// Worker control also refreshes placed WorkProvider caches once.
 
 namespace MagicHearse
 {
@@ -47,10 +46,10 @@ namespace MagicHearse
                 .WithNone<Game.Common.Deleted>()
                 .Build();
 
-            // Query targets owner building entities previously touched.
+            // Markers live on placed owner buildings so only MH-touched worker values are restored.
             m_PlacedDeathcareMarkedQuery = SystemAPI.QueryBuilder()
-                .WithAll<WorkProviderMax>()                     
-                .WithAll<Game.Buildings.DeathcareFacility>()    // marker lives on owner
+                .WithAll<WorkProviderMax>()
+                .WithAll<Game.Buildings.DeathcareFacility>()
                 .WithAll<Game.Prefabs.PrefabRef>()
                 .WithNone<Game.Tools.Temp>()
                 .WithNone<Game.Common.Deleted>()
@@ -138,7 +137,6 @@ namespace MagicHearse
             float workersScalar = setting.WorkersScalar * 0.01f;
 
             // Scale from authoring values so repeated setting changes never stack.
-            // DeathcareFacilityData on prefab entities
             foreach ((RefRW<Game.Prefabs.DeathcareFacilityData> dc, Entity entity) in SystemAPI
                          .Query<RefRW<Game.Prefabs.DeathcareFacilityData>>()
                          .WithAll<Game.Prefabs.PrefabData>()
@@ -162,6 +160,7 @@ namespace MagicHearse
                     m_ProcessingRate = baseRate,
                 };
 
+                // Long-term storage marks cemeteries; reset keeps their processing at vanilla 100%.
                 float rateScalar = baseLongTerm
                     ? cemeteryTurnoverScalar
                     : procScalar;
@@ -197,17 +196,15 @@ namespace MagicHearse
                 dc.ValueRW = newData;
             }
 
-            // 1b) Hearse vehicle tuning on prefab entities
             ApplyHearseCarTuning(hearseSpeedScalar);
 
-            // 2) WorkplaceData on deathcare prefab entities (optional)
             EntityCommandBuffer ecb = new(Allocator.Temp);
 
             if (controlWorkers)
             {
                 foreach ((RefRW<Game.Prefabs.WorkplaceData> wp, Entity entity) in SystemAPI
                              .Query<RefRW<Game.Prefabs.WorkplaceData>>()
-                             .WithAll<Game.Prefabs.PrefabData, Game.Prefabs.DeathcareFacilityData>()    // fully qualify prevents errors.
+                             .WithAll<Game.Prefabs.PrefabData, Game.Prefabs.DeathcareFacilityData>()
                              .WithEntityAccess())
                 {
                     if (!TryGetWorkplaceBase(entity, out Game.Prefabs.Workplace workplace))
@@ -262,7 +259,7 @@ namespace MagicHearse
                     }
                 }
 
-                // One-shot refresh for placed deathcare buildings (WorkProvider.m_MaxWorkers).
+                // Prefab changes do not refresh existing buildings' WorkProvider cache.
                 RefreshPlacedDeathcareWorkers(ref ecb);
             }
             else

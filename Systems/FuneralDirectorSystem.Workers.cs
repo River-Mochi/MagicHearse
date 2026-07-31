@@ -7,8 +7,8 @@
 // ================= </copyright> ======================
 
 // File: Systems/FuneralDirectorSystem.Workers.cs
-// Purpose: One-shot recompute of placed-building worker cache (WorkProvider.m_MaxWorkers)
-//          based on current prefab WorkplaceData + InstalledUpgrade, using City's public CityUtils logic.
+// Purpose: Recomputes placed-building WorkProvider.m_MaxWorkers once using current
+//          prefab/upgrade data and the game's public CityUtils calculation.
 
 namespace MagicHearse
 {
@@ -54,7 +54,6 @@ namespace MagicHearse
 
             int touched = 0;
 
-            // On-demand pass; query is filtered to placed (existing) DeathcareFacility entities.
             using NativeArray<Entity> entities = m_PlacedDeathcareQuery.ToEntityArray(Allocator.Temp);
             for (int i = 0; i < entities.Length; i++)
             {
@@ -161,7 +160,7 @@ namespace MagicHearse
             ComponentLookup<Game.Prefabs.WorkplaceData> workplaceDataLookup =
                 GetComponentLookup<WorkplaceData>(isReadOnly: true);
 
-            // CityUtils helper is defined to accept SchoolData (unused for deathcare but needed to use the public method).
+            // CityUtils still requires its unused school lookups here.
             ComponentLookup<Game.Prefabs.SchoolData> schoolDataLookup =
                 GetComponentLookup<SchoolData>(isReadOnly: true);
 

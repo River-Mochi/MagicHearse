@@ -27,6 +27,7 @@ namespace MagicHearse
 
     public sealed partial class DeathcareStatusSystem : GameSystemBase
     {
+        // Report-only threshold; vanilla dispatch behavior is unchanged.
         internal const int kRepeatedDispatchFailureThreshold = 4;
 
         private CityStatisticsSystem m_CityStats = null!;
@@ -62,19 +63,18 @@ namespace MagicHearse
                 .WithAll<HealthcareParameterData>()
                 .Build();
 
-            // All hearses currently in the world.
             m_HearseQuery = SystemAPI.QueryBuilder()
                 .WithAll<Game.Vehicles.Hearse, Owner>()
                 .WithNone<Temp, Deleted>()
                 .Build();
 
-            // Options calls BuildSnapshot() direct; no live simu update needed.
+            // Built only on demand from Options or Log Report; never on each simulation update.
             Enabled = false;
         }
 
         protected override void OnUpdate()
         {
-            // GameSystemBase needs this; BuildSnapshot() does work on demand.
+            // Required by GameSystemBase; snapshots are built on demand.
         }
 
         public Snapshot BuildSnapshot()
@@ -120,7 +120,6 @@ namespace MagicHearse
             int facilitiesWithProcessingQueue = 0;
             int facilitiesWithZeroDispatchCapacity = 0;
 
-            // Add capacity and worker totals from every placed deathcare facility.
             using (NativeArray<Entity> entities =
                 m_DeathcarePlacedQuery.ToEntityArray(Allocator.Temp))
             {
@@ -182,6 +181,7 @@ namespace MagicHearse
                         efficiency * data.m_ProcessingRate;
                     processingRate += activeProcessingRate;
 
+                    // Long-term storage marks cemeteries; the rest add crematorium capacity.
                     if (data.m_LongTermStorage)
                     {
                         cemeteryTurnoverRate += activeProcessingRate;
@@ -268,6 +268,7 @@ namespace MagicHearse
             long hearseOtherOnRoad = 0;
             long hearseDisabledOnRoad = 0;
 
+            // Parked and on-road buckets are exclusive and must add up to SpawnedHearses.
             using (NativeArray<Entity> hearseEntities =
                 m_HearseQuery.ToEntityArray(Allocator.Temp))
             {

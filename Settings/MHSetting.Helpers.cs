@@ -39,12 +39,12 @@ namespace MagicHearse
                 return;
             }
 
-            if (magicChanged)  // Enable immediately without needing a restart.
+            if (magicChanged)
             {
                 world.GetOrCreateSystemManaged<MagicHearseSystem>().Enabled = m_EnableMagicHearse;
             }
 
-            if (fdChanged)  // Trigger FD to apply/restore prefab scaling on next update pass.
+            if (fdChanged)
             {
                 world.GetOrCreateSystemManaged<FuneralDirectorSystem>()
                     .ScheduleReapply();
@@ -77,11 +77,10 @@ namespace MagicHearse
             {
                 return;
             }
-            // Queue a one-shot FD apply pass (system enables itself, runs once, disables itself).
             world.GetOrCreateSystemManaged<FuneralDirectorSystem>()
                 .ScheduleReapply();
 
-            DeathcareStatus.MarkDirty();   // Ensure OptionsUI status refreshes immediately after a slider/toggle change.
+            DeathcareStatus.MarkDirty();
         }
 
         // --------------------------------------------------------------------

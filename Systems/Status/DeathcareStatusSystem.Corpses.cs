@@ -84,6 +84,7 @@ namespace MagicHearse
         {
             outsideService = false;
 
+            // Physical location wins so picked-up or delivered corpses are not counted as waiting.
             if (TryGetCurrentHearse(citizen, in lookups, out Entity currentHearse))
             {
                 outsideService = IsOutsideHandler(currentHearse, in lookups);
@@ -189,6 +190,7 @@ namespace MagicHearse
                 return true;
             }
 
+            // Hospitals with CanProcessCorpses count as delivered too.
             return lookups.Hospital.TryGetComponent(
                        building,
                        out Game.Buildings.Hospital hospital) &&
@@ -199,6 +201,7 @@ namespace MagicHearse
             Entity handler,
             in CorpseLookups lookups)
         {
+            // Outside service may be the handler itself or the handler's owner.
             if (lookups.OutsideConnection.HasComponent(handler))
             {
                 return true;

@@ -86,9 +86,10 @@ namespace MagicHearse
                     "Tùy chọn: cũng có thể **tăng số nhân công**."
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.ProcScalar)), "Tốc độ xử lý" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.ProcScalar)), "Xử lý tại lò hỏa táng" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.ProcScalar)),
-                    "**Tốc độ xử lý của cơ sở** (hỏa táng)\n" +
+                    "**Tốc độ xử lý của lò hỏa táng.**\n" +
+                    "Giá trị cao hơn sẽ hỏa táng thi thể và giải phóng chỗ chứa của cơ sở sớm hơn.\n" +
                     "**100%** = mặc định của game gốc."
                 },
 
@@ -102,6 +103,8 @@ namespace MagicHearse
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StorageScalar)), "Sức chứa nghĩa trang" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StorageScalar)),
                     "**Sức chứa của tòa nhà nghĩa trang chính**.\n" +
+                    "Sức chứa lớn hơn giúp nghĩa trang đầy có thể tiếp tục nhận thi thể.\n" +
+                    "Tùy chọn này không điều thêm xe tang, trừ khi cơ sở bị chặn vì thiếu chỗ.\n" +
                     "**100%** = mặc định của game gốc."
                 },
 
@@ -109,8 +112,16 @@ namespace MagicHearse
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.AutoResetCemetery)),
                     "**Dọn trống nghĩa trang** khi đầy để không bị biểu tượng ĐẦY phía trên công trình chặn hoạt động.\n" +
                     "Không còn phải xóa và xây lại nghĩa trang đã đầy.\n" +
-                    "Kết hợp với thanh trượt **Sức chứa nghĩa trang**: đặt quy mô nghĩa trang rồi cho phép tái sử dụng để không bao giờ phải phá nghĩa trang đầy nữa.\n" +
+                    "Tắt tùy chọn này để dùng **Tốc độ giải phóng phần mộ** dần dần.\n" +
                     "<[ ✓ ] Mặc định BẬT>"
+                },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.CemeteryTurnoverScalar)), "Tốc độ giải phóng phần mộ" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.CemeteryTurnoverScalar)),
+                    "**Dần giải phóng các phần mộ đang được sử dụng.**\n" +
+                    "Nếu nghĩa trang vẫn hiện biểu tượng ĐẦY quá thường xuyên, hãy tăng thanh trượt này.\n" +
+                    "Giá trị cao hơn giúp phần mộ trống trở lại nhanh hơn game gốc.\n" +
+                    "**100%** = mặc định của game gốc."
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.HearseSpeedScalar)), "Tốc độ xe tang" },
@@ -150,8 +161,8 @@ namespace MagicHearse
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusSummary2)), "Số lượng" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StatusSummary2)),
                     "**Tổng theo tháng** từ thống kê game.\n" +
-                    "**Hỏa táng tối đa/tháng** = mục Xử lý/tháng trong bảng thông tin của game.\n" +
-                    "Đây là số thi thể tối đa mà các lò hỏa táng có thể xử lý mỗi tháng."
+                    "**Xử lý tối đa/tháng** = xử lý tại lò hỏa táng cộng với giải phóng phần mộ theo hiệu suất hiện tại.\n" +
+                    "Đây là số thi thể tối đa mà tất cả cơ sở tang lễ đang hoạt động có thể xử lý mỗi tháng."
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusSummary3)), "Cơ sở" },
@@ -172,7 +183,7 @@ namespace MagicHearse
                 { "MH_STATUS_STATS_NOT_AVAIL", "Không có thành phố... ¯\\_(ツ)_/¯ ...Không có thống kê" },
 
                 { "MH_STATUS_LINE1", "{0} đang chờ | {1} ca tử vong/tháng | cập nhật {2}" },
-                { "MH_STATUS_LINE2", "{0} hỏa táng tối đa/tháng | {1}/{2} phần mộ đã dùng" },
+                { "MH_STATUS_LINE2", "{0} xử lý tối đa/tháng | {1}/{2} phần mộ đã dùng" },
                 { "MH_STATUS_LINE3", "{0} / {1} xe tang | {2} / {3} công trình | {4} nhân công tối đa" },
                 { "MH_STATUS_PROCESSING_SUGGESTED", "Đề xuất hiện tại: tốc độ xử lý ~{0}%" },
                 { "MH_STATUS_PROCESSING_MORE", "Đề xuất hiện tại: xử lý 500% + thêm cơ sở đang hoạt động" },

@@ -85,9 +85,10 @@ namespace MagicHearse
                     "任意：**労働者数**も増やします。"
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.ProcScalar)), "処理速度" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.ProcScalar)), "火葬場の処理速度" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.ProcScalar)),
-                    "**施設の処理速度**（火葬）\n" +
+                    "**火葬場の処理速度。**\n" +
+                    "値を上げると遺体をより早く火葬し、施設の保管容量を早く空けます。\n" +
                     "**100%** = バニラ既定。"
                 },
 
@@ -101,6 +102,8 @@ namespace MagicHearse
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StorageScalar)), "墓地の収容" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StorageScalar)),
                     "主建物の**墓地収容容量**。\n" +
+                    "容量を増やすと、満杯の墓地が再び遺体の回収を受け入れられます。\n" +
+                    "空き不足が施設を止めていた場合を除き、霊柩車の出動数は直接増えません。\n" +
                     "**100%** = バニラ既定。"
                 },
 
@@ -108,8 +111,16 @@ namespace MagicHearse
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.AutoResetCemetery)),
                     "墓地が満杯になると**墓地を空にし**、建物上の「満杯」アイコンで機能停止しないようにします。\n" +
                     "満杯の墓地を削除して建て直す必要はもうありません。\n" +
-                    "**墓地の収容**スライダーと併用できます。墓地の大きさを設定して再利用させれば、満杯の墓地を取り壊す必要がなくなります。\n" +
+                    "これをOFFにすると、代わりに緩やかな**墓地区画の再利用速度**を使用できます。\n" +
                     "<[ ✓ ] 既定でON>"
+                },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.CemeteryTurnoverScalar)), "墓地区画の再利用速度" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.CemeteryTurnoverScalar)),
+                    "**使用中の墓地区画を徐々に再利用可能にします。**\n" +
+                    "墓地に「満杯」アイコンが頻繁に表示される場合は、このスライダーを上げてください。\n" +
+                    "値を上げると、バニラより早く墓地区画が再び空きます。\n" +
+                    "**100%** = バニラ既定。"
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.HearseSpeedScalar)), "霊柩車の速度" },
@@ -151,8 +162,8 @@ namespace MagicHearse
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusSummary2)), "量" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StatusSummary2)),
                      "ゲーム統計の**月間合計**。\n" +
-                     "**火葬上限/月** = ゲームの Handling/月 情報パネル。\n" +
-                     "これは、火葬場が1か月に処理できる最大数です。"
+                     "**最大処理数/月** = 現在の効率での火葬場処理と墓地区画の再利用の合計。\n" +
+                     "稼働中のすべての葬祭施設が1か月に処理できる最大数です。"
                  },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusSummary3)), "資産" },
@@ -173,7 +184,7 @@ namespace MagicHearse
                 { "MH_STATUS_STATS_NOT_AVAIL", "都市なし... ¯\\_(ツ)_/¯ ...統計なし" },
 
                 { "MH_STATUS_LINE1", "{0} 待機 | {1} 死亡/月 | 更新 {2}" },
-                { "MH_STATUS_LINE2", "{0} 火葬上限/月 | {1}/{2} 墓使用" },
+                { "MH_STATUS_LINE2", "{0} 最大処理数/月 | {1}/{2} 墓使用" },
                 { "MH_STATUS_LINE3", "{0} / {1} 霊柩車 | {2} / {3} 建物 | {4} 最大労働者" },
                 { "MH_STATUS_PROCESSING_SUGGESTED", "現在の提案: 処理速度約{0}%" },
                 { "MH_STATUS_PROCESSING_MORE", "現在の提案: 処理速度500% + 稼働施設を追加" },

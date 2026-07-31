@@ -24,15 +24,14 @@ namespace MagicHearse
     public sealed partial class MagicHearseSystem : GameSystemBase
     {
         private EntityQuery m_DeadCitizenQuery;
-        private EndFrameBarrier m_EndFrameBarrier = null!; // assigned in OnCreate
+        private EndFrameBarrier m_EndFrameBarrier = null!;
 
-
-        // Increase this for faster cleanup, lower is better for performance.
-        public const int kUpdatesPerDay = 256;  // 256 passes run every 1,024 ticks.
+        // CS2 has 262,144 ticks/day; 256 passes run every 1,024 ticks.
+        // Increase this for faster cleanup, but it also scans more often.
+        public const int kUpdatesPerDay = 256;
 
         public override int GetUpdateInterval(SystemUpdatePhase phase)
         {
-            // CS2 has 262,144 ticks/day constant.
             return 262144 / kUpdatesPerDay;
         }
 
@@ -58,8 +57,7 @@ namespace MagicHearse
         {
             base.OnGameLoadingComplete(purpose, mode);
 
-            // City load complete or city switched:
-            // reset cached Status so OptionsUI will refresh for THIS city.
+            // Refresh Status after loading or switching cities so it cannot show the previous city.
             DeathcareStatus.InvalidateCache();
         }
 

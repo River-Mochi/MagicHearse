@@ -19,10 +19,9 @@ namespace MagicHearse
     {
         private void ApplyHearseCarTuning(float speedScalar)
         {
-            // Speed uses scalar directly.
-            float clampedSpeedScalar = math.max(0f, speedScalar);   
-            // Accel/brake use sqrt(scalar) to reduce extreme launch/stop behavior at high speeds.
-            float accelBrakeScalar = math.sqrt(math.max(0.01f, clampedSpeedScalar)); 
+            // Speed scales directly; accel/brake use sqrt to avoid extreme launch/stop behavior.
+            float clampedSpeedScalar = math.max(0f, speedScalar);
+            float accelBrakeScalar = math.sqrt(math.max(0.01f, clampedSpeedScalar));
 
             foreach ((RefRW<Game.Prefabs.CarData> car, Entity prefabEntity) in SystemAPI
                          .Query<RefRW<Game.Prefabs.CarData>>()

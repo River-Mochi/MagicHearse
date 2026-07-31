@@ -85,9 +85,10 @@ namespace MagicHearse
                     "Opcional: **aumentar trabajadores** también."
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.ProcScalar)), "Tasa de procesamiento" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.ProcScalar)), "Procesamiento del crematorio" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.ProcScalar)),
-                    "**Velocidad de procesamiento de la instalación** (cremaciones)\n" +
+                    "**Velocidad de procesamiento del crematorio.**\n" +
+                    "Los valores más altos incineran los cuerpos y liberan antes el almacenamiento de la instalación.\n" +
                     "**100%** = valor vanilla del juego."
                 },
 
@@ -101,6 +102,8 @@ namespace MagicHearse
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StorageScalar)), "Almacenamiento del cementerio" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StorageScalar)),
                     "**Capacidad de almacenamiento del cementerio** para el edificio principal.\n" +
+                    "Una mayor capacidad permite que un cementerio lleno vuelva a aceptar recogidas.\n" +
+                    "No envía más coches fúnebres salvo que la falta de espacio estuviera bloqueando la instalación.\n" +
                     "**100%** = valor vanilla del juego."
                 },
 
@@ -108,8 +111,16 @@ namespace MagicHearse
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.AutoResetCemetery)),
                     "**Vacía un cementerio** cuando se llena para que no quede bloqueado con el icono LLENO sobre el edificio.\n" +
                     "Ya no hace falta eliminar y reconstruir los cementerios llenos.\n" +
-                    "Se combina con el control **Almacenamiento del cementerio**: ajusta el tamaño de los cementerios y deja que se reutilicen para no tener que demoler uno lleno nunca más.\n" +
+                    "Desactiva esta opción para usar en su lugar la **Renovación del cementerio** gradual.\n" +
                     "<[ ✓ ] Activado por defecto>"
+                },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.CemeteryTurnoverScalar)), "Renovación del cementerio" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.CemeteryTurnoverScalar)),
+                    "**Libera gradualmente las tumbas ocupadas del cementerio.**\n" +
+                    "Si los cementerios siguen mostrando el icono LLENO con demasiada frecuencia, aumenta este control.\n" +
+                    "Los valores más altos vuelven a dejar tumbas disponibles antes que el juego vanilla.\n" +
+                    "**100%** = valor vanilla del juego."
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.HearseSpeedScalar)), "Velocidad del coche fúnebre" },
@@ -151,8 +162,8 @@ namespace MagicHearse
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusSummary2)), "Volumen" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StatusSummary2)),
                      "**Totales mensuales** de las estadísticas del juego.\n" +
-                     "**Cremación máx./mes** = panel de info Handling/mes del juego.\n" +
-                     "Este es el máximo de cuerpos que podrían procesar los crematorios por mes."
+                     "**Capacidad máx./mes** = procesamiento de crematorios más renovación de cementerios con la eficiencia actual.\n" +
+                     "Es el máximo de cuerpos que todas las instalaciones funerarias activas podrían gestionar al mes."
                  },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusSummary3)), "Activos" },
@@ -173,7 +184,7 @@ namespace MagicHearse
                 { "MH_STATUS_STATS_NOT_AVAIL", "Sin ciudad... ¯\\_(ツ)_/¯ ...Sin estadísticas" },
 
                 { "MH_STATUS_LINE1", "{0} esperando | {1} muertes/mes | actualizado {2}" },
-                { "MH_STATUS_LINE2", "{0} cremación máx./mes | {1}/{2} tumbas usadas" },
+                { "MH_STATUS_LINE2", "{0} capacidad máx./mes | {1}/{2} tumbas usadas" },
                 { "MH_STATUS_LINE3", "{0} / {1} fúnebres | {2} / {3} edificios | {4} trabajadores máx." },
                 { "MH_STATUS_PROCESSING_SUGGESTED", "Sugerencia actual: tasa de procesamiento ~{0}%" },
                 { "MH_STATUS_PROCESSING_MORE", "Sugerencia actual: 500% de procesamiento + más instalaciones activas" },

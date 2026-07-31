@@ -85,9 +85,10 @@ namespace MagicHearse
                     "Optional: **Mitarbeiter erhöhen** auch."
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.ProcScalar)), "Verarbeitungsrate" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.ProcScalar)), "Krematoriumsverarbeitung" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.ProcScalar)),
-                    "**Verarbeitungsgeschwindigkeit der Anlage** (Kremationen)\n" +
+                    "**Verarbeitungsgeschwindigkeit des Krematoriums.**\n" +
+                    "Höhere Werte kremieren Leichen schneller und geben die Lagerkapazität der Anlage früher frei.\n" +
                     "**100%** = Vanilla-Standard."
                 },
 
@@ -101,6 +102,8 @@ namespace MagicHearse
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StorageScalar)), "Friedhofslager" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StorageScalar)),
                     "**Friedhofs-Lagerkapazität** für das Hauptgebäude.\n" +
+                    "Mehr Kapazität lässt einen vollen Friedhof wieder Abholungen annehmen.\n" +
+                    "Sie schickt keine zusätzlichen Leichenwagen los, außer Platzmangel hat die Anlage blockiert.\n" +
                     "**100%** = Vanilla-Standard."
                 },
 
@@ -108,8 +111,16 @@ namespace MagicHearse
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.AutoResetCemetery)),
                     "**Leert einen Friedhof**, sobald er voll ist, damit kein VOLL-Symbol über dem Gebäude den Betrieb blockiert.\n" +
                     "Volle Friedhöfe müssen nicht mehr abgerissen und neu gebaut werden.\n" +
-                    "Zusammen mit dem Regler **Friedhofslager**: Lege die Größe deiner Friedhöfe fest und lass sie sich wiederverwenden, damit nie wieder ein voller Friedhof abgerissen werden muss.\n" +
+                    "Schalte dies AUS, um stattdessen die allmähliche **Freigaberate der Grabplätze** zu verwenden.\n" +
                     "<[ ✓ ] Standardmäßig EIN>"
+                },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.CemeteryTurnoverScalar)), "Freigaberate der Grabplätze" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.CemeteryTurnoverScalar)),
+                    "**Gibt belegte Grabplätze nach und nach wieder frei.**\n" +
+                    "Wenn Friedhöfe weiterhin zu oft das VOLL-Symbol zeigen, erhöhe diesen Regler.\n" +
+                    "Höhere Werte machen Grabplätze schneller als im Vanilla-Spiel wieder verfügbar.\n" +
+                    "**100%** = Vanilla-Standard."
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.HearseSpeedScalar)), "Leichenwagen-Geschwindigkeit" },
@@ -151,8 +162,8 @@ namespace MagicHearse
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusSummary2)), "Volumen" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StatusSummary2)),
                      "**Monatliche Summen** aus den Spiel-Statistiken.\n" +
-                     "**Kremation max/Monat** = Handling/Monat-Info im Spiel.\n" +
-                     "Das ist die maximale Anzahl an Körpern, die Krematorien pro Monat verarbeiten könnten."
+                     "**Max. Kapazität/Monat** = Krematoriumsverarbeitung plus Friedhofsumschlag bei aktueller Effizienz.\n" +
+                     "Das ist die maximale Anzahl an Körpern, die alle aktiven Bestattungseinrichtungen pro Monat bewältigen könnten."
                  },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusSummary3)), "Bestand" },
@@ -173,7 +184,7 @@ namespace MagicHearse
                 { "MH_STATUS_STATS_NOT_AVAIL", "Keine Stadt... ¯\\_(ツ)_/¯ ...Keine Stats" },
 
                 { "MH_STATUS_LINE1", "{0} warten | {1} Tote/Monat | aktualisiert {2}" },
-                { "MH_STATUS_LINE2", "{0} Kremation max/Monat | {1}/{2} Gräber belegt" },
+                { "MH_STATUS_LINE2", "{0} max. Kapazität/Monat | {1}/{2} Gräber belegt" },
                 { "MH_STATUS_LINE3", "{0} / {1} Leichenwagen | {2} / {3} Gebäude | {4} max. Mitarbeiter" },
                 { "MH_STATUS_PROCESSING_SUGGESTED", "Aktueller Vorschlag: ~{0}% Verarbeitungsrate" },
                 { "MH_STATUS_PROCESSING_MORE", "Aktueller Vorschlag: 500% Verarbeitungsrate + mehr aktive Einrichtungen" },

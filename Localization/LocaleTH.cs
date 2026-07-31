@@ -86,9 +86,10 @@ namespace MagicHearse
                     "ตัวเลือกเสริม: **เพิ่มคนงาน** ด้วย"
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.ProcScalar)), "อัตราการดำเนินการ" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.ProcScalar)), "การดำเนินการของฌาปนสถาน" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.ProcScalar)),
-                    "**ความเร็วในการดำเนินการของสถานบริการ** (การเผาศพ)\n" +
+                    "**ความเร็วในการดำเนินการของฌาปนสถาน**\n" +
+                    "ค่าที่สูงขึ้นจะเผาศพและเพิ่มพื้นที่จัดเก็บของสถานบริการได้เร็วขึ้น\n" +
                     "**100%** = ค่าเริ่มต้นของเกมดั้งเดิม"
                 },
 
@@ -102,6 +103,8 @@ namespace MagicHearse
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StorageScalar)), "ความจุสุสาน" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StorageScalar)),
                     "**ความจุของสุสาน** สำหรับอาคารหลัก\n" +
+                    "ความจุที่มากขึ้นช่วยให้สุสานที่เต็มกลับมารับการเก็บศพได้อีกครั้ง\n" +
+                    "ไม่ได้ส่งรถขนศพเพิ่ม เว้นแต่พื้นที่ไม่พอเป็นสาเหตุที่ปิดกั้นสถานบริการ\n" +
                     "**100%** = ค่าเริ่มต้นของเกมดั้งเดิม"
                 },
 
@@ -109,8 +112,16 @@ namespace MagicHearse
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.AutoResetCemetery)),
                     "**ทำให้สุสานว่างลง** เมื่อเต็ม เพื่อไม่ให้ถูกปิดกั้นด้วยไอคอนเต็มเหนืออาคาร\n" +
                     "ไม่จำเป็นต้องลบและสร้างสุสานที่เต็มใหม่อีกต่อไป\n" +
-                    "ใช้ร่วมกับแถบเลื่อน **ความจุสุสาน**: กำหนดขนาดสุสาน แล้วปล่อยให้ระบบนำกลับมาใช้ใหม่ เพื่อไม่ต้องทุบทิ้งเมื่อเต็มอีก\n" +
+                    "ปิดตัวเลือกนี้เพื่อใช้ **อัตราการหมุนเวียนพื้นที่สุสาน** แบบค่อยเป็นค่อยไปแทน\n" +
                     "<[ ✓ ] เปิดเป็นค่าเริ่มต้น>"
+                },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.CemeteryTurnoverScalar)), "อัตราการหมุนเวียนพื้นที่สุสาน" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.CemeteryTurnoverScalar)),
+                    "**ค่อย ๆ ทำให้พื้นที่หลุมฝังศพที่ถูกใช้งานกลับมาว่างอีกครั้ง**\n" +
+                    "หากสุสานยังแสดงไอคอนเต็มบ่อยเกินไป ให้เพิ่มแถบเลื่อนนี้\n" +
+                    "ค่าที่สูงขึ้นจะทำให้พื้นที่กลับมาว่างได้เร็วกว่าเกมดั้งเดิม\n" +
+                    "**100%** = ค่าเริ่มต้นของเกมดั้งเดิม"
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.HearseSpeedScalar)), "ความเร็วรถขนศพ" },
@@ -152,8 +163,8 @@ namespace MagicHearse
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusSummary2)), "ปริมาณ" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StatusSummary2)),
                      "**ยอดรวมรายเดือน** จากสถิติของเกม\n" +
-                     "**เผาได้สูงสุด/เดือน** = ข้อมูล Handling/mo. ในแผงข้อมูลของเกม\n" +
-                     "นี่คือจำนวนศพสูงสุดที่เมรุเผาศพสามารถดำเนินการได้ต่อเดือน"
+                     "**รองรับสูงสุด/เดือน** = การดำเนินการของฌาปนสถานรวมกับการหมุนเวียนพื้นที่สุสานตามประสิทธิภาพปัจจุบัน\n" +
+                     "นี่คือจำนวนศพสูงสุดที่สถานบริการงานศพที่เปิดใช้งานทั้งหมดรองรับได้ต่อเดือน"
                  },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusSummary3)), "ทรัพยากร" },
@@ -174,7 +185,7 @@ namespace MagicHearse
                 { "MH_STATUS_STATS_NOT_AVAIL", "ไม่มีเมือง... ¯\\_(ツ)_/¯ ...ไม่มีสถิติ" },
 
                 { "MH_STATUS_LINE1", "รอรับ {0} | เสียชีวิต {1}/เดือน | อัปเดต {2}" },
-                { "MH_STATUS_LINE2", "เผาได้สูงสุด {0}/เดือน | ใช้หลุมศพ {1}/{2}" },
+                { "MH_STATUS_LINE2", "รองรับสูงสุด {0}/เดือน | ใช้หลุมศพ {1}/{2}" },
                 { "MH_STATUS_LINE3", "รถขนศพ {0} / {1} | อาคาร {2} / {3} | คนงานสูงสุด {4}" },
                 { "MH_STATUS_PROCESSING_SUGGESTED", "คำแนะนำตอนนี้: อัตราการดำเนินการ ~{0}%" },
                 { "MH_STATUS_PROCESSING_MORE", "คำแนะนำตอนนี้: อัตราการดำเนินการ 500% + เปิดใช้สถานบริการเพิ่ม" },

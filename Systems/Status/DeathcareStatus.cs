@@ -49,7 +49,7 @@ namespace MagicHearse
         private const string kFallbackNoCityLoaded   = "No city loaded.";
         private const string kFallbackStatsNotAvail  = "No city... ¯\\_(ツ)_/¯ ...No stats";
         private const string kFallbackLine1 = "{0} waiting | {1} deaths/mo | updated {2}";
-        private const string kFallbackLine2 = "{0} cremate max/mo | {1}/{2} graves used";
+        private const string kFallbackLine2 = "{0} handling max/mo | {1}/{2} graves used";
         private const string kFallbackLine3 = "{0} / {1} hearses | {2} / {3} buildings | {4} max workers";
         private const string kFallbackProcessingSuggested =
             "Suggested now: ~{0}% processing";
@@ -113,20 +113,20 @@ namespace MagicHearse
             GameManager gm = GameManager.instance;
             bool isGame = (gm != null && gm.gameMode.IsGame());
 
-            // Detect transitions (menu <-> city, city switches).
+            // Refresh when entering/leaving a city; city switches are invalidated after loading.
             if (isGame != s_WasInGame)
             {
                 s_WasInGame = isGame;
                 InvalidateCache();
             }
 
-            // If no city loaded, re-localize these two lines when UI refreshes
+            // Re-localize menu text in case the active language changed.
             if (!isGame)
             {
                 SummaryLine1 = Localize(kKeyNoCityLoaded, kFallbackNoCityLoaded);
                 SummaryLine2 = Localize(kKeyStatsNotAvail, kFallbackStatsNotAvail);
                 SummaryLine3 = string.Empty;
-                    ClearCemeteryLines();
+                ClearCemeteryLines();
                 return;
             }
 
@@ -160,7 +160,7 @@ namespace MagicHearse
                 SummaryLine1 = Localize(kKeyStatusNotLoaded, kFallbackStatusNotLoaded);
                 SummaryLine2 = string.Empty;
                 SummaryLine3 = string.Empty;
-                    ClearCemeteryLines();
+                ClearCemeteryLines();
 
                 LogUtils.WarnOnce("MH_STATUS_SNAPSHOT_EXCEPTION", () =>
                     $"[MH] Status snapshot failed: {ex.GetType().Name}: {ex.Message}");
@@ -185,7 +185,7 @@ namespace MagicHearse
             SummaryLine2 = SafeFormat(
                 kKeyLine2,
                 fallbackFormat: kFallbackLine2,
-                Format0(snap.ProcessingRate),   // {0} <- game’s “handling capacity/mo”
+                Format0(snap.ProcessingRate),   // {0} <- crematorium + cemetery handling
                 Format0(snap.CemeteryUse),      // {1}
                 Format0(snap.CemeteryCapacity)  // {2}
             );
@@ -205,7 +205,7 @@ namespace MagicHearse
             ApplyCemeterySection(world.GetOrCreateSystemManaged<CemeteryResetSystem>());
         }
 
-        // ---- Helpers -------
+        // ---- Helpers ----
 
         private static void AppendProcessingSuggestion(
             DeathcareStatusSystem.Snapshot snap)
@@ -289,13 +289,12 @@ namespace MagicHearse
                 return;
             }
 
-            // Summary row shows totals; packed row names the cemeteries (with "+N more" spill)
+            // Summary row shows totals; the packed row names cemeteries with a "+N more" spill.
             SummaryLine4 = SafeFormat(kKeyLine4, kFallbackLine4, total, resetSys.DistinctCemeteryCount);
             SummaryCemetery1 = BuildPackedCemeteries(resetSys);
         }
 
-        // Packs the most-emptied cemeteries onto one row ("name ×count · name ×count · +N more"),
-        // stopping at a rough character budget so the row never runs off the panel.
+        // Packs the busiest cemeteries into one row, then uses "+N more" at the rough character budget.
         private static string BuildPackedCemeteries(CemeteryResetSystem resetSys)
         {
             resetSys.CopyTopEmptied(s_TopBuffer, 32);
@@ -361,7 +360,6 @@ namespace MagicHearse
                 LogUtils.WarnOnce("MH_STATUS_BAD_FORMAT_" + key, () =>
                     $"[MH] Status format error. Key={key} Args={args.Length}");
 
-                // Try English fallback.
                 try { return string.Format(fallbackFormat, args); }
                 catch { return fallbackFormat; }
             }

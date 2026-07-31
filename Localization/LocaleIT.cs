@@ -85,9 +85,10 @@ namespace MagicHearse
                     "Opzionale: **aumenta i lavoratori** anche."
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.ProcScalar)), "Velocità di lavorazione" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.ProcScalar)), "Trattamento del crematorio" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.ProcScalar)),
-                    "**Velocità di lavorazione della struttura** (cremazioni)\n" +
+                    "**Velocità di trattamento del crematorio.**\n" +
+                    "Valori più alti cremano i corpi e liberano prima lo spazio della struttura.\n" +
                     "**100%** = valore vanilla del gioco."
                 },
 
@@ -101,6 +102,8 @@ namespace MagicHearse
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StorageScalar)), "Stoccaggio del cimitero" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StorageScalar)),
                     "**Capacità di stoccaggio del cimitero** per l'edificio principale.\n" +
+                    "Una capacità maggiore permette a un cimitero pieno di accettare di nuovo i ritiri.\n" +
+                    "Non invia più carri funebri, a meno che la mancanza di spazio bloccasse la struttura.\n" +
                     "**100%** = valore vanilla del gioco."
                 },
 
@@ -108,8 +111,16 @@ namespace MagicHearse
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.AutoResetCemetery)),
                     "**Svuota un cimitero** quando è pieno, così non resta bloccato dall’icona PIENO sopra l’edificio.\n" +
                     "Non serve più eliminare e ricostruire i cimiteri pieni.\n" +
-                    "Si abbina al cursore **Stoccaggio del cimitero**: imposta la dimensione dei cimiteri e lascia che vengano riutilizzati, così non dovrai più demolirne uno pieno.\n" +
+                    "Disattiva questa opzione per usare invece il **Ricambio graduale del cimitero**.\n" +
                     "<[ ✓ ] Attivo per impostazione predefinita>"
+                },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.CemeteryTurnoverScalar)), "Ricambio del cimitero" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.CemeteryTurnoverScalar)),
+                    "**Libera gradualmente i posti occupati nel cimitero.**\n" +
+                    "Se i cimiteri mostrano ancora troppo spesso l’icona PIENO, aumenta questo cursore.\n" +
+                    "Valori più alti rendono di nuovo disponibili i posti più velocemente del gioco vanilla.\n" +
+                    "**100%** = valore vanilla del gioco."
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.HearseSpeedScalar)), "Velocità del carro funebre" },
@@ -151,8 +162,8 @@ namespace MagicHearse
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusSummary2)), "Volume" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StatusSummary2)),
                      "**Totali mensili** dalle statistiche di gioco.\n" +
-                     "**Cremazione max/mese** = pannello info Handling/mese del gioco.\n" +
-                     "Questo è il massimo di corpi che potrebbero essere processati dai crematori al mese."
+                     "**Gestione max/mese** = trattamento dei crematori più ricambio dei cimiteri all’efficienza attuale.\n" +
+                     "È il massimo di corpi che tutte le strutture funebri attive possono gestire al mese."
                  },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusSummary3)), "Risorse" },
@@ -173,7 +184,7 @@ namespace MagicHearse
                 { "MH_STATUS_STATS_NOT_AVAIL", "Nessuna città... ¯\\_(ツ)_/¯ ...Nessuna statistica" },
 
                 { "MH_STATUS_LINE1", "{0} in attesa | {1} morti/mese | aggiornato {2}" },
-                { "MH_STATUS_LINE2", "{0} cremazione max/mese | {1}/{2} tombe usate" },
+                { "MH_STATUS_LINE2", "{0} gestione max/mese | {1}/{2} tombe usate" },
                 { "MH_STATUS_LINE3", "{0} / {1} carri funebri | {2} / {3} edifici | {4} lavoratori max" },
                 { "MH_STATUS_PROCESSING_SUGGESTED", "Suggerimento attuale: lavorazione ~{0}%" },
                 { "MH_STATUS_PROCESSING_MORE", "Suggerimento attuale: lavorazione al 500% + più strutture attive" },

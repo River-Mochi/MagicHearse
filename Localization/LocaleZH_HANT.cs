@@ -85,9 +85,10 @@ namespace MagicHearse
                     "可選：也可**增加工人**。"
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.ProcScalar)), "處理速度" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.ProcScalar)), "火葬場處理" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.ProcScalar)),
-                    "**設施處理速度**（火化）\n" +
+                    "**火葬場處理速度。**\n" +
+                    "數值越高，遺體火化和設施儲存空間釋放得越快。\n" +
                     "**100%** = 原版預設值。"
                 },
 
@@ -101,6 +102,8 @@ namespace MagicHearse
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StorageScalar)), "墓地容量" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StorageScalar)),
                     "主建築的**墓地儲存容量**。\n" +
+                    "容量越大，已滿墓地越能重新接收遺體。\n" +
+                    "除非設施因空間不足而停止服務，否則不會直接派出更多靈車。\n" +
                     "**100%** = 原版預設值。"
                 },
 
@@ -108,8 +111,16 @@ namespace MagicHearse
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.AutoResetCemetery)),
                     "墓地已滿時將其**清空**，避免建築上方的「已滿」圖示阻塞服務。\n" +
                     "不再需要刪除並重建已滿墓地。\n" +
-                    "與**墓地容量**滑桿搭配使用：設定墓地大小後讓其循環使用，以後不必再拆除已滿墓地。\n" +
+                    "關閉此選項可改用逐步的**墓位周轉速度**。\n" +
                     "<[ ✓ ] 預設開啟>"
+                },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.CemeteryTurnoverScalar)), "墓位周轉速度" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.CemeteryTurnoverScalar)),
+                    "**逐步釋放已佔用的墓位。**\n" +
+                    "如果墓地仍然經常顯示「已滿」圖示，請提高此滑桿。\n" +
+                    "數值越高，墓位重新可用的速度就越快於原版。\n" +
+                    "**100%** = 原版預設值。"
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.HearseSpeedScalar)), "靈車速度" },
@@ -151,8 +162,8 @@ namespace MagicHearse
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusSummary2)), "數量" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StatusSummary2)),
                      "來自遊戲統計的**每月總計**。\n" +
-                     "**火化上限/月** = 遊戲的 Handling/月 資訊面板。\n" +
-                     "這是火葬場每月最多可處理的遺體數量。"
+                     "**最大處理量/月** = 目前效率下的火葬場處理量與墓位周轉量總和。\n" +
+                     "這是所有運作中的殯葬設施每月最多可處理的遺體數量。"
                  },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusSummary3)), "資源" },
@@ -173,7 +184,7 @@ namespace MagicHearse
                 { "MH_STATUS_STATS_NOT_AVAIL", "沒有城市... ¯\\_(ツ)_/¯ ...沒有統計" },
 
                 { "MH_STATUS_LINE1", "{0} 等待 | {1} 死亡/月 | 更新於 {2}" },
-                { "MH_STATUS_LINE2", "{0} 火化上限/月 | {1}/{2} 墓位已用" },
+                { "MH_STATUS_LINE2", "{0} 最大處理量/月 | {1}/{2} 墓位已用" },
                 { "MH_STATUS_LINE3", "{0} / {1} 靈車 | {2} / {3} 建築 | {4} 最大工人" },
                 { "MH_STATUS_PROCESSING_SUGGESTED", "目前建議：處理速度約 {0}%" },
                 { "MH_STATUS_PROCESSING_MORE", "目前建議：處理速度 500% + 更多營運中的設施" },

@@ -18,12 +18,16 @@ namespace MagicHearse
         public readonly struct Snapshot
         {
             public readonly float DeathsPerMonth;
+
+            // Combined processing is the current crematorium plus cemetery contribution.
             public readonly float ProcessingRate;
             public readonly float CrematoriumProcessingRate;
             public readonly float CemeteryTurnoverRate;
 
             public readonly long Hearses;                // configured fleet slots
             public readonly long BudgetHearseCapacity;   // slots usable at current efficiency/budget
+
+            // Spawned hearses split into exclusive parked and on-road buckets.
             public readonly long SpawnedHearses;         // parked + on-road entities
             public readonly long ParkedHearses;          // exact ParkedCar count
             public readonly long WorkingHearses;         // on-road entities
@@ -47,6 +51,7 @@ namespace MagicHearse
             public readonly int FacilitiesWithProcessingQueue;
             public readonly int FacilitiesWithZeroDispatchCapacity;
 
+            // Stage buckets total DeadRequiringTransport; DeadAssignedOutside overlaps them.
             public readonly long DeadRequiringTransport;
             public readonly long DeadWaiting;
             public readonly long DeadNoRequest;
