@@ -93,35 +93,11 @@ namespace MagicHearse
                     "**100%** = mặc định của game gốc."
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.FleetScalar)), "Quy mô đội xe" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.FleetScalar)), "Tổng số xe tang" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.FleetScalar)),
                     "**Số xe tang tối đa** cho mỗi cơ sở.\n" +
                     "**100%** = mặc định của game gốc.\n" +
                     "**[Lưu ý]** Quá nhiều xe tang có thể ảnh hưởng giao thông, tùy theo tỷ lệ tử vong."
-                },
-
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StorageScalar)), "Sức chứa nghĩa trang" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StorageScalar)),
-                    "**Sức chứa của tòa nhà nghĩa trang chính**.\n" +
-                    "Sức chứa lớn hơn giúp nghĩa trang đầy có thể tiếp tục nhận thi thể.\n" +
-                    "Tùy chọn này không điều thêm xe tang, trừ khi cơ sở bị chặn vì thiếu chỗ.\n" +
-                    "**100%** = mặc định của game gốc."
-                },
-
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.AutoResetCemetery)), "Đặt lại nghĩa trang đầy" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.AutoResetCemetery)),
-                    "**Dọn trống nghĩa trang** khi đầy để không bị biểu tượng ĐẦY phía trên công trình chặn hoạt động.\n" +
-                    "Không còn phải xóa và xây lại nghĩa trang đã đầy.\n" +
-                    "Tắt tùy chọn này để dùng **Tốc độ giải phóng phần mộ** dần dần.\n" +
-                    "<[ ✓ ] Mặc định BẬT>"
-                },
-
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.CemeteryTurnoverScalar)), "Tốc độ giải phóng phần mộ" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.CemeteryTurnoverScalar)),
-                    "**Dần giải phóng các phần mộ đang được sử dụng.**\n" +
-                    "Nếu nghĩa trang vẫn hiện biểu tượng ĐẦY quá thường xuyên, hãy tăng thanh trượt này.\n" +
-                    "Giá trị cao hơn giúp phần mộ trống trở lại nhanh hơn game gốc.\n" +
-                    "**100%** = mặc định của game gốc."
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.HearseSpeedScalar)), "Tốc độ xe tang" },
@@ -134,15 +110,39 @@ namespace MagicHearse
                     "mức tối đa cho phép của xe, giới hạn đường, tốc độ an toàn của AI trong game (khúc cua, đường hư hỏng) và giao thông."
                 },
 
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StorageScalar)), "Sức chứa nghĩa trang" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StorageScalar)),
+                    "**Sức chứa của tòa nhà nghĩa trang chính**.\n" +
+                    "Sức chứa lớn hơn giúp nghĩa trang đầy có thể tiếp tục nhận thi thể.\n" +
+                    "Tùy chọn này không điều thêm xe tang, trừ khi cơ sở bị chặn vì thiếu chỗ.\n" +
+                    "**100%** = mặc định của game gốc."
+                },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.AutoResetCemetery)), "Tự động đặt lại nghĩa trang" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.AutoResetCemetery)),
+                    "**Dọn trống nghĩa trang** khi đầy để không bị biểu tượng ĐẦY phía trên công trình chặn hoạt động.\n" +
+                    "Không còn phải xóa và xây lại nghĩa trang đã đầy.\n" +
+                    "Tắt tùy chọn này để dùng **Tốc độ giải phóng phần mộ** dần dần.\n" +
+                    "<[ ✓ ] Mặc định BẬT>"
+                },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.CemeteryTurnoverScalar)), "Tốc độ giải phóng phần mộ" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.CemeteryTurnoverScalar)),
+                    "**Dần giải phóng các phần mộ đang được sử dụng.**\n" +
+                    "Giá trị cao hơn giúp phần mộ trống trở lại nhanh hơn game gốc.\n" +
+                    "Nếu ở mức 500% mà nghĩa trang vẫn đầy quá thường xuyên, hãy bật **[Tự động đặt lại nghĩa trang]**.\n" +
+                    "**100%** = mặc định của game gốc."
+                },
+
                 // Workers compatibility toggle
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.ControlWorkers)), "Điều khiển nhân công tối đa" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.ControlWorkers)), "Điều chỉnh nhân công" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.ControlWorkers)),
                     "Chế độ tương thích:\n" +
                     "**Bật [✓]** để tăng số nhân công.\n" +
                     "**[o_o]** Để TẮT nếu muốn **ConfigXML** hoặc mod khác điều khiển nhân công dịch vụ tang lễ."
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.WorkersScalar)), "Nhân công tối đa" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.WorkersScalar)), "Số nhân công tối đa" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.WorkersScalar)),
                     "**Tăng số nhân công tối đa** được phép.\n" +
                     "**100%** = mặc định của game gốc."

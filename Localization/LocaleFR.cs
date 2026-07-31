@@ -92,35 +92,11 @@ namespace MagicHearse
                     "**100%** = valeur vanilla du jeu."
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.FleetScalar)), "Taille de la flotte" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.FleetScalar)), "Nombre total de corbillards" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.FleetScalar)),
                     "**Corbillards maximum** par établissement.\n" +
                     "**100%** = valeur vanilla du jeu.\n" +
                     "**[Remarque]** Trop de corbillards peut affecter le trafic selon le taux de décès."
-                },
-
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StorageScalar)), "Stockage du cimetière" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StorageScalar)),
-                    "**Capacité de stockage du cimetière** pour le bâtiment principal.\n" +
-                    "Une capacité supérieure permet à un cimetière plein d’accepter de nouveau des enlèvements.\n" +
-                    "Elle n’envoie pas plus de corbillards, sauf si le manque de place bloquait l’établissement.\n" +
-                    "**100%** = valeur vanilla du jeu."
-                },
-
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.AutoResetCemetery)), "Réinitialiser le cimetière plein" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.AutoResetCemetery)),
-                    "**Vide un cimetière** lorsqu’il est plein afin qu’il ne reste pas bloqué par l’icône PLEIN au-dessus du bâtiment.\n" +
-                    "Il n’est plus nécessaire de supprimer et reconstruire les cimetières pleins.\n" +
-                    "Désactivez cette option pour utiliser à la place la **Libération progressive des tombes**.\n" +
-                    "<[ ✓ ] Activé par défaut>"
-                },
-
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.CemeteryTurnoverScalar)), "Libération progressive des tombes" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.CemeteryTurnoverScalar)),
-                    "**Libère progressivement les tombes occupées du cimetière.**\n" +
-                    "Si les cimetières affichent encore trop souvent l’icône PLEIN, augmentez ce curseur.\n" +
-                    "Des valeurs plus élevées rendent les tombes disponibles plus vite que dans le jeu vanilla.\n" +
-                    "**100%** = valeur vanilla du jeu."
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.HearseSpeedScalar)), "Vitesse du corbillard" },
@@ -134,15 +110,39 @@ namespace MagicHearse
 
                 },
 
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StorageScalar)), "Stockage du cimetière" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StorageScalar)),
+                    "**Capacité de stockage du cimetière** pour le bâtiment principal.\n" +
+                    "Une capacité supérieure permet à un cimetière plein d’accepter de nouveau des enlèvements.\n" +
+                    "Elle n’envoie pas plus de corbillards, sauf si le manque de place bloquait l’établissement.\n" +
+                    "**100%** = valeur vanilla du jeu."
+                },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.AutoResetCemetery)), "Réinitialisation auto. du cimetière" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.AutoResetCemetery)),
+                    "**Vide un cimetière** lorsqu’il est plein afin qu’il ne reste pas bloqué par l’icône PLEIN au-dessus du bâtiment.\n" +
+                    "Il n’est plus nécessaire de supprimer et reconstruire les cimetières pleins.\n" +
+                    "Désactivez cette option pour utiliser à la place la **Libération progressive des tombes**.\n" +
+                    "<[ ✓ ] Activé par défaut>"
+                },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.CemeteryTurnoverScalar)), "Libération progressive des tombes" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.CemeteryTurnoverScalar)),
+                    "**Libère progressivement les tombes occupées du cimetière.**\n" +
+                    "Des valeurs plus élevées libèrent les tombes plus vite que dans le jeu de base.\n" +
+                    "Si les cimetières restent trop souvent pleins à 500 %, activez plutôt **[Réinitialisation auto. du cimetière]**.\n" +
+                    "**100%** = valeur par défaut du jeu de base."
+                },
+
                 // Workers compatibility toggle
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.ControlWorkers)), "Contrôler les employés max" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.ControlWorkers)), "Ajuster les employés" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.ControlWorkers)),
                 "Interrupteur de compatibilité :\n" +
                 "**Activer [✓]** pour augmenter le nombre d'employés.\n" +
                 "**[o_o]** Laisser OFF si **ConfigXML** ou un autre mod doit gérer les employés des services funéraires."
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.WorkersScalar)), "Employés max" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.WorkersScalar)), "Employés maximum" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.WorkersScalar)),
                     "**Augmente le maximum d'employés** autorisés.\n" +
                     "**100%** = valeur vanilla du jeu."

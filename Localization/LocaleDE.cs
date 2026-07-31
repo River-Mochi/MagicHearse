@@ -92,35 +92,11 @@ namespace MagicHearse
                     "**100%** = Vanilla-Standard."
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.FleetScalar)), "Flottengröße" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.FleetScalar)), "Leichenwagen gesamt" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.FleetScalar)),
                     "**Maximale Leichenwagen** pro Anlage.\n" +
                     "**100%** = Vanilla-Standard.\n" +
                     "**[Hinweis]** Zu viele Leichenwagen können je nach Sterberate den Verkehr beeinflussen."
-                },
-
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StorageScalar)), "Friedhofslager" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StorageScalar)),
-                    "**Friedhofs-Lagerkapazität** für das Hauptgebäude.\n" +
-                    "Mehr Kapazität lässt einen vollen Friedhof wieder Abholungen annehmen.\n" +
-                    "Sie schickt keine zusätzlichen Leichenwagen los, außer Platzmangel hat die Anlage blockiert.\n" +
-                    "**100%** = Vanilla-Standard."
-                },
-
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.AutoResetCemetery)), "Vollen Friedhof zurücksetzen" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.AutoResetCemetery)),
-                    "**Leert einen Friedhof**, sobald er voll ist, damit kein VOLL-Symbol über dem Gebäude den Betrieb blockiert.\n" +
-                    "Volle Friedhöfe müssen nicht mehr abgerissen und neu gebaut werden.\n" +
-                    "Schalte dies AUS, um stattdessen die allmähliche **Freigaberate der Grabplätze** zu verwenden.\n" +
-                    "<[ ✓ ] Standardmäßig EIN>"
-                },
-
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.CemeteryTurnoverScalar)), "Freigaberate der Grabplätze" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.CemeteryTurnoverScalar)),
-                    "**Gibt belegte Grabplätze nach und nach wieder frei.**\n" +
-                    "Wenn Friedhöfe weiterhin zu oft das VOLL-Symbol zeigen, erhöhe diesen Regler.\n" +
-                    "Höhere Werte machen Grabplätze schneller als im Vanilla-Spiel wieder verfügbar.\n" +
-                    "**100%** = Vanilla-Standard."
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.HearseSpeedScalar)), "Leichenwagen-Geschwindigkeit" },
@@ -134,15 +110,39 @@ namespace MagicHearse
 
                 },
 
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StorageScalar)), "Friedhofslager" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StorageScalar)),
+                    "**Friedhofs-Lagerkapazität** für das Hauptgebäude.\n" +
+                    "Mehr Kapazität lässt einen vollen Friedhof wieder Abholungen annehmen.\n" +
+                    "Sie schickt keine zusätzlichen Leichenwagen los, außer Platzmangel hat die Anlage blockiert.\n" +
+                    "**100%** = Vanilla-Standard."
+                },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.AutoResetCemetery)), "Friedhof automatisch leeren" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.AutoResetCemetery)),
+                    "**Leert einen Friedhof**, sobald er voll ist, damit kein VOLL-Symbol über dem Gebäude den Betrieb blockiert.\n" +
+                    "Volle Friedhöfe müssen nicht mehr abgerissen und neu gebaut werden.\n" +
+                    "Schalte dies AUS, um stattdessen die allmähliche **Freigaberate der Grabplätze** zu verwenden.\n" +
+                    "<[ ✓ ] Standardmäßig EIN>"
+                },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.CemeteryTurnoverScalar)), "Freigaberate der Grabplätze" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.CemeteryTurnoverScalar)),
+                    "**Gibt belegte Grabplätze nach und nach wieder frei.**\n" +
+                    "Höhere Werte geben Grabplätze schneller als im Grundspiel wieder frei.\n" +
+                    "Wenn Friedhöfe bei 500 % noch zu oft voll werden, aktiviere stattdessen **[Friedhof automatisch leeren]**.\n" +
+                    "**100%** = Standardwert des Grundspiels."
+                },
+
                 // Workers compatibility toggle
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.ControlWorkers)), "Max. Mitarbeiter steuern" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.ControlWorkers)), "Mitarbeiter anpassen" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.ControlWorkers)),
                     "Kompatibilitäts-Schalter:\n" +
                     "**Aktivieren [✓]**, um die Anzahl der Arbeiter zu erhöhen.\n" +
                     "**[o_o]** OFF lassen, wenn **ConfigXML** oder ein anderer Mod die Arbeiterzahl steuern soll."
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.WorkersScalar)), "Max. Mitarbeiter" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.WorkersScalar)), "Maximale Mitarbeiter" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.WorkersScalar)),
                     "**Erhöht die maximale Arbeiterzahl**.\n" +
                     "**100%** = Vanilla-Standardwert."

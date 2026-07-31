@@ -92,35 +92,11 @@ namespace MagicHearse
                     "**100%** = バニラ既定。"
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.FleetScalar)), "車両台数" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.FleetScalar)), "霊柩車の総数" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.FleetScalar)),
                     "施設ごとの**霊柩車の最大数**。\n" +
                     "**100%** = バニラ既定。\n" +
                     "**[注意]** 霊柩車が多すぎると、死亡率次第で交通に影響する場合があります。"
-                },
-
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StorageScalar)), "墓地の収容" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StorageScalar)),
-                    "主建物の**墓地収容容量**。\n" +
-                    "容量を増やすと、満杯の墓地が再び遺体の回収を受け入れられます。\n" +
-                    "空き不足が施設を止めていた場合を除き、霊柩車の出動数は直接増えません。\n" +
-                    "**100%** = バニラ既定。"
-                },
-
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.AutoResetCemetery)), "満杯の墓地をリセット" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.AutoResetCemetery)),
-                    "墓地が満杯になると**墓地を空にし**、建物上の「満杯」アイコンで機能停止しないようにします。\n" +
-                    "満杯の墓地を削除して建て直す必要はもうありません。\n" +
-                    "これをOFFにすると、代わりに緩やかな**墓地区画の再利用速度**を使用できます。\n" +
-                    "<[ ✓ ] 既定でON>"
-                },
-
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.CemeteryTurnoverScalar)), "墓地区画の再利用速度" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.CemeteryTurnoverScalar)),
-                    "**使用中の墓地区画を徐々に再利用可能にします。**\n" +
-                    "墓地に「満杯」アイコンが頻繁に表示される場合は、このスライダーを上げてください。\n" +
-                    "値を上げると、バニラより早く墓地区画が再び空きます。\n" +
-                    "**100%** = バニラ既定。"
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.HearseSpeedScalar)), "霊柩車の速度" },
@@ -134,15 +110,39 @@ namespace MagicHearse
 
                 },
 
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StorageScalar)), "墓地の収容" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StorageScalar)),
+                    "主建物の**墓地収容容量**。\n" +
+                    "容量を増やすと、満杯の墓地が再び遺体の回収を受け入れられます。\n" +
+                    "空き不足が施設を止めていた場合を除き、霊柩車の出動数は直接増えません。\n" +
+                    "**100%** = バニラ既定。"
+                },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.AutoResetCemetery)), "墓地を自動リセット" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.AutoResetCemetery)),
+                    "墓地が満杯になると**墓地を空にし**、建物上の「満杯」アイコンで機能停止しないようにします。\n" +
+                    "満杯の墓地を削除して建て直す必要はもうありません。\n" +
+                    "これをOFFにすると、代わりに緩やかな**墓地区画の再利用速度**を使用できます。\n" +
+                    "<[ ✓ ] 既定でON>"
+                },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.CemeteryTurnoverScalar)), "墓地区画の再利用速度" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.CemeteryTurnoverScalar)),
+                    "**使用中の墓地区画を徐々に再利用可能にします。**\n" +
+                    "値を上げると、バニラより早く墓地区画が再び空きます。\n" +
+                    "500%でも墓地が頻繁に満杯になる場合は、代わりに **[墓地を自動リセット]** を有効にしてください。\n" +
+                    "**100%** = バニラ既定。"
+                },
+
                 // Workers compatibility toggle
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.ControlWorkers)), "最大労働者を制御" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.ControlWorkers)), "労働者数を調整" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.ControlWorkers)),
                     "互換性トグル:\n" +
                     "**[✓] をON** にすると従業員数を増やす。\n" +
                     "**[o_o]** **ConfigXML** など別のMODに従業員数を任せたい場合は OFF のまま。"
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.WorkersScalar)), "最大労働者" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.WorkersScalar)), "最大労働者数" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.WorkersScalar)),
                     "**最大従業員数** を増やす。\n" +
                     "**100%** = バニラ既定値。"

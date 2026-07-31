@@ -92,35 +92,11 @@ namespace MagicHearse
                     "**100%** = 原版默认值。"
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.FleetScalar)), "车队数量" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.FleetScalar)), "灵车总数" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.FleetScalar)),
                     "每个设施的**灵车最大数量**。\n" +
                     "**100%** = 原版默认值。\n" +
                     "**[注意]** 灵车过多可能会根据死亡率影响交通。"
-                },
-
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StorageScalar)), "墓地容量" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StorageScalar)),
-                    "主建筑的**墓地存储容量**。\n" +
-                    "容量越大，已满墓地越能重新接收遗体。\n" +
-                    "除非设施因空间不足而停止服务，否则不会直接派出更多灵车。\n" +
-                    "**100%** = 原版默认值。"
-                },
-
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.AutoResetCemetery)), "重置已满墓地" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.AutoResetCemetery)),
-                    "墓地已满时将其**清空**，避免建筑上方的“已满”图标阻塞服务。\n" +
-                    "无需再删除并重建已满的墓地。\n" +
-                    "关闭此选项可改用逐步的**墓位周转速度**。\n" +
-                    "<[ ✓ ] 默认开启>"
-                },
-
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.CemeteryTurnoverScalar)), "墓位周转速度" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.CemeteryTurnoverScalar)),
-                    "**逐步释放已占用的墓位。**\n" +
-                    "如果墓地仍然频繁显示“已满”图标，请提高此滑块。\n" +
-                    "数值越高，墓位重新可用的速度就越快于原版。\n" +
-                    "**100%** = 原版默认值。"
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.HearseSpeedScalar)), "灵车速度" },
@@ -134,8 +110,32 @@ namespace MagicHearse
 
                 },
 
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StorageScalar)), "墓地容量" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StorageScalar)),
+                    "主建筑的**墓地存储容量**。\n" +
+                    "容量越大，已满墓地越能重新接收遗体。\n" +
+                    "除非设施因空间不足而停止服务，否则不会直接派出更多灵车。\n" +
+                    "**100%** = 原版默认值。"
+                },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.AutoResetCemetery)), "自动重置墓地" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.AutoResetCemetery)),
+                    "墓地已满时将其**清空**，避免建筑上方的“已满”图标阻塞服务。\n" +
+                    "无需再删除并重建已满的墓地。\n" +
+                    "关闭此选项可改用逐步的**墓位周转速度**。\n" +
+                    "<[ ✓ ] 默认开启>"
+                },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.CemeteryTurnoverScalar)), "墓位周转速度" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.CemeteryTurnoverScalar)),
+                    "**逐步释放已占用的墓位。**\n" +
+                    "数值越高，墓位就会比原版更快恢复可用。\n" +
+                    "如果设为 500% 后墓地仍然经常满载，请改用 **[自动重置墓地]**。\n" +
+                    "**100%** = 原版默认值。"
+                },
+
                 // Workers compatibility toggle
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.ControlWorkers)), "控制最大工人数" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.ControlWorkers)), "调整工人数" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.ControlWorkers)),
                     "兼容性开关：\n" +
                     "**启用 [✓]** 以增加工作人员数量。\n" +

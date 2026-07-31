@@ -92,35 +92,11 @@ namespace MagicHearse
                     "**100%** = oyunun varsayılan değeri."
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.FleetScalar)), "Filo büyüklüğü" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.FleetScalar)), "Toplam cenaze aracı" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.FleetScalar)),
                     "Tesis başına **azami cenaze aracı**.\n" +
                     "**100%** = oyunun varsayılan değeri.\n" +
                     "**[Not]** Çok fazla cenaze aracı, ölüm oranına bağlı olarak trafiği etkileyebilir."
-                },
-
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StorageScalar)), "Mezarlık kapasitesi" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StorageScalar)),
-                    "Ana binanın **mezarlık depolama kapasitesi**.\n" +
-                    "Daha yüksek kapasite, dolu bir mezarlığın yeniden cenaze kabul etmesini sağlar.\n" +
-                    "Alan yetersizliği tesisi engellemediği sürece daha fazla cenaze aracı göndermez.\n" +
-                    "**100%** = oyunun varsayılan değeri."
-                },
-
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.AutoResetCemetery)), "Dolu mezarlığı sıfırla" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.AutoResetCemetery)),
-                    "**Dolu bir mezarlığı boşaltır**; böylece binanın üzerindeki DOLU simgesi nedeniyle engellenmez.\n" +
-                    "Artık dolu mezarlıkları silip yeniden inşa etmeniz gerekmez.\n" +
-                    "Yerine kademeli **Mezar yeri yenilenme hızını** kullanmak için bunu KAPATIN.\n" +
-                    "<[ ✓ ] Varsayılan AÇIK>"
-                },
-
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.CemeteryTurnoverScalar)), "Mezar yeri yenilenme hızı" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.CemeteryTurnoverScalar)),
-                    "**Kullanımdaki mezar yerlerini kademeli olarak yeniden boşaltır.**\n" +
-                    "Mezarlıklar DOLU simgesini hâlâ çok sık gösteriyorsa bu kaydırıcıyı artırın.\n" +
-                    "Daha yüksek değerler mezar yerlerini standart oyundan daha hızlı yeniden kullanılabilir hâle getirir.\n" +
-                    "**100%** = oyunun varsayılan değeri."
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.HearseSpeedScalar)), "Cenaze aracı hızı" },
@@ -134,15 +110,39 @@ namespace MagicHearse
 
                 },
 
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StorageScalar)), "Mezarlık kapasitesi" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StorageScalar)),
+                    "Ana binanın **mezarlık depolama kapasitesi**.\n" +
+                    "Daha yüksek kapasite, dolu bir mezarlığın yeniden cenaze kabul etmesini sağlar.\n" +
+                    "Alan yetersizliği tesisi engellemediği sürece daha fazla cenaze aracı göndermez.\n" +
+                    "**100%** = oyunun varsayılan değeri."
+                },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.AutoResetCemetery)), "Mezarlığı otomatik sıfırla" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.AutoResetCemetery)),
+                    "**Dolu bir mezarlığı boşaltır**; böylece binanın üzerindeki DOLU simgesi nedeniyle engellenmez.\n" +
+                    "Artık dolu mezarlıkları silip yeniden inşa etmeniz gerekmez.\n" +
+                    "Yerine kademeli **Mezar yeri yenilenme hızını** kullanmak için bunu KAPATIN.\n" +
+                    "<[ ✓ ] Varsayılan AÇIK>"
+                },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.CemeteryTurnoverScalar)), "Mezar yeri yenilenme hızı" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.CemeteryTurnoverScalar)),
+                    "**Kullanımdaki mezar yerlerini kademeli olarak yeniden boşaltır.**\n" +
+                    "Daha yüksek değerler mezar yerlerini standart oyundan daha hızlı yeniden kullanılabilir hâle getirir.\n" +
+                    "Mezarlıklar 500%'de hâlâ çok sık doluyorsa bunun yerine **[Mezarlığı otomatik sıfırla]** seçeneğini etkinleştirin.\n" +
+                    "**100%** = oyunun varsayılan değeri."
+                },
+
                 // Workers compatibility toggle
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.ControlWorkers)), "Azami çalışanları denetle" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.ControlWorkers)), "Çalışanları ayarla" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.ControlWorkers)),
                     "Uyumluluk anahtarı:\n" +
                     "Çalışan sayısını artırmak için **Etkinleştirin [✓]**.\n" +
                     "Ölüm hizmeti çalışanlarını **ConfigXML** veya başka bir mod yönetsin istiyorsanız **[o_o]** KAPALI bırakın."
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.WorkersScalar)), "Azami çalışanlar" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.WorkersScalar)), "Azami çalışan sayısı" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.WorkersScalar)),
                     "**İzin verilen azami çalışan sayısını artırır**.\n" +
                     "**100%** = oyunun varsayılan değeri."

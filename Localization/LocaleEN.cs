@@ -92,35 +92,11 @@ namespace MagicHearse
                     "**100%** = vanilla game default."
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.FleetScalar)), "Fleet size" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.FleetScalar)), "Total Hearses" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.FleetScalar)),
                     "**Maximum hearses** per facility.\n" +
                     "**100%** = vanilla game default.\n" +
                     "**[Note]** Too many hearses may affect traffic depending on death rate."
-                },
-
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StorageScalar)), "Cemetery storage" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StorageScalar)),
-                    "**Cemetery storage capacity** for the main building.\n" +
-                    "More capacity lets a full cemetery accept pickups again.\n" +
-                    "It does not send more hearses unless lack of room was blocking the facility.\n" +
-                    "**100%** = vanilla game default."
-                },
-
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.AutoResetCemetery)), "Reset full cemetery" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.AutoResetCemetery)),
-                    "**Empties a full cemetery** so it's not blocked with a FULL icon above the building.\n" +
-                    "No need to delete and rebuild full cemeteries anymore.\n" +
-                    "Turn this OFF to use gradual **Cemetery turnover rate** instead.\n" +
-                    "<[ ✓ ] Default ON>"
-                },
-
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.CemeteryTurnoverScalar)), "Cemetery turnover rate" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.CemeteryTurnoverScalar)),
-                    "**Gradually frees occupied cemetery graves.**\n" +
-                    "If cemeteries still show the FULL icon too often, increase this slider.\n" +
-                    "Higher values make grave spaces available again faster than vanilla.\n" +
-                    "**100%** = vanilla game default."
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.HearseSpeedScalar)), "Hearse speed" },
@@ -134,15 +110,39 @@ namespace MagicHearse
 
                 },
 
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StorageScalar)), "Cemetery storage" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StorageScalar)),
+                    "**Cemetery storage capacity** for the main building.\n" +
+                    "More capacity lets a full cemetery accept pickups again.\n" +
+                    "It does not send more hearses unless lack of room was blocking the facility.\n" +
+                    "**100%** = vanilla game default."
+                },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.AutoResetCemetery)), "Auto reset cemetery" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.AutoResetCemetery)),
+                    "**Empties a full cemetery** so it's not blocked with a FULL icon above the building.\n" +
+                    "No need to delete and rebuild full cemeteries anymore.\n" +
+                    "Turn this OFF to use gradual **Cemetery turnover rate** instead.\n" +
+                    "<[ ✓ ] Default ON>"
+                },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.CemeteryTurnoverScalar)), "Cemetery turnover rate" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.CemeteryTurnoverScalar)),
+                    "**Gradually frees occupied cemetery graves.**\n" +
+                    "Higher values make grave spaces available again faster than vanilla.\n" +
+                    "If cemeteries still fill too often at 500%, enable **[Auto reset cemetery]** instead.\n" +
+                    "**100%** = vanilla game default."
+                },
+
                 // Workers compatibility toggle
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.ControlWorkers)), "Control max workers" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.ControlWorkers)), "Adjust workers" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.ControlWorkers)),
                     "Compatibility toggle:\n" +
                     "**Enable [✓]** to increase the number of workers.\n" +
                     "**[o_o]** Leave OFF if you want **ConfigXML** or another mod to control deathcare workers."
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.WorkersScalar)), "Max workers" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.WorkersScalar)), "Maximum workers" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.WorkersScalar)),
                     "**Increases maximum workers** allowed.\n" +
                     "**100%** = vanilla game default."

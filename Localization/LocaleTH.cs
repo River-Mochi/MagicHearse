@@ -93,35 +93,11 @@ namespace MagicHearse
                     "**100%** = ค่าเริ่มต้นของเกมดั้งเดิม"
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.FleetScalar)), "จำนวนรถ" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.FleetScalar)), "จำนวนรถขนศพทั้งหมด" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.FleetScalar)),
                     "**จำนวนรถขนศพสูงสุด** ต่อสถานบริการ\n" +
                     "**100%** = ค่าเริ่มต้นของเกมดั้งเดิม\n" +
                     "**[หมายเหตุ]** รถขนศพจำนวนมากเกินไปอาจส่งผลต่อการจราจร ขึ้นอยู่กับอัตราการเสียชีวิต"
-                },
-
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StorageScalar)), "ความจุสุสาน" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StorageScalar)),
-                    "**ความจุของสุสาน** สำหรับอาคารหลัก\n" +
-                    "ความจุที่มากขึ้นช่วยให้สุสานที่เต็มกลับมารับการเก็บศพได้อีกครั้ง\n" +
-                    "ไม่ได้ส่งรถขนศพเพิ่ม เว้นแต่พื้นที่ไม่พอเป็นสาเหตุที่ปิดกั้นสถานบริการ\n" +
-                    "**100%** = ค่าเริ่มต้นของเกมดั้งเดิม"
-                },
-
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.AutoResetCemetery)), "รีเซ็ตสุสานที่เต็ม" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.AutoResetCemetery)),
-                    "**ทำให้สุสานว่างลง** เมื่อเต็ม เพื่อไม่ให้ถูกปิดกั้นด้วยไอคอนเต็มเหนืออาคาร\n" +
-                    "ไม่จำเป็นต้องลบและสร้างสุสานที่เต็มใหม่อีกต่อไป\n" +
-                    "ปิดตัวเลือกนี้เพื่อใช้ **อัตราการหมุนเวียนพื้นที่สุสาน** แบบค่อยเป็นค่อยไปแทน\n" +
-                    "<[ ✓ ] เปิดเป็นค่าเริ่มต้น>"
-                },
-
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.CemeteryTurnoverScalar)), "อัตราการหมุนเวียนพื้นที่สุสาน" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.CemeteryTurnoverScalar)),
-                    "**ค่อย ๆ ทำให้พื้นที่หลุมฝังศพที่ถูกใช้งานกลับมาว่างอีกครั้ง**\n" +
-                    "หากสุสานยังแสดงไอคอนเต็มบ่อยเกินไป ให้เพิ่มแถบเลื่อนนี้\n" +
-                    "ค่าที่สูงขึ้นจะทำให้พื้นที่กลับมาว่างได้เร็วกว่าเกมดั้งเดิม\n" +
-                    "**100%** = ค่าเริ่มต้นของเกมดั้งเดิม"
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.HearseSpeedScalar)), "ความเร็วรถขนศพ" },
@@ -135,15 +111,39 @@ namespace MagicHearse
 
                 },
 
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StorageScalar)), "ความจุสุสาน" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StorageScalar)),
+                    "**ความจุของสุสาน** สำหรับอาคารหลัก\n" +
+                    "ความจุที่มากขึ้นช่วยให้สุสานที่เต็มกลับมารับการเก็บศพได้อีกครั้ง\n" +
+                    "ไม่ได้ส่งรถขนศพเพิ่ม เว้นแต่พื้นที่ไม่พอเป็นสาเหตุที่ปิดกั้นสถานบริการ\n" +
+                    "**100%** = ค่าเริ่มต้นของเกมดั้งเดิม"
+                },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.AutoResetCemetery)), "รีเซ็ตสุสานอัตโนมัติ" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.AutoResetCemetery)),
+                    "**ทำให้สุสานว่างลง** เมื่อเต็ม เพื่อไม่ให้ถูกปิดกั้นด้วยไอคอนเต็มเหนืออาคาร\n" +
+                    "ไม่จำเป็นต้องลบและสร้างสุสานที่เต็มใหม่อีกต่อไป\n" +
+                    "ปิดตัวเลือกนี้เพื่อใช้ **อัตราการหมุนเวียนพื้นที่สุสาน** แบบค่อยเป็นค่อยไปแทน\n" +
+                    "<[ ✓ ] เปิดเป็นค่าเริ่มต้น>"
+                },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.CemeteryTurnoverScalar)), "อัตราการหมุนเวียนพื้นที่สุสาน" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.CemeteryTurnoverScalar)),
+                    "**ค่อย ๆ ทำให้พื้นที่หลุมฝังศพที่ถูกใช้งานกลับมาว่างอีกครั้ง**\n" +
+                    "ค่าที่สูงขึ้นจะทำให้พื้นที่กลับมาว่างได้เร็วกว่าเกมดั้งเดิม\n" +
+                    "หากตั้งไว้ที่ 500% แล้วสุสานยังเต็มบ่อยเกินไป ให้เปิด **[รีเซ็ตสุสานอัตโนมัติ]** แทน\n" +
+                    "**100%** = ค่าเริ่มต้นของเกมดั้งเดิม"
+                },
+
                 // Workers compatibility toggle
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.ControlWorkers)), "ควบคุมคนงานสูงสุด" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.ControlWorkers)), "ปรับจำนวนคนงาน" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.ControlWorkers)),
                     "ตัวเลือกความเข้ากันได้:\n" +
                     "**เปิดใช้ [✓]** เพื่อเพิ่มจำนวนคนงาน\n" +
                     "**[o_o]** ปล่อยให้ปิด หากต้องการให้ **ConfigXML** หรือม็อดอื่นควบคุมคนงานบริการจัดการผู้เสียชีวิต"
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.WorkersScalar)), "คนงานสูงสุด" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.WorkersScalar)), "จำนวนคนงานสูงสุด" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.WorkersScalar)),
                     "**เพิ่มจำนวนคนงานสูงสุด** ที่อนุญาต\n" +
                     "**100%** = ค่าเริ่มต้นของเกมดั้งเดิม"

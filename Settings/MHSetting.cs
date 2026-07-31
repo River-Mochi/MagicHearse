@@ -89,7 +89,7 @@ namespace MagicHearse
         {
         }
 
-        // Options shows Max workers only when FD and worker control are both on.
+        // Options shows Maximum workers only when FD and worker control are both on.
         public bool WorkersControlEnabled => m_FuneralDirector && m_ControlWorkers;
 
         // Options shows gradual turnover only when FD is on and instant reset is off.
@@ -140,6 +140,12 @@ namespace MagicHearse
         [SettingsUISetter(typeof(MHSetting), nameof(SetFleetScalar))]
         public int FleetScalar { get; set; } = kDefaultPercent;
 
+        [SettingsUISlider(min = kHearseSpeedMin, max = kHearseSpeedMax, step = kHearseSpeedStep, scalarMultiplier = 1, unit = Unit.kPercentage)]
+        [SettingsUISection(kActionsTab, kSelfManageGrp)]
+        [SettingsUIHideByCondition(typeof(MHSetting), nameof(FuneralDirector), true)]
+        [SettingsUISetter(typeof(MHSetting), nameof(SetHearseSpeedScalar))]
+        public int HearseSpeedScalar { get; set; } = kDefaultPercent;
+
         [SettingsUISlider(min = kStorageMin, max = kStorageMax, step = kStorageStep, scalarMultiplier = 1, unit = Unit.kPercentage)]
         [SettingsUISection(kActionsTab, kSelfManageGrp)]
         [SettingsUIHideByCondition(typeof(MHSetting), nameof(FuneralDirector), true)]
@@ -161,12 +167,6 @@ namespace MagicHearse
         [SettingsUIHideByCondition(typeof(MHSetting), nameof(CemeteryTurnoverEnabled), true)]
         [SettingsUISetter(typeof(MHSetting), nameof(SetCemeteryTurnoverScalar))]
         public int CemeteryTurnoverScalar { get; set; } = kDefaultPercent;
-
-        [SettingsUISlider(min = kHearseSpeedMin, max = kHearseSpeedMax, step = kHearseSpeedStep, scalarMultiplier = 1, unit = Unit.kPercentage)]
-        [SettingsUISection(kActionsTab, kSelfManageGrp)]
-        [SettingsUIHideByCondition(typeof(MHSetting), nameof(FuneralDirector), true)]
-        [SettingsUISetter(typeof(MHSetting), nameof(SetHearseSpeedScalar))]
-        public int HearseSpeedScalar { get; set; } = kDefaultPercent;
 
         [SettingsUIButton]
         [SettingsUISection(kActionsTab, kSelfManageGrp)]

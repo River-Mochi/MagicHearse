@@ -93,35 +93,11 @@ namespace MagicHearse
                     "**100%** = стандартне значення гри."
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.FleetScalar)), "Розмір автопарку" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.FleetScalar)), "Усього катафалків" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.FleetScalar)),
                     "**Максимальна кількість катафалків** на заклад.\n" +
                     "**100%** = стандартне значення гри.\n" +
                     "**[Примітка]** Забагато катафалків може вплинути на рух залежно від рівня смертності."
-                },
-
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StorageScalar)), "Місткість кладовища" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StorageScalar)),
-                    "**Місткість головної будівлі кладовища**.\n" +
-                    "Більша місткість дозволяє заповненому кладовищу знову приймати тіла.\n" +
-                    "Вона не відправляє більше катафалків, якщо лише брак місця не блокував заклад.\n" +
-                    "**100%** = стандартне значення гри."
-                },
-
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.AutoResetCemetery)), "Скинути заповнене кладовище" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.AutoResetCemetery)),
-                    "**Очищає кладовище**, коли воно заповнене, щоб його не блокувала піктограма «ЗАПОВНЕНО» над будівлею.\n" +
-                    "Більше не потрібно видаляти й перебудовувати заповнені кладовища.\n" +
-                    "Вимкніть цю опцію, щоб натомість використовувати поступове **Звільнення місць на кладовищі**.\n" +
-                    "<[ ✓ ] УВІМКНЕНО за замовчуванням>"
-                },
-
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.CemeteryTurnoverScalar)), "Звільнення місць на кладовищі" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.CemeteryTurnoverScalar)),
-                    "**Поступово звільняє зайняті місця на кладовищі.**\n" +
-                    "Якщо кладовища й далі надто часто показують піктограму «ЗАПОВНЕНО», збільште цей повзунок.\n" +
-                    "Вищі значення звільняють місця швидше, ніж у стандартній грі.\n" +
-                    "**100%** = стандартне значення гри."
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.HearseSpeedScalar)), "Швидкість катафалка" },
@@ -134,15 +110,39 @@ namespace MagicHearse
                     "дозволений максимум авто, обмеження дороги, безпечна швидкість ігрового ШІ (повороти, пошкодження доріг) і затори."
                 },
 
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StorageScalar)), "Місткість кладовища" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StorageScalar)),
+                    "**Місткість головної будівлі кладовища**.\n" +
+                    "Більша місткість дозволяє заповненому кладовищу знову приймати тіла.\n" +
+                    "Вона не відправляє більше катафалків, якщо лише брак місця не блокував заклад.\n" +
+                    "**100%** = стандартне значення гри."
+                },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.AutoResetCemetery)), "Автоматично скинути кладовище" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.AutoResetCemetery)),
+                    "**Очищає кладовище**, коли воно заповнене, щоб його не блокувала піктограма «ЗАПОВНЕНО» над будівлею.\n" +
+                    "Більше не потрібно видаляти й перебудовувати заповнені кладовища.\n" +
+                    "Вимкніть цю опцію, щоб натомість використовувати поступове **Звільнення місць на кладовищі**.\n" +
+                    "<[ ✓ ] УВІМКНЕНО за замовчуванням>"
+                },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.CemeteryTurnoverScalar)), "Звільнення місць на кладовищі" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.CemeteryTurnoverScalar)),
+                    "**Поступово звільняє зайняті місця на кладовищі.**\n" +
+                    "Вищі значення звільняють місця швидше, ніж у стандартній грі.\n" +
+                    "Якщо за 500% кладовища й далі надто часто заповнюються, увімкніть натомість **[Автоматично скинути кладовище]**.\n" +
+                    "**100%** = стандартне значення гри."
+                },
+
                 // Workers compatibility toggle
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.ControlWorkers)), "Керувати макс. працівниками" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.ControlWorkers)), "Налаштувати працівників" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.ControlWorkers)),
                     "Перемикач сумісності:\n" +
                     "**Увімкніть [✓]**, щоб збільшити кількість працівників.\n" +
                     "**[o_o]** Залиште ВИМКНЕНО, якщо працівниками ритуальних служб має керувати **ConfigXML** або інший мод."
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.WorkersScalar)), "Макс. працівників" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.WorkersScalar)), "Максимум працівників" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.WorkersScalar)),
                     "**Збільшує дозволену максимальну кількість працівників**.\n" +
                     "**100%** = стандартне значення гри."

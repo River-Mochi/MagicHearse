@@ -12,8 +12,8 @@
 
 - **Auto Clean (Magic):** instantly removes dead citizens waiting for a hearse.
 - **Funeral Director (Self Manage):** scales **deathcare facility prefabs**
-	- crematorium processing, fleet, cemetery storage/turnover, hearse speed
-	- optional max workers
+	- crematorium processing, total hearses, hearse speed, cemetery storage/turnover
+	- optional maximum workers
 
 Notes:
 - **Auto Clean and Funeral Director are mutually exclusive** (turning one on turns the other off).
@@ -33,18 +33,18 @@ Notes:
 | Setting | What it changes |
 |---|---|
 | **Crematorium processing** | Cremation speed multiplier |
-| **Fleet size** | Max hearses per facility multiplier |
+| **Total Hearses** | Max hearses per facility multiplier |
+| **Hearse speed** | Speed multiplier (road limits still apply) |
 | **Cemetery storage** | Long-term storage capacity multiplier |
-| **Reset full cemetery** | Instantly empties a full cemetery |
+| **Auto reset cemetery** | Instantly empties a full cemetery |
 | **Cemetery turnover rate** | Gradually frees occupied graves when instant reset is off |
-| **Hearse Speed** | Speed multiplier (road limits still apply) |
-| **Max workers** | (Advanced) scales max workers for deathcare facilities (existing + new buildings) |
+| **Maximum workers** | (Advanced) scales max workers for deathcare facilities (existing + new buildings) |
 
 Includes:
 - **Reset Sliders** button (sets sliders back to 100%)
 
 **Worker note:** worker changes apply to **existing and new buildings** (one-shot refresh using the game’s worker calculation).  
-**Compatibility note:** leave **Control max workers** OFF if another mod (ex: ConfigXML) should control worker counts.
+**Compatibility note:** leave **Adjust workers** OFF if another mod (ex: ConfigXML) should control worker counts.
 
 ---
 

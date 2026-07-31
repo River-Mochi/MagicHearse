@@ -92,35 +92,11 @@ namespace MagicHearse
                     "**100%** = domyślne ustawienie gry (vanilla)."
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.FleetScalar)), "Wielkość floty" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.FleetScalar)), "Łączna liczba karawanów" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.FleetScalar)),
                     "**Maksymalna liczba karawanów** na obiekt.\n" +
                     "**100%** = domyślne ustawienie gry (vanilla).\n" +
                     "**[Uwaga]** Zbyt wiele karawanów może wpływać na ruch w zależności od liczby zgonów."
-                },
-
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StorageScalar)), "Pojemność cmentarza" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StorageScalar)),
-                    "**Pojemność magazynu cmentarza** dla głównego budynku.\n" +
-                    "Większa pojemność pozwala pełnemu cmentarzowi ponownie przyjmować odbiory.\n" +
-                    "Nie wysyła więcej karawanów, chyba że brak miejsca blokował obiekt.\n" +
-                    "**100%** = domyślne ustawienie gry (vanilla)."
-                },
-
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.AutoResetCemetery)), "Resetuj pełny cmentarz" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.AutoResetCemetery)),
-                    "**Opróżnia cmentarz**, gdy jest pełny, aby nie blokowała go ikona PEŁNY nad budynkiem.\n" +
-                    "Nie trzeba już usuwać i odbudowywać pełnych cmentarzy.\n" +
-                    "Wyłącz tę opcję, aby zamiast niej używać stopniowego **Tempa zwalniania grobów**.\n" +
-                    "<[ ✓ ] Domyślnie WŁ.>"
-                },
-
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.CemeteryTurnoverScalar)), "Tempo zwalniania grobów" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.CemeteryTurnoverScalar)),
-                    "**Stopniowo zwalnia zajęte miejsca na cmentarzu.**\n" +
-                    "Jeśli cmentarze nadal zbyt często pokazują ikonę PEŁNY, zwiększ ten suwak.\n" +
-                    "Wyższe wartości zwalniają miejsca szybciej niż w grze vanilla.\n" +
-                    "**100%** = domyślne ustawienie gry (vanilla)."
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.HearseSpeedScalar)), "Prędkość karawanu" },
@@ -133,15 +109,39 @@ namespace MagicHearse
                     "dozwolona prędkość maksymalna pojazdu, ograniczenie drogi, bezpieczna prędkość AI gry (zakręty, uszkodzenia drogi) oraz ruch."
                 },
 
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StorageScalar)), "Pojemność cmentarza" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StorageScalar)),
+                    "**Pojemność magazynu cmentarza** dla głównego budynku.\n" +
+                    "Większa pojemność pozwala pełnemu cmentarzowi ponownie przyjmować odbiory.\n" +
+                    "Nie wysyła więcej karawanów, chyba że brak miejsca blokował obiekt.\n" +
+                    "**100%** = domyślne ustawienie gry (vanilla)."
+                },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.AutoResetCemetery)), "Automatyczny reset cmentarza" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.AutoResetCemetery)),
+                    "**Opróżnia cmentarz**, gdy jest pełny, aby nie blokowała go ikona PEŁNY nad budynkiem.\n" +
+                    "Nie trzeba już usuwać i odbudowywać pełnych cmentarzy.\n" +
+                    "Wyłącz tę opcję, aby zamiast niej używać stopniowego **Tempa zwalniania grobów**.\n" +
+                    "<[ ✓ ] Domyślnie WŁ.>"
+                },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.CemeteryTurnoverScalar)), "Tempo zwalniania grobów" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.CemeteryTurnoverScalar)),
+                    "**Stopniowo zwalnia zajęte miejsca na cmentarzu.**\n" +
+                    "Wyższe wartości zwalniają miejsca szybciej niż w grze podstawowej.\n" +
+                    "Jeśli przy 500% cmentarze nadal zbyt często się zapełniają, włącz zamiast tego **[Automatyczny reset cmentarza]**.\n" +
+                    "**100%** = domyślne ustawienie gry."
+                },
+
                 // Workers compatibility toggle
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.ControlWorkers)), "Kontroluj maks. pracowników" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.ControlWorkers)), "Dostosuj pracowników" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.ControlWorkers)),
                     "Przełącznik zgodności:\n" +
                     "**Włącz [✓]**, aby zwiększyć liczbę pracowników.\n" +
                     "**[o_o]** Zostaw OFF, jeśli **ConfigXML** lub inny mod ma kontrolować pracowników usług pogrzebowych."
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.WorkersScalar)), "Maks. pracownicy" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.WorkersScalar)), "Maksymalna liczba pracowników" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.WorkersScalar)),
                     "**Zwiększa maksymalną liczbę pracowników**.\n" +
                     "**100%** = domyślne ustawienie gry (vanilla)."

@@ -93,35 +93,11 @@ namespace MagicHearse
                     "**100%** = valor predefinido do jogo base."
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.FleetScalar)), "Tamanho da frota" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.FleetScalar)), "Total de carros funerários" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.FleetScalar)),
                     "**Máximo de carros funerários** por instalação.\n" +
                     "**100%** = valor predefinido do jogo base.\n" +
                     "**[Nota]** Demasiados carros funerários podem afetar o trânsito, consoante a taxa de mortalidade."
-                },
-
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StorageScalar)), "Capacidade do cemitério" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StorageScalar)),
-                    "**Capacidade do edifício principal do cemitério**.\n" +
-                    "Mais capacidade permite que um cemitério cheio volte a aceitar recolhas.\n" +
-                    "Não envia mais carros funerários, exceto se a falta de espaço estiver a bloquear a instalação.\n" +
-                    "**100%** = valor predefinido do jogo base."
-                },
-
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.AutoResetCemetery)), "Repor cemitério cheio" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.AutoResetCemetery)),
-                    "**Esvazia um cemitério** quando fica cheio, para que não seja bloqueado pelo ícone CHEIO sobre o edifício.\n" +
-                    "Já não é necessário eliminar e reconstruir cemitérios cheios.\n" +
-                    "Desative esta opção para utilizar a **Taxa de renovação do cemitério** gradual.\n" +
-                    "<[ ✓ ] ATIVADO por predefinição>"
-                },
-
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.CemeteryTurnoverScalar)), "Taxa de renovação do cemitério" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.CemeteryTurnoverScalar)),
-                    "**Liberta gradualmente os lugares ocupados no cemitério.**\n" +
-                    "Se os cemitérios continuarem a mostrar o ícone CHEIO com demasiada frequência, aumente este controlo.\n" +
-                    "Valores mais altos tornam os lugares novamente disponíveis mais depressa do que no jogo base.\n" +
-                    "**100%** = valor predefinido do jogo base."
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.HearseSpeedScalar)), "Velocidade do carro funerário" },
@@ -134,15 +110,39 @@ namespace MagicHearse
                     "máximo permitido do veículo, limite da estrada, velocidade segura da IA do jogo (curvas, danos na estrada) e trânsito."
                 },
 
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StorageScalar)), "Capacidade do cemitério" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StorageScalar)),
+                    "**Capacidade do edifício principal do cemitério**.\n" +
+                    "Mais capacidade permite que um cemitério cheio volte a aceitar recolhas.\n" +
+                    "Não envia mais carros funerários, exceto se a falta de espaço estiver a bloquear a instalação.\n" +
+                    "**100%** = valor predefinido do jogo base."
+                },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.AutoResetCemetery)), "Repor cemitério automaticamente" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.AutoResetCemetery)),
+                    "**Esvazia um cemitério** quando fica cheio, para que não seja bloqueado pelo ícone CHEIO sobre o edifício.\n" +
+                    "Já não é necessário eliminar e reconstruir cemitérios cheios.\n" +
+                    "Desative esta opção para utilizar a **Taxa de renovação do cemitério** gradual.\n" +
+                    "<[ ✓ ] ATIVADO por predefinição>"
+                },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.CemeteryTurnoverScalar)), "Taxa de renovação do cemitério" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.CemeteryTurnoverScalar)),
+                    "**Liberta gradualmente os lugares ocupados no cemitério.**\n" +
+                    "Valores mais altos libertam os lugares mais depressa do que no jogo base.\n" +
+                    "Se os cemitérios continuarem a encher com demasiada frequência a 500%, ative **[Repor cemitério automaticamente]**.\n" +
+                    "**100%** = valor predefinido do jogo base."
+                },
+
                 // Workers compatibility toggle
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.ControlWorkers)), "Controlar máx. de trabalhadores" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.ControlWorkers)), "Ajustar trabalhadores" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.ControlWorkers)),
                     "Opção de compatibilidade:\n" +
                     "**Ative [✓]** para aumentar o número de trabalhadores.\n" +
                     "**[o_o]** Deixe DESATIVADO se quiser que o **ConfigXML** ou outro mod controle os trabalhadores dos serviços funerários."
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.WorkersScalar)), "Máx. de trabalhadores" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.WorkersScalar)), "Máximo de trabalhadores" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.WorkersScalar)),
                     "**Aumenta o máximo de trabalhadores** permitido.\n" +
                     "**100%** = valor predefinido do jogo base."

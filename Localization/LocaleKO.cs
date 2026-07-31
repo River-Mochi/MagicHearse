@@ -92,35 +92,11 @@ namespace MagicHearse
                     "**100%** = 바닐라 기본값."
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.FleetScalar)), "차량 수" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.FleetScalar)), "영구차 총수" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.FleetScalar)),
                     "시설당 **영구차 최대 수**.\n" +
                     "**100%** = 바닐라 기본값.\n" +
                     "**[참고]** 영구차가 너무 많으면 사망률에 따라 교통에 영향을 줄 수 있습니다."
-                },
-
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StorageScalar)), "묘지 저장" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StorageScalar)),
-                    "메인 건물의 **묘지 저장 용량**.\n" +
-                    "용량을 늘리면 가득 찬 묘지가 다시 시신 수거를 받을 수 있습니다.\n" +
-                    "공간 부족으로 시설이 막힌 경우가 아니면 영구차를 더 보내지는 않습니다.\n" +
-                    "**100%** = 바닐라 기본값."
-                },
-
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.AutoResetCemetery)), "가득 찬 묘지 초기화" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.AutoResetCemetery)),
-                    "묘지가 가득 차면 **묘지를 비워** 건물 위의 가득 참 아이콘으로 운영이 중단되지 않게 합니다.\n" +
-                    "더 이상 가득 찬 묘지를 철거하고 다시 지을 필요가 없습니다.\n" +
-                    "이 옵션을 끄면 대신 점진적인 **묘지 자리 순환 속도**를 사용할 수 있습니다.\n" +
-                    "<[ ✓ ] 기본값 ON>"
-                },
-
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.CemeteryTurnoverScalar)), "묘지 자리 순환 속도" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.CemeteryTurnoverScalar)),
-                    "**사용 중인 묘지 자리를 서서히 다시 사용할 수 있게 합니다.**\n" +
-                    "묘지에 가득 참 아이콘이 너무 자주 표시되면 이 슬라이더를 높이세요.\n" +
-                    "값이 높을수록 바닐라보다 묘지 자리가 더 빨리 다시 비워집니다.\n" +
-                    "**100%** = 바닐라 기본값."
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.HearseSpeedScalar)), "영구차 속도" },
@@ -134,15 +110,39 @@ namespace MagicHearse
 
                 },
 
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StorageScalar)), "묘지 저장" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StorageScalar)),
+                    "메인 건물의 **묘지 저장 용량**.\n" +
+                    "용량을 늘리면 가득 찬 묘지가 다시 시신 수거를 받을 수 있습니다.\n" +
+                    "공간 부족으로 시설이 막힌 경우가 아니면 영구차를 더 보내지는 않습니다.\n" +
+                    "**100%** = 바닐라 기본값."
+                },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.AutoResetCemetery)), "묘지 자동 초기화" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.AutoResetCemetery)),
+                    "묘지가 가득 차면 **묘지를 비워** 건물 위의 가득 참 아이콘으로 운영이 중단되지 않게 합니다.\n" +
+                    "더 이상 가득 찬 묘지를 철거하고 다시 지을 필요가 없습니다.\n" +
+                    "이 옵션을 끄면 대신 점진적인 **묘지 자리 순환 속도**를 사용할 수 있습니다.\n" +
+                    "<[ ✓ ] 기본값 ON>"
+                },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.CemeteryTurnoverScalar)), "묘지 자리 순환 속도" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.CemeteryTurnoverScalar)),
+                    "**사용 중인 묘지 자리를 서서히 다시 사용할 수 있게 합니다.**\n" +
+                    "값이 높을수록 바닐라보다 묘지 자리가 더 빨리 비워집니다.\n" +
+                    "500%에서도 묘지가 너무 자주 가득 차면 **[묘지 자동 초기화]**를 대신 켜세요.\n" +
+                    "**100%** = 바닐라 기본값."
+                },
+
                 // Workers compatibility toggle
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.ControlWorkers)), "최대 근로자 제어" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.ControlWorkers)), "근로자 수 조정" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.ControlWorkers)),
                     "호환성 토글:\n" +
                     "**[✓] ON** 하면 근로자 수를 증가.\n" +
                     "**[o_o]** **ConfigXML** 또는 다른 모드가 장례 서비스 근로자 수를 제어하게 하려면 OFF로 두기."
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.WorkersScalar)), "최대 근로자" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.WorkersScalar)), "최대 근로자 수" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.WorkersScalar)),
                     "**최대 근로자 수** 를 증가.\n" +
                     "**100%** = 바닐라 기본값."

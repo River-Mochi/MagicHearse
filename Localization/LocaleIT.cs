@@ -92,35 +92,11 @@ namespace MagicHearse
                     "**100%** = valore vanilla del gioco."
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.FleetScalar)), "Dimensione flotta" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.FleetScalar)), "Totale carri funebri" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.FleetScalar)),
                     "**Numero massimo di carri funebri** per struttura.\n" +
                     "**100%** = valore vanilla del gioco.\n" +
                     "**[Nota]** Troppi carri funebri possono influire sul traffico a seconda del tasso di mortalità."
-                },
-
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StorageScalar)), "Stoccaggio del cimitero" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StorageScalar)),
-                    "**Capacità di stoccaggio del cimitero** per l'edificio principale.\n" +
-                    "Una capacità maggiore permette a un cimitero pieno di accettare di nuovo i ritiri.\n" +
-                    "Non invia più carri funebri, a meno che la mancanza di spazio bloccasse la struttura.\n" +
-                    "**100%** = valore vanilla del gioco."
-                },
-
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.AutoResetCemetery)), "Reimposta cimitero pieno" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.AutoResetCemetery)),
-                    "**Svuota un cimitero** quando è pieno, così non resta bloccato dall’icona PIENO sopra l’edificio.\n" +
-                    "Non serve più eliminare e ricostruire i cimiteri pieni.\n" +
-                    "Disattiva questa opzione per usare invece il **Ricambio graduale del cimitero**.\n" +
-                    "<[ ✓ ] Attivo per impostazione predefinita>"
-                },
-
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.CemeteryTurnoverScalar)), "Ricambio del cimitero" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.CemeteryTurnoverScalar)),
-                    "**Libera gradualmente i posti occupati nel cimitero.**\n" +
-                    "Se i cimiteri mostrano ancora troppo spesso l’icona PIENO, aumenta questo cursore.\n" +
-                    "Valori più alti rendono di nuovo disponibili i posti più velocemente del gioco vanilla.\n" +
-                    "**100%** = valore vanilla del gioco."
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.HearseSpeedScalar)), "Velocità del carro funebre" },
@@ -134,15 +110,39 @@ namespace MagicHearse
 
                 },
 
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StorageScalar)), "Stoccaggio del cimitero" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StorageScalar)),
+                    "**Capacità di stoccaggio del cimitero** per l'edificio principale.\n" +
+                    "Una capacità maggiore permette a un cimitero pieno di accettare di nuovo i ritiri.\n" +
+                    "Non invia più carri funebri, a meno che la mancanza di spazio bloccasse la struttura.\n" +
+                    "**100%** = valore vanilla del gioco."
+                },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.AutoResetCemetery)), "Ripristino automatico cimitero" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.AutoResetCemetery)),
+                    "**Svuota un cimitero** quando è pieno, così non resta bloccato dall’icona PIENO sopra l’edificio.\n" +
+                    "Non serve più eliminare e ricostruire i cimiteri pieni.\n" +
+                    "Disattiva questa opzione per usare invece il **Ricambio graduale del cimitero**.\n" +
+                    "<[ ✓ ] Attivo per impostazione predefinita>"
+                },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.CemeteryTurnoverScalar)), "Ricambio del cimitero" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.CemeteryTurnoverScalar)),
+                    "**Libera gradualmente i posti occupati nel cimitero.**\n" +
+                    "Valori più alti rendono nuovamente disponibili i posti più rapidamente del gioco base.\n" +
+                    "Se i cimiteri si riempiono ancora troppo spesso al 500%, attiva invece **[Ripristino automatico cimitero]**.\n" +
+                    "**100%** = valore predefinito del gioco base."
+                },
+
                 // Workers compatibility toggle
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.ControlWorkers)), "Controlla lavoratori max" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.ControlWorkers)), "Regola lavoratori" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.ControlWorkers)),
                     "Interruttore di compatibilità:\n" +
                     "**Abilita [✓]** per aumentare il numero di lavoratori.\n" +
                     "**[o_o]** Lasciare su OFF se si preferisce che **ConfigXML** o un altro mod controlli i lavoratori dei servizi funebri."
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.WorkersScalar)), "Lavoratori max" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.WorkersScalar)), "Lavoratori massimi" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.WorkersScalar)),
                     "**Aumenta il massimo di lavoratori** consentiti.\n" +
                     "**100%** = valore vanilla del gioco."
