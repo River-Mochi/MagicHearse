@@ -110,6 +110,14 @@ namespace MagicHearse
 
                 },
 
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.HearseWarningMinutes)), "霊柩車警告の遅延（分）" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.HearseWarningMinutes)),
+                    "**「霊柩車待ち」の問題アイコンが表示されるまでのシミュレーション時間（分）です。**\n" +
+                    "**3分**はバニラの約2.5分に近い値です。\n" +
+                    "霊柩車の警告だけに適用され、救急車の警告は変わりません。\n" +
+                    "すでに表示中のアイコンは、値を増やしても非表示になりません。"
+                },
+
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StorageScalar)), "墓地の収容" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StorageScalar)),
                     "主建物の**墓地収容容量**。\n" +
@@ -150,7 +158,7 @@ namespace MagicHearse
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.ResetGameDefaults)), "スライダーをリセット" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.ResetGameDefaults)),
-                    "すべてのスライダーを **100%**（バニラ既定）に戻します。" },
+                    "割合スライダーを **100%**、霊柩車警告の遅延を **3分** に戻します。" },
 
                 // STATUS fields (SHORT labels; left column is narrow!)
 

@@ -110,6 +110,14 @@ namespace MagicHearse
                     "máximo permitido do veículo, limite da estrada, velocidade segura da IA do jogo (curvas, danos na estrada) e trânsito."
                 },
 
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.HearseWarningMinutes)), "Atraso do aviso do carro funerário (min)" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.HearseWarningMinutes)),
+                    "**Minutos de simulação até aparecer o ícone de espera pelo carro funerário.**\n" +
+                    "**3 minutos** aproxima-se do valor base de cerca de 2,5 minutos.\n" +
+                    "Só altera avisos de carros funerários; as ambulâncias mantêm a definição do jogo.\n" +
+                    "Os ícones já visíveis não são ocultados ao aumentar este valor."
+                },
+
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StorageScalar)), "Capacidade do cemitério" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StorageScalar)),
                     "**Capacidade do edifício principal do cemitério**.\n" +
@@ -149,7 +157,7 @@ namespace MagicHearse
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.ResetGameDefaults)), "Repor valores" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.ResetGameDefaults)), "Repõe todos os controlos para **100%** (valores predefinidos do jogo base)." },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.ResetGameDefaults)), "Repõe as percentagens para **100%** e o atraso do aviso para **3 minutos**." },
 
                 // STATUS fields (SHORT labels; left column is narrow!)
 

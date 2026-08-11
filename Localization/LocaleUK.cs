@@ -110,6 +110,14 @@ namespace MagicHearse
                     "дозволений максимум авто, обмеження дороги, безпечна швидкість ігрового ШІ (повороти, пошкодження доріг) і затори."
                 },
 
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.HearseWarningMinutes)), "Затримка попередження катафалка (хв)" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.HearseWarningMinutes)),
+                    "**Хвилини симуляції до появи значка очікування катафалка.**\n" +
+                    "**3 хвилини** близькі до стандартного значення близько 2,5 хвилин.\n" +
+                    "Змінюються лише попередження катафалка; швидка допомога зберігає налаштування гри.\n" +
+                    "Збільшення значення не приховує вже видимі значки."
+                },
+
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StorageScalar)), "Місткість кладовища" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StorageScalar)),
                     "**Місткість головної будівлі кладовища**.\n" +
@@ -149,7 +157,7 @@ namespace MagicHearse
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.ResetGameDefaults)), "Скинути повзунки" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.ResetGameDefaults)), "Повертає всі повзунки до **100%** (стандартні значення гри)." },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.ResetGameDefaults)), "Повертає відсотки до **100%**, а затримку попередження — до **3 хвилин**." },
 
                 // STATUS fields (SHORT labels; left column is narrow!)
 

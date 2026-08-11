@@ -147,6 +147,12 @@ namespace MagicHearse
             RequestFdApplyIfEnabled();
         }
 
+        private void SetHearseWarningMinutes(int value)
+        {
+            HearseWarningMinutes = value;
+            DeathcareStatus.MarkDirty();
+        }
+
         private void SetControlWorkers(bool value)
         {
             m_ControlWorkers = value;

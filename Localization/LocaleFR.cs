@@ -110,6 +110,14 @@ namespace MagicHearse
 
                 },
 
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.HearseWarningMinutes)), "Délai d’alerte du corbillard (min)" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.HearseWarningMinutes)),
+                    "**Minutes de simulation avant l’apparition de l’icône d’attente du corbillard.**\n" +
+                    "**3 minutes** est proche de la valeur vanilla d’environ 2,5 minutes.\n" +
+                    "Seules les alertes de corbillard changent ; celles des ambulances gardent le réglage du jeu.\n" +
+                    "Les icônes déjà visibles ne sont pas masquées si cette valeur augmente."
+                },
+
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StorageScalar)), "Stockage du cimetière" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StorageScalar)),
                     "**Capacité de stockage du cimetière** pour le bâtiment principal.\n" +
@@ -150,7 +158,7 @@ namespace MagicHearse
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.ResetGameDefaults)), "Réinitialiser les curseurs" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.ResetGameDefaults)),
-                    "Remet tous les curseurs à **100%** (valeurs vanilla)." },
+                    "Remet les pourcentages à **100%** et le délai d’alerte du corbillard à **3 minutes**." },
 
                 // STATUS fields (SHORT labels; left column is narrow!)
 

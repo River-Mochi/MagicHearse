@@ -110,6 +110,14 @@ namespace MagicHearse
 
                 },
 
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.HearseWarningMinutes)), "Cenaze aracı uyarı gecikmesi (dk)" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.HearseWarningMinutes)),
+                    "**Cenaze aracı bekleniyor sorun simgesi görünmeden önceki simülasyon dakikası.**\n" +
+                    "**3 dakika**, yaklaşık 2,5 dakikalık varsayılan değere yakındır.\n" +
+                    "Yalnızca cenaze aracı uyarıları değişir; ambulans uyarıları oyun ayarında kalır.\n" +
+                    "Değer artırıldığında zaten görünen simgeler gizlenmez."
+                },
+
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StorageScalar)), "Mezarlık kapasitesi" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StorageScalar)),
                     "Ana binanın **mezarlık depolama kapasitesi**.\n" +
@@ -150,7 +158,7 @@ namespace MagicHearse
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.ResetGameDefaults)), "Kaydırıcıları sıfırla" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.ResetGameDefaults)),
-                    "Tüm kaydırıcıları **100%** değerine (oyunun varsayılanlarına) döndürür." },
+                    "Yüzde kaydırıcılarını **100%**, cenaze aracı uyarı gecikmesini **3 dakika** yapar." },
 
                 // STATUS fields (SHORT labels; left column is narrow!)
 

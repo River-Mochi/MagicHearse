@@ -110,6 +110,14 @@ namespace MagicHearse
 
                 },
 
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.HearseWarningMinutes)), "영구차 경고 지연(분)" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.HearseWarningMinutes)),
+                    "**영구차 대기 문제 아이콘이 표시되기 전까지의 시뮬레이션 시간(분)입니다.**\n" +
+                    "**3분**은 바닐라 값인 약 2.5분에 가깝습니다.\n" +
+                    "영구차 경고만 변경되며 구급차 경고는 게임 설정을 유지합니다.\n" +
+                    "값을 늘려도 이미 표시된 아이콘은 숨겨지지 않습니다."
+                },
+
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StorageScalar)), "묘지 저장" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StorageScalar)),
                     "메인 건물의 **묘지 저장 용량**.\n" +
@@ -150,7 +158,7 @@ namespace MagicHearse
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.ResetGameDefaults)), "슬라이더 리셋" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.ResetGameDefaults)),
-                    "모든 슬라이더를 **100%**(바닐라 기본값)로 되돌립니다." },
+                    "백분율 슬라이더를 **100%**, 영구차 경고 지연을 **3분**으로 되돌립니다." },
 
                 // STATUS fields (SHORT labels; left column is narrow!)
 

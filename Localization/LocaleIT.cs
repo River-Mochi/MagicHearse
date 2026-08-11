@@ -110,6 +110,14 @@ namespace MagicHearse
 
                 },
 
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.HearseWarningMinutes)), "Ritardo avviso carro funebre (min)" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.HearseWarningMinutes)),
+                    "**Minuti di simulazione prima che appaia l’icona di attesa del carro funebre.**\n" +
+                    "**3 minuti** è vicino al valore vanilla di circa 2,5 minuti.\n" +
+                    "Cambia solo gli avvisi dei carri funebri; quelli delle ambulanze restano invariati.\n" +
+                    "Le icone già visibili non vengono nascoste aumentando questo valore."
+                },
+
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StorageScalar)), "Stoccaggio del cimitero" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StorageScalar)),
                     "**Capacità di stoccaggio del cimitero** per l'edificio principale.\n" +
@@ -150,7 +158,7 @@ namespace MagicHearse
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.ResetGameDefaults)), "Reset slider" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.ResetGameDefaults)),
-                    "Riporta tutti gli slider a **100%** (valori vanilla)." },
+                    "Riporta gli slider percentuali a **100%** e il ritardo dell’avviso a **3 minuti**." },
 
                 // STATUS fields (SHORT labels; left column is narrow!)
 

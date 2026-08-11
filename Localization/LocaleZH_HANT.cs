@@ -110,6 +110,14 @@ namespace MagicHearse
 
                 },
 
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.HearseWarningMinutes)), "靈車警告延遲（分鐘）" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.HearseWarningMinutes)),
+                    "**顯示「等待靈車」問題圖示前的模擬分鐘數。**\n" +
+                    "**3 分鐘**接近原版約 2.5 分鐘的設定。\n" +
+                    "只變更靈車警告；救護車警告仍使用遊戲設定。\n" +
+                    "提高此值不會隱藏已經顯示的圖示。"
+                },
+
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StorageScalar)), "墓地容量" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StorageScalar)),
                     "主建築的**墓地儲存容量**。\n" +
@@ -150,7 +158,7 @@ namespace MagicHearse
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.ResetGameDefaults)), "重置滑條" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.ResetGameDefaults)),
-                    "把所有滑條重置回 **100%**（原版預設值）。" },
+                    "把百分比滑條重置為 **100%**，靈車警告延遲重置為 **3 分鐘**。" },
 
                 // STATUS fields (SHORT labels; left column is narrow!)
 

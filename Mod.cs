@@ -115,6 +115,8 @@ namespace MagicHearse
             updateSystem.UpdateAfter<FuneralDirectorSystem>(SystemUpdatePhase.PrefabUpdate);
             updateSystem.UpdateAt<MagicHearseSystem>(SystemUpdatePhase.GameSimulation);
             updateSystem.UpdateAt<CemeteryResetSystem>(SystemUpdatePhase.GameSimulation);
+            updateSystem.UpdateAfter<HearseWarningDelaySystem, global::Game.Simulation.HealthProblemSystem>(
+                SystemUpdatePhase.GameSimulation);
 
             updateSystem.World.GetOrCreateSystemManaged<MagicHearseSystem>().Enabled = setting.EnableMagicHearse;
 
@@ -203,7 +205,7 @@ namespace MagicHearse
 
                 Directory.CreateDirectory(directory);
 
-                // Copy first so the settings data is safe at the new location.
+                // Copy it first so the settings data is safe at the new location.
                 File.Copy(oldLocation, correctLocation, overwrite: false);
 
                 // Keep the same Asset Database GUID, but remap it from the old

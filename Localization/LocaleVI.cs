@@ -110,6 +110,14 @@ namespace MagicHearse
                     "mức tối đa cho phép của xe, giới hạn đường, tốc độ an toàn của AI trong game (khúc cua, đường hư hỏng) và giao thông."
                 },
 
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.HearseWarningMinutes)), "Độ trễ cảnh báo xe tang (phút)" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.HearseWarningMinutes)),
+                    "**Số phút mô phỏng trước khi biểu tượng chờ xe tang xuất hiện.**\n" +
+                    "**3 phút** gần với giá trị mặc định khoảng 2,5 phút.\n" +
+                    "Chỉ cảnh báo xe tang thay đổi; cảnh báo xe cứu thương giữ nguyên cài đặt game.\n" +
+                    "Tăng giá trị này không ẩn các biểu tượng đang hiển thị."
+                },
+
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StorageScalar)), "Sức chứa nghĩa trang" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StorageScalar)),
                     "**Sức chứa của tòa nhà nghĩa trang chính**.\n" +
@@ -149,7 +157,7 @@ namespace MagicHearse
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.ResetGameDefaults)), "Đặt lại thanh trượt" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.ResetGameDefaults)), "Đưa tất cả thanh trượt về **100%** (mặc định game gốc)." },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.ResetGameDefaults)), "Đưa tỷ lệ về **100%** và độ trễ cảnh báo xe tang về **3 phút**." },
 
                 // STATUS fields (SHORT labels; left column is narrow!)
 

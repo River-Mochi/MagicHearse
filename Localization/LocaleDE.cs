@@ -110,6 +110,14 @@ namespace MagicHearse
 
                 },
 
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.HearseWarningMinutes)), "Leichenwagen-Warnverzögerung (Min.)" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.HearseWarningMinutes)),
+                    "**Simulationsminuten, bis das Problemsymbol „Warten auf Leichenwagen“ erscheint.**\n" +
+                    "**3 Minuten** entsprechen ungefähr dem Vanilla-Wert von 2,5 Minuten.\n" +
+                    "Nur Leichenwagenwarnungen werden geändert; Krankenwagen behalten die Spieleinstellung.\n" +
+                    "Bereits sichtbare Symbole werden bei einer Erhöhung nicht ausgeblendet."
+                },
+
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StorageScalar)), "Friedhofslager" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StorageScalar)),
                     "**Friedhofs-Lagerkapazität** für das Hauptgebäude.\n" +
@@ -150,7 +158,7 @@ namespace MagicHearse
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.ResetGameDefaults)), "Regler zurücksetzen" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.ResetGameDefaults)),
-                    "Setzt alle Regler zurück auf **100%** (Vanilla-Standard)." },
+                    "Setzt Prozentregler auf **100%** und die Leichenwagen-Warnverzögerung auf **3 Minuten**." },
 
                 // STATUS fields (SHORT labels; left column is narrow!)
 

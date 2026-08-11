@@ -111,6 +111,14 @@ namespace MagicHearse
 
                 },
 
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.HearseWarningMinutes)), "หน่วงคำเตือนรถขนศพ (นาที)" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.HearseWarningMinutes)),
+                    "**จำนวนนาทีจำลองก่อนแสดงไอคอนปัญหารอรถขนศพ**\n" +
+                    "**3 นาที** ใกล้เคียงค่าปกติของเกมที่ประมาณ 2.5 นาที\n" +
+                    "เปลี่ยนเฉพาะคำเตือนรถขนศพ คำเตือนรถพยาบาลยังใช้ค่าของเกม\n" +
+                    "การเพิ่มค่านี้จะไม่ซ่อนไอคอนที่แสดงอยู่แล้ว"
+                },
+
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StorageScalar)), "ความจุสุสาน" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StorageScalar)),
                     "**ความจุของสุสาน** สำหรับอาคารหลัก\n" +
@@ -151,7 +159,7 @@ namespace MagicHearse
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.ResetGameDefaults)), "รีเซ็ตแถบเลื่อน" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.ResetGameDefaults)),
-                    "ตั้งค่าแถบเลื่อนทั้งหมดกลับเป็น **100%** (ค่าเริ่มต้นของเกมดั้งเดิม)" },
+                    "ตั้งค่าแถบเปอร์เซ็นต์เป็น **100%** และการหน่วงคำเตือนรถขนศพเป็น **3 นาที**" },
 
                 // STATUS fields (SHORT labels; left column is narrow!)
 

@@ -110,6 +110,16 @@ namespace MagicHearse
 
                 },
 
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.HearseWarningMinutes)), "Death notification delay (min)" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.HearseWarningMinutes)),
+                    "This is the total time a hearse has to get to a building before **waiting-for-hearse** problem icons appear.\n" +
+                    "**3 minutes** is close to the game default of ~2.5 simulation minutes.\n" +
+                    "This can be increased to give hearses a more reasonable time to complete the trip before the death icon appears.\n" +
+                    "Note:\n"+
+                    "- existing visible icons are not hidden when this time value is first increased so they stay up until cleared by a hearse/building demolition.\n" +
+                    "- allow current dispatches to finish naturally or use <Magic Clean> checkbox one time for a quick fresh start with new time schedules."
+                },
+
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StorageScalar)), "Cemetery storage" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StorageScalar)),
                     "**Cemetery storage capacity** for the main building.\n" +
@@ -130,8 +140,9 @@ namespace MagicHearse
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.CemeteryTurnoverScalar)),
                     "**Gradually frees occupied cemetery graves.**\n" +
                     "Higher values make grave spaces available again faster than vanilla.\n" +
-                    "If cemeteries still fill too often at 500%, enable **[Auto reset cemetery]** instead.\n" +
-                    "**100%** = vanilla game default."
+                    "If cemeteries still fill too often at 500%,\n" +
+                    "enable **[Auto reset cemetery]** instead.\n" +
+                    "**100%** = game default rate of recycling for graves."
                 },
 
                 // Workers compatibility toggle
@@ -150,19 +161,20 @@ namespace MagicHearse
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.ResetGameDefaults)), "Reset sliders" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.ResetGameDefaults)),
-                    "Sets all sliders back to **100%** (vanilla defaults)." },
+                    "Sets percentage sliders to **100%** and the hearse warning delay to **3 minutes**." },
 
                 // STATUS fields (SHORT labels; left column is narrow!)
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusSummary1)), "Hearse needed" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StatusSummary1)),
-                    "**Dead citizens waiting** for a hearse pickup."
+                    "**Waiting** = all dead citizens still outside and awaiting pickup.\n" +
+                    "**Past due** = waiting citizens whose selected notification delay has expired."
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusSummary2)), "Volume" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StatusSummary2)),
                      "**Monthly totals** from game stats.\n" +
-                     "**Handling max/mo** = crematorium processing plus cemetery turnover at current efficiency.\n" +
+                     "**Max/mo.** = crematorium processing plus cemetery turnover at current efficiency.\n" +
                      "This is the maximum bodies all active deathcare facilities could handle per month."
                  },
 
@@ -183,18 +195,18 @@ namespace MagicHearse
                 { "MH_STATUS_NO_CITY_LOADED", "No city loaded." },
                 { "MH_STATUS_STATS_NOT_AVAIL", "No city... ¯\\_(ツ)_/¯ ...No stats" },
 
-                { "MH_STATUS_LINE1", "{0} waiting | {1} deaths/mo | updated {2}" },
-                { "MH_STATUS_LINE2", "{0} handling max/mo | {1}/{2} graves used" },
+                { "MH_STATUS_LINE1_V2", "{0} waiting | {1} past due | {2} deaths/mo" },
+                { "MH_STATUS_LINE2_V2", "{0} max/mo." },
                 { "MH_STATUS_LINE3", "{0} / {1} hearses | {2} / {3} buildings | {4} max workers" },
-                { "MH_STATUS_PROCESSING_SUGGESTED", "Suggested now: ~{0}% crematorium processing" },
-                { "MH_STATUS_PROCESSING_MORE", "Suggested now: 500% crematorium processing + more active facilities" },
-                { "MH_STATUS_PROCESSING_NONE", "Suggested: turn on/add crematoriums" },
+                { "MH_STATUS_UPDATED", "updated {0}" },
+                { "MH_STATUS_PROCESSING_SUGGESTED", "suggested now: ~{0}% crematorium processing" },
+                { "MH_STATUS_PROCESSING_MORE", "suggested now: 500% crematorium processing + more active facilities" },
+                { "MH_STATUS_PROCESSING_NONE", "suggested: turn on/add crematoriums" },
 
                 // Cemetery reset tally (session status; row + named list below Assets)
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusSummary4)), "Cemetery" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StatusSummary4)),
-                    "**Full Cemeteries emptied this session**.\n" +
-                    "Shows total resets and how many distinct cemeteries.\n" +
+                    "Shows **graves used**, active cemetery facilities, and full-cemetery resets this session.\n" +
                     "Status clears on reboot or when you switch city."
                 },
 
@@ -202,7 +214,9 @@ namespace MagicHearse
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StatusCemetery1)),
                     "Which cemeteries were emptied, and how many times each (name × count)." },
 
-                { "MH_STATUS_LINE4", "resets: {0} · cemeteries: {1}" },
+                { "MH_STATUS_LINE4_V2", "{0}/{1} graves used | {2} facilities | {3}" },
+                { "MH_STATUS_RESET_SINGULAR", "{0} reset" },
+                { "MH_STATUS_RESET_PLURAL", "{0} resets" },
                 { "MH_STATUS_CEMETERY_NONE", "none this session" },
                 { "MH_STATUS_CEMETERY_ROW", "{0} ×{1}" },
                 { "MH_STATUS_CEMETERY_MORE", "+{0} more" },
@@ -233,4 +247,3 @@ namespace MagicHearse
         { }
     }
 }
-

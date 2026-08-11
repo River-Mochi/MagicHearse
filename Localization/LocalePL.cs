@@ -109,6 +109,14 @@ namespace MagicHearse
                     "dozwolona prędkość maksymalna pojazdu, ograniczenie drogi, bezpieczna prędkość AI gry (zakręty, uszkodzenia drogi) oraz ruch."
                 },
 
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.HearseWarningMinutes)), "Opóźnienie ostrzeżenia karawanu (min)" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.HearseWarningMinutes)),
+                    "**Minuty symulacji przed pojawieniem się ikony oczekiwania na karawan.**\n" +
+                    "**3 minuty** są zbliżone do domyślnej wartości około 2,5 minuty.\n" +
+                    "Zmienia tylko ostrzeżenia karawanów; ostrzeżenia karetek pozostają bez zmian.\n" +
+                    "Zwiększenie wartości nie ukrywa już widocznych ikon."
+                },
+
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StorageScalar)), "Pojemność cmentarza" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StorageScalar)),
                     "**Pojemność magazynu cmentarza** dla głównego budynku.\n" +
@@ -149,7 +157,7 @@ namespace MagicHearse
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.ResetGameDefaults)), "Reset suwaków" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.ResetGameDefaults)),
-                    "Ustawia wszystkie suwaki z powrotem na **100%** (domyślne wartości)." },
+                    "Ustawia suwaki procentowe na **100%**, a opóźnienie ostrzeżenia na **3 minuty**." },
 
                 // STATUS fields (SHORT labels; left column is narrow!)
 
