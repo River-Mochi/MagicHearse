@@ -70,6 +70,7 @@ namespace MagicHearse
         private static bool s_WasInGame;
         private static bool s_HasSnapshotThisCity;
         private static uint s_LastSnapshotSimulationFrame = uint.MaxValue;
+        private static string s_LastActiveLocaleId = string.Empty;
 
         /// <summary>Clears snapshot so next getter refreshes (prevents stale data after city switches).</summary>
         public static void InvalidateCache()
@@ -107,6 +108,19 @@ namespace MagicHearse
 
             GameManager gm = GameManager.instance;
             bool isGame = (gm != null && gm.gameMode.IsGame());
+            string activeLocaleId =
+                gm?.localizationManager?.activeDictionary?.localeID ?? string.Empty;
+
+            // A language can change while Options has paused the city. Include the locale in
+            // the cache key so the same simulation frame is reformatted in the new language.
+            if (!string.Equals(
+                    s_LastActiveLocaleId,
+                    activeLocaleId,
+                    StringComparison.Ordinal))
+            {
+                s_LastActiveLocaleId = activeLocaleId;
+                MarkDirty();
+            }
 
             // Refresh when entering/leaving a city; city switches are invalidated after loading.
             if (isGame != s_WasInGame)
