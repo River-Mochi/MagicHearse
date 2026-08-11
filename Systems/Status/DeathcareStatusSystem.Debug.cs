@@ -11,13 +11,22 @@
 
 namespace MagicHearse
 {
+    using System;              // Math
     using System.Text;         // StringBuilder
+    using Game.Areas;          // ServiceDistrict
+    using Game.Buildings;      // DeathcareFacility, DeathcareFacilityFlags, Efficiency, Patient
     using Game.Citizens;      // HealthProblem, CurrentBuilding/Transport, TravelPurpose
+    using Game.Companies;      // ServiceDispatch
     using Game.Creatures;     // CurrentVehicle
     using Game.Pathfind;      // PathInformation
     using Game.Simulation;    // HealthcareRequest, ServiceRequest, Dispatched, UpdateFrame
+    using Game.Vehicles;      // Hearse, HearseFlags, OwnedVehicle, ParkedCar
     using Unity.Collections;  // NativeArray, Allocator
     using Unity.Entities;     // Entity, ComponentLookup
+    using DeathcareFacilityData = Game.Prefabs.DeathcareFacilityData;
+    using InstalledUpgrade = Game.Buildings.InstalledUpgrade;
+    using PrefabRef = Game.Prefabs.PrefabRef;
+    using UpgradeUtils = Game.Prefabs.UpgradeUtils;
 
     public sealed partial class DeathcareStatusSystem
     {
@@ -26,6 +35,7 @@ namespace MagicHearse
             CompleteDependency();
 
             const int SamplesPerStage = 5;
+            const int FailedRequestSamples = 10;
             const HealthProblemFlags Want =
                 HealthProblemFlags.Dead | HealthProblemFlags.RequireTransport;
 
@@ -57,7 +67,11 @@ namespace MagicHearse
                         out bool outsideService);
 
                     int stageIndex = (int)stage;
-                    if (sampleCounts[stageIndex] >= SamplesPerStage)
+                    int sampleLimit =
+                        stage == CorpseStage.RetryCooldown
+                            ? FailedRequestSamples
+                            : SamplesPerStage;
+                    if (sampleCounts[stageIndex] >= sampleLimit)
                     {
                         continue;
                     }
@@ -81,7 +95,9 @@ namespace MagicHearse
             report.AppendLine();
             report.AppendLine("CORPSE / REQUEST SAMPLES");
             report.AppendLine(
-                $"  Up to {SamplesPerStage} samples per category; IDs use Scene Explorer Index:Version.");
+                $"  Up to {SamplesPerStage} samples per category and " +
+                $"{FailedRequestSamples} failed/retry samples; " +
+                "IDs use Scene Explorer Index:Version.");
 
             for (int i = 0; i < (int)CorpseStage.Count; i++)
             {
@@ -97,7 +113,252 @@ namespace MagicHearse
                 report.Append(sample);
             }
 
+            AppendFacilityReverseDispatchSamples(report);
             return report.ToString();
+        }
+
+        private void AppendFacilityReverseDispatchSamples(StringBuilder report)
+        {
+            ComponentLookup<DeathcareFacility> facilityLookup =
+                GetComponentLookup<DeathcareFacility>(true);
+            ComponentLookup<HealthcareRequest> healthcareRequestLookup =
+                GetComponentLookup<HealthcareRequest>(true);
+            ComponentLookup<ServiceRequest> serviceRequestLookup =
+                GetComponentLookup<ServiceRequest>(true);
+            ComponentLookup<Dispatched> dispatchedLookup =
+                GetComponentLookup<Dispatched>(true);
+            ComponentLookup<PathInformation> pathInformationLookup =
+                GetComponentLookup<PathInformation>(true);
+            ComponentLookup<Hearse> hearseLookup =
+                GetComponentLookup<Hearse>(true);
+            ComponentLookup<ParkedCar> parkedCarLookup =
+                GetComponentLookup<ParkedCar>(true);
+            ComponentLookup<PrefabRef> prefabRefLookup =
+                GetComponentLookup<PrefabRef>(true);
+            ComponentLookup<DeathcareFacilityData> facilityDataLookup =
+                GetComponentLookup<DeathcareFacilityData>(true);
+
+            BufferLookup<ServiceDistrict> serviceDistrictLookup =
+                GetBufferLookup<ServiceDistrict>(true);
+            BufferLookup<OwnedVehicle> ownedVehicleLookup =
+                GetBufferLookup<OwnedVehicle>(true);
+            BufferLookup<ServiceDispatch> serviceDispatchLookup =
+                GetBufferLookup<ServiceDispatch>(true);
+            BufferLookup<InstalledUpgrade> installedUpgradeLookup =
+                GetBufferLookup<InstalledUpgrade>(true);
+            BufferLookup<Efficiency> efficiencyLookup =
+                GetBufferLookup<Efficiency>(true);
+            BufferLookup<Patient> patientLookup =
+                GetBufferLookup<Patient>(true);
+
+            report.AppendLine();
+            report.AppendLine("FACILITY REVERSE-DISPATCH SAMPLES");
+            report.AppendLine(
+                "  On-demand state for every placed deathcare facility. " +
+                "Zero service districts means whole-city service.");
+
+            using NativeArray<Entity> facilities =
+                m_DeathcarePlacedQuery.ToEntityArray(Allocator.Temp);
+            for (int i = 0; i < facilities.Length; i++)
+            {
+                Entity facilityEntity = facilities[i];
+                if (!facilityLookup.TryGetComponent(
+                        facilityEntity,
+                        out DeathcareFacility facility))
+                {
+                    continue;
+                }
+
+                int districtCount =
+                    serviceDistrictLookup.TryGetBuffer(
+                        facilityEntity,
+                        out DynamicBuffer<ServiceDistrict> serviceDistricts)
+                        ? serviceDistricts.Length
+                        : 0;
+                int pendingDispatches =
+                    serviceDispatchLookup.TryGetBuffer(
+                        facilityEntity,
+                        out DynamicBuffer<ServiceDispatch> dispatches)
+                        ? dispatches.Length
+                        : 0;
+
+                DeathcareFacilityData facilityData = default;
+                if (prefabRefLookup.TryGetComponent(
+                        facilityEntity,
+                        out PrefabRef prefabRef) &&
+                    facilityDataLookup.TryGetComponent(
+                        prefabRef.m_Prefab,
+                        out DeathcareFacilityData prefabFacilityData))
+                {
+                    facilityData = prefabFacilityData;
+                    if (installedUpgradeLookup.TryGetBuffer(
+                            facilityEntity,
+                            out DynamicBuffer<InstalledUpgrade> installedUpgrades) &&
+                        installedUpgrades.Length != 0)
+                    {
+                        UpgradeUtils.CombineStats(
+                            ref facilityData,
+                            installedUpgrades,
+                            ref prefabRefLookup,
+                            ref facilityDataLookup);
+                    }
+                }
+
+                float efficiency = 1f;
+                float immediateEfficiency = 1f;
+                if (efficiencyLookup.TryGetBuffer(
+                        facilityEntity,
+                        out DynamicBuffer<Efficiency> efficiencies))
+                {
+                    efficiency = BuildingUtils.GetEfficiency(efficiencies);
+                    immediateEfficiency =
+                        BuildingUtils.GetImmediateEfficiency(efficiencies);
+                }
+
+                int currentDispatchCapacity = BuildingUtils.GetVehicleCapacity(
+                    Math.Min(efficiency, immediateEfficiency),
+                    facilityData.m_HearseCapacity);
+                int patientsInside =
+                    patientLookup.TryGetBuffer(
+                        facilityEntity,
+                        out DynamicBuffer<Patient> patients)
+                        ? patients.Length
+                        : 0;
+
+                int spawnedHearses = 0;
+                int onRoadHearses = 0;
+                int parkedHearses = 0;
+                int disabledHearses = 0;
+                int parkedNonDisabledHearses = 0;
+                if (ownedVehicleLookup.TryGetBuffer(
+                        facilityEntity,
+                        out DynamicBuffer<OwnedVehicle> ownedVehicles))
+                {
+                    for (int j = 0; j < ownedVehicles.Length; j++)
+                    {
+                        Entity vehicle = ownedVehicles[j].m_Vehicle;
+                        if (!hearseLookup.TryGetComponent(vehicle, out Hearse hearse))
+                        {
+                            continue;
+                        }
+
+                        spawnedHearses++;
+                        bool isDisabled =
+                            (hearse.m_State & HearseFlags.Disabled) != 0;
+                        if (isDisabled)
+                        {
+                            disabledHearses++;
+                        }
+
+                        if (parkedCarLookup.HasComponent(vehicle))
+                        {
+                            parkedHearses++;
+                            if (!isDisabled)
+                            {
+                                parkedNonDisabledHearses++;
+                            }
+                        }
+                        else
+                        {
+                            onRoadHearses++;
+                        }
+                    }
+                }
+
+                report.AppendLine();
+                report.AppendLine($"  Facility: {FormatEntity(facilityEntity)}");
+                report.AppendLine(
+                    $"    flags={facility.m_Flags}, serviceDistricts={districtCount}, " +
+                    $"pendingDispatches={pendingDispatches}");
+                report.AppendLine(
+                    $"    efficiency={efficiency * 100f:0.#}%, " +
+                    $"immediateEfficiency={immediateEfficiency * 100f:0.#}%, " +
+                    $"hearseCapacity={currentDispatchCapacity}/" +
+                    $"{facilityData.m_HearseCapacity}");
+                report.AppendLine(
+                    $"    spawnedHearses={spawnedHearses}, onRoad={onRoadHearses}, " +
+                    $"parked={parkedHearses}, disabled={disabledHearses}, " +
+                    $"parkedNonDisabled={parkedNonDisabledHearses}");
+                report.AppendLine(
+                    $"    patientsInside={patientsInside}, " +
+                    $"longTermStored={facility.m_LongTermStoredCount}/" +
+                    $"{facilityData.m_StorageCapacity}");
+                report.AppendLine(
+                    "    Note: parkedNonDisabled is observed state, not by itself " +
+                    "proof that dispatch/pathfinding considers the hearse eligible.");
+
+                Entity targetRequest = facility.m_TargetRequest;
+                report.AppendLine(
+                    $"    reverseTargetRequest={FormatEntity(targetRequest)}");
+                if (targetRequest == Entity.Null ||
+                    !EntityManager.Exists(targetRequest))
+                {
+                    report.AppendLine("    reverse request state: missing");
+                    continue;
+                }
+
+                if (healthcareRequestLookup.TryGetComponent(
+                        targetRequest,
+                        out HealthcareRequest healthcareRequest))
+                {
+                    report.AppendLine(
+                        $"    HealthcareRequest: citizen/source=" +
+                        $"{FormatEntity(healthcareRequest.m_Citizen)}, " +
+                        $"type={healthcareRequest.m_Type}");
+                }
+
+                if (serviceRequestLookup.TryGetComponent(
+                        targetRequest,
+                        out ServiceRequest serviceRequest))
+                {
+                    double approximateRetryMinutes =
+                        serviceRequest.m_Cooldown * 256d /
+                        kSimulationFramesPerMinute;
+                    report.AppendLine(
+                        $"    ServiceRequest: failCount={serviceRequest.m_FailCount}, " +
+                        $"cooldown={serviceRequest.m_Cooldown}, " +
+                        $"approxRetryInIfNotWoken={approximateRetryMinutes:0.0} sim min, " +
+                        $"flags={serviceRequest.m_Flags}");
+                }
+                else
+                {
+                    report.AppendLine("    ServiceRequest: missing");
+                }
+
+                if (EntityManager.HasComponent<UpdateFrame>(targetRequest))
+                {
+                    UpdateFrame updateFrame =
+                        EntityManager.GetSharedComponent<UpdateFrame>(targetRequest);
+                    report.AppendLine($"    UpdateFrame: {updateFrame.m_Index}");
+                }
+
+                if (pathInformationLookup.TryGetComponent(
+                        targetRequest,
+                        out PathInformation pathInformation))
+                {
+                    report.AppendLine(
+                        $"    PathInformation: origin=" +
+                        $"{FormatEntity(pathInformation.m_Origin)}, " +
+                        $"destination={FormatEntity(pathInformation.m_Destination)}, " +
+                        $"state={pathInformation.m_State}");
+                }
+                else
+                {
+                    report.AppendLine("    PathInformation: none");
+                }
+
+                if (dispatchedLookup.TryGetComponent(
+                        targetRequest,
+                        out Dispatched dispatched))
+                {
+                    report.AppendLine(
+                        $"    Dispatched: handler={FormatEntity(dispatched.m_Handler)}");
+                }
+                else
+                {
+                    report.AppendLine("    Dispatched: none");
+                }
+            }
         }
 
         private void AppendRequestSample(
@@ -195,9 +456,14 @@ namespace MagicHearse
                         request,
                         out ServiceRequest serviceRequest))
                 {
+                    double approximateRetryMinutes =
+                        serviceRequest.m_Cooldown * 256d /
+                        kSimulationFramesPerMinute;
                     report.AppendLine(
                         $"      ServiceRequest: failCount={serviceRequest.m_FailCount}, " +
-                        $"cooldown={serviceRequest.m_Cooldown}, flags={serviceRequest.m_Flags}");
+                        $"cooldown={serviceRequest.m_Cooldown}, " +
+                        $"approxRetryInIfNotWoken={approximateRetryMinutes:0.0} sim min, " +
+                        $"flags={serviceRequest.m_Flags}");
                 }
 
                 if (lookups.Dispatched.TryGetComponent(

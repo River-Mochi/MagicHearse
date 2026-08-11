@@ -90,7 +90,7 @@ Hello, Bonjour, Hallo, Hola, Ciao, こんにちは, 안녕하세요, 你好, Cze
 <Dependency Id="" />
 <!--Change log for new version. Single line or multi line. Supports minimal markdown subset-->
 <ChangeLog>
-- Added a slider to Increase the time a hearse has to pick up a corpse before icons spam the city buildings (game default is 2.5 sim minutes).
+- Added a slider to Increase the time a corpse is willing to wait before icons spam the city building (game default is 2.5 sim minutes).
 - Added Turkish.
 - Added a slider to adjust Cemetery turnover rate (when instant auto reset is off).
 - Added a detailed Log Report button for deathcare troubleshooting and open log button.
