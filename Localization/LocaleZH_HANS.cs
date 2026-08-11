@@ -51,165 +51,173 @@ namespace MagicHearse
                 { m_Setting.GetOptionTabLocaleID(MHSetting.kAboutTab), "关于" },
 
                 // Groups
-                { m_Setting.GetOptionGroupLocaleID(MHSetting.kAutoCleanGrp),   "自动清理" },
-                { m_Setting.GetOptionGroupLocaleID(MHSetting.kSelfManageGrp),  "手动管理" },
-                { m_Setting.GetOptionGroupLocaleID(MHSetting.kAdvancedGrp),    "高级" },
-                { m_Setting.GetOptionGroupLocaleID(MHSetting.kStatusGrp),      "状态" },
-                { m_Setting.GetOptionGroupLocaleID(MHSetting.kAboutInfoGrp),   "模组信息" },
-                { m_Setting.GetOptionGroupLocaleID(MHSetting.kAboutLinksGrp),  "链接" },
-                { m_Setting.GetOptionGroupLocaleID(MHSetting.kDebugGrp),       "调试" },
+                { m_Setting.GetOptionGroupLocaleID(MHSetting.kAutoCleanGrp), "自动清理" },
+                { m_Setting.GetOptionGroupLocaleID(MHSetting.kSelfManageGrp), "自行管理" },
+                { m_Setting.GetOptionGroupLocaleID(MHSetting.kAdvancedGrp), "高级" },
+                { m_Setting.GetOptionGroupLocaleID(MHSetting.kStatusGrp), "状态" },
+                { m_Setting.GetOptionGroupLocaleID(MHSetting.kAboutInfoGrp), "模组信息" },
+                { m_Setting.GetOptionGroupLocaleID(MHSetting.kAboutLinksGrp), "链接" },
+                { m_Setting.GetOptionGroupLocaleID(MHSetting.kDebugGrp), "调试" },
 
                 // Auto Clean (magic)
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.EnableMagicHearse)), "启用魔法清理" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.EnableMagicHearse)),
-                    "自动移除需要运输（灵车）的遗体。\n" +
+                    "自动移除需要灵车运输的遗体。\n" +
                     "魔法清理与自行管理互斥，请二选一。\n" +
-                    "关闭所有复选框即可禁用模组，而无需移除它。\n" +
+                    "取消所有复选框即可停用模组，无需卸载。\n" +
                     "技术说明：必须满足 IsDead = true 且 WaitingForHearse = true。"
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.MagicResetCemetery)), "重置已满墓地" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.MagicResetCemetery)),
-                    "**清空所有已满墓地**，使其不会被“已满”图标阻塞。\n" +
-                    "魔法清理会在下葬前移除大多数遗体；此选项仍会清空任何**已经满员**的墓地。\n" +
+                    "**清空已满墓地**，使其不会被“已满”图标阻塞。\n" +
+                    "魔法清理会在下葬前移除大多数遗体——此选项仍会清空任何**已经满了**的墓地。\n" +
                     "<[ ] 默认关闭>。\n" +
-                    "仅当需要魔法清理模式同时清空已经满员的墓地时，才启用此选项。\n" +
-                    "清空后，只要魔法清理保持启用，通常就无需继续启用此选项。"
+                    "仅当你希望魔法清理模式也清空已经满了的墓地时启用此选项。\n" +
+                    "清空后，只要魔法清理保持启用，通常无需继续开启此选项。"
                 },
 
                 // Self Manage (FD)
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.FuneralDirector)), "葬礼管理员" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.FuneralDirector)), "殡葬主管" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.FuneralDirector)),
-                    "全部自行管理。\n" +
-                    "**缩放数值：** 速度、车队、存储。\n" +
-                    "可选：也可**增加工人**。"
+                    "自行管理并优化游戏正常的殡葬系统。\n" +
+                    "**缩放数值：** 处理率、车辆数、存储量。\n" +
+                    "可选：**同时增加员工数量**。"
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.ProcScalar)), "火葬场处理" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.ProcScalar)),
                     "**火葬场处理速度。**\n" +
-                    "数值越高，遗体火化和设施存储空间释放得越快。\n" +
-                    "**100%** = 原版默认值。"
+                    "数值越高，遗体火化越快，也能更早释放设施存储空间。\n" +
+                    "**100%** = 游戏原版默认值。"
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.FleetScalar)), "灵车总数" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.FleetScalar)),
-                    "每个设施的**灵车最大数量**。\n" +
-                    "**100%** = 原版默认值。\n" +
+                    "每个设施的**最大灵车数量**。\n" +
+                    "**100%** = 游戏原版默认值。\n" +
                     "**[注意]** 灵车过多可能会根据死亡率影响交通。"
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.HearseSpeedScalar)), "灵车速度" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.HearseSpeedScalar)),
-                    "**提高灵车最高速度**。\n" +
-                    "**100%** = 原版默认值。\n" +
-                    "<仍受道路限速影响>。\n\n" +
-                    "同时缩放加速/刹车（温和），避免新最高速度带来夸张的起步/急停。\n" +
-                    "注意：即使提高了灵车最高速度，其实际行驶速度仍受以下因素影响：\n" +
+                    "**提高灵车允许的最高行驶速度**。\n" +
+                    "**100%** = 游戏原版默认值。\n" +
+                    "<道路限速仍然生效>。\n" +
+                    "\n" +
+                    "同时温和调整加速/制动，避免新的最高速度造成过激的起步或停车行为。\n" +
+                    "注意：即使提高灵车最高速度，实际行驶速度仍会受到以下因素影响：\n" +
                     "车辆允许的最高速度、道路限速、游戏 AI 的安全速度（弯道、道路损坏）以及交通状况。"
-
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.HearseWarningMinutes)), "灵车警告延迟（分钟）" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.HearseWarningMinutes)), "死亡通知延迟（分钟）" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.HearseWarningMinutes)),
-                    "**显示“等待灵车”问题图标前的模拟分钟数。**\n" +
-                    "**3 分钟**接近原版约 2.5 分钟的设置。\n" +
-                    "仅更改灵车警告；救护车警告仍使用游戏设置。\n" +
-                    "增大此值不会隐藏已经显示的图标。"
+                    "这是灵车到达建筑前可用的总时间；超时后会出现**等待灵车**问题图标。\n" +
+                    "**3 分钟**接近游戏默认的约 2.5 个模拟分钟。\n" +
+                    "可以提高此数值，让灵车有更合理的时间完成行程，再显示死亡图标。\n" +
+                    "注意：\n" +
+                    "- <建议：10 分钟>。严重拥堵的城市可尝试更高值。\n" +
+                    "- 查看底部的状态报告，了解有多少案例已经超时。\n" +
+                    "- 第一次提高此数值时，已经显示的图标不会被隐藏；它们会一直保留，直到灵车处理完毕或建筑被拆除。\n" +
+                    "- 可以让当前派车自然完成，或一次性使用 <魔法清理 [x]> 复选框，以新时间安排快速重新开始。"
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StorageScalar)), "墓地容量" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StorageScalar)), "墓地存储" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StorageScalar)),
                     "主建筑的**墓地存储容量**。\n" +
-                    "容量越大，已满墓地越能重新接收遗体。\n" +
-                    "除非设施因空间不足而停止服务，否则不会直接派出更多灵车。\n" +
-                    "**100%** = 原版默认值。"
+                    "更大容量可以让已满墓地重新接受遗体接收。\n" +
+                    "除非空间不足正在阻塞设施，否则不会因此派出更多灵车。\n" +
+                    "**100%** = 游戏原版默认值。"
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.AutoResetCemetery)), "自动重置墓地" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.AutoResetCemetery)),
-                    "墓地已满时将其**清空**，避免建筑上方的“已满”图标阻塞服务。\n" +
-                    "无需再删除并重建已满的墓地。\n" +
-                    "关闭此选项可改用逐步的**墓位周转速度**。\n" +
+                    "**清空已满墓地**，使其不会被建筑上方的“已满”图标阻塞。\n" +
+                    "以后无需再删除并重建已满墓地。\n" +
+                    "关闭此选项可改用逐渐进行的**墓地周转速度**。\n" +
                     "<[ ✓ ] 默认开启>"
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.CemeteryTurnoverScalar)), "墓位周转速度" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.CemeteryTurnoverScalar)), "墓地周转速度" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.CemeteryTurnoverScalar)),
                     "**逐步释放已占用的墓位。**\n" +
-                    "数值越高，墓位就会比原版更快恢复可用。\n" +
-                    "如果设为 500% 后墓地仍然经常满载，请改用 **[自动重置墓地]**。\n" +
-                    "**100%** = 原版默认值。"
+                    "数值越高，墓位重新可用的速度就越快于原版。\n" +
+                    "如果设置为 500% 后墓地仍经常满，\n" +
+                    "请改为启用 **[自动重置墓地]**。\n" +
+                    "**100%** = 游戏默认的墓位循环再利用速度。"
                 },
 
                 // Workers compatibility toggle
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.ControlWorkers)), "调整工人数" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.ControlWorkers)), "调整员工" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.ControlWorkers)),
                     "兼容性开关：\n" +
-                    "**启用 [✓]** 以增加工作人员数量。\n" +
-                    "**[o_o]** 如果希望由 **ConfigXML** 或其他模组控制殡葬服务的工作人员数量，请保持关闭。"
+                    "**启用 [✓]** 可增加员工数量。\n" +
+                    "**[o_o]** 如果希望由 **ConfigXML** 或其他模组控制殡葬员工，请保持关闭。"
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.WorkersScalar)), "最大工人数" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.WorkersScalar)), "最大员工数" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.WorkersScalar)),
-                    "**提高允许的最大工作人员数**。\n" +
-                    "**100%** = 原版默认值。"
+                    "**提高允许的最大员工数量**。\n" +
+                    "**100%** = 游戏原版默认值。"
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.ResetGameDefaults)), "重置滑条" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.ResetGameDefaults)),
-                    "将百分比滑条重置为 **100%**，灵车警告延迟重置为 **3 分钟**。" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.ResetGameDefaults)), "重置滑块" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.ResetGameDefaults)), "将百分比滑块设为 **100%**，并将死亡通知延迟设为 **3 分钟**。" },
 
                 // STATUS fields (SHORT labels; left column is narrow!)
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusSummary1)), "需要灵车" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StatusSummary1)),
-                    "**等待灵车接走的死亡市民**。"
+                    "**等待中** = 所有仍在室外等待接走的死亡市民。\n" +
+                    "**已超时** = 所选通知延迟已经到期的等待市民。\n" +
+                    " - 如果超时数量很多，请考虑提高“死亡通知延迟”的时间。"
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusSummary2)), "数量" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusSummary2)), "处理量" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StatusSummary2)),
-                     "来自游戏统计的**月度总计**。\n" +
-                     "**最大处理量/月** = 当前效率下的火葬场处理量与墓位周转量之和。\n" +
-                     "这是所有运行中的殡葬设施每月最多可处理的遗体数量。"
-                 },
+                    "来自游戏统计的**每月总量**。\n" +
+                    "**最大/月** = 当前效率下的火葬场处理量 + 墓地周转量。\n" +
+                    "这是所有正在运行的殡葬设施每月最多能够处理的遗体数量。"
+                },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusSummary3)), "资源" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusSummary3)), "资产" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StatusSummary3)),
-                    "**活跃建筑容量：** 灵车总数、建筑数、最大工人。\n\n" +
-                    "**备注：**\n" +
-                    "▪ 灵车：活跃-未停放 /（总计* 灵车）\n" +
+                    "**正在运行建筑的容量：** 灵车总数、建筑数、最大员工数。\n" +
+                    "\n" +
+                    "**说明：**\n" +
+                    "▪ 灵车：正在使用-未停放 /（灵车总数*）\n" +
                     "▪ *灵车总数：\n" +
-                    "== 包含维护中的灵车（例如服务预算较低时），\n" +
-                    "== 不包含已禁用建筑的灵车。\n" +
-                    "▪ 状态扫描仅在选项菜单打开时（或使用滑条时）运行；" +
-                    "不会在城市中每帧运行，因此基本没有性能影响 :)"
+                    "== 包括维护中的灵车（例如服务预算较低）， \n" +
+                    "== 不包括已停用建筑的灵车。\n" +
+                    "▪ 状态扫描只会在“选项”打开时（或使用滑块时）运行；不会在城市中逐帧运行，因此基本没有性能影响 :)"
                 },
 
                 // Status text templates
-                { "MH_STATUS_NOT_LOADED", "状态未加载。" },
+                { "MH_STATUS_NOT_LOADED", "状态尚未加载。" },
                 { "MH_STATUS_NO_CITY_LOADED", "未加载城市。" },
                 { "MH_STATUS_STATS_NOT_AVAIL", "没有城市... ¯\\_(ツ)_/¯ ...没有统计" },
 
-                { "MH_STATUS_LINE1", "{0} 等待 | {1} 死亡/月 | 更新于 {2}" },
-                { "MH_STATUS_LINE2", "{0} 最大处理量/月 | {1}/{2} 墓位已用" },
-                { "MH_STATUS_LINE3", "{0} / {1} 灵车 | {2} / {3} 建筑 | {4} 最大工人" },
-                { "MH_STATUS_PROCESSING_SUGGESTED", "当前建议：火葬场处理速度约 {0}%" },
-                { "MH_STATUS_PROCESSING_MORE", "当前建议：火葬场处理速度 500% + 更多运营中的设施" },
-                { "MH_STATUS_PROCESSING_NONE", "建议：启用/增建火葬场" },
+                { "MH_STATUS_LINE1_V2", "{0} 等待中 | {1} 已超时 | {2} 死亡/月" },
+                { "MH_STATUS_LINE2_V2", "{0} 最大/月" },
+                { "MH_STATUS_LINE3", "{0} / {1} 灵车 | {2} / {3} 建筑 | {4} 最大员工" },
+                { "MH_STATUS_UPDATED", "更新于 {0}" },
+                { "MH_STATUS_PROCESSING_SUGGESTED", "当前建议：火葬场处理约 {0}%" },
+                { "MH_STATUS_PROCESSING_MORE", "当前建议：火葬场处理 500% + 增加正在运行的设施" },
+                { "MH_STATUS_PROCESSING_NONE", "建议：启用/增加火葬场" },
 
                 // Cemetery reset tally (session status; row + named list below Assets)
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusSummary4)), "墓地" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StatusSummary4)),
-                    "通过“重置已满墓地”在**本次游戏中自动清空的墓地**。\n" +
-                    "显示重置总次数及不同墓地的数量。\n" +
-                    "重新启动或切换城市时清除。"
+                    "显示**已使用墓位**、正在运行的墓地设施，以及本次会话中已满墓地的重置次数。\n" +
+                    "重新启动或切换城市时会清除状态。"
                 },
 
-                { "MH_STATUS_LINE4", "重置：{0} · 墓地：{1}" },
-                { "MH_STATUS_CEMETERY_NONE", "本次游戏中无" },
+                { "MH_STATUS_LINE4_V2", "{0} / {1} 墓位已用 | {2} 设施 | {3}" },
+                { "MH_STATUS_RESET_SINGULAR", "重置 {0} 次" },
+                { "MH_STATUS_RESET_PLURAL", "重置 {0} 次" },
+                { "MH_STATUS_CEMETERY_NONE", "本次会话无" },
                 { "MH_STATUS_CEMETERY_ROW", "{0} ×{1}" },
-                { "MH_STATUS_CEMETERY_MORE", "另外 {0} 个" },
+                { "MH_STATUS_CEMETERY_MORE", "+{0} 个" },
 
                 // About
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.AboutName)), "模组" },
@@ -218,20 +226,20 @@ namespace MagicHearse
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.AboutVersion)), "当前版本。" },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.OpenParadoxMods)), "Paradox Mods" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.OpenParadoxMods)),
-                    "打开作者的 Paradox Mods 页面。" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.OpenParadoxMods)), "打开作者的 Paradox Mods 页面。" },
 
                 // Debug report
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.LogReport)), "日志报告" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.LogReport)),
-                    "将详细的殡葬服务报告和可能的问题写入 MagicHearse.log。" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.LogReport)), "将详细的殡葬报告及可能的问题区域写入 MagicHearse.log。" },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.OpenLog)), "打开日志" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.OpenLog)),
                     "如果存在，则打开 **Logs/MagicHearse.log**。\n" +
-                    "如果尚未找到文件，则改为打开 Logs 文件夹。" },
+                    "如果尚未找到该文件，则改为打开 Logs 文件夹。"
+                },
             };
         }
+
         public void Unload()
         { }
     }

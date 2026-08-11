@@ -51,13 +51,13 @@ namespace MagicHearse
                 { m_Setting.GetOptionTabLocaleID(MHSetting.kAboutTab), "À propos" },
 
                 // Groups
-                { m_Setting.GetOptionGroupLocaleID(MHSetting.kAutoCleanGrp),   "Nettoyage auto" },
-                { m_Setting.GetOptionGroupLocaleID(MHSetting.kSelfManageGrp),  "Gestion autonome" },
-                { m_Setting.GetOptionGroupLocaleID(MHSetting.kAdvancedGrp),    "Avancé" },
-                { m_Setting.GetOptionGroupLocaleID(MHSetting.kStatusGrp),      "Statut" },
-                { m_Setting.GetOptionGroupLocaleID(MHSetting.kAboutInfoGrp),   "Infos du mod" },
-                { m_Setting.GetOptionGroupLocaleID(MHSetting.kAboutLinksGrp),  "Liens" },
-                { m_Setting.GetOptionGroupLocaleID(MHSetting.kDebugGrp),       "Débogage" },
+                { m_Setting.GetOptionGroupLocaleID(MHSetting.kAutoCleanGrp), "Nettoyage auto" },
+                { m_Setting.GetOptionGroupLocaleID(MHSetting.kSelfManageGrp), "Gestion autonome" },
+                { m_Setting.GetOptionGroupLocaleID(MHSetting.kAdvancedGrp), "Avancé" },
+                { m_Setting.GetOptionGroupLocaleID(MHSetting.kStatusGrp), "Statut" },
+                { m_Setting.GetOptionGroupLocaleID(MHSetting.kAboutInfoGrp), "Infos du mod" },
+                { m_Setting.GetOptionGroupLocaleID(MHSetting.kAboutLinksGrp), "Liens" },
+                { m_Setting.GetOptionGroupLocaleID(MHSetting.kDebugGrp), "Débogage" },
 
                 // Auto Clean (magic)
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.EnableMagicHearse)), "Activer le nettoyage magique" },
@@ -70,19 +70,19 @@ namespace MagicHearse
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.MagicResetCemetery)), "Réinitialiser le cimetière plein" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.MagicResetCemetery)),
-                    "**Vide tout cimetière plein** afin qu’il ne reste pas bloqué avec l’icône PLEIN.\n" +
+                    "**Vide un cimetière plein** afin qu’il ne reste pas bloqué avec l’icône PLEIN.\n" +
                     "Le nettoyage magique retire la plupart des corps avant l’inhumation — cette option vide tout de même les cimetières **déjà pleins**.\n" +
                     "<[ ] DÉSACTIVÉ par défaut>.\n" +
                     "N’activez cette option que si le mode Nettoyage magique doit également vider les cimetières déjà pleins.\n" +
-                    "Une fois vidés, il n’est normalement pas nécessaire de laisser cette option activée tant que le nettoyage magique reste activé."
+                    "Une fois vidé, il n’est normalement pas nécessaire de laisser cette option activée tant que le nettoyage magique reste activé."
                 },
 
                 // Self Manage (FD)
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.FuneralDirector)), "Directeur funéraire" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.FuneralDirector)),
-                    "Tout gérer soi-même.\n" +
-                    "**Valeurs d'échelle :** rythme, flotte, stockage.\n" +
-                    "Optionnel : **augmenter les employés** aussi."
+                    "Gérez vous-même et optimisez les systèmes funéraires normaux du jeu.\n" +
+                    "**Valeurs d’échelle :** rythme, flotte, stockage.\n" +
+                    "Optionnel : **augmenter aussi les employés**."
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.ProcScalar)), "Traitement du crématorium" },
@@ -96,26 +96,30 @@ namespace MagicHearse
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.FleetScalar)),
                     "**Corbillards maximum** par établissement.\n" +
                     "**100%** = valeur vanilla du jeu.\n" +
-                    "**[Remarque]** Trop de corbillards peut affecter le trafic selon le taux de décès."
+                    "**[Remarque]** Trop de corbillards peuvent affecter le trafic selon le taux de décès."
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.HearseSpeedScalar)), "Vitesse du corbillard" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.HearseSpeedScalar)),
-                    "**Augmente la vitesse max du corbillard**.\n" +
+                    "**Augmente la vitesse de conduite maximale autorisée du corbillard**.\n" +
                     "**100%** = valeur vanilla du jeu.\n" +
-                    "<Les limites de vitesse routières s'appliquent toujours>.\n\n" +
-                    "Met aussi à l'échelle l'accélération/le freinage (doux) pour éviter des départs/arrêts extrêmes.\n" +
+                    "<Les limites de vitesse routières s’appliquent toujours>.\n" +
+                    "\n" +
+                    "Met aussi à l’échelle l’accélération/le freinage (doux) pour éviter que la nouvelle vitesse maximale ne crée des départs/arrêts extrêmes.\n" +
                     "Note : même si la vitesse maximale du corbillard est augmentée, sa vitesse réelle dépend de :\n" +
                     "la vitesse maximale autorisée du véhicule, la limite de la route, la vitesse sûre de l’IA du jeu (virages, routes endommagées) et le trafic."
-
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.HearseWarningMinutes)), "Délai d’alerte du corbillard (min)" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.HearseWarningMinutes)), "Délai de l’alerte décès (min)" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.HearseWarningMinutes)),
-                    "**Minutes de simulation avant l’apparition de l’icône d’attente du corbillard.**\n" +
-                    "**3 minutes** est proche de la valeur vanilla d’environ 2,5 minutes.\n" +
-                    "Seules les alertes de corbillard changent ; celles des ambulances gardent le réglage du jeu.\n" +
-                    "Les icônes déjà visibles ne sont pas masquées si cette valeur augmente."
+                    "Il s’agit du temps total dont dispose un corbillard pour atteindre un bâtiment avant l’apparition des icônes de problème **en attente d’un corbillard**.\n" +
+                    "**3 minutes** est proche de la valeur par défaut du jeu d’environ 2,5 minutes de simulation.\n" +
+                    "Vous pouvez augmenter cette valeur pour laisser aux corbillards un délai plus raisonnable pour terminer le trajet avant l’apparition de l’icône de décès.\n" +
+                    "Note :\n" +
+                    "- <Suggestion : 10 minutes>. Essayez davantage dans les villes très congestionnées.\n" +
+                    "- Consultez le rapport Statut en bas pour voir combien de cas sont en retard.\n" +
+                    "- Les icônes déjà visibles ne sont pas masquées lorsque ce délai est augmenté pour la première fois ; elles restent jusqu’à ce qu’un corbillard intervienne ou que le bâtiment soit démoli.\n" +
+                    "- Laissez les interventions actuelles se terminer naturellement ou utilisez une fois la case <Nettoyage magique [x]> pour repartir rapidement avec les nouveaux horaires."
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StorageScalar)), "Stockage du cimetière" },
@@ -128,62 +132,64 @@ namespace MagicHearse
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.AutoResetCemetery)), "Réinitialisation auto. du cimetière" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.AutoResetCemetery)),
-                    "**Vide un cimetière** lorsqu’il est plein afin qu’il ne reste pas bloqué par l’icône PLEIN au-dessus du bâtiment.\n" +
+                    "**Vide un cimetière plein** afin qu’il ne reste pas bloqué par l’icône PLEIN au-dessus du bâtiment.\n" +
                     "Il n’est plus nécessaire de supprimer et reconstruire les cimetières pleins.\n" +
                     "Désactivez cette option pour utiliser à la place la **Libération progressive des tombes**.\n" +
-                    "<[ ✓ ] Activé par défaut>"
+                    "<[ ✓ ] ACTIVÉ par défaut>"
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.CemeteryTurnoverScalar)), "Libération progressive des tombes" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.CemeteryTurnoverScalar)),
                     "**Libère progressivement les tombes occupées du cimetière.**\n" +
-                    "Des valeurs plus élevées libèrent les tombes plus vite que dans le jeu de base.\n" +
-                    "Si les cimetières restent trop souvent pleins à 500 %, activez plutôt **[Réinitialisation auto. du cimetière]**.\n" +
-                    "**100%** = valeur par défaut du jeu de base."
+                    "Des valeurs plus élevées rendent les emplacements disponibles plus vite que dans le jeu vanilla.\n" +
+                    "Si les cimetières restent trop souvent pleins à 500%,\n" +
+                    "activez plutôt **[Réinitialisation auto. du cimetière]**.\n" +
+                    "**100%** = taux par défaut du jeu pour la réutilisation des tombes."
                 },
 
                 // Workers compatibility toggle
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.ControlWorkers)), "Ajuster les employés" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.ControlWorkers)),
-                "Interrupteur de compatibilité :\n" +
-                "**Activer [✓]** pour augmenter le nombre d'employés.\n" +
-                "**[o_o]** Laisser OFF si **ConfigXML** ou un autre mod doit gérer les employés des services funéraires."
+                    "Interrupteur de compatibilité :\n" +
+                    "**Activer [✓]** pour augmenter le nombre d’employés.\n" +
+                    "**[o_o]** Laissez DÉSACTIVÉ si vous souhaitez que **ConfigXML** ou un autre mod gère les employés des services funéraires."
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.WorkersScalar)), "Employés maximum" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.WorkersScalar)),
-                    "**Augmente le maximum d'employés** autorisés.\n" +
+                    "**Augmente le nombre maximal d’employés** autorisé.\n" +
                     "**100%** = valeur vanilla du jeu."
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.ResetGameDefaults)), "Réinitialiser les curseurs" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.ResetGameDefaults)),
-                    "Remet les pourcentages à **100%** et le délai d’alerte du corbillard à **3 minutes**." },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.ResetGameDefaults)), "Règle les curseurs de pourcentage sur **100%** et le délai de l’alerte décès sur **3 minutes**." },
 
                 // STATUS fields (SHORT labels; left column is narrow!)
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusSummary1)), "Corbillard requis" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StatusSummary1)),
-                    "**Citoyens morts en attente** d'un ramassage par corbillard."
+                    "**En attente** = tous les citoyens décédés encore à l’extérieur et en attente d’enlèvement.\n" +
+                    "**En retard** = citoyens en attente dont le délai de notification sélectionné a expiré.\n" +
+                    " - S’il y a beaucoup de cas en retard, augmentez le délai de l’alerte décès."
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusSummary2)), "Volume" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StatusSummary2)),
-                     "**Totaux mensuels** depuis les stats du jeu.\n" +
-                     "**Traitement max./mois** = traitement des crématoriums plus renouvellement des cimetières à l’efficacité actuelle.\n" +
-                     "C’est le nombre maximal de corps que tous les établissements funéraires actifs peuvent gérer par mois."
-                 },
+                    "**Totaux mensuels** des statistiques du jeu.\n" +
+                    "**Max./mois** = traitement des crématoriums plus rotation des cimetières à l’efficacité actuelle.\n" +
+                    "C’est le nombre maximal de corps que tous les établissements funéraires actifs pourraient traiter par mois."
+                },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusSummary3)), "Ressources" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StatusSummary3)),
-                    "**Capacités des bâtiments actifs :** total corbillards, bâtiments, employés max.\n\n" +
+                    "**Capacités des bâtiments actifs :** total de corbillards, bâtiments, employés max.\n" +
+                    "\n" +
                     "**Remarques :**\n" +
                     "▪ Corbillard : Actif-non garé / (Total* corbillards)\n" +
                     "▪ *Total des corbillards :\n" +
                     "== inclut les corbillards en maintenance (p. ex. budget de service faible), \n" +
                     "== n’inclut pas les corbillards des bâtiments désactivés.\n" +
-                    "▪ L’analyse du statut ne s’exécute que lorsque les Options sont ouvertes (ou qu’un curseur est utilisé) ; " +
-                    "elle ne s’exécute pas à chaque image en ville et n’a donc pratiquement aucun impact sur les performances :)"
+                    "▪ L’analyse du statut ne s’exécute que lorsque les Options sont ouvertes (ou qu’un curseur est utilisé) ; elle ne s’exécute pas à chaque image en ville et n’a donc pratiquement aucun impact sur les performances :)"
                 },
 
                 // Status text templates
@@ -191,23 +197,25 @@ namespace MagicHearse
                 { "MH_STATUS_NO_CITY_LOADED", "Aucune ville chargée." },
                 { "MH_STATUS_STATS_NOT_AVAIL", "Pas de ville... ¯\\_(ツ)_/¯ ...Pas de stats" },
 
-                { "MH_STATUS_LINE1", "{0} en attente | {1} décès/mo | mis à jour {2}" },
-                { "MH_STATUS_LINE2", "{0} traitement max./mois | {1}/{2} tombes utilisées" },
+                { "MH_STATUS_LINE1_V2", "{0} en attente | {1} en retard | {2} décès/mois" },
+                { "MH_STATUS_LINE2_V2", "{0} max./mois" },
                 { "MH_STATUS_LINE3", "{0} / {1} corbillards | {2} / {3} bâtiments | {4} employés max" },
-                { "MH_STATUS_PROCESSING_SUGGESTED", "Suggestion actuelle : traitement des crématoriums à ~{0} %" },
-                { "MH_STATUS_PROCESSING_MORE", "Suggestion actuelle : traitement des crématoriums à 500 % + plus d'établissements actifs" },
-                { "MH_STATUS_PROCESSING_NONE", "Suggestion : activez/ajoutez des crématoriums" },
+                { "MH_STATUS_UPDATED", "mis à jour {0}" },
+                { "MH_STATUS_PROCESSING_SUGGESTED", "suggestion actuelle : traitement des crématoriums à ~{0}%" },
+                { "MH_STATUS_PROCESSING_MORE", "suggestion actuelle : traitement des crématoriums à 500% + plus d’établissements actifs" },
+                { "MH_STATUS_PROCESSING_NONE", "suggestion : activez/ajoutez des crématoriums" },
 
                 // Cemetery reset tally (session status; row + named list below Assets)
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusSummary4)), "Cimetière" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StatusSummary4)),
-                    "**Cimetières vidés automatiquement pendant cette session** par Réinitialiser le cimetière plein.\n" +
-                    "Affiche le nombre total de réinitialisations et le nombre de cimetières distincts.\n" +
-                    "S’efface au redémarrage ou lors d’un changement de ville."
+                    "Affiche les **tombes utilisées**, les cimetières actifs et les réinitialisations de cimetières pleins pendant cette session.\n" +
+                    "Le statut s’efface au redémarrage ou lors d’un changement de ville."
                 },
 
-                { "MH_STATUS_LINE4", "réinitialisations : {0} · cimetières : {1}" },
-                { "MH_STATUS_CEMETERY_NONE", "aucun pendant cette session" },
+                { "MH_STATUS_LINE4_V2", "{0} / {1} tombes utilisées | {2} établissements | {3}" },
+                { "MH_STATUS_RESET_SINGULAR", "{0} réinitialisation" },
+                { "MH_STATUS_RESET_PLURAL", "{0} réinitialisations" },
+                { "MH_STATUS_CEMETERY_NONE", "aucune pendant cette session" },
                 { "MH_STATUS_CEMETERY_ROW", "{0} ×{1}" },
                 { "MH_STATUS_CEMETERY_MORE", "+{0} de plus" },
 
@@ -218,18 +226,17 @@ namespace MagicHearse
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.AboutVersion)), "Version actuelle." },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.OpenParadoxMods)), "Paradox Mods" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.OpenParadoxMods)),
-                    "Ouvre la page Paradox Mods de l'auteur." },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.OpenParadoxMods)), "Ouvre la page Paradox Mods de l’auteur." },
 
                 // Debug report
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.LogReport)), "Rapport du journal" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.LogReport)),
-                    "Écrit un rapport détaillé des services funéraires et des problèmes probables dans MagicHearse.log." },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.LogReport)), "Écrit un rapport détaillé des services funéraires et des problèmes probables dans MagicHearse.log." },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.OpenLog)), "Ouvrir le journal" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.OpenLog)),
                     "Ouvre **Logs/MagicHearse.log** s’il existe.\n" +
-                    "Si le fichier n’existe pas encore, ouvre le dossier Logs à la place." },
+                    "Si le fichier n’existe pas encore, ouvre le dossier Logs à la place."
+                },
             };
         }
 

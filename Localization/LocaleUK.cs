@@ -12,7 +12,6 @@
 namespace MagicHearse
 {
     using System.Collections.Generic; // IEnumerable, Dictionary, KeyValuePair
-
     using Colossal; // IDictionarySource, IDictionaryEntryError
 
     /// <summary>
@@ -54,42 +53,42 @@ namespace MagicHearse
                 // Groups
                 { m_Setting.GetOptionGroupLocaleID(MHSetting.kAutoCleanGrp), "Автоочищення" },
                 { m_Setting.GetOptionGroupLocaleID(MHSetting.kSelfManageGrp), "Самостійне керування" },
-                { m_Setting.GetOptionGroupLocaleID(MHSetting.kAdvancedGrp), "Додатково" },
+                { m_Setting.GetOptionGroupLocaleID(MHSetting.kAdvancedGrp), "Розширені" },
                 { m_Setting.GetOptionGroupLocaleID(MHSetting.kStatusGrp), "Стан" },
                 { m_Setting.GetOptionGroupLocaleID(MHSetting.kAboutInfoGrp), "Інформація про мод" },
                 { m_Setting.GetOptionGroupLocaleID(MHSetting.kAboutLinksGrp), "Посилання" },
-                { m_Setting.GetOptionGroupLocaleID(MHSetting.kDebugGrp),       "Налагодження" },
+                { m_Setting.GetOptionGroupLocaleID(MHSetting.kDebugGrp), "Налагодження" },
 
                 // Auto Clean (magic)
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.EnableMagicHearse)), "Увімкнути магічне очищення" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.EnableMagicHearse)),
-                    "Автоматично видаляє тіла, які потребують перевезення (катафалком).\n" +
-                    "Магічне очищення та самостійне керування взаємовиключні; виберіть один із цих режимів.\n" +
-                    "Вимкніть усі прапорці, щоб вимкнути мод, не видаляючи його.\n" +
-                    "Технічна примітка: потрібні IsDead = true та WaitingForHearse = true."
+                    "Автоматично прибирає тіла померлих, яким потрібне перевезення катафалком.\n" +
+                    "Магічне очищення та самостійне керування взаємовиключні; виберіть одне з них.\n" +
+                    "Вимкніть усі прапорці, щоб деактивувати мод без його видалення.\n" +
+                    "Технічна примітка: мають бути IsDead = true та WaitingForHearse = true."
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.MagicResetCemetery)), "Скинути заповнене кладовище" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.MagicResetCemetery)),
-                    "**Очищає будь-яке заповнене кладовище**, щоб його не блокувала піктограма «ЗАПОВНЕНО».\n" +
-                    "Магічне очищення видаляє більшість тіл до поховання — ця опція все одно очищає будь-яке кладовище, яке **вже заповнене**.\n" +
-                    "<[ ] За замовчуванням ВИМКНЕНО>.\n" +
-                    "Увімкніть цю опцію, лише якщо режим магічного очищення також має очищати вже заповнені кладовища.\n" +
-                    "Після очищення зазвичай немає потреби залишати цю опцію ввімкненою, доки магічне очищення залишається ввімкненим."
+                    "**Спорожнює заповнене кладовище**, щоб його не блокувала піктограма ЗАПОВНЕНО.\n" +
+                    "Магічне очищення прибирає більшість тіл до поховання — цей параметр також очищає будь-яке кладовище, яке **вже заповнене**.\n" +
+                    "<[ ] Типово ВИМКНЕНО>.\n" +
+                    "Увімкніть цей параметр лише якщо режим магічного очищення також має спорожнювати вже заповнені кладовища.\n" +
+                    "Після очищення зазвичай немає потреби залишати цей параметр увімкненим, доки магічне очищення залишається активним."
                 },
 
                 // Self Manage (FD)
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.FuneralDirector)), "Керівник ритуальної служби" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.FuneralDirector)), "Керівник похоронної служби" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.FuneralDirector)),
-                    "Керуйте всім самостійно.\n" +
-                    "**Масштабуйте значення:** швидкість, автопарк, місткість.\n" +
-                    "Додатково можна **збільшити кількість працівників**."
+                    "Самостійно керуйте та оптимізуйте звичайні системи похоронних служб гри.\n" +
+                    "**Масштабні значення:** швидкість, парк, місткість.\n" +
+                    "Додатково: **збільшити також кількість працівників**."
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.ProcScalar)), "Обробка в крематорії" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.ProcScalar)), "Обробка крематорію" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.ProcScalar)),
-                    "**Швидкість обробки в крематорії.**\n" +
-                    "Вищі значення швидше кремують тіла й звільняють сховище закладу.\n" +
+                    "**Швидкість обробки крематорію.**\n" +
+                    "Вищі значення швидше кремують тіла та раніше звільняють місце у закладі.\n" +
                     "**100%** = стандартне значення гри."
                 },
 
@@ -97,49 +96,55 @@ namespace MagicHearse
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.FleetScalar)),
                     "**Максимальна кількість катафалків** на заклад.\n" +
                     "**100%** = стандартне значення гри.\n" +
-                    "**[Примітка]** Забагато катафалків може вплинути на рух залежно від рівня смертності."
+                    "**[Примітка]** Надто багато катафалків може впливати на рух залежно від рівня смертності."
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.HearseSpeedScalar)), "Швидкість катафалка" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.HearseSpeedScalar)),
-                    "**Збільшує максимальну швидкість катафалка**.\n" +
+                    "**Збільшує максимально дозволену швидкість руху катафалка**.\n" +
                     "**100%** = стандартне значення гри.\n" +
-                    "<Обмеження швидкості на дорогах усе ще діють>.\n\n" +
-                    "Також плавно масштабує прискорення й гальмування, щоб нова максимальна швидкість не спричиняла різких стартів і зупинок.\n" +
-                    "Примітка: навіть зі збільшеною максимальною швидкістю катафалка на фактичну швидкість руху впливають:\n" +
-                    "дозволений максимум авто, обмеження дороги, безпечна швидкість ігрового ШІ (повороти, пошкодження доріг) і затори."
+                    "<Обмеження швидкості на дорогах усе одно діють>.\n" +
+                    "\n" +
+                    "Також м’яко масштабує прискорення/гальмування, щоб нова максимальна швидкість не спричиняла надто різких стартів або зупинок.\n" +
+                    "Примітка: навіть якщо максимальну швидкість катафалка збільшено, фактична швидкість залежить від:\n" +
+                    "максимуму для транспортного засобу, обмеження дороги, безпечної швидкості ШІ гри (повороти, пошкодження дороги) та руху."
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.HearseWarningMinutes)), "Затримка попередження катафалка (хв)" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.HearseWarningMinutes)), "Затримка сповіщення про смерть (хв)" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.HearseWarningMinutes)),
-                    "**Хвилини симуляції до появи значка очікування катафалка.**\n" +
-                    "**3 хвилини** близькі до стандартного значення близько 2,5 хвилин.\n" +
-                    "Змінюються лише попередження катафалка; швидка допомога зберігає налаштування гри.\n" +
-                    "Збільшення значення не приховує вже видимі значки."
+                    "Це загальний час, за який катафалк має дістатися будівлі, перш ніж з’являться піктограми проблеми **очікування катафалка**.\n" +
+                    "**3 хвилини** близькі до стандартного значення гри — приблизно 2,5 хвилини симуляції.\n" +
+                    "Це значення можна збільшити, щоб дати катафалкам розумніший час завершити поїздку до появи піктограми смерті.\n" +
+                    "Примітка:\n" +
+                    "- <Рекомендовано: 10 хвилин>. Для міст із сильними заторами спробуйте більше.\n" +
+                    "- У звіті Стан унизу можна перевірити, скільки випадків прострочено.\n" +
+                    "- Уже видимі піктограми не приховуються, коли це значення вперше збільшується; вони залишаються, доки проблему не вирішить катафалк або будівлю не буде знесено.\n" +
+                    "- Дозвольте поточним виїздам завершитися природно або один раз використайте прапорець <Магічне очищення [x]>, щоб швидко почати заново з новими часовими налаштуваннями."
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StorageScalar)), "Місткість кладовища" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StorageScalar)),
-                    "**Місткість головної будівлі кладовища**.\n" +
+                    "**Місткість кладовища** для головної будівлі.\n" +
                     "Більша місткість дозволяє заповненому кладовищу знову приймати тіла.\n" +
-                    "Вона не відправляє більше катафалків, якщо лише брак місця не блокував заклад.\n" +
+                    "Це не відправляє більше катафалків, якщо лише нестача місця не блокувала заклад.\n" +
                     "**100%** = стандартне значення гри."
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.AutoResetCemetery)), "Автоматично скинути кладовище" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.AutoResetCemetery)), "Автоскидання кладовища" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.AutoResetCemetery)),
-                    "**Очищає кладовище**, коли воно заповнене, щоб його не блокувала піктограма «ЗАПОВНЕНО» над будівлею.\n" +
+                    "**Спорожнює заповнене кладовище**, щоб його не блокувала піктограма ЗАПОВНЕНО над будівлею.\n" +
                     "Більше не потрібно видаляти й перебудовувати заповнені кладовища.\n" +
-                    "Вимкніть цю опцію, щоб натомість використовувати поступове **Звільнення місць на кладовищі**.\n" +
-                    "<[ ✓ ] УВІМКНЕНО за замовчуванням>"
+                    "Вимкніть це, щоб натомість використовувати поступову **швидкість обороту кладовища**.\n" +
+                    "<[ ✓ ] Типово УВІМКНЕНО>"
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.CemeteryTurnoverScalar)), "Звільнення місць на кладовищі" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.CemeteryTurnoverScalar)), "Швидкість обороту кладовища" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.CemeteryTurnoverScalar)),
-                    "**Поступово звільняє зайняті місця на кладовищі.**\n" +
-                    "Вищі значення звільняють місця швидше, ніж у стандартній грі.\n" +
-                    "Якщо за 500% кладовища й далі надто часто заповнюються, увімкніть натомість **[Автоматично скинути кладовище]**.\n" +
-                    "**100%** = стандартне значення гри."
+                    "**Поступово звільняє зайняті могили кладовища.**\n" +
+                    "Вищі значення роблять місця знову доступними швидше, ніж у базовій грі.\n" +
+                    "Якщо кладовища все одно надто часто заповнюються при 500%,\n" +
+                    "увімкніть натомість **[Автоскидання кладовища]**.\n" +
+                    "**100%** = стандартна швидкість гри для повторного використання могил."
                 },
 
                 // Workers compatibility toggle
@@ -147,42 +152,44 @@ namespace MagicHearse
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.ControlWorkers)),
                     "Перемикач сумісності:\n" +
                     "**Увімкніть [✓]**, щоб збільшити кількість працівників.\n" +
-                    "**[o_o]** Залиште ВИМКНЕНО, якщо працівниками ритуальних служб має керувати **ConfigXML** або інший мод."
+                    "**[o_o]** Залиште ВИМКНЕНО, якщо хочете, щоб **ConfigXML** або інший мод керував працівниками похоронних служб."
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.WorkersScalar)), "Максимум працівників" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.WorkersScalar)),
-                    "**Збільшує дозволену максимальну кількість працівників**.\n" +
+                    "**Збільшує максимальну кількість працівників**.\n" +
                     "**100%** = стандартне значення гри."
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.ResetGameDefaults)), "Скинути повзунки" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.ResetGameDefaults)), "Повертає відсотки до **100%**, а затримку попередження — до **3 хвилин**." },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.ResetGameDefaults)), "Встановлює відсоткові повзунки на **100%**, а затримку сповіщення про смерть — на **3 хвилини**." },
 
                 // STATUS fields (SHORT labels; left column is narrow!)
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusSummary1)), "Потрібен катафалк" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StatusSummary1)),
-                    "**Померлі містяни чекають** на прибуття катафалка."
+                    "**Очікують** = усі померлі громадяни, які ще перебувають назовні й очікують на вивезення.\n" +
+                    "**Прострочено** = громадяни в очікуванні, для яких закінчилася вибрана затримка сповіщення.\n" +
+                    " - Якщо прострочених випадків багато, збільште час у параметрі Затримка сповіщення про смерть."
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusSummary2)), "Обсяг" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StatusSummary2)),
                     "**Місячні підсумки** зі статистики гри.\n" +
-                    "**Макс. обробка/міс.** = обробка в крематоріях плюс звільнення місць на кладовищах за поточної ефективності.\n" +
-                    "Це максимальна кількість тіл, яку всі активні ритуальні заклади можуть обробити за місяць."
+                    "**Макс./міс.** = обробка крематоріїв плюс оборот кладовищ за поточної ефективності.\n" +
+                    "Це максимальна кількість тіл, яку всі активні похоронні заклади могли б обробити за місяць."
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusSummary3)), "Ресурси" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StatusSummary3)),
-                    "**Активні можливості будівель:** загальна кількість катафалків, будівель і макс. працівників.\n\n" +
+                    "**Місткість активних будівель:** усього катафалків, будівлі, максимум працівників.\n" +
+                    "\n" +
                     "**Примітки:**\n" +
-                    "▪ Катафалки: активні, не припарковані / (усього* катафалків)\n" +
+                    "▪ Катафалк: Активний-не припаркований / (Усього* катафалків)\n" +
                     "▪ *Усього катафалків:\n" +
-                    "== включає катафалки на обслуговуванні (наприклад, через низький бюджет служби), \n" +
+                    "== включає катафалки на обслуговуванні (напр., при низькому бюджеті служби), \n" +
                     "== не включає катафалки вимкнених будівель.\n" +
-                    "▪ Сканування стану виконується лише тоді, коли відкрито меню параметрів (або використано повзунок); " +
-                    "воно не працює щокадрово в місті, тому практично не впливає на продуктивність :)"
+                    "▪ Сканування стану працює лише коли відкрито Параметри (або використовується повзунок); воно не виконується щокадрово в місті, тож практично не впливає на продуктивність :)"
                 },
 
                 // Status text templates
@@ -190,44 +197,46 @@ namespace MagicHearse
                 { "MH_STATUS_NO_CITY_LOADED", "Місто не завантажено." },
                 { "MH_STATUS_STATS_NOT_AVAIL", "Немає міста... ¯\\_(ツ)_/¯ ...Немає статистики" },
 
-                { "MH_STATUS_LINE1", "{0} очікують | {1} смертей/міс. | оновлено {2}" },
-                { "MH_STATUS_LINE2", "{0} макс. обробка/міс. | {1}/{2} могил зайнято" },
+                { "MH_STATUS_LINE1_V2", "{0} очікують | {1} прострочено | {2} смертей/міс." },
+                { "MH_STATUS_LINE2_V2", "{0} макс./міс." },
                 { "MH_STATUS_LINE3", "{0} / {1} катафалків | {2} / {3} будівель | {4} макс. працівників" },
-                { "MH_STATUS_PROCESSING_SUGGESTED", "Поточна порада: обробка в крематоріях ~{0}%" },
-                { "MH_STATUS_PROCESSING_MORE", "Поточна порада: обробка в крематоріях 500% + більше активних закладів" },
-                { "MH_STATUS_PROCESSING_NONE", "Порада: увімкніть/додайте крематорії" },
+                { "MH_STATUS_UPDATED", "оновлено {0}" },
+                { "MH_STATUS_PROCESSING_SUGGESTED", "зараз рекомендовано: ~{0}% обробки крематорію" },
+                { "MH_STATUS_PROCESSING_MORE", "зараз рекомендовано: 500% обробки крематорію + більше активних закладів" },
+                { "MH_STATUS_PROCESSING_NONE", "рекомендовано: увімкніть/додайте крематорії" },
 
                 // Cemetery reset tally (session status; row + named list below Assets)
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusSummary4)), "Кладовища" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusSummary4)), "Кладовище" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StatusSummary4)),
-                    "**Кладовища, автоматично очищені в цій сесії** функцією «Скинути заповнене кладовище».\n" +
-                    "Показує загальну кількість скидань і кількість різних кладовищ.\n" +
-                    "Очищується після перезапуску або зміни міста."
+                    "Показує **використані могили**, активні кладовища та скидання заповнених кладовищ у цій сесії.\n" +
+                    "Стан очищується після перезапуску або зміни міста."
                 },
 
-                { "MH_STATUS_LINE4", "скидань: {0} · кладовищ: {1}" },
+                { "MH_STATUS_LINE4_V2", "{0} / {1} могил використано | {2} заклади | {3}" },
+                { "MH_STATUS_RESET_SINGULAR", "{0} скидання" },
+                { "MH_STATUS_RESET_PLURAL", "{0} скидань" },
                 { "MH_STATUS_CEMETERY_NONE", "немає в цій сесії" },
                 { "MH_STATUS_CEMETERY_ROW", "{0} ×{1}" },
                 { "MH_STATUS_CEMETERY_MORE", "+ще {0}" },
 
                 // About
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.AboutName)), "Мод" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.AboutName)), "Назва мода, що відображається." },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.AboutName)), "Відображувана назва цього мода." },
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.AboutVersion)), "Версія" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.AboutVersion)), "Поточна версія." },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.OpenParadoxMods)), "Paradox Mods" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.OpenParadoxMods)), "Відкриває сторінку модів автора на Paradox Mods." },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.OpenParadoxMods)), "Відкриває сторінку автора в Paradox Mods." },
 
                 // Debug report
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.LogReport)), "Звіт у журналі" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.LogReport)),
-                    "Записує докладний звіт про похоронні служби та ймовірні проблеми у MagicHearse.log." },
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.LogReport)), "Звіт журналу" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.LogReport)), "Записує докладний звіт про похоронні служби та ймовірні проблемні місця до MagicHearse.log." },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.OpenLog)), "Відкрити журнал" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.OpenLog)),
                     "Відкриває **Logs/MagicHearse.log**, якщо файл існує.\n" +
-                    "Якщо файл ще не знайдено, натомість відкриває папку Logs." },
+                    "Якщо файлу ще немає, натомість відкриває папку Logs."
+                },
             };
         }
 

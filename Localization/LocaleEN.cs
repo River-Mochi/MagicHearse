@@ -116,9 +116,10 @@ namespace MagicHearse
                     "**3 minutes** is close to the game default of ~2.5 simulation minutes.\n" +
                     "This can be increased to give hearses a more reasonable time to complete the trip before the death icon appears.\n" +
                     "Note:\n"+
-                    "- Recommended: 10 min. Try 15 min. for heavily congested cities.\n"+
+                    "- <Suggested: 10 minutes>. Try higher for heavily congested cities.\n"+
+                    "- Check the Status report at the bottom for how many are past due.\n" +
                     "- existing visible icons are not hidden when this time value is first increased so they stay up until cleared by a hearse/building demolition.\n" +
-                    "- allow current dispatches to finish naturally or use <Magic Clean> checkbox one time for a quick fresh start with new time schedules."
+                    "- allow current dispatches to finish naturally or use <Magic Clean [x]> checkbox one time for a quick fresh start with new time schedules."
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StorageScalar)), "Cemetery storage" },
@@ -169,7 +170,8 @@ namespace MagicHearse
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusSummary1)), "Hearse needed" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StatusSummary1)),
                     "**Waiting** = all dead citizens still outside and awaiting pickup.\n" +
-                    "**Past due** = waiting citizens whose selected notification delay has expired."
+                    "**Past due** = waiting citizens whose selected notification delay has expired.\n" +
+                    " - if you have a lot past due, consider increasing the time on Death notification delay."
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusSummary2)), "Volume" },
