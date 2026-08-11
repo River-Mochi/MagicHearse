@@ -22,12 +22,13 @@ Adjust Buildings:
 
 - Crematorium processing
 - Total Hearses (max hearses per facility)
+- Adjust Death notification time delay before "Waiting for Hearse" icons appear
 - Hearse speed (pedal to the metal)
 - Cemetery storage multiplier
 - Choose Auto reset cemetery or gradual Cemetery turnover rate
 - Maximum workers.
 - Leave Adjust workers OFF if you prefer ConfigXML or another mod to control deathcare worker numbers.
-- Funeral Director does not run per-frame; sliders make changes, then mod goes idle, basically no city impact.
+- Building sliders apply changes only when needed.
 
 ### Option 2: Automatic
 
