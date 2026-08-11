@@ -42,9 +42,7 @@ import subprocess
 import sys
 from pathlib import Path
 
-
 UTF8_BOM = b"\xef\xbb\xbf"
-
 
 # ---------------------------------------------------------------------------
 # File policy
