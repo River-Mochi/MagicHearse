@@ -7,7 +7,7 @@
 # ================= </copyright> ======================
 
 # File: Scripts/check_locales.py
-# Version: 0.3.1
+# Version: 0.4.0
 # Checks C# Locale*.cs dictionaries against LocaleEN.cs.
 
 from __future__ import annotations
@@ -19,11 +19,38 @@ from collections import Counter, defaultdict
 from pathlib import Path
 from typing import DefaultDict, Dict, Iterable, List, Optional, Tuple
 
-
 DICT_START = re.compile(
-    r"(?:return\s+)?new\s+Dictionary\s*<\s*string\s*,\s*string\s*>\s*\{",
-    re.IGNORECASE,
+    r"""
+    (?:
+        # Older explicit Dictionary constructor:
+        # new Dictionary<string, string> { ... }
+        # new Dictionary<string, string>() { ... }
+        (?:return\s+)?
+        new\s+
+        (?:System\.Collections\.Generic\.)?
+        Dictionary\s*<\s*string\s*,\s*string\s*>
+        \s*(?:\(\s*\))?
+
+      |
+
+        # Newer target-typed constructor:
+        # Dictionary<string, string> entries = new() { ... }
+        (?:System\.Collections\.Generic\.)?
+        Dictionary\s*<\s*string\s*,\s*string\s*>
+        \s+[A-Za-z_]\w*
+        \s*=\s*
+        new\s*\(\s*\)
+    )
+    \s*\{
+    """,
+    re.IGNORECASE | re.VERBOSE,
 )
+
+# City: Skylines II Options text uses <text> for green highlighted text.
+# Match only complete markers on one displayed line. Comparison operators and
+# breadcrumb separators such as "value > 0" or "Options > Interface" are
+# handled separately by marker_issues().
+ANGLE_MARKER = re.compile(r"<([^<>\n]+)>")
 
 SKIP_DIRS = {
     ".git",
@@ -324,8 +351,62 @@ def placeholders(text: str) -> Counter[str]:
     return Counter(found)
 
 
+def _angle_context(text: str, index: int, radius: int = 28) -> str:
+    """Return a short one-line excerpt around an angle marker."""
+    line_start = text.rfind("\n", 0, index) + 1
+    line_end = text.find("\n", index)
+    if line_end < 0:
+        line_end = len(text)
+
+    start = max(line_start, index - radius)
+    end = min(line_end, index + radius + 1)
+    excerpt = text[start:end].strip()
+    if start > line_start:
+        excerpt = "…" + excerpt
+    if end < line_end:
+        excerpt += "…"
+    return excerpt
+
+
+def _is_angle_operator_or_separator(text: str, index: int) -> bool:
+    """
+    True for a literal comparison/operator/separator rather than green markup.
+
+    Supported examples:
+      value > 0
+      5 < Maximum
+      value >= threshold
+      value<maximum
+      Options > Interface > Text Scaling
+      left -> right
+    """
+    char = text[index]
+    left = text[index - 1] if index > 0 else ""
+    right = text[index + 1] if index + 1 < len(text) else ""
+
+    # Normal spaced comparisons and UI breadcrumb separators.
+    if left and right and left.isspace() and right.isspace():
+        return True
+
+    # Compact comparison forms such as x>0, 5<max, x>=0, or x<=max.
+    if left and right and left.isalnum() and right.isalnum():
+        return True
+    if char == ">" and right and right.isdigit():
+        return True
+    if char == "<" and left and left.isdigit():
+        return True
+    if (left and left in "<>=") or (right and right in "<>="):
+        return True
+
+    # Text arrows are not green markup.
+    if left == "-" or right == "-":
+        return True
+
+    return False
+
+
 def marker_issues(text: str) -> List[str]:
-    """Check the markup markers used by the locale files."""
+    """Check bold, format placeholders, and CS2 green-text markers."""
     issues: List[str] = []
 
     if text.count("**") % 2:
@@ -337,29 +418,42 @@ def marker_issues(text: str) -> List[str]:
             f"unbalanced braces: {{={brace_text.count('{')} }}={brace_text.count('}')}"
         )
 
-    # Ignore numeric comparisons such as "Rent > 0" and "5 < Maximum".
-    angle_markers: List[str] = []
-    for index, char in enumerate(text):
+    # Mask valid <text> markers first. This correctly accepts markers whose
+    # contents end in a number, such as <Mod default = 40,000>.
+    remaining = list(text)
+    for match in ANGLE_MARKER.finditer(text):
+        content = match.group(1)
+
+        # CS2 markup is written without padding directly inside < and >.
+        # Leave malformed forms such as < text> or <text > for the scan below.
+        if content[0].isspace() or content[-1].isspace():
+            continue
+
+        for index in range(match.start(), match.end()):
+            remaining[index] = " "
+
+    residual = "".join(remaining)
+    unmatched_left: List[int] = []
+    unmatched_right: List[int] = []
+
+    for index, char in enumerate(residual):
         if char not in "<>":
             continue
-
-        line_start = text.rfind("\n", 0, index) + 1
-        line_end = text.find("\n", index + 1)
-        if line_end < 0:
-            line_end = len(text)
-
-        before = text[line_start:index].rstrip(" \t")
-        after = text[index + 1:line_end].lstrip(" \t")
-        if (before and before[-1].isdigit()) or (after and after[0].isdigit()):
+        if _is_angle_operator_or_separator(residual, index):
             continue
 
-        angle_markers.append(char)
+        if char == "<":
+            unmatched_left.append(index)
+        else:
+            unmatched_right.append(index)
 
-    left_angles = angle_markers.count("<")
-    right_angles = angle_markers.count(">")
-    if left_angles != right_angles:
+    for index in unmatched_left:
         issues.append(
-            f"unbalanced angle markers: <={left_angles} >={right_angles}"
+            f"unclosed < highlight marker near: {_angle_context(text, index)!r}"
+        )
+    for index in unmatched_right:
+        issues.append(
+            f"unopened > highlight marker near: {_angle_context(text, index)!r}"
         )
 
     return issues

@@ -1,4 +1,4 @@
-# File: .editorconfig version 0.6.5
+# File: .editorconfig version 0.6.6
 # Purpose:
 #   - Consistent whitespace + LF line endings across normal repo files.
 #   - CRLF for classic Visual Studio .sln files.
@@ -138,10 +138,10 @@ dotnet_naming_symbols.private_static_fields.applicable_kinds = field
 dotnet_naming_symbols.private_static_fields.applicable_accessibilities = private
 dotnet_naming_symbols.private_static_fields.required_modifiers = static
 
-# All const fields, any accessibility
-dotnet_naming_symbols.const_fields.applicable_kinds = field
-dotnet_naming_symbols.const_fields.applicable_accessibilities = *
-dotnet_naming_symbols.const_fields.required_modifiers = const
+# Public const fields use normal public API PascalCase.
+dotnet_naming_symbols.public_const_fields.applicable_kinds = field
+dotnet_naming_symbols.public_const_fields.applicable_accessibilities = public
+dotnet_naming_symbols.public_const_fields.required_modifiers = const
 
 # Non-public const fields
 # Defensive extra rule so private/internal consts stay kName.
@@ -198,10 +198,10 @@ dotnet_naming_rule.private_static_fields_s_prefix.symbols = private_static_field
 dotnet_naming_rule.private_static_fields_s_prefix.style = s_prefix_pascal
 dotnet_naming_rule.private_static_fields_s_prefix.severity = suggestion
 
-# Const fields: kConstantName
-dotnet_naming_rule.const_fields_k_prefix.symbols = const_fields
-dotnet_naming_rule.const_fields_k_prefix.style = k_prefix_pascal
-dotnet_naming_rule.const_fields_k_prefix.severity = suggestion
+# Public constants: PascalCase
+dotnet_naming_rule.public_const_fields_pascal.symbols = public_const_fields
+dotnet_naming_rule.public_const_fields_pascal.style = pascal
+dotnet_naming_rule.public_const_fields_pascal.severity = suggestion
 
 # Non-public const fields: kConstantName
 dotnet_naming_rule.non_public_const_fields_k_prefix.symbols = non_public_const_fields
