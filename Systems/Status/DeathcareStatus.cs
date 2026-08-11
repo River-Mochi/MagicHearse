@@ -13,8 +13,6 @@
 namespace MagicHearse
 {
     using System;                      // Math, Exception
-    using System.Collections.Generic;  // List
-    using System.Text;                 // StringBuilder
     using Colossal.Localization;
     using CS2Shared.RiverMochi;        // LogUtils
     using Game;                        // IsGame()
@@ -27,55 +25,52 @@ namespace MagicHearse
         internal const string kKeyStatusNotLoaded = "MH_STATUS_NOT_LOADED";
         internal const string kKeyNoCityLoaded = "MH_STATUS_NO_CITY_LOADED";
         internal const string kKeyStatsNotAvail = "MH_STATUS_STATS_NOT_AVAIL";
-        internal const string kKeyLine1 = "MH_STATUS_LINE1";
-        internal const string kKeyLine2 = "MH_STATUS_LINE2";
+        internal const string kKeyLine1 = "MH_STATUS_LINE1_V2";
+        internal const string kKeyLine2 = "MH_STATUS_LINE2_V2";
         internal const string kKeyLine3 = "MH_STATUS_LINE3";
+        internal const string kKeyUpdated = "MH_STATUS_UPDATED";
         internal const string kKeyProcessingSuggested =
             "MH_STATUS_PROCESSING_SUGGESTED";
         internal const string kKeyProcessingMore =
             "MH_STATUS_PROCESSING_MORE";
         internal const string kKeyProcessingNone =
             "MH_STATUS_PROCESSING_NONE";
-        internal const string kKeyLine4 = "MH_STATUS_LINE4";
-        internal const string kKeyCemeteryNone = "MH_STATUS_CEMETERY_NONE";
-        internal const string kKeyCemeteryRow = "MH_STATUS_CEMETERY_ROW";
-        internal const string kKeyCemeteryMore = "MH_STATUS_CEMETERY_MORE";
-
-        // Rough character limit for packed cemetery-names row before it spills to "+N more".
-        private const int kCemeteryNameBudget = 46;
+        internal const string kKeyLine4 = "MH_STATUS_LINE4_V2";
+        internal const string kKeyResetSingular = "MH_STATUS_RESET_SINGULAR";
+        internal const string kKeyResetPlural = "MH_STATUS_RESET_PLURAL";
 
         // English fallbacks (placeholders must match BuildAndApplySnapshot arg lists)
         private const string kFallbackStatusNotLoaded = "Status not loaded.";
         private const string kFallbackNoCityLoaded   = "No city loaded.";
         private const string kFallbackStatsNotAvail  = "No city... ¯\\_(ツ)_/¯ ...No stats";
-        private const string kFallbackLine1 = "{0} waiting | {1} deaths/mo | updated {2}";
-        private const string kFallbackLine2 = "{0} handling max/mo | {1}/{2} graves used";
+        private const string kFallbackLine1 = "{0} waiting | {1} past due | {2} deaths/mo";
+        private const string kFallbackLine2 = "{0} max/mo.";
         private const string kFallbackLine3 = "{0} / {1} hearses | {2} / {3} buildings | {4} max workers";
+        private const string kFallbackUpdated = "updated {0}";
         private const string kFallbackProcessingSuggested =
-            "Suggested now: ~{0}% processing";
+            "suggested now: ~{0}% processing";
         private const string kFallbackProcessingMore =
-            "Suggested now: 500% processing + more active facilities";
+            "suggested now: 500% processing + more active facilities";
         private const string kFallbackProcessingNone =
-            "Suggested: turn on/add crematoriums";
-        private const string kFallbackLine4 = "resets: {0} · cemeteries: {1}";
-        private const string kFallbackCemeteryNone = "none this session";
-        private const string kFallbackCemeteryRow = "{0} ×{1}";
-        private const string kFallbackCemeteryMore = "+{0} more";
+            "suggested: turn on/add crematoriums";
+        private const string kFallbackLine4 =
+            "{0} / {1} graves used | {2} facilities | {3}";
+        private const string kFallbackResetSingular = "{0} reset";
+        private const string kFallbackResetPlural = "{0} resets";
 
         // Public UI strings read by MHSetting.cs getters
         public static string SummaryLine1 { get; private set; } = string.Empty;
         public static string SummaryLine2 { get; private set; } = string.Empty;
         public static string SummaryLine3 { get; private set; } = string.Empty;
         public static string SummaryLine4 { get; private set; } = string.Empty;
+        public static string SummaryUpdated { get; private set; } = string.Empty;
         public static string SummaryCemetery1 { get; private set; } = string.Empty;
-
-        // Reused buffer for the top-N cemetery tallies.
-        private static readonly List<CemeteryResetSystem.Tally> s_TopBuffer = new();
 
         // Cache state
         private static bool s_WasInGame;
         private static bool s_HasSnapshotThisCity;
         private static uint s_LastSnapshotSimulationFrame = uint.MaxValue;
+        private static string s_LastActiveLocaleId = string.Empty;
 
         /// <summary>Clears snapshot so next getter refreshes (prevents stale data after city switches).</summary>
         public static void InvalidateCache()
@@ -86,6 +81,7 @@ namespace MagicHearse
             SummaryLine1 = Localize(kKeyStatusNotLoaded, kFallbackStatusNotLoaded);
             SummaryLine2 = string.Empty;
             SummaryLine3 = string.Empty;
+            SummaryUpdated = string.Empty;
             ClearCemeteryLines();
         }
 
@@ -112,6 +108,19 @@ namespace MagicHearse
 
             GameManager gm = GameManager.instance;
             bool isGame = (gm != null && gm.gameMode.IsGame());
+            string activeLocaleId =
+                gm?.localizationManager?.activeDictionary?.localeID ?? string.Empty;
+
+            // A language can change while Options has paused the city. Include the locale in
+            // the cache key so the same simulation frame is reformatted in the new language.
+            if (!string.Equals(
+                    s_LastActiveLocaleId,
+                    activeLocaleId,
+                    StringComparison.Ordinal))
+            {
+                s_LastActiveLocaleId = activeLocaleId;
+                MarkDirty();
+            }
 
             // Refresh when entering/leaving a city; city switches are invalidated after loading.
             if (isGame != s_WasInGame)
@@ -126,6 +135,7 @@ namespace MagicHearse
                 SummaryLine1 = Localize(kKeyNoCityLoaded, kFallbackNoCityLoaded);
                 SummaryLine2 = Localize(kKeyStatsNotAvail, kFallbackStatsNotAvail);
                 SummaryLine3 = string.Empty;
+                SummaryUpdated = string.Empty;
                 ClearCemeteryLines();
                 return;
             }
@@ -160,6 +170,7 @@ namespace MagicHearse
                 SummaryLine1 = Localize(kKeyStatusNotLoaded, kFallbackStatusNotLoaded);
                 SummaryLine2 = string.Empty;
                 SummaryLine3 = string.Empty;
+                SummaryUpdated = string.Empty;
                 ClearCemeteryLines();
 
                 LogUtils.WarnOnce("MH_STATUS_SNAPSHOT_EXCEPTION", () =>
@@ -179,17 +190,18 @@ namespace MagicHearse
                 kKeyLine1,
                 fallbackFormat: kFallbackLine1,
                 Format0(snap.DeadWaiting),      // {0}
-                Format0(snap.DeathsPerMonth),   // {1}
-                refreshedTime);                 // {2}
+                Format0(snap.WaitingPastDue),   // {1}
+                Format0(snap.DeathsPerMonth));  // {2}
 
             SummaryLine2 = SafeFormat(
                 kKeyLine2,
                 fallbackFormat: kFallbackLine2,
-                Format0(snap.ProcessingRate),   // {0} <- crematorium + cemetery handling
-                Format0(snap.CemeteryUse),      // {1}
-                Format0(snap.CemeteryCapacity)  // {2}
-            );
+                Format0(snap.ProcessingRate));  // {0} <- crematorium + cemetery handling
             AppendProcessingSuggestion(snap);
+            SummaryUpdated = SafeFormat(
+                kKeyUpdated,
+                kFallbackUpdated,
+                refreshedTime);
 
             SummaryLine3 = SafeFormat(
                 kKeyLine3,
@@ -201,8 +213,9 @@ namespace MagicHearse
                 Format0(snap.MaxWorkers)        // {4}
             );
 
-            // Cemetery auto-reset tally (session-scoped; populated by CemeteryResetSystem).
-            ApplyCemeterySection(world.GetOrCreateSystemManaged<CemeteryResetSystem>());
+            ApplyCemeterySection(
+                world.GetOrCreateSystemManaged<CemeteryResetSystem>(),
+                snap);
         }
 
         // ---- Helpers ----
@@ -238,7 +251,7 @@ namespace MagicHearse
                         kFallbackProcessingMore);
             }
 
-            SummaryLine2 += " · " + suggestion;
+            SummaryLine2 += " | " + suggestion;
         }
 
         internal static int GetSuggestedProcessingPercent(
@@ -278,62 +291,24 @@ namespace MagicHearse
             SummaryCemetery1 = string.Empty;
         }
 
-        private static void ApplyCemeterySection(CemeteryResetSystem resetSys)
+        private static void ApplyCemeterySection(
+            CemeteryResetSystem resetSys,
+            DeathcareStatusSystem.Snapshot snap)
         {
             int total = resetSys.SessionResetTotal;
+            string resetCount = SafeFormat(
+                total == 1 ? kKeyResetSingular : kKeyResetPlural,
+                total == 1 ? kFallbackResetSingular : kFallbackResetPlural,
+                total);
 
-            if (total <= 0)
-            {
-                SummaryLine4 = Localize(kKeyCemeteryNone, kFallbackCemeteryNone);
-                SummaryCemetery1 = string.Empty;
-                return;
-            }
-
-            // Summary row shows totals; the packed row names cemeteries with a "+N more" spill.
-            SummaryLine4 = SafeFormat(kKeyLine4, kFallbackLine4, total, resetSys.DistinctCemeteryCount);
-            SummaryCemetery1 = BuildPackedCemeteries(resetSys);
-        }
-
-        // Packs the busiest cemeteries into one row, then uses "+N more" at the rough character budget.
-        private static string BuildPackedCemeteries(CemeteryResetSystem resetSys)
-        {
-            resetSys.CopyTopEmptied(s_TopBuffer, 32);
-
-            StringBuilder sb = new();
-            int shown = 0;
-
-            for (int i = 0; i < s_TopBuffer.Count; i++)
-            {
-                CemeteryResetSystem.Tally tally = s_TopBuffer[i];
-                string entry = SafeFormat(kKeyCemeteryRow, kFallbackCemeteryRow, tally.Name ?? string.Empty, tally.Count);
-
-                int sep = shown == 0 ? 0 : 3; // " · "
-                if (shown > 0 && sb.Length + sep + entry.Length > kCemeteryNameBudget)
-                {
-                    break;
-                }
-
-                if (shown > 0)
-                {
-                    sb.Append(" · ");
-                }
-
-                sb.Append(entry);
-                shown++;
-            }
-
-            int remaining = resetSys.DistinctCemeteryCount - shown;
-            if (remaining > 0)
-            {
-                if (sb.Length > 0)
-                {
-                    sb.Append(" · ");
-                }
-
-                sb.Append(SafeFormat(kKeyCemeteryMore, kFallbackCemeteryMore, remaining));
-            }
-
-            return sb.ToString();
+            SummaryLine4 = SafeFormat(
+                kKeyLine4,
+                kFallbackLine4,
+                Format0(snap.CemeteryUse),
+                Format0(snap.CemeteryCapacity),
+                snap.ActiveCemeteryFacilities,
+                resetCount);
+            SummaryCemetery1 = string.Empty;
         }
 
         private static string Localize(string entryId, string fallback)

@@ -44,6 +44,7 @@ namespace MagicHearse
             public readonly long MaxWorkers;
 
             public readonly int ActiveFacilities;
+            public readonly int ActiveCemeteryFacilities;
             public readonly int TotalFacilities;
             public readonly int FullFacilities;
             public readonly int FacilitiesWithoutAvailableHearse;
@@ -75,6 +76,11 @@ namespace MagicHearse
             public readonly long WaitingWithFailedDispatches;
             public readonly long WaitingWithRepeatedDispatchFailures;
             public readonly long RepeatedFailuresHalfwayToWarning;
+            public readonly long WaitingPastDue;
+            public readonly long WarningTrackedWaiting;
+            public readonly long WarningSuppressedWaiting;
+            public readonly double EstimatedAverageWaitMinutes;
+            public readonly double EstimatedMaximumWaitMinutes;
 
             public readonly DateTime SnapshotTimeLocal;
 
@@ -99,6 +105,7 @@ namespace MagicHearse
                 long cemeteryCapacity,
                 long maxWorkers,
                 int activeFacilities,
+                int activeCemeteryFacilities,
                 int totalFacilities,
                 int fullFacilities,
                 int facilitiesWithoutAvailableHearse,
@@ -127,6 +134,11 @@ namespace MagicHearse
                 long waitingWithFailedDispatches,
                 long waitingWithRepeatedDispatchFailures,
                 long repeatedFailuresHalfwayToWarning,
+                long waitingPastDue,
+                long warningTrackedWaiting,
+                long warningSuppressedWaiting,
+                double estimatedAverageWaitMinutes,
+                double estimatedMaximumWaitMinutes,
                 DateTime snapshotTimeLocal)
             {
                 DeathsPerMonth = deathsPerMonth;
@@ -152,6 +164,7 @@ namespace MagicHearse
                 MaxWorkers = maxWorkers;
 
                 ActiveFacilities = activeFacilities;
+                ActiveCemeteryFacilities = activeCemeteryFacilities;
                 TotalFacilities = totalFacilities;
                 FullFacilities = fullFacilities;
                 FacilitiesWithoutAvailableHearse = facilitiesWithoutAvailableHearse;
@@ -184,6 +197,11 @@ namespace MagicHearse
                     waitingWithRepeatedDispatchFailures;
                 RepeatedFailuresHalfwayToWarning =
                     repeatedFailuresHalfwayToWarning;
+                WaitingPastDue = waitingPastDue;
+                WarningTrackedWaiting = warningTrackedWaiting;
+                WarningSuppressedWaiting = warningSuppressedWaiting;
+                EstimatedAverageWaitMinutes = estimatedAverageWaitMinutes;
+                EstimatedMaximumWaitMinutes = estimatedMaximumWaitMinutes;
 
                 SnapshotTimeLocal = snapshotTimeLocal;
             }

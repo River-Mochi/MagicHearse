@@ -64,6 +64,11 @@ namespace MagicHearse
         private const int kHearseSpeedMax = 1000;
         private const int kHearseSpeedStep = 10;
 
+        private const int kDefaultHearseWarningMinutes = 3;
+        private const int kHearseWarningMinutesMin = 2;
+        private const int kHearseWarningMinutesMax = 30;
+        private const int kHearseWarningMinutesStep = 1;
+
         private const int kWorkersMin = 100;
         private const int kWorkersMax = 500;
         private const int kWorkersStep = 10;
@@ -128,6 +133,22 @@ namespace MagicHearse
             set => m_FuneralDirector = value;
         }
 
+        // Instant reset and gradual turnover are exclusive in the UI; storage works with either.
+        [SettingsUISection(kActionsTab, kSelfManageGrp)]
+        [SettingsUIHideByCondition(typeof(MHSetting), nameof(FuneralDirector), true)]
+        [SettingsUISetter(typeof(MHSetting), nameof(SetAutoResetCemetery))]
+        public bool AutoResetCemetery
+        {
+            get => m_AutoResetCemetery;
+            set => m_AutoResetCemetery = value;
+        }
+
+        [SettingsUISlider(min = kHearseWarningMinutesMin, max = kHearseWarningMinutesMax, step = kHearseWarningMinutesStep, scalarMultiplier = 1, unit = Unit.kInteger)]
+        [SettingsUISection(kActionsTab, kSelfManageGrp)]
+        [SettingsUIHideByCondition(typeof(MHSetting), nameof(FuneralDirector), true)]
+        [SettingsUISetter(typeof(MHSetting), nameof(SetHearseWarningMinutes))]
+        public int HearseWarningMinutes { get; set; } = kDefaultHearseWarningMinutes;
+
         [SettingsUISlider(min = kProcMin, max = kProcMax, step = kProcStep, scalarMultiplier = 1, unit = Unit.kPercentage)]
         [SettingsUISection(kActionsTab, kSelfManageGrp)]
         [SettingsUIHideByCondition(typeof(MHSetting), nameof(FuneralDirector), true)]
@@ -152,16 +173,6 @@ namespace MagicHearse
         [SettingsUISetter(typeof(MHSetting), nameof(SetStorageScalar))]
         public int StorageScalar { get; set; } = kDefaultPercent;
 
-        // Instant reset and gradual turnover are exclusive in the UI; storage works with either.
-        [SettingsUISection(kActionsTab, kSelfManageGrp)]
-        [SettingsUIHideByCondition(typeof(MHSetting), nameof(FuneralDirector), true)]
-        [SettingsUISetter(typeof(MHSetting), nameof(SetAutoResetCemetery))]
-        public bool AutoResetCemetery
-        {
-            get => m_AutoResetCemetery;
-            set => m_AutoResetCemetery = value;
-        }
-
         [SettingsUISlider(min = kProcMin, max = kProcMax, step = kProcStep, scalarMultiplier = 1, unit = Unit.kPercentage)]
         [SettingsUISection(kActionsTab, kSelfManageGrp)]
         [SettingsUIHideByCondition(typeof(MHSetting), nameof(CemeteryTurnoverEnabled), true)]
@@ -185,6 +196,7 @@ namespace MagicHearse
                 FleetScalar = kDefaultPercent;
                 StorageScalar = kDefaultPercent;
                 HearseSpeedScalar = kDefaultPercent;
+                HearseWarningMinutes = kDefaultHearseWarningMinutes;
                 WorkersScalar = kDefaultPercent;
 
                 ApplyAndSave();
@@ -245,7 +257,7 @@ namespace MagicHearse
             }
         }
 
-        // Cemetery auto-reset tally (session): a summary row + one packed row naming the cemeteries.
+        // Cemetery capacity and reset tally use one compact status row.
         [SettingsUISection(kActionsTab, kStatusGrp)]
         public string StatusSummary4
         {
@@ -257,12 +269,14 @@ namespace MagicHearse
         }
 
         [SettingsUISection(kActionsTab, kStatusGrp)]
-        public string StatusCemetery1
+        [SettingsUIDisplayName(overrideValue: "\u00A0")]
+        [SettingsUIDescription(overrideValue: "Time the status snapshot was last refreshed.")]
+        public string StatusUpdated
         {
             get
             {
                 try { DeathcareStatus.RefreshIfNeeded(); } catch { }
-                return DeathcareStatus.SummaryCemetery1 ?? string.Empty;
+                return DeathcareStatus.SummaryUpdated ?? string.Empty;
             }
         }
 
@@ -357,6 +371,7 @@ namespace MagicHearse
             FleetScalar = kDefaultPercent;
             StorageScalar = kDefaultPercent;
             HearseSpeedScalar = kDefaultPercent;
+            HearseWarningMinutes = kDefaultHearseWarningMinutes;
             WorkersScalar = kDefaultPercent;
         }
     }

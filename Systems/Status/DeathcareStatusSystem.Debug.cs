@@ -115,6 +115,29 @@ namespace MagicHearse
                 $"timer={healthProblem.m_Timer}, " +
                 $"request={FormatEntity(healthProblem.m_HealthcareRequest)}");
 
+            if (EntityManager.HasComponent<MHWarningDelay>(citizen))
+            {
+                MHWarningDelay warningDelay =
+                    EntityManager.GetComponentData<MHWarningDelay>(citizen);
+                uint estimatedStartFrame =
+                    warningDelay.WaitEstimateInitialized
+                        ? warningDelay.EstimatedWaitStartFrame
+                        : unchecked(
+                            m_SimulationSystem.frameIndex -
+                            ((uint)healthProblem.m_Timer *
+                             kSimulationFramesPerHealthTimerTick));
+                double estimatedMinutes = unchecked(
+                    m_SimulationSystem.frameIndex - estimatedStartFrame) /
+                    kSimulationFramesPerMinute;
+
+                report.AppendLine(
+                    $"      MHWarningDelay: vanillaLimit={warningDelay.VanillaTimerLimit}, " +
+                    $"extraTicks={warningDelay.ExtraTicksElapsed}, " +
+                    $"vanillaReached={warningDelay.VanillaReached}, " +
+                    $"completed={warningDelay.Completed}, " +
+                    $"estimatedWait={estimatedMinutes:0.0} sim min");
+            }
+
             if (lookups.CurrentBuilding.TryGetComponent(
                     citizen,
                     out CurrentBuilding currentBuilding))

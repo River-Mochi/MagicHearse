@@ -18,6 +18,7 @@ namespace MagicHearse
     using Game.City;                 // StatisticType (DeathRate)
     using Game.Common;               // Deleted, Owner
     using Game.Companies;            // WorkProvider, ServiceDispatch
+    using Game.Notifications;        // IconElement
     using Game.Prefabs;              // PrefabRef, InstalledUpgrade
     using Game.Simulation;           // CityStatisticsSystem, ServiceRequest, Dispatched
     using Game.Tools;                // Temp
@@ -29,6 +30,8 @@ namespace MagicHearse
     {
         // Report-only threshold; vanilla dispatch behavior is unchanged.
         internal const int kRepeatedDispatchFailureThreshold = 4;
+        private const double kSimulationFramesPerMinute = 3600d;
+        private const uint kSimulationFramesPerHealthTimerTick = 256u;
 
         private CityStatisticsSystem m_CityStats = null!;
         private SimulationSystem m_SimulationSystem = null!;
@@ -89,16 +92,24 @@ namespace MagicHearse
                 GetComponentLookup<Game.Buildings.DeathcareFacility>(true);
             ComponentLookup<WorkProvider> workProviderLookup =
                 GetComponentLookup<WorkProvider>(true);
+            ComponentLookup<MHWarningDelay> warningDelayLookup =
+                GetComponentLookup<MHWarningDelay>(true);
+            ComponentLookup<Deleted> deletedLookup =
+                GetComponentLookup<Deleted>(true);
 
             BufferLookup<InstalledUpgrade> upgradesLookup =
                 GetBufferLookup<InstalledUpgrade>(true);
             BufferLookup<Efficiency> efficiencyLookup = GetBufferLookup<Efficiency>(true);
             BufferLookup<Patient> patientLookup = GetBufferLookup<Patient>(true);
+            BufferLookup<IconElement> iconElementsLookup =
+                GetBufferLookup<IconElement>(true);
 
             float deathsPerMonth = m_CityStats.GetStatisticValue(StatisticType.DeathRate);
             HealthcareParameterData healthcareParameters =
                 m_HealthcareSettingsQuery.GetSingleton<HealthcareParameterData>();
             float transportWarningTime = healthcareParameters.m_TransportWarningTime;
+            Entity hearseNotificationPrefab =
+                healthcareParameters.m_HearseNotificationPrefab;
 
             // HealthProblemSystem uses this exact conversion (60 frames/sec, each citizen every 256 frames).
             int transportWarningTimerLimit = (int)(transportWarningTime * (15f / 64f));
@@ -114,6 +125,7 @@ namespace MagicHearse
 
             int totalFacilities = 0;
             int activeFacilities = 0;
+            int activeCemeteryFacilities = 0;
             int fullFacilities = 0;
             int facilitiesWithoutAvailableHearse = 0;
             int facilitiesWithoutRoomForBodies = 0;
@@ -184,6 +196,7 @@ namespace MagicHearse
                     // Long-term storage marks cemeteries; the rest add crematorium capacity.
                     if (data.m_LongTermStorage)
                     {
+                        activeCemeteryFacilities++;
                         cemeteryTurnoverRate += activeProcessingRate;
                     }
                     else
@@ -362,6 +375,11 @@ namespace MagicHearse
             long waitingWithFailedDispatches = 0;
             long waitingWithRepeatedDispatchFailures = 0;
             long repeatedFailuresHalfwayToWarning = 0;
+            long waitingPastDue = 0;
+            long warningTrackedWaiting = 0;
+            long warningSuppressedWaiting = 0;
+            double estimatedWaitMinutesTotal = 0d;
+            double estimatedWaitMinutesMax = 0d;
 
             const HealthProblemFlags Want =
                 HealthProblemFlags.Dead | HealthProblemFlags.RequireTransport;
@@ -431,6 +449,57 @@ namespace MagicHearse
                     }
 
                     deadWaiting++;
+
+                    if (iconElementsLookup.TryGetBuffer(
+                            citizen,
+                            out DynamicBuffer<IconElement> iconElements))
+                    {
+                        for (int iconIndex = 0; iconIndex < iconElements.Length; iconIndex++)
+                        {
+                            Entity iconEntity = iconElements[iconIndex].m_Icon;
+                            if (iconEntity == Entity.Null ||
+                                iconEntity.Index < 0 ||
+                                deletedLookup.HasComponent(iconEntity) ||
+                                !prefabRefLookup.TryGetComponent(
+                                    iconEntity,
+                                    out PrefabRef iconPrefabRef) ||
+                                iconPrefabRef.m_Prefab != hearseNotificationPrefab)
+                            {
+                                continue;
+                            }
+
+                            waitingPastDue++;
+                            break;
+                        }
+                    }
+
+                    if (warningDelayLookup.TryGetComponent(
+                            citizen,
+                            out MHWarningDelay warningDelay))
+                    {
+                        warningTrackedWaiting++;
+                        if (warningDelay.VanillaReached && !warningDelay.Completed)
+                        {
+                            warningSuppressedWaiting++;
+                        }
+
+                        uint estimatedStartFrame =
+                            warningDelay.WaitEstimateInitialized
+                                ? warningDelay.EstimatedWaitStartFrame
+                                : unchecked(
+                                    m_SimulationSystem.frameIndex -
+                                    ((uint)healthProblem.m_Timer *
+                                     kSimulationFramesPerHealthTimerTick));
+                        uint elapsedFrames = unchecked(
+                            m_SimulationSystem.frameIndex - estimatedStartFrame);
+                        double estimatedMinutes =
+                            elapsedFrames / kSimulationFramesPerMinute;
+                        estimatedWaitMinutesTotal += estimatedMinutes;
+                        estimatedWaitMinutesMax = Math.Max(
+                            estimatedWaitMinutesMax,
+                            estimatedMinutes);
+                    }
+
                     int timer = healthProblem.m_Timer;
                     maxWaitingTimer = Math.Max(maxWaitingTimer, timer);
                     bool isHalfwayToWarning =
@@ -496,6 +565,7 @@ namespace MagicHearse
                 cemeteryCapacity: cemeteryCapacity,
                 maxWorkers: maxWorkers,
                 activeFacilities: activeFacilities,
+                activeCemeteryFacilities: activeCemeteryFacilities,
                 totalFacilities: totalFacilities,
                 fullFacilities: fullFacilities,
                 facilitiesWithoutAvailableHearse: facilitiesWithoutAvailableHearse,
@@ -526,6 +596,14 @@ namespace MagicHearse
                     waitingWithRepeatedDispatchFailures,
                 repeatedFailuresHalfwayToWarning:
                     repeatedFailuresHalfwayToWarning,
+                waitingPastDue: waitingPastDue,
+                warningTrackedWaiting: warningTrackedWaiting,
+                warningSuppressedWaiting: warningSuppressedWaiting,
+                estimatedAverageWaitMinutes:
+                    warningTrackedWaiting > 0
+                        ? estimatedWaitMinutesTotal / warningTrackedWaiting
+                        : 0d,
+                estimatedMaximumWaitMinutes: estimatedWaitMinutesMax,
                 snapshotTimeLocal: DateTime.Now);
         }
     }

@@ -22,12 +22,13 @@ Adjust Buildings:
 
 - Crematorium processing
 - Total Hearses (max hearses per facility)
+- Adjust Death notification time delay before "Waiting for Hearse" icons appear
 - Hearse speed (pedal to the metal)
 - Cemetery storage multiplier
 - Choose Auto reset cemetery or gradual Cemetery turnover rate
 - Maximum workers.
 - Leave Adjust workers OFF if you prefer ConfigXML or another mod to control deathcare worker numbers.
-- Funeral Director does not run per-frame; sliders make changes, then mod goes idle, basically no city impact.
+- Building sliders apply changes only when needed.
 
 ### Option 2: Automatic
 
@@ -82,19 +83,17 @@ Hello, Bonjour, Hallo, Hola, Ciao, こんにちは, 안녕하세요, 你好, Cze
 <!--Link to the forum post where the mod can be discussed-->
 <ForumLink Value="" />
 <!--Version of the mod-->
-<ModVersion Value="1.8.1" />
+<ModVersion Value="1.9.0" />
 <!--Recommended version of the base game to use the mod-->
 <GameVersion Value="1.6.*" />
 <!--Dependency for the mod, can be set multiple times-->
 <Dependency Id="" />
 <!--Change log for new version. Single line or multi line. Supports minimal markdown subset-->
 <ChangeLog>
+- Added a slider to Increase the time a hearse has to pick up a corpse before icons spam the city buildings (game default is 2.5 sim minutes).
 - Added Turkish.
-- Added an independent Cemetery turnover rate slider when instant reset is off.
-- Clarified Status and cemetery descriptions.
+- Added a slider to adjust Cemetery turnover rate (when instant auto reset is off).
 - Added a detailed Log Report button for deathcare troubleshooting and open log button.
-- Improved Status report efficiency while Options is open.
-- Added extra verification when moving settings from older versions.
 - Internal reliability and logging maintenance.
 - Improved deathcare diagnostics with exact parked-hearse, pickup-stage, warning-progress, and failed-dispatch reporting.
 </ChangeLog>

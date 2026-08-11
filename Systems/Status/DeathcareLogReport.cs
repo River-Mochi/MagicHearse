@@ -93,6 +93,8 @@ namespace MagicHearse
                     ? "(saved; reset uses vanilla 100%)"
                     : "(active)"));
             report.AppendLine($"  Hearse speed: {settings.HearseSpeedScalar}%");
+            report.AppendLine(
+                $"  Death notification delay: {settings.HearseWarningMinutes} simulation minutes");
             report.AppendLine($"  Funeral Director cemetery reset: {OnOff(settings.AutoResetCemetery)}");
             report.AppendLine($"  Control workers: {OnOff(settings.ControlWorkers)}");
             report.AppendLine($"  Max workers: {settings.WorkersScalar}%");
@@ -270,27 +272,58 @@ namespace MagicHearse
             report.AppendLine("HEARSE WARNING ICON PROGRESS");
             report.AppendLine(
                 $"  Live game warning setting: {snap.TransportWarningTime:0.###} simulation seconds");
+            MHSetting? setting = Mod.Settings;
+            if (setting != null && setting.FuneralDirector)
+            {
+                report.AppendLine(
+                    $"  Magic Hearse hearse warning target: {setting.HearseWarningMinutes} simulation minutes");
+                report.AppendLine(
+                    "  Hearse delay is extended separately; ambulance warning timing is unchanged.");
+            }
+            report.AppendLine();
+            report.AppendLine("  Magic Hearse delay tracking:");
             report.AppendLine(
-                $"  Internal HealthProblem.m_Timer limit: {snap.TransportWarningTimerLimit}");
+                $"    Waiting corpses tracked: {Format0(snap.WarningTrackedWaiting)} of {Format0(snap.DeadWaiting)}");
             report.AppendLine(
-                $"  Highest timer among corpses waiting outside: {snap.MaxWaitingTimer}");
+                $"    Not yet past due: {Format0(Math.Max(0L, snap.DeadWaiting - snap.WaitingPastDue))}");
             report.AppendLine(
-                $"  Below halfway to warning: {Format0(snap.WaitingBelowHalfWarning)}");
+                $"    Actively suppressing a vanilla hearse icon: {Format0(snap.WarningSuppressedWaiting)}");
             report.AppendLine(
-                $"  Halfway to warning: {Format0(snap.WaitingHalfwayToWarning)}");
+                $"    Past due (hearse icon exists): {Format0(snap.WaitingPastDue)}");
             report.AppendLine(
-                $"  At warning limit: {Format0(snap.WaitingAtWarning)}");
+                $"    Estimated average current wait: {snap.EstimatedAverageWaitMinutes:0.0} simulation minutes");
             report.AppendLine(
-                $"  Warning-progress total check: {Format0(snap.WaitingBelowHalfWarning + snap.WaitingHalfwayToWarning + snap.WaitingAtWarning)}");
+                $"    Estimated longest current wait: {snap.EstimatedMaximumWaitMinutes:0.0} simulation minutes");
             report.AppendLine(
-                $"  Critical overlap ({DeathcareStatusSystem.kRepeatedDispatchFailureThreshold}+ failed attempts and at least halfway): " +
+                "    Wait estimates use the custom tracking component and are seeded from the");
+            report.AppendLine(
+                "    vanilla timer. Corpses already waiting when tracking began can be underestimated.");
+            report.AppendLine(
+                "    CWD can hide the prefab visually, but does not change this past-due count.");
+
+            report.AppendLine();
+            report.AppendLine("  Vanilla byte-timer diagnostics:");
+            report.AppendLine(
+                $"    Internal HealthProblem.m_Timer limit: {snap.TransportWarningTimerLimit}");
+            report.AppendLine(
+                $"    Highest timer among corpses waiting outside: {snap.MaxWaitingTimer}");
+            report.AppendLine(
+                $"    Below halfway to vanilla warning: {Format0(snap.WaitingBelowHalfWarning)}");
+            report.AppendLine(
+                $"    Halfway to vanilla warning: {Format0(snap.WaitingHalfwayToWarning)}");
+            report.AppendLine(
+                $"    At vanilla warning limit: {Format0(snap.WaitingAtWarning)}");
+            report.AppendLine(
+                $"    Vanilla progress total check: {Format0(snap.WaitingBelowHalfWarning + snap.WaitingHalfwayToWarning + snap.WaitingAtWarning)}");
+            report.AppendLine(
+                $"    Critical overlap ({DeathcareStatusSystem.kRepeatedDispatchFailureThreshold}+ failed attempts and at least halfway): " +
                 $"{Format0(snap.RepeatedFailuresHalfwayToWarning)}");
             report.AppendLine(
-                "  m_Timer is a small progress counter, not elapsed time. It stops at the");
+                "    HealthProblem.m_Timer is one byte and stops at the vanilla limit.");
             report.AppendLine(
-                "  warning limit, so existing game data cannot provide an exact wait duration.");
+                "    Magic Hearse keeps extension progress in its separate 32-bit component.");
             report.AppendLine(
-                "  Faster game speed reaches the same simulation-time limit sooner in real time.");
+                "    Faster game speed reaches the same simulation-time limit sooner in real time.");
         }
 
         private static void AppendCemeteries(

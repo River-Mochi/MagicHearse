@@ -51,13 +51,13 @@ namespace MagicHearse
                 { m_Setting.GetOptionTabLocaleID(MHSetting.kAboutTab), "Über" },
 
                 // Groups
-                { m_Setting.GetOptionGroupLocaleID(MHSetting.kAutoCleanGrp),   "Automatische Reinigung" },
-                { m_Setting.GetOptionGroupLocaleID(MHSetting.kSelfManageGrp),  "Selbst verwalten" },
-                { m_Setting.GetOptionGroupLocaleID(MHSetting.kAdvancedGrp),    "Erweitert" },
-                { m_Setting.GetOptionGroupLocaleID(MHSetting.kStatusGrp),      "Status" },
-                { m_Setting.GetOptionGroupLocaleID(MHSetting.kAboutInfoGrp),   "Mod-Info" },
-                { m_Setting.GetOptionGroupLocaleID(MHSetting.kAboutLinksGrp),  "Links" },
-                { m_Setting.GetOptionGroupLocaleID(MHSetting.kDebugGrp),       "Debug" },
+                { m_Setting.GetOptionGroupLocaleID(MHSetting.kAutoCleanGrp), "Automatische Reinigung" },
+                { m_Setting.GetOptionGroupLocaleID(MHSetting.kSelfManageGrp), "Selbst verwalten" },
+                { m_Setting.GetOptionGroupLocaleID(MHSetting.kAdvancedGrp), "Erweitert" },
+                { m_Setting.GetOptionGroupLocaleID(MHSetting.kStatusGrp), "Status" },
+                { m_Setting.GetOptionGroupLocaleID(MHSetting.kAboutInfoGrp), "Mod-Info" },
+                { m_Setting.GetOptionGroupLocaleID(MHSetting.kAboutLinksGrp), "Links" },
+                { m_Setting.GetOptionGroupLocaleID(MHSetting.kDebugGrp), "Debug" },
 
                 // Auto Clean (magic)
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.EnableMagicHearse)), "Magische Reinigung aktivieren" },
@@ -70,8 +70,8 @@ namespace MagicHearse
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.MagicResetCemetery)), "Vollen Friedhof zurücksetzen" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.MagicResetCemetery)),
-                    "**Leert jeden vollen Friedhof**, damit er nicht durch ein VOLL-Symbol blockiert wird.\n" +
-                    "Die magische Reinigung entfernt die meisten Verstorbenen vor der Beerdigung — diese Option leert dennoch jeden Friedhof, der **bereits voll** ist.\n" +
+                    "**Leert einen vollen Friedhof**, damit er nicht durch ein VOLL-Symbol blockiert wird.\n" +
+                    "Magische Reinigung entfernt die meisten Verstorbenen vor der Beerdigung — diese Option leert dennoch jeden Friedhof, der **bereits voll** ist.\n" +
                     "<[ ] Standardmäßig AUS>.\n" +
                     "Aktiviere diese Option nur, wenn die magische Reinigung auch bereits volle Friedhöfe leeren soll.\n" +
                     "Nach dem Leeren muss diese Option normalerweise nicht aktiviert bleiben, solange die magische Reinigung aktiviert bleibt."
@@ -80,102 +80,116 @@ namespace MagicHearse
                 // Self Manage (FD)
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.FuneralDirector)), "Bestattungsleiter" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.FuneralDirector)),
-                    "Alles selbst verwalten.\n" +
+                    "Verwalte und optimiere die normalen Bestattungssysteme des Spiels selbst.\n" +
                     "**Skalierungswerte:** Rate, Flotte, Lager.\n" +
-                    "Optional: **Mitarbeiter erhöhen** auch."
+                    "Optional: **Mitarbeiter ebenfalls erhöhen**."
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.ProcScalar)), "Krematoriumsverarbeitung" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.ProcScalar)),
                     "**Verarbeitungsgeschwindigkeit des Krematoriums.**\n" +
                     "Höhere Werte kremieren Leichen schneller und geben die Lagerkapazität der Anlage früher frei.\n" +
-                    "**100%** = Vanilla-Standard."
+                    "**100%** = Vanilla-Standard des Spiels."
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.FleetScalar)), "Leichenwagen gesamt" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.FleetScalar)),
                     "**Maximale Leichenwagen** pro Anlage.\n" +
-                    "**100%** = Vanilla-Standard.\n" +
+                    "**100%** = Vanilla-Standard des Spiels.\n" +
                     "**[Hinweis]** Zu viele Leichenwagen können je nach Sterberate den Verkehr beeinflussen."
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.HearseSpeedScalar)), "Leichenwagen-Geschwindigkeit" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.HearseSpeedScalar)),
-                    "**Erhöht die Höchstgeschwindigkeit des Leichenwagens**.\n" +
-                    "**100%** = Vanilla-Standard.\n" +
-                    "<Straßengeschwindigkeitsbegrenzungen gelten weiterhin>.\n\n" +
-                    "Skaliert außerdem Beschleunigung/Bremsen (sanft), damit die neue Top-Speed keine extremen Start/Stopp-Effekte erzeugt.\n" +
+                    "**Erhöht die maximal zulässige Fahrgeschwindigkeit des Leichenwagens**.\n" +
+                    "**100%** = Vanilla-Standard des Spiels.\n" +
+                    "<Straßengeschwindigkeitsbegrenzungen gelten weiterhin>.\n" +
+                    "\n" +
+                    "Skaliert außerdem Beschleunigung/Bremsen (sanft), damit die neue Höchstgeschwindigkeit keine extremen Start-/Stopp-Effekte erzeugt.\n" +
                     "Hinweis: Auch wenn die Höchstgeschwindigkeit des Leichenwagens erhöht wird, wird seine tatsächliche Fahrgeschwindigkeit beeinflusst durch:\n" +
                     "zulässige Fahrzeughöchstgeschwindigkeit, Straßenlimit, die sichere Geschwindigkeit der Spiel-KI (Kurven, Straßenschäden) und den Verkehr."
+                },
 
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.HearseWarningMinutes)), "Todesmeldung verzögern (Min.)" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.HearseWarningMinutes)),
+                    "Dies ist die Gesamtzeit, die ein Leichenwagen hat, um ein Gebäude zu erreichen, bevor **Warten-auf-Leichenwagen**-Problemsymbole erscheinen.\n" +
+                    "**3 Minuten** liegen nahe am Spielstandard von etwa 2,5 Simulationsminuten.\n" +
+                    "Der Wert kann erhöht werden, damit Leichenwagen mehr realistische Zeit für die Fahrt haben, bevor das Todessymbol erscheint.\n" +
+                    "Hinweis:\n" +
+                    "- <Empfohlen: 10 Minuten>. Bei starkem Verkehr höher versuchen.\n" +
+                    "- Unten im Statusbericht siehst du, wie viele Fälle überfällig sind.\n" +
+                    "- Bereits sichtbare Symbole werden beim ersten Erhöhen dieses Werts nicht ausgeblendet; sie bleiben sichtbar, bis ein Leichenwagen sie erledigt oder das Gebäude abgerissen wird.\n" +
+                    "- Lass aktuelle Einsätze normal enden oder aktiviere einmal <Magische Reinigung [x]>, um mit neuen Zeitplänen schnell frisch zu starten."
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StorageScalar)), "Friedhofslager" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StorageScalar)),
                     "**Friedhofs-Lagerkapazität** für das Hauptgebäude.\n" +
                     "Mehr Kapazität lässt einen vollen Friedhof wieder Abholungen annehmen.\n" +
-                    "Sie schickt keine zusätzlichen Leichenwagen los, außer Platzmangel hat die Anlage blockiert.\n" +
-                    "**100%** = Vanilla-Standard."
+                    "Es werden nicht mehr Leichenwagen ausgesendet, außer Platzmangel hat die Anlage blockiert.\n" +
+                    "**100%** = Vanilla-Standard des Spiels."
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.AutoResetCemetery)), "Friedhof automatisch leeren" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.AutoResetCemetery)), "Friedhof automatisch zurücksetzen" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.AutoResetCemetery)),
-                    "**Leert einen Friedhof**, sobald er voll ist, damit kein VOLL-Symbol über dem Gebäude den Betrieb blockiert.\n" +
+                    "**Leert einen vollen Friedhof**, damit er nicht durch ein VOLL-Symbol über dem Gebäude blockiert wird.\n" +
                     "Volle Friedhöfe müssen nicht mehr abgerissen und neu gebaut werden.\n" +
-                    "Schalte dies AUS, um stattdessen die allmähliche **Freigaberate der Grabplätze** zu verwenden.\n" +
+                    "Schalte dies AUS, um stattdessen die allmähliche **Friedhofs-Freigaberate** zu verwenden.\n" +
                     "<[ ✓ ] Standardmäßig EIN>"
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.CemeteryTurnoverScalar)), "Freigaberate der Grabplätze" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.CemeteryTurnoverScalar)), "Friedhofs-Freigaberate" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.CemeteryTurnoverScalar)),
                     "**Gibt belegte Grabplätze nach und nach wieder frei.**\n" +
-                    "Höhere Werte geben Grabplätze schneller als im Grundspiel wieder frei.\n" +
-                    "Wenn Friedhöfe bei 500 % noch zu oft voll werden, aktiviere stattdessen **[Friedhof automatisch leeren]**.\n" +
-                    "**100%** = Standardwert des Grundspiels."
+                    "Höhere Werte machen Grabplätze schneller als im Vanilla-Spiel wieder verfügbar.\n" +
+                    "Wenn Friedhöfe sich selbst bei 500% noch zu oft füllen,\n" +
+                    "aktiviere stattdessen **[Friedhof automatisch zurücksetzen]**.\n" +
+                    "**100%** = Standardrate des Spiels für die Wiederverwendung von Gräbern."
                 },
 
                 // Workers compatibility toggle
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.ControlWorkers)), "Mitarbeiter anpassen" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.ControlWorkers)),
                     "Kompatibilitäts-Schalter:\n" +
-                    "**Aktivieren [✓]**, um die Anzahl der Arbeiter zu erhöhen.\n" +
-                    "**[o_o]** OFF lassen, wenn **ConfigXML** oder ein anderer Mod die Arbeiterzahl steuern soll."
+                    "**Aktivieren [✓]**, um die Anzahl der Mitarbeiter zu erhöhen.\n" +
+                    "**[o_o]** AUS lassen, wenn **ConfigXML** oder ein anderer Mod die Mitarbeiter der Bestattungsdienste steuern soll."
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.WorkersScalar)), "Maximale Mitarbeiter" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.WorkersScalar)),
-                    "**Erhöht die maximale Arbeiterzahl**.\n" +
-                    "**100%** = Vanilla-Standardwert."
+                    "**Erhöht die maximal zulässige Mitarbeiterzahl**.\n" +
+                    "**100%** = Vanilla-Standard des Spiels."
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.ResetGameDefaults)), "Regler zurücksetzen" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.ResetGameDefaults)),
-                    "Setzt alle Regler zurück auf **100%** (Vanilla-Standard)." },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.ResetGameDefaults)), "Setzt die Prozent-Regler auf **100%** und die Verzögerung der Todesmeldung auf **3 Minuten**." },
 
                 // STATUS fields (SHORT labels; left column is narrow!)
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusSummary1)), "Leichenwagen nötig" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StatusSummary1)),
-                    "**Tote Bürger warten** auf eine Abholung durch den Leichenwagen."
+                    "**Wartend** = alle toten Bürger, die noch außerhalb liegen und auf Abholung warten.\n" +
+                    "**Überfällig** = wartende Bürger, deren gewählte Benachrichtigungsverzögerung abgelaufen ist.\n" +
+                    " - Wenn viele Fälle überfällig sind, erhöhe die Zeit bei „Todesmeldung verzögern“."
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusSummary2)), "Volumen" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StatusSummary2)),
-                     "**Monatliche Summen** aus den Spiel-Statistiken.\n" +
-                     "**Max. Kapazität/Monat** = Krematoriumsverarbeitung plus Friedhofsumschlag bei aktueller Effizienz.\n" +
-                     "Das ist die maximale Anzahl an Körpern, die alle aktiven Bestattungseinrichtungen pro Monat bewältigen könnten."
-                 },
+                    "**Monatliche Summen** aus den Spielstatistiken.\n" +
+                    "**Max./Mon.** = Krematoriumsverarbeitung plus Friedhofs-Freigabe bei aktueller Effizienz.\n" +
+                    "Dies ist die maximale Anzahl an Körpern, die alle aktiven Bestattungseinrichtungen pro Monat bewältigen könnten."
+                },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusSummary3)), "Bestand" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StatusSummary3)),
-                    "**Aktive Gebäudekapazitäten:** Leichenwagen gesamt, Gebäude, max. Mitarbeiter.\n\n" +
+                    "**Kapazitäten aktiver Gebäude:** Leichenwagen gesamt, Gebäude, max. Mitarbeiter.\n" +
+                    "\n" +
                     "**Hinweise:**\n" +
-                    "▪ Leichenwagen: Aktiv-nicht geparkt / (Total* Leichenwagen)\n" +
-                    "▪ *Total Leichenwagen:\n" +
+                    "▪ Leichenwagen: Aktiv-nicht geparkt / (Gesamt* Leichenwagen)\n" +
+                    "▪ *Leichenwagen gesamt:\n" +
                     "== enthält Leichenwagen in Wartung (z. B. bei niedrigem Service-Budget), \n" +
-                    "== enthält keine Leichenwagen von deaktivierten Gebäuden.\n" +
-                    "▪ Der Status-Scan läuft nur, während die Optionen geöffnet sind (oder ein Regler benutzt wird); " +
-                    "er läuft nicht in jedem Frame der Stadt und hat daher praktisch keine Leistungsauswirkungen :)"
+                    "== enthält keine Leichenwagen deaktivierter Gebäude.\n" +
+                    "▪ Der Status-Scan läuft nur, solange Optionen geöffnet sind (oder du einen Regler benutzt); er läuft in der Stadt nicht pro Frame und hat daher praktisch keine Leistungsauswirkungen :)"
                 },
 
                 // Status text templates
@@ -183,26 +197,24 @@ namespace MagicHearse
                 { "MH_STATUS_NO_CITY_LOADED", "Keine Stadt geladen." },
                 { "MH_STATUS_STATS_NOT_AVAIL", "Keine Stadt... ¯\\_(ツ)_/¯ ...Keine Stats" },
 
-                { "MH_STATUS_LINE1", "{0} warten | {1} Tote/Monat | aktualisiert {2}" },
-                { "MH_STATUS_LINE2", "{0} max. Kapazität/Monat | {1}/{2} Gräber belegt" },
+                { "MH_STATUS_LINE1_V2", "{0} wartend | {1} überfällig | {2} Tote/Mon." },
+                { "MH_STATUS_LINE2_V2", "{0} max./Mon." },
                 { "MH_STATUS_LINE3", "{0} / {1} Leichenwagen | {2} / {3} Gebäude | {4} max. Mitarbeiter" },
-                { "MH_STATUS_PROCESSING_SUGGESTED", "Aktueller Vorschlag: ~{0}% Krematoriumsverarbeitung" },
-                { "MH_STATUS_PROCESSING_MORE", "Aktueller Vorschlag: 500% Krematoriumsverarbeitung + mehr aktive Einrichtungen" },
-                { "MH_STATUS_PROCESSING_NONE", "Vorschlag: Krematorien aktivieren/hinzufügen" },
+                { "MH_STATUS_UPDATED", "aktualisiert {0}" },
+                { "MH_STATUS_PROCESSING_SUGGESTED", "jetzt empfohlen: ~{0}% Krematoriumsverarbeitung" },
+                { "MH_STATUS_PROCESSING_MORE", "jetzt empfohlen: 500% Krematoriumsverarbeitung + mehr aktive Einrichtungen" },
+                { "MH_STATUS_PROCESSING_NONE", "empfohlen: Krematorien aktivieren/hinzufügen" },
 
                 // Cemetery reset tally (session status; row + named list below Assets)
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusSummary4)), "Friedhof" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StatusSummary4)),
-                    "**In dieser Sitzung automatisch geleerte Friedhöfe** durch ‚Vollen Friedhof zurücksetzen‘.\n" +
-                    "Zeigt die Gesamtzahl der Zurücksetzungen und die Anzahl verschiedener Friedhöfe.\n" +
-                    "Wird beim Neustart oder beim Wechsel der Stadt gelöscht."
+                    "Zeigt **belegte Gräber**, aktive Friedhofsanlagen und Zurücksetzungen voller Friedhöfe in dieser Sitzung.\n" +
+                    "Der Status wird beim Neustart oder beim Wechsel der Stadt gelöscht."
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusCemetery1)), "▪" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StatusCemetery1)),
-                    "Welche Friedhöfe geleert wurden und wie oft jeweils (Name × Anzahl)." },
-
-                { "MH_STATUS_LINE4", "Zurücksetzungen: {0} · Friedhöfe: {1}" },
+                { "MH_STATUS_LINE4_V2", "{0} / {1} Gräber belegt | {2} Anlagen | {3}" },
+                { "MH_STATUS_RESET_SINGULAR", "{0} Zurücksetzung" },
+                { "MH_STATUS_RESET_PLURAL", "{0} Zurücksetzungen" },
                 { "MH_STATUS_CEMETERY_NONE", "keine in dieser Sitzung" },
                 { "MH_STATUS_CEMETERY_ROW", "{0} ×{1}" },
                 { "MH_STATUS_CEMETERY_MORE", "+{0} weitere" },
@@ -214,18 +226,17 @@ namespace MagicHearse
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.AboutVersion)), "Aktuelle Version." },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.OpenParadoxMods)), "Paradox Mods" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.OpenParadoxMods)),
-                    "Öffnet die Paradox-Mods-Seite des Autors." },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.OpenParadoxMods)), "Öffnet die Paradox-Mods-Seite des Autors." },
 
                 // Debug report
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.LogReport)), "Log-Bericht" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.LogReport)),
-                    "Schreibt einen detaillierten Todespflegebericht und wahrscheinliche Problembereiche in MagicHearse.log." },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.LogReport)), "Schreibt einen detaillierten Bestattungsbericht und wahrscheinliche Problembereiche in MagicHearse.log." },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.OpenLog)), "Log öffnen" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.OpenLog)),
                     "Öffnet **Logs/MagicHearse.log**, falls vorhanden.\n" +
-                    "Wenn die Datei noch nicht gefunden wird, wird stattdessen der Logs-Ordner geöffnet." },
+                    "Wenn die Datei noch nicht vorhanden ist, wird stattdessen der Logs-Ordner geöffnet."
+                },
             };
         }
 

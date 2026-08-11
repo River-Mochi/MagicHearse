@@ -7,22 +7,21 @@
 // ================= </copyright> ======================
 
 // File: Localization/LocalePT_PT.cs
-// Portuguese (Portugal) pt-PT locale for Magic Hearse.
+// European Portuguese pt-PT locale for Magic Hearse.
 
 namespace MagicHearse
 {
     using System.Collections.Generic; // IEnumerable, Dictionary, KeyValuePair
-
     using Colossal; // IDictionarySource, IDictionaryEntryError
 
     /// <summary>
-    /// Portuguese (Portugal) localization source for Magic Hearse [MH].</summary>
+    /// European Portuguese localization source for Magic Hearse [MH].</summary>
     public sealed class LocalePT_PT : IDictionarySource
     {
         private readonly MHSetting m_Setting;
 
         /// <summary>
-        /// Constructs the Portuguese (Portugal) locale generator.</summary>
+        /// Constructs the European Portuguese locale generator.</summary>
         /// <param name="setting">Settings object used for locale IDs.</param>
         public LocalePT_PT(MHSetting setting)
         {
@@ -30,7 +29,7 @@ namespace MagicHearse
         }
 
         /// <summary>
-        /// Creates all Portuguese (Portugal) localization entries for this mod.</summary>
+        /// Creates all European Portuguese localization entries for this mod.</summary>
         public IEnumerable<KeyValuePair<string, string>> ReadEntries(
             IList<IDictionaryEntryError> errors,
             Dictionary<string, int> indexCounts)
@@ -56,88 +55,102 @@ namespace MagicHearse
                 { m_Setting.GetOptionGroupLocaleID(MHSetting.kSelfManageGrp), "Gestão manual" },
                 { m_Setting.GetOptionGroupLocaleID(MHSetting.kAdvancedGrp), "Avançado" },
                 { m_Setting.GetOptionGroupLocaleID(MHSetting.kStatusGrp), "Estado" },
-                { m_Setting.GetOptionGroupLocaleID(MHSetting.kAboutInfoGrp), "Informação do mod" },
+                { m_Setting.GetOptionGroupLocaleID(MHSetting.kAboutInfoGrp), "Info do mod" },
                 { m_Setting.GetOptionGroupLocaleID(MHSetting.kAboutLinksGrp), "Ligações" },
-                { m_Setting.GetOptionGroupLocaleID(MHSetting.kDebugGrp),       "Depuração" },
+                { m_Setting.GetOptionGroupLocaleID(MHSetting.kDebugGrp), "Depuração" },
 
                 // Auto Clean (magic)
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.EnableMagicHearse)), "Ativar limpeza mágica" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.EnableMagicHearse)), "Ativar Limpeza Mágica" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.EnableMagicHearse)),
-                    "Remove automaticamente corpos que precisam de transporte (carro funerário).\n" +
-                    "A limpeza mágica e a gestão manual são mutuamente exclusivas; escolha uma ou outra.\n" +
-                    "Desative todas as caixas para desligar o mod sem o remover.\n" +
-                    "Nota técnica: IsDead = true e WaitingForHearse = true são obrigatórios."
+                    "Remove automaticamente os cadáveres que necessitam de transporte por carro funerário.\n" +
+                    "A Limpeza Mágica e a gestão manual são mutuamente exclusivas; escolha uma ou outra.\n" +
+                    "Desmarque todas as caixas para desativar o mod sem o remover.\n" +
+                    "Nota técnica: são necessários IsDead = true e WaitingForHearse = true."
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.MagicResetCemetery)), "Repor cemitério cheio" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.MagicResetCemetery)),
-                    "**Esvazia qualquer cemitério cheio** para que não fique bloqueado com o ícone CHEIO.\n" +
-                    "A limpeza mágica remove a maioria dos corpos antes do enterro — esta opção continua a esvaziar qualquer cemitério que **já esteja cheio**.\n" +
+                    "**Esvazia um cemitério cheio** para que não fique bloqueado com o ícone CHEIO.\n" +
+                    "A Limpeza Mágica remove a maioria dos cadáveres antes do enterro — esta opção continua a esvaziar qualquer cemitério que **já esteja cheio**.\n" +
                     "<[ ] DESATIVADO por predefinição>.\n" +
-                    "Ative esta opção apenas se pretender que o modo de limpeza mágica também esvazie cemitérios que já estejam cheios.\n" +
-                    "Depois de esvaziados, normalmente não é necessário manter esta opção ativada enquanto a limpeza mágica permanecer ativa."
+                    "Ative esta opção apenas se o modo Limpeza Mágica também deve esvaziar cemitérios que já estejam cheios.\n" +
+                    "Depois de esvaziado, normalmente não é necessário manter esta opção ativa enquanto a Limpeza Mágica permanecer ativa."
                 },
 
                 // Self Manage (FD)
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.FuneralDirector)), "Diretor funerário" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.FuneralDirector)),
-                    "Faça a gestão manual de tudo.\n" +
-                    "**Ajuste os valores:** processamento, frota, capacidade.\n" +
-                    "Opcional: também pode **aumentar os trabalhadores**."
+                    "Faça a gestão e otimize manualmente os sistemas funerários normais do jogo.\n" +
+                    "**Valores de escala:** taxa, frota, armazenamento.\n" +
+                    "Opcional: **aumentar também os trabalhadores**."
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.ProcScalar)), "Processamento do crematório" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.ProcScalar)),
                     "**Velocidade de processamento do crematório.**\n" +
-                    "Valores mais altos cremam os corpos e libertam mais cedo a capacidade da instalação.\n" +
-                    "**100%** = valor predefinido do jogo base."
+                    "Valores mais altos cremam os corpos e libertam o armazenamento da instalação mais cedo.\n" +
+                    "**100%** = valor predefinido do jogo."
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.FleetScalar)), "Total de carros funerários" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.FleetScalar)),
                     "**Máximo de carros funerários** por instalação.\n" +
-                    "**100%** = valor predefinido do jogo base.\n" +
-                    "**[Nota]** Demasiados carros funerários podem afetar o trânsito, consoante a taxa de mortalidade."
+                    "**100%** = valor predefinido do jogo.\n" +
+                    "**[Nota]** Demasiados carros funerários podem afetar o trânsito consoante a taxa de mortes."
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.HearseSpeedScalar)), "Velocidade do carro funerário" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.HearseSpeedScalar)),
-                    "**Aumenta a velocidade máxima do carro funerário**.\n" +
-                    "**100%** = valor predefinido do jogo base.\n" +
-                    "<Os limites de velocidade das estradas continuam a aplicar-se>.\n\n" +
-                    "Também ajusta suavemente a aceleração e a travagem, para que a nova velocidade máxima não cause arranques ou paragens bruscos.\n" +
-                    "Nota: mesmo com a velocidade máxima do carro funerário aumentada, a velocidade real é influenciada por:\n" +
-                    "máximo permitido do veículo, limite da estrada, velocidade segura da IA do jogo (curvas, danos na estrada) e trânsito."
+                    "**Aumenta a velocidade máxima de condução permitida do carro funerário**.\n" +
+                    "**100%** = valor predefinido do jogo.\n" +
+                    "<Os limites de velocidade das estradas continuam a aplicar-se>.\n" +
+                    "\n" +
+                    "Também ajusta a aceleração/travagem (suave) para que a nova velocidade máxima não cause arranques ou paragens extremos.\n" +
+                    "Nota: mesmo que a velocidade máxima do carro funerário seja aumentada, a velocidade real é influenciada por:\n" +
+                    "limite máximo do veículo, limite da estrada, velocidade segura da IA do jogo (curvas, danos na estrada) e trânsito."
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StorageScalar)), "Capacidade do cemitério" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.HearseWarningMinutes)), "Atraso do aviso de morte (min)" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.HearseWarningMinutes)),
+                    "Este é o tempo total que um carro funerário tem para chegar a um edifício antes de aparecerem os ícones de problema de **espera por carro funerário**.\n" +
+                    "**3 minutos** é próximo do valor predefinido do jogo de cerca de 2,5 minutos de simulação.\n" +
+                    "Pode aumentar este valor para dar aos carros funerários um tempo mais razoável para concluir a viagem antes de aparecer o ícone de morte.\n" +
+                    "Nota:\n" +
+                    "- <Sugerido: 10 minutos>. Experimente um valor superior em cidades muito congestionadas.\n" +
+                    "- Consulte o relatório de Estado no fundo para ver quantos casos estão atrasados.\n" +
+                    "- Os ícones já visíveis não são ocultados quando este valor é aumentado pela primeira vez; permanecem até serem resolvidos por um carro funerário ou pela demolição do edifício.\n" +
+                    "- Deixe os despachos atuais terminar normalmente ou use uma vez a caixa <Limpeza Mágica [x]> para recomeçar rapidamente com os novos horários."
+                },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StorageScalar)), "Armazenamento do cemitério" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StorageScalar)),
-                    "**Capacidade do edifício principal do cemitério**.\n" +
+                    "**Capacidade de armazenamento do cemitério** para o edifício principal.\n" +
                     "Mais capacidade permite que um cemitério cheio volte a aceitar recolhas.\n" +
-                    "Não envia mais carros funerários, exceto se a falta de espaço estiver a bloquear a instalação.\n" +
-                    "**100%** = valor predefinido do jogo base."
+                    "Não envia mais carros funerários, exceto se a falta de espaço estivesse a bloquear a instalação.\n" +
+                    "**100%** = valor predefinido do jogo."
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.AutoResetCemetery)), "Repor cemitério automaticamente" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.AutoResetCemetery)),
-                    "**Esvazia um cemitério** quando fica cheio, para que não seja bloqueado pelo ícone CHEIO sobre o edifício.\n" +
+                    "**Esvazia um cemitério cheio** para que não fique bloqueado pelo ícone CHEIO acima do edifício.\n" +
                     "Já não é necessário eliminar e reconstruir cemitérios cheios.\n" +
-                    "Desative esta opção para utilizar a **Taxa de renovação do cemitério** gradual.\n" +
+                    "Desative esta opção para usar a **Taxa de renovação do cemitério** gradual.\n" +
                     "<[ ✓ ] ATIVADO por predefinição>"
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.CemeteryTurnoverScalar)), "Taxa de renovação do cemitério" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.CemeteryTurnoverScalar)),
-                    "**Liberta gradualmente os lugares ocupados no cemitério.**\n" +
-                    "Valores mais altos libertam os lugares mais depressa do que no jogo base.\n" +
-                    "Se os cemitérios continuarem a encher com demasiada frequência a 500%, ative **[Repor cemitério automaticamente]**.\n" +
-                    "**100%** = valor predefinido do jogo base."
+                    "**Liberta gradualmente os túmulos ocupados do cemitério.**\n" +
+                    "Valores mais altos tornam os espaços novamente disponíveis mais depressa do que no jogo base.\n" +
+                    "Se os cemitérios continuarem a encher-se com demasiada frequência a 500%,\n" +
+                    "ative **[Repor cemitério automaticamente]** em alternativa.\n" +
+                    "**100%** = taxa predefinida do jogo para reutilização dos túmulos."
                 },
 
                 // Workers compatibility toggle
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.ControlWorkers)), "Ajustar trabalhadores" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.ControlWorkers)),
-                    "Opção de compatibilidade:\n" +
+                    "Comutador de compatibilidade:\n" +
                     "**Ative [✓]** para aumentar o número de trabalhadores.\n" +
                     "**[o_o]** Deixe DESATIVADO se quiser que o **ConfigXML** ou outro mod controle os trabalhadores dos serviços funerários."
                 },
@@ -145,36 +158,38 @@ namespace MagicHearse
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.WorkersScalar)), "Máximo de trabalhadores" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.WorkersScalar)),
                     "**Aumenta o máximo de trabalhadores** permitido.\n" +
-                    "**100%** = valor predefinido do jogo base."
+                    "**100%** = valor predefinido do jogo."
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.ResetGameDefaults)), "Repor valores" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.ResetGameDefaults)), "Repõe todos os controlos para **100%** (valores predefinidos do jogo base)." },
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.ResetGameDefaults)), "Repor controlos" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.ResetGameDefaults)), "Define os controlos percentuais para **100%** e o atraso do aviso de morte para **3 minutos**." },
 
                 // STATUS fields (SHORT labels; left column is narrow!)
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusSummary1)), "À espera de carro" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusSummary1)), "Carro funerário necessário" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StatusSummary1)),
-                    "**Cidadãos falecidos à espera** de recolha por um carro funerário."
+                    "**À espera** = todos os cidadãos mortos ainda no exterior e à espera de recolha.\n" +
+                    "**Atrasados** = cidadãos à espera cujo atraso de notificação selecionado já terminou.\n" +
+                    " - Se houver muitos atrasados, considere aumentar o tempo em Atraso do aviso de morte."
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusSummary2)), "Volume" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StatusSummary2)),
                     "**Totais mensais** das estatísticas do jogo.\n" +
-                    "**Capacidade máx./mês** = processamento dos crematórios mais renovação dos cemitérios à eficiência atual.\n" +
-                    "É o número máximo de corpos que todas as instalações funerárias ativas conseguem tratar por mês."
+                    "**Máx./mês** = processamento dos crematórios mais renovação dos cemitérios com a eficiência atual.\n" +
+                    "Este é o máximo de corpos que todas as instalações funerárias ativas poderiam processar por mês."
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusSummary3)), "Recursos" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StatusSummary3)),
-                    "**Capacidades ativas dos edifícios:** total de carros funerários, edifícios e máx. de trabalhadores.\n\n" +
+                    "**Capacidades dos edifícios ativos:** total de carros funerários, edifícios, máximo de trabalhadores.\n" +
+                    "\n" +
                     "**Notas:**\n" +
-                    "▪ Carros funerários: ativos, não estacionados / (Total* de carros funerários)\n" +
+                    "▪ Carro funerário: Ativo-não estacionado / (Total* de carros funerários)\n" +
                     "▪ *Total de carros funerários:\n" +
-                    "== inclui carros em manutenção (por ex., devido a orçamento baixo), \n" +
-                    "== não inclui carros de edifícios desativados.\n" +
-                    "▪ A análise de estado só é executada enquanto as Opções estão abertas (ou ao usar um controlo); " +
-                    "não é executada a cada frame na cidade, por isso praticamente não afeta o desempenho :)"
+                    "== inclui carros funerários em manutenção (ex.: orçamento de serviço baixo), \n" +
+                    "== não inclui carros funerários de edifícios desativados.\n" +
+                    "▪ A verificação de estado só é executada enquanto as Opções estão abertas (ou ao usar um controlo); não é executada a cada frame na cidade, por isso praticamente não tem impacto no desempenho :)"
                 },
 
                 // Status text templates
@@ -182,28 +197,27 @@ namespace MagicHearse
                 { "MH_STATUS_NO_CITY_LOADED", "Nenhuma cidade carregada." },
                 { "MH_STATUS_STATS_NOT_AVAIL", "Sem cidade... ¯\\_(ツ)_/¯ ...Sem estatísticas" },
 
-                { "MH_STATUS_LINE1", "{0} à espera | {1} mortes/mês | atualizado {2}" },
-                { "MH_STATUS_LINE2", "{0} capacidade máx./mês | {1}/{2} sepulturas ocupadas" },
-                { "MH_STATUS_LINE3", "{0} / {1} carros funerários | {2} / {3} edifícios | {4} trabalhadores máx." },
-                { "MH_STATUS_PROCESSING_SUGGESTED", "Sugestão atual: processamento dos crematórios a ~{0}%" },
-                { "MH_STATUS_PROCESSING_MORE", "Sugestão atual: processamento dos crematórios a 500% + mais instalações ativas" },
-                { "MH_STATUS_PROCESSING_NONE", "Sugestão: ative/adicione crematórios" },
+                { "MH_STATUS_LINE1_V2", "{0} à espera | {1} atrasados | {2} mortes/mês" },
+                { "MH_STATUS_LINE2_V2", "{0} máx./mês" },
+                { "MH_STATUS_LINE3", "{0} / {1} carros funerários | {2} / {3} edifícios | {4} máx. trabalhadores" },
+                { "MH_STATUS_UPDATED", "atualizado {0}" },
+                { "MH_STATUS_PROCESSING_SUGGESTED", "sugerido agora: ~{0}% de processamento dos crematórios" },
+                { "MH_STATUS_PROCESSING_MORE", "sugerido agora: 500% de processamento dos crematórios + mais instalações ativas" },
+                { "MH_STATUS_PROCESSING_NONE", "sugerido: ative/adicione crematórios" },
 
                 // Cemetery reset tally (session status; row + named list below Assets)
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusSummary4)), "Cemitério" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StatusSummary4)),
-                    "**Cemitérios esvaziados automaticamente nesta sessão** pela opção Repor cemitério cheio.\n" +
-                    "Mostra o total de reposições e o número de cemitérios diferentes.\n" +
-                    "É limpo ao reiniciar o jogo ou ao mudar de cidade."
+                    "Mostra **túmulos usados**, instalações de cemitério ativas e reposições de cemitérios cheios nesta sessão.\n" +
+                    "O estado é limpo ao reiniciar ou ao mudar de cidade."
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusCemetery1)), "▪" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StatusCemetery1)), "Que cemitérios foram esvaziados e quantas vezes cada um (nome × quantidade)." },
-
-                { "MH_STATUS_LINE4", "reposições: {0} · cemitérios: {1}" },
-                { "MH_STATUS_CEMETERY_NONE", "nenhum nesta sessão" },
+                { "MH_STATUS_LINE4_V2", "{0} / {1} túmulos usados | {2} instalações | {3}" },
+                { "MH_STATUS_RESET_SINGULAR", "{0} reposição" },
+                { "MH_STATUS_RESET_PLURAL", "{0} reposições" },
+                { "MH_STATUS_CEMETERY_NONE", "nenhuma nesta sessão" },
                 { "MH_STATUS_CEMETERY_ROW", "{0} ×{1}" },
-                { "MH_STATUS_CEMETERY_MORE", "+mais {0}" },
+                { "MH_STATUS_CEMETERY_MORE", "+{0} mais" },
 
                 // About
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.AboutName)), "Mod" },
@@ -212,17 +226,17 @@ namespace MagicHearse
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.AboutVersion)), "Versão atual." },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.OpenParadoxMods)), "Paradox Mods" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.OpenParadoxMods)), "Abre a página de mods Paradox do autor." },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.OpenParadoxMods)), "Abre a página de mods do autor no Paradox Mods." },
 
                 // Debug report
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.LogReport)), "Relatório de registo" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.LogReport)),
-                    "Grava um relatório detalhado dos serviços funerários e possíveis problemas em MagicHearse.log." },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.LogReport)), "Escreve um relatório detalhado dos serviços funerários e das áreas problemáticas prováveis em MagicHearse.log." },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.OpenLog)), "Abrir registo" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.OpenLog)),
                     "Abre **Logs/MagicHearse.log** se existir.\n" +
-                    "Se o ficheiro ainda não existir, abre a pasta Logs." },
+                    "Se o ficheiro ainda não existir, abre a pasta Logs."
+                },
             };
         }
 
