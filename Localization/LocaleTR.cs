@@ -206,10 +206,6 @@ namespace MagicHearse
                     "Yeniden başlatınca veya şehir değiştirdiğinizde Durum temizlenir."
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusCemetery1)), "▪" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StatusCemetery1)),
-                    "Hangi mezarlıkların boşaltıldığını ve her birinin kaç kez boşaltıldığını gösterir (ad × sayı)." },
-
                 { "MH_STATUS_LINE4", "sıfırlama: {0} · mezarlık: {1}" },
                 { "MH_STATUS_CEMETERY_NONE", "bu oturumda yok" },
                 { "MH_STATUS_CEMETERY_ROW", "{0} ×{1}" },

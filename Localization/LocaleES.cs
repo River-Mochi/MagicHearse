@@ -206,10 +206,6 @@ namespace MagicHearse
                     "Se borra al reiniciar o al cambiar de ciudad."
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusCemetery1)), "▪" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StatusCemetery1)),
-                    "Qué cementerios se vaciaron y cuántas veces cada uno (nombre × cantidad)." },
-
                 { "MH_STATUS_LINE4", "restablecimientos: {0} · cementerios: {1}" },
                 { "MH_STATUS_CEMETERY_NONE", "ninguno en esta sesión" },
                 { "MH_STATUS_CEMETERY_ROW", "{0} ×{1}" },

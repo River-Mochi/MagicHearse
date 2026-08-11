@@ -205,9 +205,6 @@ namespace MagicHearse
                     "Xóa khi khởi động lại hoặc khi đổi thành phố."
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusCemetery1)), "▪" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StatusCemetery1)), "Những nghĩa trang nào đã được dọn và số lần của từng nơi (tên × số lần)." },
-
                 { "MH_STATUS_LINE4", "lần đặt lại: {0} · nghĩa trang: {1}" },
                 { "MH_STATUS_CEMETERY_NONE", "không có trong phiên này" },
                 { "MH_STATUS_CEMETERY_ROW", "{0} ×{1}" },

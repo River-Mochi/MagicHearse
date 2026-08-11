@@ -205,9 +205,6 @@ namespace MagicHearse
                     "É limpo ao reiniciar o jogo ou ao mudar de cidade."
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusCemetery1)), "▪" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StatusCemetery1)), "Que cemitérios foram esvaziados e quantas vezes cada um (nome × quantidade)." },
-
                 { "MH_STATUS_LINE4", "reposições: {0} · cemitérios: {1}" },
                 { "MH_STATUS_CEMETERY_NONE", "nenhum nesta sessão" },
                 { "MH_STATUS_CEMETERY_ROW", "{0} ×{1}" },

@@ -205,9 +205,6 @@ namespace MagicHearse
                     "Очищується після перезапуску або зміни міста."
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusCemetery1)), "▪" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StatusCemetery1)), "Які кладовища було очищено та скільки разів кожне (назва × кількість)." },
-
                 { "MH_STATUS_LINE4", "скидань: {0} · кладовищ: {1}" },
                 { "MH_STATUS_CEMETERY_NONE", "немає в цій сесії" },
                 { "MH_STATUS_CEMETERY_ROW", "{0} ×{1}" },

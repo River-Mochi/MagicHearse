@@ -206,10 +206,6 @@ namespace MagicHearse
                     "재시작하거나 도시를 변경하면 지워집니다."
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusCemetery1)), "▪" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StatusCemetery1)),
-                    "비워진 묘지와 각 묘지가 비워진 횟수(이름 × 횟수)." },
-
                 { "MH_STATUS_LINE4", "초기화: {0} · 묘지: {1}" },
                 { "MH_STATUS_CEMETERY_NONE", "이번 세션에는 없음" },
                 { "MH_STATUS_CEMETERY_ROW", "{0} ×{1}" },

@@ -116,6 +116,7 @@ namespace MagicHearse
                     "**3 minutes** is close to the game default of ~2.5 simulation minutes.\n" +
                     "This can be increased to give hearses a more reasonable time to complete the trip before the death icon appears.\n" +
                     "Note:\n"+
+                    "- Recommended: 10 min. Try 15 min. for heavily congested cities.\n"+
                     "- existing visible icons are not hidden when this time value is first increased so they stay up until cleared by a hearse/building demolition.\n" +
                     "- allow current dispatches to finish naturally or use <Magic Clean> checkbox one time for a quick fresh start with new time schedules."
                 },
@@ -210,11 +211,7 @@ namespace MagicHearse
                     "Status clears on reboot or when you switch city."
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusCemetery1)), "▪" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StatusCemetery1)),
-                    "Which cemeteries were emptied, and how many times each (name × count)." },
-
-                { "MH_STATUS_LINE4_V2", "{0}/{1} graves used | {2} facilities | {3}" },
+                { "MH_STATUS_LINE4_V2", "{0} / {1} graves used | {2} facilities | {3}" },
                 { "MH_STATUS_RESET_SINGULAR", "{0} reset" },
                 { "MH_STATUS_RESET_PLURAL", "{0} resets" },
                 { "MH_STATUS_CEMETERY_NONE", "none this session" },

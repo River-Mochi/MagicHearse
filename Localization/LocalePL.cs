@@ -205,10 +205,6 @@ namespace MagicHearse
                     "Dane są czyszczone po ponownym uruchomieniu lub zmianie miasta."
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusCemetery1)), "▪" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StatusCemetery1)),
-                    "Które cmentarze opróżniono i ile razy każdy z nich (nazwa × liczba)." },
-
                 { "MH_STATUS_LINE4", "resety: {0} · cmentarze: {1}" },
                 { "MH_STATUS_CEMETERY_NONE", "brak w tej sesji" },
                 { "MH_STATUS_CEMETERY_ROW", "{0} ×{1}" },

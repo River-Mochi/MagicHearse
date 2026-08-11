@@ -206,10 +206,6 @@ namespace MagicHearse
                     "再起動または都市の切り替え時に消去されます。"
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusCemetery1)), "▪" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StatusCemetery1)),
-                    "空になった墓地と、それぞれが空になった回数（名前 × 回数）。" },
-
                 { "MH_STATUS_LINE4", "リセット: {0} · 墓地: {1}" },
                 { "MH_STATUS_CEMETERY_NONE", "このセッションではなし" },
                 { "MH_STATUS_CEMETERY_ROW", "{0} ×{1}" },

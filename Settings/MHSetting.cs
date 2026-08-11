@@ -268,11 +268,16 @@ namespace MagicHearse
             }
         }
 
-        // Retained so existing localization sources still compile; intentionally not registered
-        // as a second Options row.
-        public string StatusCemetery1
+        [SettingsUISection(kActionsTab, kStatusGrp)]
+        [SettingsUIDisplayName(overrideValue: "\u00A0")]
+        [SettingsUIDescription(overrideValue: "Time the status snapshot was last refreshed.")]
+        public string StatusUpdated
         {
-            get => string.Empty;
+            get
+            {
+                try { DeathcareStatus.RefreshIfNeeded(); } catch { }
+                return DeathcareStatus.SummaryUpdated ?? string.Empty;
+            }
         }
 
         // --------------------------------------------------------------------

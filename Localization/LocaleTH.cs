@@ -207,10 +207,6 @@ namespace MagicHearse
                     "ล้างข้อมูลเมื่อเริ่มเกมใหม่หรือเปลี่ยนเมือง"
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusCemetery1)), "▪" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StatusCemetery1)),
-                    "แสดงสุสานที่ถูกทำให้ว่าง และจำนวนครั้งของแต่ละแห่ง (ชื่อ × จำนวนครั้ง)" },
-
                 { "MH_STATUS_LINE4", "รีเซ็ต: {0} · สุสาน: {1}" },
                 { "MH_STATUS_CEMETERY_NONE", "ยังไม่มีในเซสชันนี้" },
                 { "MH_STATUS_CEMETERY_ROW", "{0} ×{1}" },

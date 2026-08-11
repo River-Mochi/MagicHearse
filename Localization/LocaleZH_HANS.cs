@@ -206,10 +206,6 @@ namespace MagicHearse
                     "重新启动或切换城市时清除。"
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusCemetery1)), "▪" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StatusCemetery1)),
-                    "已清空的墓地，以及各自的清空次数（名称 × 次数）。" },
-
                 { "MH_STATUS_LINE4", "重置：{0} · 墓地：{1}" },
                 { "MH_STATUS_CEMETERY_NONE", "本次游戏中无" },
                 { "MH_STATUS_CEMETERY_ROW", "{0} ×{1}" },

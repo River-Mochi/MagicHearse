@@ -206,10 +206,6 @@ namespace MagicHearse
                     "Si azzera al riavvio o quando cambi città."
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusCemetery1)), "▪" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StatusCemetery1)),
-                    "Quali cimiteri sono stati svuotati e quante volte ciascuno (nome × conteggio)." },
-
                 { "MH_STATUS_LINE4", "reimpostazioni: {0} · cimiteri: {1}" },
                 { "MH_STATUS_CEMETERY_NONE", "nessuno in questa sessione" },
                 { "MH_STATUS_CEMETERY_ROW", "{0} ×{1}" },

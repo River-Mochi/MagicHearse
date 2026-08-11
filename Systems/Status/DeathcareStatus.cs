@@ -54,7 +54,7 @@ namespace MagicHearse
         private const string kFallbackProcessingNone =
             "suggested: turn on/add crematoriums";
         private const string kFallbackLine4 =
-            "{0}/{1} graves used | {2} facilities | {3}";
+            "{0} / {1} graves used | {2} facilities | {3}";
         private const string kFallbackResetSingular = "{0} reset";
         private const string kFallbackResetPlural = "{0} resets";
 
@@ -63,6 +63,7 @@ namespace MagicHearse
         public static string SummaryLine2 { get; private set; } = string.Empty;
         public static string SummaryLine3 { get; private set; } = string.Empty;
         public static string SummaryLine4 { get; private set; } = string.Empty;
+        public static string SummaryUpdated { get; private set; } = string.Empty;
         public static string SummaryCemetery1 { get; private set; } = string.Empty;
 
         // Cache state
@@ -79,6 +80,7 @@ namespace MagicHearse
             SummaryLine1 = Localize(kKeyStatusNotLoaded, kFallbackStatusNotLoaded);
             SummaryLine2 = string.Empty;
             SummaryLine3 = string.Empty;
+            SummaryUpdated = string.Empty;
             ClearCemeteryLines();
         }
 
@@ -119,6 +121,7 @@ namespace MagicHearse
                 SummaryLine1 = Localize(kKeyNoCityLoaded, kFallbackNoCityLoaded);
                 SummaryLine2 = Localize(kKeyStatsNotAvail, kFallbackStatsNotAvail);
                 SummaryLine3 = string.Empty;
+                SummaryUpdated = string.Empty;
                 ClearCemeteryLines();
                 return;
             }
@@ -153,6 +156,7 @@ namespace MagicHearse
                 SummaryLine1 = Localize(kKeyStatusNotLoaded, kFallbackStatusNotLoaded);
                 SummaryLine2 = string.Empty;
                 SummaryLine3 = string.Empty;
+                SummaryUpdated = string.Empty;
                 ClearCemeteryLines();
 
                 LogUtils.WarnOnce("MH_STATUS_SNAPSHOT_EXCEPTION", () =>
@@ -180,7 +184,7 @@ namespace MagicHearse
                 fallbackFormat: kFallbackLine2,
                 Format0(snap.ProcessingRate));  // {0} <- crematorium + cemetery handling
             AppendProcessingSuggestion(snap);
-            SummaryLine2 += " | " + SafeFormat(
+            SummaryUpdated = SafeFormat(
                 kKeyUpdated,
                 kFallbackUpdated,
                 refreshedTime);

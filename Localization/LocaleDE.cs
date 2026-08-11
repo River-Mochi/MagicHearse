@@ -206,10 +206,6 @@ namespace MagicHearse
                     "Wird beim Neustart oder beim Wechsel der Stadt gelöscht."
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusCemetery1)), "▪" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StatusCemetery1)),
-                    "Welche Friedhöfe geleert wurden und wie oft jeweils (Name × Anzahl)." },
-
                 { "MH_STATUS_LINE4", "Zurücksetzungen: {0} · Friedhöfe: {1}" },
                 { "MH_STATUS_CEMETERY_NONE", "keine in dieser Sitzung" },
                 { "MH_STATUS_CEMETERY_ROW", "{0} ×{1}" },
