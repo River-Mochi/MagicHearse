@@ -1,5 +1,6 @@
-# File: .editorconfig version 0.6.6
+# File: .editorconfig version 0.7.1
 # Purpose:
+#   - MIT variant of the River-Mochi .editorconfig.
 #   - Consistent whitespace + LF line endings across normal repo files.
 #   - CRLF for classic Visual Studio .sln files.
 #   - LF for XML .slnx files through the global default.
@@ -41,7 +42,6 @@ indent_size = 4
 end_of_line = crlf
 indent_size = 4
 
-
 # =========================
 # Web/UI/config assets
 # LF comes from global default.
@@ -50,14 +50,12 @@ indent_size = 4
 [*.{ts,tsx,js,jsx,mjs,css,scss,html,json,jsonc,yml,yaml}]
 indent_size = 2
 
-
 # =========================
 # Markdown
 # Keep trailing whitespace because Markdown sometimes uses it intentionally.
 # =========================
 [*.md]
 trim_trailing_whitespace = false
-
 
 # =========================
 # C# files
@@ -73,8 +71,9 @@ dotnet_separate_import_directive_groups = false
 # Show unused usings, but do not remove them automatically.
 dotnet_diagnostic.IDE0005.severity = suggestion
 dotnet_diagnostic.IDE0073.severity = warning
-file_header_template = <copyright file="{fileName}" company="River-Mochi">\nCopyright (c) 2026 River-Mochi. All rights reserved.\nLicensed under the MIT License. You may not use this file except in compliance with this License.\nSee LICENSE file in the project root for full license information.\nThis notice and the MIT License notice must be kept with\nall copies or substantial portions of this code.\n================= </copyright> ======================
 
+# Do not use backslash for header template, this needs normal quotes.
+file_header_template = <copyright file="{fileName}" company="River-Mochi">\nCopyright (c) 2026 River-Mochi. All rights reserved.\nLicensed under the MIT License. You may not use this file except in compliance with this License.\nSee LICENSE file in the project root for full license information.\nThis notice and the MIT License notice must be kept with\nall copies or substantial portions of this code.\n================= </copyright> ======================
 indent_size = 4
 
 # ---- Namespace policy: flat namespace allowed ----
@@ -98,6 +97,9 @@ csharp_style_var_elsewhere = false:suggestion
 # ---- Analyzer tuning ----
 # Use conditional access: keep as suggestion.
 dotnet_diagnostic.RCS1146.severity = suggestion
+
+# Keep explicit null-check assignment blocks instead of suggesting ??=.
+dotnet_diagnostic.IDE0074.severity = none
 
 # Disable doc-paragraph nit.
 dotnet_diagnostic.RCS1226.severity = none
@@ -207,3 +209,10 @@ dotnet_naming_rule.public_const_fields_pascal.severity = suggestion
 dotnet_naming_rule.non_public_const_fields_k_prefix.symbols = non_public_const_fields
 dotnet_naming_rule.non_public_const_fields_k_prefix.style = k_prefix_pascal
 dotnet_naming_rule.non_public_const_fields_k_prefix.severity = suggestion
+
+# =========================
+# Shared MIT utilities
+# These files are reused by both MIT and GPL mods.
+# =========================
+[**/Utils/*.cs]
+file_header_template = <copyright file="{fileName}" company="River-Mochi">\nCopyright (c) 2026 River-Mochi. All rights reserved.\nLicensed under the MIT License. You may not use this file except in compliance with this License.\nSee LICENSE file in the project root for full license information.\nThis notice and the MIT License notice must be kept with\nall copies or substantial portions of this code.\n================= </copyright> ======================

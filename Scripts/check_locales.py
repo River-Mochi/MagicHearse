@@ -6,9 +6,10 @@
 # all copies or substantial portions of this code.
 # ================= </copyright> ======================
 
-# File: Scripts/check_locales.py
-# Version: 0.4.0
+# File: Shared Lib Scripts/check_locales.py
+# Version: 0.4.2
 # Checks C# Locale*.cs dictionaries against LocaleEN.cs.
+# Supports either Locale/ or Localization/ folders.
 
 from __future__ import annotations
 
@@ -46,11 +47,13 @@ DICT_START = re.compile(
     re.IGNORECASE | re.VERBOSE,
 )
 
-# City: Skylines II Options text uses <text> for green highlighted text.
-# Match only complete markers on one displayed line. Comparison operators and
-# breadcrumb separators such as "value > 0" or "Options > Interface" are
+# CS2 Options text uses <text> for green highlighted text.
+# Match only complete markers on one displayed line. 
+#  "value > 0" or "Options > Interface" are
 # handled separately by marker_issues().
 ANGLE_MARKER = re.compile(r"<([^<>\n]+)>")
+
+LOCALE_FOLDER_NAMES = ("Locale", "Localization")
 
 SKIP_DIRS = {
     ".git",
@@ -479,28 +482,38 @@ def load_locale(path: Path) -> Tuple[Dict[str, str], List[str], Dict[str, str]]:
     return values, keys, display
 
 
+def _is_skipped_path(path: Path) -> bool:
+    """True when path is inside a skipped repo/build/dependency folder."""
+    return any(part in SKIP_DIRS for part in path.parts)
+
+
 def find_localization_dir(repo: Path, baseline: str) -> Path:
-    """Find the Localization folder beneath repo."""
-    direct = repo / "Localization"
-    if (direct / baseline).is_file():
-        return direct
+    """Find the locale folder beneath repo. Supports both Locale/ and Localization/."""
+    for folder_name in LOCALE_FOLDER_NAMES:
+        direct = repo / folder_name
+        if (direct / baseline).is_file():
+            return direct
 
     matches = [
         path.parent
         for path in repo.rglob(baseline)
-        if not any(part in SKIP_DIRS for part in path.parts)
-        and path.parent.name == "Localization"
+        if not _is_skipped_path(path)
+        and path.parent.name in LOCALE_FOLDER_NAMES
     ]
 
     unique = sorted(set(matches))
     if not unique:
-        raise FileNotFoundError(
-            f"Could not find Localization/{baseline} under {repo}"
+        expected = " or ".join(
+            f"{folder_name}/{baseline}" for folder_name in LOCALE_FOLDER_NAMES
         )
+        raise FileNotFoundError(
+            f"Could not find {expected} under {repo}"
+        )
+
     if len(unique) > 1:
         locations = "\n  ".join(str(path) for path in unique)
         raise ValueError(
-            "Multiple Localization folders found. Use --localization:\n  "
+            "Multiple locale folders found. Use --localization:\n  "
             + locations
         )
 
@@ -572,7 +585,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--localization",
         type=Path,
-        help="Exact Localization directory; overrides --repo discovery.",
+        help="Exact locale directory, such as Locale or Localization; overrides --repo discovery.",
     )
     parser.add_argument(
         "--baseline",
