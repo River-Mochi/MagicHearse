@@ -215,4 +215,8 @@ dotnet_naming_rule.non_public_const_fields_k_prefix.severity = suggestion
 # These files are reused by both MIT and GPL mods.
 # =========================
 [**/Utils/*.cs]
-file_header_template = <copyright file="{fileName}" company="River-Mochi">\nCopyright (c) 2026 River-Mochi. All rights reserved.\nLicensed under the MIT License. You may not use this file except in compliance with this License.\nSee LICENSE file in the project root for full license information.\nThis notice and the MIT License notice must be kept with\nall copies or substantial portions of this code.\n================= </copyright> ======================
+# =========================
+# Shared GPL utilities
+# =========================
+[**/Utils/*.cs]
+file_header_template = <copyright file="{fileName}" company="River-Mochi">\nCopyright (C) 2026 River-Mochi.\nLicensed under the GNU General Public License v3.0 or later,\nwith the Cities: Skylines II Linking Exception.\nSee LICENSE and LICENSE-EXCEPTION in the project root.\nCopyright and license notices MUST be preserved.\n================= </copyright> ======================

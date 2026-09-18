@@ -32,6 +32,7 @@ namespace MagicHearse
             public readonly long ParkedHearses;          // exact ParkedCar count
             public readonly long WorkingHearses;         // on-road entities
             public readonly long ParkedAvailableHearses;
+            public readonly long AvailableParkedHearsesAtDispatchReadyFacilities;
             public readonly long ParkedDisabledHearses;
             public readonly long HearseDispatched;
             public readonly long HearseTransporting;
@@ -45,6 +46,7 @@ namespace MagicHearse
 
             public readonly int ActiveFacilities;
             public readonly int ActiveCemeteryFacilities;
+            public readonly int DispatchReadyFacilities;
             public readonly int TotalFacilities;
             public readonly int FullFacilities;
             public readonly int FacilitiesWithoutAvailableHearse;
@@ -95,6 +97,7 @@ namespace MagicHearse
                 long parkedHearses,
                 long workingHearses,
                 long parkedAvailableHearses,
+                long availableParkedHearsesAtDispatchReadyFacilities,
                 long parkedDisabledHearses,
                 long hearseDispatched,
                 long hearseTransporting,
@@ -106,6 +109,7 @@ namespace MagicHearse
                 long maxWorkers,
                 int activeFacilities,
                 int activeCemeteryFacilities,
+                int dispatchReadyFacilities,
                 int totalFacilities,
                 int fullFacilities,
                 int facilitiesWithoutAvailableHearse,
@@ -152,6 +156,8 @@ namespace MagicHearse
                 ParkedHearses = parkedHearses;
                 WorkingHearses = workingHearses;
                 ParkedAvailableHearses = parkedAvailableHearses;
+                AvailableParkedHearsesAtDispatchReadyFacilities =
+                    availableParkedHearsesAtDispatchReadyFacilities;
                 ParkedDisabledHearses = parkedDisabledHearses;
                 HearseDispatched = hearseDispatched;
                 HearseTransporting = hearseTransporting;
@@ -165,6 +171,7 @@ namespace MagicHearse
 
                 ActiveFacilities = activeFacilities;
                 ActiveCemeteryFacilities = activeCemeteryFacilities;
+                DispatchReadyFacilities = dispatchReadyFacilities;
                 TotalFacilities = totalFacilities;
                 FullFacilities = fullFacilities;
                 FacilitiesWithoutAvailableHearse = facilitiesWithoutAvailableHearse;

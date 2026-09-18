@@ -85,6 +85,10 @@ namespace MagicHearse
             // Finish jobs this system depends on before reading live data on the main thread.
             CompleteDependency();
 
+            const DeathcareFacilityFlags DispatchReadyFlags =
+                DeathcareFacilityFlags.HasAvailableHearses |
+                DeathcareFacilityFlags.HasRoomForBodies;
+
             ComponentLookup<PrefabRef> prefabRefLookup = GetComponentLookup<PrefabRef>(true);
             ComponentLookup<DeathcareFacilityData> dcLookup =
                 GetComponentLookup<DeathcareFacilityData>(true);
@@ -126,11 +130,17 @@ namespace MagicHearse
             int totalFacilities = 0;
             int activeFacilities = 0;
             int activeCemeteryFacilities = 0;
+            int dispatchReadyFacilities = 0;
             int fullFacilities = 0;
             int facilitiesWithoutAvailableHearse = 0;
             int facilitiesWithoutRoomForBodies = 0;
             int facilitiesWithProcessingQueue = 0;
             int facilitiesWithZeroDispatchCapacity = 0;
+
+            using NativeHashSet<Entity> dispatchReadyFacilityEntities =
+                new NativeHashSet<Entity>(
+                    Math.Max(1, m_DeathcarePlacedQuery.CalculateEntityCount()),
+                    Allocator.Temp);
 
             using (NativeArray<Entity> entities =
                 m_DeathcarePlacedQuery.ToEntityArray(Allocator.Temp))
@@ -221,6 +231,13 @@ namespace MagicHearse
                             ? buildingDcLookup[facilityEntity]
                             : default;
 
+                    if ((facility.m_Flags & DispatchReadyFlags) ==
+                        DispatchReadyFlags)
+                    {
+                        dispatchReadyFacilities++;
+                        dispatchReadyFacilityEntities.Add(facilityEntity);
+                    }
+
                     if ((facility.m_Flags & DeathcareFacilityFlags.IsFull) != 0)
                     {
                         fullFacilities++;
@@ -237,13 +254,17 @@ namespace MagicHearse
                         facilitiesWithoutRoomForBodies++;
                     }
 
+                    int patientCount = 0;
+                    if (patientLookup.TryGetBuffer(
+                            facilityEntity,
+                            out DynamicBuffer<Patient> patients))
+                    {
+                        patientCount = patients.Length;
+                    }
+
                     bool hasProcessingQueue =
                         data.m_ProcessingRate > 0f &&
-                        ((patientLookup.TryGetBuffer(
-                                facilityEntity,
-                                out DynamicBuffer<Patient> patients) &&
-                            patients.Length > 0) ||
-                         facility.m_LongTermStoredCount > 0);
+                        (patientCount > 0 || facility.m_LongTermStoredCount > 0);
 
                     if (hasProcessingQueue)
                     {
@@ -252,7 +273,8 @@ namespace MagicHearse
 
                     if (data.m_LongTermStorage)
                     {
-                        cemeteryUse += facility.m_LongTermStoredCount;
+                        cemeteryUse +=
+                            facility.m_LongTermStoredCount + patientCount;
                         cemeteryCapacity += data.m_StorageCapacity;
                     }
 
@@ -265,8 +287,6 @@ namespace MagicHearse
 
             ComponentLookup<Owner> ownerLookup = GetComponentLookup<Owner>(true);
             ComponentLookup<ParkedCar> parkedLookup = GetComponentLookup<ParkedCar>(true);
-            ComponentLookup<Game.Buildings.DeathcareFacility> deathcareBuildingLookup =
-                GetComponentLookup<Game.Buildings.DeathcareFacility>(true);
             ComponentLookup<Game.Vehicles.Hearse> hearseLookup =
                 GetComponentLookup<Game.Vehicles.Hearse>(true);
 
@@ -274,6 +294,7 @@ namespace MagicHearse
             long parkedHearses = 0;
             long workingHearses = 0;
             long parkedAvailableHearses = 0;
+            long availableParkedHearsesAtDispatchReadyFacilities = 0;
             long parkedDisabledHearses = 0;
             long hearseDispatched = 0;
             long hearseTransporting = 0;
@@ -290,7 +311,7 @@ namespace MagicHearse
                     Entity hearseEntity = hearseEntities[i];
 
                     if (!ownerLookup.TryGetComponent(hearseEntity, out Owner owner) ||
-                        !deathcareBuildingLookup.HasComponent(owner.m_Owner))
+                        !buildingDcLookup.HasComponent(owner.m_Owner))
                     {
                         continue;
                     }
@@ -322,6 +343,10 @@ namespace MagicHearse
                         else
                         {
                             parkedAvailableHearses++;
+                            if (dispatchReadyFacilityEntities.Contains(owner.m_Owner))
+                            {
+                                availableParkedHearsesAtDispatchReadyFacilities++;
+                            }
                         }
 
                         continue;
@@ -555,6 +580,8 @@ namespace MagicHearse
                 parkedHearses: parkedHearses,
                 workingHearses: workingHearses,
                 parkedAvailableHearses: parkedAvailableHearses,
+                availableParkedHearsesAtDispatchReadyFacilities:
+                    availableParkedHearsesAtDispatchReadyFacilities,
                 parkedDisabledHearses: parkedDisabledHearses,
                 hearseDispatched: hearseDispatched,
                 hearseTransporting: hearseTransporting,
@@ -566,6 +593,7 @@ namespace MagicHearse
                 maxWorkers: maxWorkers,
                 activeFacilities: activeFacilities,
                 activeCemeteryFacilities: activeCemeteryFacilities,
+                dispatchReadyFacilities: dispatchReadyFacilities,
                 totalFacilities: totalFacilities,
                 fullFacilities: fullFacilities,
                 facilitiesWithoutAvailableHearse: facilitiesWithoutAvailableHearse,

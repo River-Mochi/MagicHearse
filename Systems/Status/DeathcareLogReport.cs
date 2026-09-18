@@ -206,6 +206,9 @@ namespace MagicHearse
             report.AppendLine(
                 $"    Available parked hearses: {Format0(snap.ParkedAvailableHearses)}");
             report.AppendLine(
+                "    Available parked hearses at dispatch-ready facilities: " +
+                $"{Format0(snap.AvailableParkedHearsesAtDispatchReadyFacilities)}");
+            report.AppendLine(
                 $"    Disabled parked hearses: {Format0(snap.ParkedDisabledHearses)}");
             report.AppendLine($"    Parked total check: {Format0(parkedTotal)}");
 
@@ -240,6 +243,8 @@ namespace MagicHearse
             report.AppendLine("FACILITIES AND PROCESSING");
             report.AppendLine(
                 $"  Active facilities: {snap.ActiveFacilities} of {snap.TotalFacilities} placed");
+            report.AppendLine(
+                $"  Dispatch-ready facilities: {snap.DispatchReadyFacilities}");
             report.AppendLine(
                 $"  Total handling max per month: {Format0(snap.ProcessingRate)}");
             report.AppendLine(
@@ -416,6 +421,25 @@ namespace MagicHearse
                     $"    have {DeathcareStatusSystem.kRepeatedDispatchFailureThreshold}+ failed attempts and are at least");
                 report.AppendLine(
                     "    halfway to the hearse warning. Samples below list Scene Explorer IDs.");
+            }
+
+            if (snap.WaitingWithRepeatedDispatchFailures > 0 &&
+                snap.DispatchReadyFacilities > 0 &&
+                snap.AvailableParkedHearsesAtDispatchReadyFacilities > 0)
+            {
+                found = true;
+                report.AppendLine(
+                    $"  - Dispatch matching: {Format0(snap.WaitingWithRepeatedDispatchFailures)} corpses have");
+                report.AppendLine(
+                    $"    repeated failures while {snap.DispatchReadyFacilities} facilities are dispatch-ready with");
+                report.AppendLine(
+                    $"    {Format0(snap.AvailableParkedHearsesAtDispatchReadyFacilities)} available parked hearses.");
+                report.AppendLine(
+                    "    This points away from a simple citywide fleet shortage; service-district");
+                report.AppendLine(
+                    "    restrictions, pathfinding, request matching, or location-specific eligibility");
+                report.AppendLine(
+                    "    may still keep those hearses from serving these particular corpses.");
             }
 
             if (snap.DeadNoRequest > 0)
