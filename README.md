@@ -36,7 +36,7 @@ Notes:
 | **Total Hearses** | Max hearses per facility multiplier |
 | **Hearse speed** | Speed multiplier (road limits still apply) |
 | **Cemetery storage** | Long-term storage capacity multiplier |
-| **Auto reset cemetery** | Instantly empties a full cemetery |
+| **Reset full cemetery** | Instantly empties a full cemetery |
 | **Cemetery turnover rate** | Gradually frees occupied graves when instant reset is off |
 | **Maximum workers** | (Advanced) scales max workers for deathcare facilities (existing + new buildings) |
 
