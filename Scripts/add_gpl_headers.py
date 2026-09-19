@@ -1,32 +1,32 @@
-# <copyright file="add_mit_headers.py" company="River-Mochi">
+# <copyright file="add_gpl_headers.py" company="River-Mochi">
 # Copyright (c) 2026 River-Mochi. All rights reserved.
-# Licensed under the MIT License. You may not use this file except in compliance with this License.
-# See LICENSE file in the project root for full license information.
-# This notice and the MIT License notice must be kept with
-# all copies or substantial portions of this code.
+# Licensed under the GNU General Public License v3.0 or later,
+# with the Cities: Skylines II Linking Exception.
+# See LICENSE and LICENSE-EXCEPTION in the project root.
+# This notice MUST be kept with copies or substantial portions of this code.
 # ================= </copyright> ======================
 
-# River-Mochi shared lib version 0.5.3
+# version 0.6.3
 """
-Add standard MIT file headers to source files.
+Add standard River-Mochi GPL file headers to source files.
 
 Dry run by default. Run commands from the repo root:
 
   # 1. Preview only. Use this first.
-  py -3 Scripts/add_mit_headers.py
+  py -3 Scripts/add_gpl_headers.py
 
   # 2. Add headers to files that do not already have one.
-  py -3 Scripts/add_mit_headers.py --apply
+  py -3 Scripts/add_gpl_headers.py --apply
 
   # 3. Replace old headers with this exact current River-Mochi header.
   #    Use this when you intentionally want every supported source file updated.
-  py -3 Scripts/add_mit_headers.py --apply --replace-existing
+  py -3 Scripts/add_gpl_headers.py --apply --replace-existing
 
   # 4. CI/check mode. Fails if any supported file still needs a header.
-  py -3 Scripts/add_mit_headers.py --check
+  py -3 Scripts/add_gpl_headers.py --check
 
   # 5. Strict CI/check mode. Also fails if an old header needs replacement.
-  py -3 Scripts/add_mit_headers.py --check --replace-existing
+  py -3 Scripts/add_gpl_headers.py --check --replace-existing
 
 Supported source files:
   .cs
@@ -38,10 +38,10 @@ Not supported on purpose:
   Those file types either cannot safely use this same header style or are
   bundled into COHTML/UI output where extra comments are not always helpful.
 
+
 Scan behavior:
-  Uses git ls-files when available. Generated/build folders are skipped.
-  Any directory named Utils is also skipped on purpose so shared utility
-  files keep their existing license headers and are never rewritten.
+  Uses git ls-files when available, so ignored folders such as bin, obj,
+  node_modules, .git, and .vs are not scanned.
 
 Repo-root behavior:
   The script finds the repo root by walking upward from its own location.
@@ -49,6 +49,7 @@ Repo-root behavior:
     /Scripts
     /Project/Scripts
     /Project/Project/Scripts
+
 
 Important:
   Python must still be given the real path to this script. Repo-root detection
@@ -75,7 +76,6 @@ SKIP_DIRS = {
     "generated",
     "node_modules",
     "packages",
-    "utils",  # Shared utilities may use a different license; never rewrite them.
 }
 
 SUPPORTED_SUFFIXES = {
@@ -127,9 +127,8 @@ def find_repo_root(script_path: Path) -> Path:
 
     return Path.cwd().resolve()
 
-
 def should_skip(path: Path) -> bool:
-    """Return true for generated/build/shared utility files that should not be edited."""
+    """Return true for files this GPL-header tool must not edit."""
     if path.name.endswith(".g.cs"):
         return True
 
@@ -273,14 +272,13 @@ def make_header(path: Path, year: int) -> str:
     return (
         f'{prefix} <copyright file="{path.name}" company="River-Mochi">\n'
         f"{prefix} Copyright (c) {year} River-Mochi. All rights reserved.\n"
-        f"{prefix} Licensed under the MIT License. You may not use this file except in compliance with this License.\n"
-        f"{prefix} See LICENSE file in the project root for full license information.\n"
-        f"{prefix} This notice and the MIT License notice must be kept with\n"
-        f"{prefix} all copies or substantial portions of this code.\n"
+        f"{prefix} Licensed under the GNU General Public License v3.0 or later,\n"
+        f"{prefix} with the Cities: Skylines II Linking Exception.\n"
+        f"{prefix} See LICENSE and LICENSE-EXCEPTION in the project root.\n"
+        f"{prefix} This notice MUST be kept with copies or substantial portions of this code.\n"
         f"{prefix} ================= </copyright> ======================\n"
         "\n"
     )
-
 
 def process_file(path: Path, year: int, replace_existing: bool) -> FileResult:
     """Return whether the file would change and the new file text."""

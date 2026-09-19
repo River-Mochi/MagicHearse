@@ -91,6 +91,11 @@ Hello, Bonjour, Hallo, Hola, Ciao, こんにちは, 안녕하세요, 你好, Cze
 <!--Change log for new version. Single line or multi line. Supports minimal markdown subset-->
 <ChangeLog>
 - Updated, tested for 1.6.2 game patch.
+- Added cemetery occupancy and empty-grave totals to include bodies awaiting processing.
+- Added dispatch-ready facility and parked-hearse diagnostics to the Log Report.
+- Updated GPL3 license
+- Improved notes for tracking repeated dispatch failures when deathcare capacity is available.
+- Updated GPL3 license
 - Internal: updated share lib files.
 </ChangeLog>
 <!--External link. supported types are discord, github, youtube, twitch, x, paypal, patreon-->

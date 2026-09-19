@@ -1,4 +1,4 @@
-# File: .editorconfig version 0.7.1
+# File: .editorconfig version 0.7.2
 # Purpose:
 #   - MIT variant of the River-Mochi .editorconfig.
 #   - Consistent whitespace + LF line endings across normal repo files.
@@ -211,12 +211,18 @@ dotnet_naming_rule.non_public_const_fields_k_prefix.style = k_prefix_pascal
 dotnet_naming_rule.non_public_const_fields_k_prefix.severity = suggestion
 
 # =========================
-# Shared MIT utilities
-# These files are reused by both MIT and GPL mods.
+# Shared utility sources
+# Preserve their existing license headers exactly as-is.
+# MIT header rules do not apply anywhere under Utils/.
+# All other C# formatting and naming rules still apply.
 # =========================
-[**/Utils/*.cs]
-# =========================
-# Shared GPL utilities
-# =========================
-[**/Utils/*.cs]
-file_header_template = <copyright file="{fileName}" company="River-Mochi">\nCopyright (C) 2026 River-Mochi.\nLicensed under the GNU General Public License v3.0 or later,\nwith the Cities: Skylines II Linking Exception.\nSee LICENSE and LICENSE-EXCEPTION in the project root.\nCopyright and license notices MUST be preserved.\n================= </copyright> ======================
+
+# Utils/ directly under the repo root.
+[Utils/**.cs]
+file_header_template = unset
+dotnet_diagnostic.IDE0073.severity = none
+
+# Utils/ nested inside a project/subfolder.
+[**/Utils/**.cs]
+file_header_template = unset
+dotnet_diagnostic.IDE0073.severity = none
