@@ -166,6 +166,7 @@ namespace MagicHearse
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.ResetGameDefaults)), "Reset sliders" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.ResetGameDefaults)),
                     "Sets percentage sliders to **100%** and the death alert icon delay to **3 minutes**."
+                },
 
                 // STATUS fields (SHORT labels; left column is narrow!)
 
