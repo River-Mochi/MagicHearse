@@ -22,10 +22,10 @@ Adjust Buildings:
 
 - Crematorium processing
 - Total Hearses (max hearses per facility)
-- Adjust Death notification time delay before "Waiting for Hearse" icons appear
+- Adjust the time delay before "Waiting for Hearse" icons appear (up to 30min., vanilla is 2.5 min)
 - Hearse speed (pedal to the metal)
 - Cemetery storage multiplier
-- Choose Auto reset cemetery or gradual Cemetery turnover rate
+- Choose [Reset full cemetery] or gradual [Cemetery turnover rate]
 - Maximum workers.
 - Leave Adjust workers OFF if you prefer ConfigXML or another mod to control deathcare worker numbers.
 - Building sliders apply changes only when needed.
@@ -57,7 +57,7 @@ Adjust Buildings:
 - Inspired by Wayz's original Magical Hearse (retired)
 - Toud: Polish translation review
 - StarQ: tech advisory
-- Obelix, Toud, Necko1996: release testing, screenshots
+- Obelix, Toud, Necko1996: testing, screenshots
 
 ### 16 Languages
 Hello, Bonjour, Hallo, Hola, Ciao, こんにちは, 안녕하세요, 你好, Cześć, Olá, Merhaba, Привіт, Xin chào, สวัสดี
