@@ -18,7 +18,6 @@ namespace MagicHearse
     using CS2Shared.RiverMochi;           // LogUtils
     using Game;                           // GameSystemBase, GameMode
     using Game.Prefabs;                   // PrefabSystem, PrefabBase
-    using Unity.Collections;              // Allocator
     using Unity.Entities;                 // Entity, EntityCommandBuffer, SystemAPI
     using Unity.Mathematics;              // math.*
 
@@ -198,7 +197,7 @@ namespace MagicHearse
 
             ApplyHearseCarTuning(hearseSpeedScalar);
 
-            EntityCommandBuffer ecb = new(Allocator.Temp);
+            EntityCommandBuffer ecb = new(Unity.Collections.Allocator.Temp);
 
             if (controlWorkers)
             {
@@ -316,7 +315,7 @@ namespace MagicHearse
 
             ApplyHearseCarTuning(1f);
 
-            EntityCommandBuffer ecb = new(Allocator.Temp);
+            EntityCommandBuffer ecb = new(Unity.Collections.Allocator.Temp);
 
             foreach ((RefRW<Game.Prefabs.WorkplaceData> wp, RefRO<MHWorkplaceMarker> marker, Entity entity) in SystemAPI
                          .Query<RefRW<Game.Prefabs.WorkplaceData>, RefRO<MHWorkplaceMarker>>()

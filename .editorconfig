@@ -1,15 +1,16 @@
-# File: .editorconfig version 0.7.3
+# File: .editorconfig version 0.7.4
 # Purpose:
-#   - GPL variant
+#   - GPL variant of the River-Mochi shared .editorconfig.
 #   - Consistent whitespace + LF line endings across normal repo files.
 #   - CRLF for classic Visual Studio .sln files.
 #   - LF for XML .slnx files through the global default.
-#   - C# style preferences: explicit types and CO-style naming.
+#   - C# style preferences aligned with common Cities: Skylines II / CO naming.
 #   - Support Visual Studio, Rider/ReSharper, Git Bash, PowerShell.
 #   - Allow flat namespaces that do NOT have to match folder structure.
 #   - Require the shared River-Mochi GPLv3 source header for C# files.
 
 root = true
+
 
 # =========================
 # Global defaults: normal files
@@ -64,6 +65,7 @@ trim_trailing_whitespace = false
 # C# files
 # =========================
 [*.cs]
+
 # Public CS2 settings members are reflection entry points.
 dotnet_code_quality.CA1822.api_surface = private, internal
 
@@ -71,23 +73,35 @@ dotnet_code_quality.CA1822.api_surface = private, internal
 dotnet_sort_system_directives_first = true
 dotnet_separate_import_directive_groups = false
 
-# Show unused usings, but do not remove them automatically.
+# Show unused usings as suggestions, but do not remove them automatically.
 dotnet_diagnostic.IDE0005.severity = suggestion
+
+# Require the configured source-file header.
 dotnet_diagnostic.IDE0073.severity = warning
 
 # Shared GPL-3.0-or-later header for River-Mochi CS2 mods.
 # LICENSE-EXCEPTION is the Cities: Skylines II linking exception.
 file_header_template = <copyright file="{fileName}" company="River-Mochi">\nCopyright (c) 2026 River-Mochi. All rights reserved.\nLicensed under the GNU General Public License v3.0 or later,\nwith the Cities: Skylines II Linking Exception.\nSee LICENSE and LICENSE-EXCEPTION in the project root.\nThis notice MUST be kept with copies or substantial portions of this code.\n================= </copyright> ======================
+
 indent_size = 4
 
-# ---- Namespace policy: flat namespace allowed ----
+
+# =========================
+# Namespace policy
+# Flat namespaces are allowed.
+# =========================
+
 # Roslyn / Visual Studio
 dotnet_diagnostic.IDE0130.severity = none
 
 # ReSharper / Rider
 resharper_check_namespace_highlighting = none
 
-# ---- General style ----
+
+# =========================
+# General C# style
+# =========================
+
 dotnet_style_qualification_for_field = false:suggestion
 dotnet_style_qualification_for_property = false:suggestion
 dotnet_style_qualification_for_method = false:suggestion
@@ -98,7 +112,11 @@ csharp_style_var_for_built_in_types = false:suggestion
 csharp_style_var_when_type_is_apparent = false:suggestion
 csharp_style_var_elsewhere = false:suggestion
 
-# ---- Analyzer tuning ----
+
+# =========================
+# Analyzer tuning
+# =========================
+
 # Use conditional access: keep as suggestion.
 dotnet_diagnostic.RCS1146.severity = suggestion
 
@@ -113,12 +131,13 @@ dotnet_diagnostic.IDE0031.severity = silent
 
 # IMPORTANT:
 # Do NOT disable IDE1006.
-# IDE1006 is what reports .NET naming-rule violations.
+# IDE1006 reports .NET naming-rule violations.
 # Leaving it enabled allows the m_/s_/k naming rules below to work.
 
 # Optional:
 # Uncomment only if Rider/ReSharper naming warnings get too noisy.
-# This disables ReSharper's own naming inspection while keeping Roslyn naming rules.
+# This disables ReSharper's own naming inspection while keeping
+# the Roslyn naming rules below.
 # resharper_inconsistent_naming_highlighting = none
 
 
@@ -130,34 +149,29 @@ dotnet_diagnostic.IDE0031.severity = silent
 dotnet_naming_symbols.interfaces.applicable_kinds = interface
 dotnet_naming_symbols.interfaces.applicable_accessibilities = *
 
-# Types and non-field members
+# Types and normal non-field members.
 dotnet_naming_symbols.types_and_members.applicable_kinds = class, struct, enum, delegate, property, method, event
 dotnet_naming_symbols.types_and_members.applicable_accessibilities = *
 
-# Private fields
-# Broad private field rule. Private static fields are covered by the more specific rule below.
+# Private fields.
+# More-specific static/const rules below take precedence where applicable.
 dotnet_naming_symbols.private_fields.applicable_kinds = field
 dotnet_naming_symbols.private_fields.applicable_accessibilities = private
 
-# Private static fields
+# Private static fields.
 dotnet_naming_symbols.private_static_fields.applicable_kinds = field
 dotnet_naming_symbols.private_static_fields.applicable_accessibilities = private
 dotnet_naming_symbols.private_static_fields.required_modifiers = static
 
-# Public const fields use normal public API PascalCase.
-dotnet_naming_symbols.public_const_fields.applicable_kinds = field
-dotnet_naming_symbols.public_const_fields.applicable_accessibilities = public
-dotnet_naming_symbols.public_const_fields.required_modifiers = const
-
-# Non-public const fields
-# Defensive extra rule so private/internal consts stay kName.
-dotnet_naming_symbols.non_public_const_fields.applicable_kinds = field
-dotnet_naming_symbols.non_public_const_fields.applicable_accessibilities = private, internal, protected, protected_internal, private_protected
-dotnet_naming_symbols.non_public_const_fields.required_modifiers = const
+# Constants at every accessibility.
+# CO/CS2 commonly uses kPascalCase for both public and non-public constants.
+dotnet_naming_symbols.const_fields.applicable_kinds = field
+dotnet_naming_symbols.const_fields.applicable_accessibilities = *
+dotnet_naming_symbols.const_fields.required_modifiers = const
 
 
 # =========================
-# Naming styles: how names should look
+# Naming styles
 # =========================
 
 # PascalCase
@@ -167,21 +181,21 @@ dotnet_naming_style.pascal.capitalization = pascal_case
 dotnet_naming_style.interface_i.required_prefix = I
 dotnet_naming_style.interface_i.capitalization = pascal_case
 
-# CO style private instance field: m_FieldName
+# CO/CS2 private instance field: m_FieldName
 dotnet_naming_style.m_prefix_pascal.required_prefix = m_
 dotnet_naming_style.m_prefix_pascal.capitalization = pascal_case
 
-# CO style private static field: s_StaticField
+# CO/CS2 private static field: s_StaticField
 dotnet_naming_style.s_prefix_pascal.required_prefix = s_
 dotnet_naming_style.s_prefix_pascal.capitalization = pascal_case
 
-# CO style const field: kConstantName
+# CO/CS2 constant: kConstantName
 dotnet_naming_style.k_prefix_pascal.required_prefix = k
 dotnet_naming_style.k_prefix_pascal.capitalization = pascal_case
 
 
 # =========================
-# Naming rules: symbols x styles
+# Naming rules
 # =========================
 
 # Interfaces: IName
@@ -189,12 +203,12 @@ dotnet_naming_rule.interfaces_must_start_with_i.symbols = interfaces
 dotnet_naming_rule.interfaces_must_start_with_i.style = interface_i
 dotnet_naming_rule.interfaces_must_start_with_i.severity = suggestion
 
-# Types and non-field members: PascalCase
+# Types and normal non-field members: PascalCase
 dotnet_naming_rule.types_and_members_pascal.symbols = types_and_members
 dotnet_naming_rule.types_and_members_pascal.style = pascal
 dotnet_naming_rule.types_and_members_pascal.severity = suggestion
 
-# Private fields: m_FieldName
+# Private instance fields: m_FieldName
 dotnet_naming_rule.private_fields_m_prefix.symbols = private_fields
 dotnet_naming_rule.private_fields_m_prefix.style = m_prefix_pascal
 dotnet_naming_rule.private_fields_m_prefix.severity = suggestion
@@ -204,12 +218,7 @@ dotnet_naming_rule.private_static_fields_s_prefix.symbols = private_static_field
 dotnet_naming_rule.private_static_fields_s_prefix.style = s_prefix_pascal
 dotnet_naming_rule.private_static_fields_s_prefix.severity = suggestion
 
-# Public constants: PascalCase
-dotnet_naming_rule.public_const_fields_pascal.symbols = public_const_fields
-dotnet_naming_rule.public_const_fields_pascal.style = pascal
-dotnet_naming_rule.public_const_fields_pascal.severity = suggestion
-
-# Non-public const fields: kConstantName
-dotnet_naming_rule.non_public_const_fields_k_prefix.symbols = non_public_const_fields
-dotnet_naming_rule.non_public_const_fields_k_prefix.style = k_prefix_pascal
-dotnet_naming_rule.non_public_const_fields_k_prefix.severity = suggestion
+# Constants at every accessibility: kConstantName
+dotnet_naming_rule.const_fields_k_prefix.symbols = const_fields
+dotnet_naming_rule.const_fields_k_prefix.style = k_prefix_pascal
+dotnet_naming_rule.const_fields_k_prefix.severity = suggestion
