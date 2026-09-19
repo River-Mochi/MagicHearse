@@ -111,15 +111,15 @@ namespace MagicHearse
                     "maksymalnej prędkości pojazdu, ograniczenia drogi, bezpiecznej prędkości AI gry (zakręty, uszkodzenia drogi) i ruchu."
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.HearseWarningMinutes)), "Opóźnienie powiadomienia o zgonie (min)" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.HearseWarningMinutes)), "Opóźnienie ikony zgonu" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.HearseWarningMinutes)),
-                    "To całkowity czas, jaki karawan ma na dotarcie do budynku, zanim pojawią się ikony problemu **oczekiwania na karawan**.\n" +
+                    "To łączna liczba minut, jaką karawan ma na dotarcie do budynku, zanim pojawią się ikony problemu **oczekiwania na karawan**.\n" +
                     "**3 minuty** są zbliżone do domyślnej wartości gry wynoszącej około 2,5 minuty symulacji.\n" +
                     "Możesz zwiększyć tę wartość, aby karawany miały rozsądniejszy czas na ukończenie przejazdu przed pojawieniem się ikony zgonu.\n" +
                     "Uwaga:\n" +
                     "- <Sugerowane: 10 minut>. W bardzo zakorkowanych miastach wypróbuj więcej.\n" +
                     "- Sprawdź raport Status na dole, aby zobaczyć liczbę spóźnionych przypadków.\n" +
-                    "- Już widoczne ikony nie zostaną ukryte po pierwszym zwiększeniu tej wartości; pozostaną, aż usunie je karawan lub budynek zostanie wyburzony.\n" +
+                    "- Już widoczne ikony nie zostaną ukryte po pierwszym zwiększeniu tego czasu; daj systemowi chwilę na ustabilizowanie się, gdy wcześniejsze zlecenia dobiegną końca.\n" +
                     "- Pozwól obecnym zleceniom zakończyć się naturalnie albo użyj jednorazowo pola <Magiczne czyszczenie [x]>, aby szybko zacząć od nowa z nowymi harmonogramami."
                 },
 
@@ -163,7 +163,7 @@ namespace MagicHearse
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.ResetGameDefaults)), "Resetuj suwaki" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.ResetGameDefaults)), "Ustawia suwaki procentowe na **100%**, a opóźnienie powiadomienia o zgonie na **3 minuty**." },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.ResetGameDefaults)), "Ustawia suwaki procentowe na **100%**, a opóźnienie ikony zgonu na **3 minuty**." },
 
                 // STATUS fields (SHORT labels; left column is narrow!)
 
@@ -171,7 +171,7 @@ namespace MagicHearse
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StatusSummary1)),
                     "**Oczekuje** = wszyscy zmarli obywatele nadal znajdujący się na zewnątrz i czekający na odbiór.\n" +
                     "**Po terminie** = oczekujący obywatele, dla których minął wybrany czas opóźnienia powiadomienia.\n" +
-                    " - Jeśli wiele przypadków jest po terminie, zwiększ czas w opcji Opóźnienie powiadomienia o zgonie."
+                    " - Jeśli wiele przypadków jest po terminie, zwiększ Opóźnienie ikony zgonu."
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusSummary2)), "Wolumen" },
@@ -226,7 +226,7 @@ namespace MagicHearse
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.AboutVersion)), "Wersja" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.AboutVersion)), "Bieżąca wersja." },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.OpenParadoxMods)), "Paradox Mods" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.OpenParadoxMods)), "Mochi's Paradox Mods" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.OpenParadoxMods)), "Otwiera stronę autora w Paradox Mods." },
 
                 // Debug report

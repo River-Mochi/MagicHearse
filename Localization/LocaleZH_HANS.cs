@@ -226,7 +226,7 @@ namespace MagicHearse
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.AboutVersion)), "版本" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.AboutVersion)), "当前版本。" },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.OpenParadoxMods)), "Paradox Mods" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.OpenParadoxMods)), "Mochi's Paradox Mods" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.OpenParadoxMods)), "打开作者的 Paradox Mods 页面。" },
 
                 // Debug report

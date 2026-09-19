@@ -111,15 +111,15 @@ namespace MagicHearse
                     "la vitesse maximale autorisée du véhicule, la limite de la route, la vitesse sûre de l’IA du jeu (virages, routes endommagées) et le trafic."
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.HearseWarningMinutes)), "Délai de l’alerte décès (min)" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.HearseWarningMinutes)), "Délai de l’icône de décès" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.HearseWarningMinutes)),
-                    "Il s’agit du temps total dont dispose un corbillard pour atteindre un bâtiment avant l’apparition des icônes de problème **en attente d’un corbillard**.\n" +
+                    "Il s’agit du nombre total de minutes dont dispose un corbillard pour atteindre un bâtiment avant l’apparition des icônes de problème **en attente d’un corbillard**.\n" +
                     "**3 minutes** est proche de la valeur par défaut du jeu d’environ 2,5 minutes de simulation.\n" +
                     "Vous pouvez augmenter cette valeur pour laisser aux corbillards un délai plus raisonnable pour terminer le trajet avant l’apparition de l’icône de décès.\n" +
                     "Note :\n" +
                     "- <Suggestion : 10 minutes>. Essayez davantage dans les villes très congestionnées.\n" +
                     "- Consultez le rapport Statut en bas pour voir combien de cas sont en retard.\n" +
-                    "- Les icônes déjà visibles ne sont pas masquées lorsque ce délai est augmenté pour la première fois ; elles restent jusqu’à ce qu’un corbillard intervienne ou que le bâtiment soit démoli.\n" +
+                    "- Les icônes déjà visibles ne sont pas masquées lorsque ce délai est augmenté pour la première fois ; laissez au système le temps de se stabiliser pendant que les anciennes interventions se terminent.\n" +
                     "- Laissez les interventions actuelles se terminer naturellement ou utilisez une fois la case <Nettoyage magique [x]> pour repartir rapidement avec les nouveaux horaires."
                 },
 
@@ -163,7 +163,7 @@ namespace MagicHearse
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.ResetGameDefaults)), "Réinitialiser les curseurs" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.ResetGameDefaults)), "Règle les curseurs de pourcentage sur **100%** et le délai de l’alerte décès sur **3 minutes**." },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.ResetGameDefaults)), "Règle les curseurs de pourcentage sur **100%** et le délai de l’icône de décès sur **3 minutes**." },
 
                 // STATUS fields (SHORT labels; left column is narrow!)
 
@@ -171,7 +171,7 @@ namespace MagicHearse
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StatusSummary1)),
                     "**En attente** = tous les citoyens décédés encore à l’extérieur et en attente d’enlèvement.\n" +
                     "**En retard** = citoyens en attente dont le délai de notification sélectionné a expiré.\n" +
-                    " - S’il y a beaucoup de cas en retard, augmentez le délai de l’alerte décès."
+                    " - S’il y a beaucoup de cas en retard, augmentez le délai de l’icône de décès."
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusSummary2)), "Volume" },
@@ -226,7 +226,7 @@ namespace MagicHearse
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.AboutVersion)), "Version" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.AboutVersion)), "Version actuelle." },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.OpenParadoxMods)), "Paradox Mods" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.OpenParadoxMods)), "Mochi's Paradox Mods" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.OpenParadoxMods)), "Ouvre la page Paradox Mods de l’auteur." },
 
                 // Debug report

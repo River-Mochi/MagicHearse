@@ -111,15 +111,15 @@ namespace MagicHearse
                     "차량 허용 최고 속도, 도로 제한 속도, 게임 AI의 안전 속도(커브, 도로 손상), 교통 상황."
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.HearseWarningMinutes)), "사망 알림 지연 (분)" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.HearseWarningMinutes)), "사망 아이콘 지연" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.HearseWarningMinutes)),
-                    "운구차가 건물에 도착하기까지 허용되는 총 시간입니다. 이 시간이 지나면 **운구차 대기** 문제 아이콘이 나타납니다.\n" +
+                    "운구차가 건물에 도착하기까지 주어지는 총 시간(분)입니다. 이 시간이 지나면 **운구차 대기** 문제 아이콘이 나타납니다.\n" +
                     "**3분**은 게임 기본값인 약 2.5 시뮬레이션 분과 비슷합니다.\n" +
                     "값을 늘리면 사망 아이콘이 나타나기 전에 운구차가 이동을 완료할 합리적인 시간을 더 확보할 수 있습니다.\n" +
                     "참고:\n" +
                     "- <권장: 10분>. 교통이 심하게 막히는 도시는 더 높여 보세요.\n" +
                     "- 아래 상태 보고서에서 기한 초과 건수를 확인하세요.\n" +
-                    "- 이 값을 처음 늘려도 이미 표시된 아이콘은 숨겨지지 않으며, 운구차가 처리하거나 건물을 철거할 때까지 남아 있습니다.\n" +
+                    "- 이 시간을 처음 늘려도 이미 표시된 아이콘은 숨겨지지 않습니다. 기존 출동이 끝나는 동안 잠시 기다려 안정되도록 두세요.\n" +
                     "- 현재 출동을 자연스럽게 끝내거나 <매직 클린 [x]> 체크박스를 한 번 사용해 새 시간 설정으로 빠르게 다시 시작하세요."
                 },
 
@@ -163,7 +163,7 @@ namespace MagicHearse
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.ResetGameDefaults)), "슬라이더 초기화" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.ResetGameDefaults)), "백분율 슬라이더를 **100%**로, 사망 알림 지연을 **3분**으로 설정합니다." },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.ResetGameDefaults)), "백분율 슬라이더를 **100%**로, 사망 아이콘 지연을 **3분**으로 설정합니다." },
 
                 // STATUS fields (SHORT labels; left column is narrow!)
 
@@ -171,7 +171,7 @@ namespace MagicHearse
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StatusSummary1)),
                     "**대기 중** = 아직 외부에 있으며 수거를 기다리는 모든 사망자.\n" +
                     "**기한 초과** = 선택한 알림 지연 시간이 지난 대기 중 시민.\n" +
-                    " - 기한 초과가 많다면 사망 알림 지연 시간을 늘려 보세요."
+                    " - 기한 초과가 많다면 사망 아이콘 지연 시간을 늘려 보세요."
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusSummary2)), "처리량" },
@@ -226,7 +226,7 @@ namespace MagicHearse
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.AboutVersion)), "버전" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.AboutVersion)), "현재 버전입니다." },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.OpenParadoxMods)), "Paradox Mods" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.OpenParadoxMods)), "Mochi's Paradox Mods" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.OpenParadoxMods)), "제작자의 Paradox Mods 페이지를 엽니다." },
 
                 // Debug report

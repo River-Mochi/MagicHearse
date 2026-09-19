@@ -86,32 +86,6 @@ namespace MagicHearse
                     "Optional: **increase workers** too."
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.ProcScalar)), "Crematorium processing" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.ProcScalar)),
-                    "**Crematorium processing speed.**\n" +
-                    "Higher values cremate bodies and free facility storage sooner.\n" +
-                    "**100%** = vanilla game default."
-                },
-
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.FleetScalar)), "Total Hearses" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.FleetScalar)),
-                    "**Maximum hearses** per facility.\n" +
-                    "**100%** = vanilla game default.\n" +
-                    "**[Note]** Too many hearses may affect traffic depending on death rate."
-                },
-
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.HearseSpeedScalar)), "Hearse speed" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.HearseSpeedScalar)),
-                    "**Increases hearse maximum allowed driving speed**.\n" +
-                    "**100%** = vanilla game default.\n" +
-                    "<Road speed limits still apply>.\n\n" +
-                    "Also scales acceleration/braking (gentle) so the new top speed does not create extreme launch/stop behavior.\n" +
-                    "Note: even if the hearse’s max speed is increased, its actual driving speed is influenced by:\n" +
-                    "vehicle max allowed, road speed limit, Game's own AI safe speed (curves, road damage), and traffic."
-
-                },
-
-
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.HearseWarningMinutes)), "Death alert icon delay" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.HearseWarningMinutes)),
                     "This is the total minutes a hearse has to get to a building before **waiting-for-hearse** problem icons appear.\n" +
@@ -122,6 +96,13 @@ namespace MagicHearse
                     "- Check the Status report at the bottom for how many are past due.\n" +
                     "- existing visible icons are not hidden when the time value is first increased, give it time to settle in while old jobs finish.\n" +
                     "- allow current dispatches to finish naturally or use <Magic Clean [x]> checkbox one time for a quick fresh start with new time schedules."
+                },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.ProcScalar)), "Crematorium processing" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.ProcScalar)),
+                    "**Crematorium processing speed.**\n" +
+                    "Higher values cremate bodies and free facility storage sooner.\n" +
+                    "**100%** = vanilla game default."
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StorageScalar)), "Cemetery storage" },
@@ -147,6 +128,24 @@ namespace MagicHearse
                     "If cemeteries still fill too often at 500%,\n" +
                     "enable **[Reset full cemetery]** instead.\n" +
                     "**100%** = game default rate of recycling for graves."
+                },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.FleetScalar)), "Total Hearses" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.FleetScalar)),
+                    "**Maximum hearses** per facility.\n" +
+                    "**100%** = vanilla game default.\n" +
+                    "**[Note]** Too many hearses may affect traffic depending on death rate."
+                },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.HearseSpeedScalar)), "Hearse speed" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.HearseSpeedScalar)),
+                    "**Increases hearse maximum allowed driving speed**.\n" +
+                    "**100%** = vanilla game default.\n" +
+                    "<Road speed limits still apply>.\n\n" +
+                    "Also scales acceleration/braking (gentle) so the new top speed does not create extreme launch/stop behavior.\n" +
+                    "Note: even if the hearse’s max speed is increased, its actual driving speed is influenced by:\n" +
+                    "vehicle max allowed, road speed limit, Game's own AI safe speed (curves, road damage), and traffic."
+
                 },
 
                 // Workers compatibility toggle
@@ -229,7 +228,7 @@ namespace MagicHearse
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.AboutVersion)), "Version" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.AboutVersion)), "Current version." },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.OpenParadoxMods)), "Paradox Mods" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.OpenParadoxMods)), "Mochi's Paradox Mods" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.OpenParadoxMods)),
                     "Opens the author’s Paradox mods page." },
 

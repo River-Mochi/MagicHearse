@@ -111,15 +111,15 @@ namespace MagicHearse
                     "車両に許可された最高速度、道路の制限速度、ゲームAIの安全速度（カーブ、道路損傷）、交通状況。"
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.HearseWarningMinutes)), "死亡通知の遅延（分）" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.HearseWarningMinutes)), "死亡アイコンの遅延" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.HearseWarningMinutes)),
-                    "霊柩車が建物に到着するまでに使える合計時間です。この時間を過ぎると、**霊柩車待ち**の問題アイコンが表示されます。\n" +
+                    "霊柩車が建物に到着するまでに使える合計分数です。この時間を過ぎると、**霊柩車待ち**の問題アイコンが表示されます。\n" +
                     "**3分** は、ゲーム既定の約2.5シミュレーション分に近い値です。\n" +
                     "この値を増やすと、死亡アイコンが表示される前に霊柩車が移動を完了するための、より現実的な時間を確保できます。\n" +
                     "注：\n" +
                     "- <推奨：10分>。交通渋滞がひどい都市ではさらに高くしてください。\n" +
                     "- 下部のステータスレポートで期限超過の件数を確認できます。\n" +
-                    "- この値を初めて増やしたとき、すでに表示中のアイコンは非表示になりません。霊柩車が処理するか建物を解体するまで残ります。\n" +
+                    "- この時間を初めて増やしても、すでに表示中のアイコンは非表示になりません。以前の出動が完了するまで、少し時間をおいて落ち着くのを待ってください。\n" +
                     "- 現在の出動を自然に完了させるか、<魔法クリーン [x]> を一度だけ使って、新しい時間設定で素早くリスタートしてください。"
                 },
 
@@ -163,7 +163,7 @@ namespace MagicHearse
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.ResetGameDefaults)), "スライダーをリセット" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.ResetGameDefaults)), "割合スライダーを **100%** にし、死亡通知の遅延を **3分** に設定します。" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.ResetGameDefaults)), "割合スライダーを **100%** にし、死亡アイコンの遅延を **3分** に設定します。" },
 
                 // STATUS fields (SHORT labels; left column is narrow!)
 
@@ -171,7 +171,7 @@ namespace MagicHearse
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StatusSummary1)),
                     "**待機中** = まだ屋外にいて回収を待っている死亡市民すべて。\n" +
                     "**期限超過** = 選択した通知遅延時間を過ぎた待機中の市民。\n" +
-                    " - 期限超過が多い場合は、「死亡通知の遅延」の時間を増やしてください。"
+                    " - 期限超過が多い場合は、「死亡アイコンの遅延」を増やしてください。"
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusSummary2)), "処理量" },
@@ -226,7 +226,7 @@ namespace MagicHearse
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.AboutVersion)), "バージョン" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.AboutVersion)), "現在のバージョン。" },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.OpenParadoxMods)), "Paradox Mods" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.OpenParadoxMods)), "Mochi's Paradox Mods" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.OpenParadoxMods)), "作者のParadox Modsページを開きます。" },
 
                 // Debug report

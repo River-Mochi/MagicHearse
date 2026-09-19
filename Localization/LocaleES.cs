@@ -111,15 +111,15 @@ namespace MagicHearse
                     "máximo permitido del vehículo, límite de la carretera, velocidad segura de la IA del juego (curvas, daños en la carretera) y tráfico."
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.HearseWarningMinutes)), "Retraso del aviso de muerte (min)" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.HearseWarningMinutes)), "Retraso del icono de muerte" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.HearseWarningMinutes)),
-                    "Este es el tiempo total que tiene un coche fúnebre para llegar a un edificio antes de que aparezcan los iconos de problema de **espera de coche fúnebre**.\n" +
+                    "Este es el total de minutos que tiene un coche fúnebre para llegar a un edificio antes de que aparezcan los iconos de problema de **espera de coche fúnebre**.\n" +
                     "**3 minutos** se aproxima al valor predeterminado del juego de ~2,5 minutos de simulación.\n" +
                     "Puede aumentarse para dar a los coches fúnebres un tiempo más razonable para completar el trayecto antes de que aparezca el icono de muerte.\n" +
                     "Nota:\n" +
                     "- <Sugerido: 10 minutos>. Prueba un valor mayor en ciudades con mucho tráfico.\n" +
                     "- Consulta el informe de Estado de abajo para ver cuántos casos están vencidos.\n" +
-                    "- Los iconos ya visibles no se ocultan al aumentar este valor por primera vez; permanecen hasta que los retire un coche fúnebre o se demuela el edificio.\n" +
+                    "- Los iconos ya visibles no se ocultan al aumentar este tiempo por primera vez; deja que el sistema se estabilice mientras terminan los servicios anteriores.\n" +
                     "- Deja que los envíos actuales terminen de forma natural o usa una vez la casilla <Limpieza mágica [x]> para empezar de nuevo rápidamente con los nuevos horarios."
                 },
 
@@ -163,7 +163,7 @@ namespace MagicHearse
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.ResetGameDefaults)), "Restablecer deslizadores" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.ResetGameDefaults)), "Establece los deslizadores de porcentaje en **100%** y el retraso del aviso de muerte en **3 minutos**." },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.ResetGameDefaults)), "Establece los deslizadores de porcentaje en **100%** y el retraso del icono de muerte en **3 minutos**." },
 
                 // STATUS fields (SHORT labels; left column is narrow!)
 
@@ -171,7 +171,7 @@ namespace MagicHearse
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StatusSummary1)),
                     "**En espera** = todos los ciudadanos muertos que siguen fuera y esperan recogida.\n" +
                     "**Vencidos** = ciudadanos en espera cuyo retraso de notificación seleccionado ya ha terminado.\n" +
-                    " - Si hay muchos vencidos, considera aumentar el tiempo de Retraso del aviso de muerte."
+                    " - Si hay muchos vencidos, considera aumentar el Retraso del icono de muerte."
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusSummary2)), "Volumen" },
@@ -226,7 +226,7 @@ namespace MagicHearse
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.AboutVersion)), "Versión" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.AboutVersion)), "Versión actual." },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.OpenParadoxMods)), "Paradox Mods" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.OpenParadoxMods)), "Mochi's Paradox Mods" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.OpenParadoxMods)), "Abre la página de mods de Paradox del autor." },
 
                 // Debug report

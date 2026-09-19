@@ -111,15 +111,15 @@ namespace MagicHearse
                     "zulässige Fahrzeughöchstgeschwindigkeit, Straßenlimit, die sichere Geschwindigkeit der Spiel-KI (Kurven, Straßenschäden) und den Verkehr."
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.HearseWarningMinutes)), "Todesmeldung verzögern (Min.)" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.HearseWarningMinutes)), "Todessymbol-Verzögerung" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.HearseWarningMinutes)),
-                    "Dies ist die Gesamtzeit, die ein Leichenwagen hat, um ein Gebäude zu erreichen, bevor **Warten-auf-Leichenwagen**-Problemsymbole erscheinen.\n" +
+                    "Dies ist die Gesamtzahl an Minuten, die ein Leichenwagen hat, um ein Gebäude zu erreichen, bevor **Warten-auf-Leichenwagen**-Problemsymbole erscheinen.\n" +
                     "**3 Minuten** liegen nahe am Spielstandard von etwa 2,5 Simulationsminuten.\n" +
                     "Der Wert kann erhöht werden, damit Leichenwagen mehr realistische Zeit für die Fahrt haben, bevor das Todessymbol erscheint.\n" +
                     "Hinweis:\n" +
                     "- <Empfohlen: 10 Minuten>. Bei starkem Verkehr höher versuchen.\n" +
                     "- Unten im Statusbericht siehst du, wie viele Fälle überfällig sind.\n" +
-                    "- Bereits sichtbare Symbole werden beim ersten Erhöhen dieses Werts nicht ausgeblendet; sie bleiben sichtbar, bis ein Leichenwagen sie erledigt oder das Gebäude abgerissen wird.\n" +
+                    "- Bereits sichtbare Symbole werden beim ersten Erhöhen dieser Zeit nicht ausgeblendet; gib dem System etwas Zeit, sich einzupendeln, während alte Einsätze beendet werden.\n" +
                     "- Lass aktuelle Einsätze normal enden oder aktiviere einmal <Magische Reinigung [x]>, um mit neuen Zeitplänen schnell frisch zu starten."
                 },
 
@@ -163,7 +163,7 @@ namespace MagicHearse
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.ResetGameDefaults)), "Regler zurücksetzen" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.ResetGameDefaults)), "Setzt die Prozent-Regler auf **100%** und die Verzögerung der Todesmeldung auf **3 Minuten**." },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.ResetGameDefaults)), "Setzt die Prozent-Regler auf **100%** und die Todessymbol-Verzögerung auf **3 Minuten**." },
 
                 // STATUS fields (SHORT labels; left column is narrow!)
 
@@ -171,7 +171,7 @@ namespace MagicHearse
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StatusSummary1)),
                     "**Wartend** = alle toten Bürger, die noch außerhalb liegen und auf Abholung warten.\n" +
                     "**Überfällig** = wartende Bürger, deren gewählte Benachrichtigungsverzögerung abgelaufen ist.\n" +
-                    " - Wenn viele Fälle überfällig sind, erhöhe die Zeit bei „Todesmeldung verzögern“."
+                    " - Wenn viele Fälle überfällig sind, erhöhe die Todessymbol-Verzögerung."
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusSummary2)), "Volumen" },
@@ -226,7 +226,7 @@ namespace MagicHearse
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.AboutVersion)), "Version" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.AboutVersion)), "Aktuelle Version." },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.OpenParadoxMods)), "Paradox Mods" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.OpenParadoxMods)), "Mochi's Paradox Mods" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.OpenParadoxMods)), "Öffnet die Paradox-Mods-Seite des Autors." },
 
                 // Debug report
