@@ -86,31 +86,6 @@ namespace MagicHearse
                     "Optionnel : **augmenter aussi les employés**."
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.ProcScalar)), "Traitement du crématorium" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.ProcScalar)),
-                    "**Vitesse de traitement du crématorium.**\n" +
-                    "Des valeurs plus élevées incinèrent les corps et libèrent plus vite le stockage de l’établissement.\n" +
-                    "**100%** = valeur vanilla du jeu."
-                },
-
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.FleetScalar)), "Nombre total de corbillards" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.FleetScalar)),
-                    "**Corbillards maximum** par établissement.\n" +
-                    "**100%** = valeur vanilla du jeu.\n" +
-                    "**[Remarque]** Trop de corbillards peuvent affecter le trafic selon le taux de décès."
-                },
-
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.HearseSpeedScalar)), "Vitesse du corbillard" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.HearseSpeedScalar)),
-                    "**Augmente la vitesse de conduite maximale autorisée du corbillard**.\n" +
-                    "**100%** = valeur vanilla du jeu.\n" +
-                    "<Les limites de vitesse routières s’appliquent toujours>.\n" +
-                    "\n" +
-                    "Met aussi à l’échelle l’accélération/le freinage (doux) pour éviter que la nouvelle vitesse maximale ne crée des départs/arrêts extrêmes.\n" +
-                    "Note : même si la vitesse maximale du corbillard est augmentée, sa vitesse réelle dépend de :\n" +
-                    "la vitesse maximale autorisée du véhicule, la limite de la route, la vitesse sûre de l’IA du jeu (virages, routes endommagées) et le trafic."
-                },
-
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.HearseWarningMinutes)), "Délai de l’icône de décès" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.HearseWarningMinutes)),
                     "Il s’agit du nombre total de minutes dont dispose un corbillard pour atteindre un bâtiment avant l’apparition des icônes de problème **en attente d’un corbillard**.\n" +
@@ -121,6 +96,13 @@ namespace MagicHearse
                     "- Consultez le rapport Statut en bas pour voir combien de cas sont en retard.\n" +
                     "- Les icônes déjà visibles ne sont pas masquées lorsque ce délai est augmenté pour la première fois ; laissez au système le temps de se stabiliser pendant que les anciennes interventions se terminent.\n" +
                     "- Laissez les interventions actuelles se terminer naturellement ou utilisez une fois la case <Nettoyage magique [x]> pour repartir rapidement avec les nouveaux horaires."
+                },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.ProcScalar)), "Traitement du crématorium" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.ProcScalar)),
+                    "**Vitesse de traitement du crématorium.**\n" +
+                    "Des valeurs plus élevées incinèrent les corps et libèrent plus vite le stockage de l’établissement.\n" +
+                    "**100%** = valeur vanilla du jeu."
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StorageScalar)), "Stockage du cimetière" },
@@ -146,6 +128,24 @@ namespace MagicHearse
                     "Si les cimetières restent trop souvent pleins à 500%,\n" +
                     "activez plutôt **[Réinitialiser le cimetière plein]**.\n" +
                     "**100%** = taux par défaut du jeu pour la réutilisation des tombes."
+                },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.FleetScalar)), "Nombre total de corbillards" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.FleetScalar)),
+                    "**Corbillards maximum** par établissement.\n" +
+                    "**100%** = valeur vanilla du jeu.\n" +
+                    "**[Remarque]** Trop de corbillards peuvent affecter le trafic selon le taux de décès."
+                },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.HearseSpeedScalar)), "Vitesse du corbillard" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.HearseSpeedScalar)),
+                    "**Augmente la vitesse de conduite maximale autorisée du corbillard**.\n" +
+                    "**100%** = valeur vanilla du jeu.\n" +
+                    "<Les limites de vitesse routières s’appliquent toujours>.\n" +
+                    "\n" +
+                    "Met aussi à l’échelle l’accélération/le freinage (doux) pour éviter que la nouvelle vitesse maximale ne crée des départs/arrêts extrêmes.\n" +
+                    "Note : même si la vitesse maximale du corbillard est augmentée, sa vitesse réelle dépend de :\n" +
+                    "la vitesse maximale autorisée du véhicule, la limite de la route, la vitesse sûre de l’IA du jeu (virages, routes endommagées) et le trafic."
                 },
 
                 // Workers compatibility toggle

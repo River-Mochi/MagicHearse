@@ -86,31 +86,6 @@ namespace MagicHearse
                     "Optional: **Mitarbeiter ebenfalls erhöhen**."
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.ProcScalar)), "Krematoriumsverarbeitung" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.ProcScalar)),
-                    "**Verarbeitungsgeschwindigkeit des Krematoriums.**\n" +
-                    "Höhere Werte kremieren Leichen schneller und geben die Lagerkapazität der Anlage früher frei.\n" +
-                    "**100%** = Vanilla-Standard des Spiels."
-                },
-
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.FleetScalar)), "Leichenwagen gesamt" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.FleetScalar)),
-                    "**Maximale Leichenwagen** pro Anlage.\n" +
-                    "**100%** = Vanilla-Standard des Spiels.\n" +
-                    "**[Hinweis]** Zu viele Leichenwagen können je nach Sterberate den Verkehr beeinflussen."
-                },
-
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.HearseSpeedScalar)), "Leichenwagen-Geschwindigkeit" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.HearseSpeedScalar)),
-                    "**Erhöht die maximal zulässige Fahrgeschwindigkeit des Leichenwagens**.\n" +
-                    "**100%** = Vanilla-Standard des Spiels.\n" +
-                    "<Straßengeschwindigkeitsbegrenzungen gelten weiterhin>.\n" +
-                    "\n" +
-                    "Skaliert außerdem Beschleunigung/Bremsen (sanft), damit die neue Höchstgeschwindigkeit keine extremen Start-/Stopp-Effekte erzeugt.\n" +
-                    "Hinweis: Auch wenn die Höchstgeschwindigkeit des Leichenwagens erhöht wird, wird seine tatsächliche Fahrgeschwindigkeit beeinflusst durch:\n" +
-                    "zulässige Fahrzeughöchstgeschwindigkeit, Straßenlimit, die sichere Geschwindigkeit der Spiel-KI (Kurven, Straßenschäden) und den Verkehr."
-                },
-
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.HearseWarningMinutes)), "Todessymbol-Verzögerung" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.HearseWarningMinutes)),
                     "Dies ist die Gesamtzahl an Minuten, die ein Leichenwagen hat, um ein Gebäude zu erreichen, bevor **Warten-auf-Leichenwagen**-Problemsymbole erscheinen.\n" +
@@ -121,6 +96,13 @@ namespace MagicHearse
                     "- Unten im Statusbericht siehst du, wie viele Fälle überfällig sind.\n" +
                     "- Bereits sichtbare Symbole werden beim ersten Erhöhen dieser Zeit nicht ausgeblendet; gib dem System etwas Zeit, sich einzupendeln, während alte Einsätze beendet werden.\n" +
                     "- Lass aktuelle Einsätze normal enden oder aktiviere einmal <Magische Reinigung [x]>, um mit neuen Zeitplänen schnell frisch zu starten."
+                },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.ProcScalar)), "Krematoriumsverarbeitung" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.ProcScalar)),
+                    "**Verarbeitungsgeschwindigkeit des Krematoriums.**\n" +
+                    "Höhere Werte kremieren Leichen schneller und geben die Lagerkapazität der Anlage früher frei.\n" +
+                    "**100%** = Vanilla-Standard des Spiels."
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StorageScalar)), "Friedhofslager" },
@@ -146,6 +128,24 @@ namespace MagicHearse
                     "Wenn Friedhöfe sich selbst bei 500% noch zu oft füllen,\n" +
                     "aktiviere stattdessen **[Vollen Friedhof zurücksetzen]**.\n" +
                     "**100%** = Standardrate des Spiels für die Wiederverwendung von Gräbern."
+                },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.FleetScalar)), "Leichenwagen gesamt" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.FleetScalar)),
+                    "**Maximale Leichenwagen** pro Anlage.\n" +
+                    "**100%** = Vanilla-Standard des Spiels.\n" +
+                    "**[Hinweis]** Zu viele Leichenwagen können je nach Sterberate den Verkehr beeinflussen."
+                },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.HearseSpeedScalar)), "Leichenwagen-Geschwindigkeit" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.HearseSpeedScalar)),
+                    "**Erhöht die maximal zulässige Fahrgeschwindigkeit des Leichenwagens**.\n" +
+                    "**100%** = Vanilla-Standard des Spiels.\n" +
+                    "<Straßengeschwindigkeitsbegrenzungen gelten weiterhin>.\n" +
+                    "\n" +
+                    "Skaliert außerdem Beschleunigung/Bremsen (sanft), damit die neue Höchstgeschwindigkeit keine extremen Start-/Stopp-Effekte erzeugt.\n" +
+                    "Hinweis: Auch wenn die Höchstgeschwindigkeit des Leichenwagens erhöht wird, wird seine tatsächliche Fahrgeschwindigkeit beeinflusst durch:\n" +
+                    "zulässige Fahrzeughöchstgeschwindigkeit, Straßenlimit, die sichere Geschwindigkeit der Spiel-KI (Kurven, Straßenschäden) und den Verkehr."
                 },
 
                 // Workers compatibility toggle

@@ -86,31 +86,6 @@ namespace MagicHearse
                     "Opcjonalnie: **zwiększ także liczbę pracowników**."
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.ProcScalar)), "Przetwarzanie krematorium" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.ProcScalar)),
-                    "**Szybkość przetwarzania krematorium.**\n" +
-                    "Wyższe wartości szybciej kremują ciała i wcześniej zwalniają miejsce w obiekcie.\n" +
-                    "**100%** = domyślna wartość gry."
-                },
-
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.FleetScalar)), "Łączna liczba karawanów" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.FleetScalar)),
-                    "**Maksymalna liczba karawanów** na obiekt.\n" +
-                    "**100%** = domyślna wartość gry.\n" +
-                    "**[Uwaga]** Zbyt wiele karawanów może wpływać na ruch w zależności od liczby zgonów."
-                },
-
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.HearseSpeedScalar)), "Prędkość karawanu" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.HearseSpeedScalar)),
-                    "**Zwiększa maksymalną dozwoloną prędkość jazdy karawanu**.\n" +
-                    "**100%** = domyślna wartość gry.\n" +
-                    "<Ograniczenia prędkości na drogach nadal obowiązują>.\n" +
-                    "\n" +
-                    "Skaluje też przyspieszanie/hamowanie (łagodnie), aby nowa prędkość maksymalna nie powodowała gwałtownych startów i zatrzymań.\n" +
-                    "Uwaga: nawet po zwiększeniu prędkości maksymalnej karawanu jego rzeczywista prędkość zależy od:\n" +
-                    "maksymalnej prędkości pojazdu, ograniczenia drogi, bezpiecznej prędkości AI gry (zakręty, uszkodzenia drogi) i ruchu."
-                },
-
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.HearseWarningMinutes)), "Opóźnienie ikony zgonu" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.HearseWarningMinutes)),
                     "To łączna liczba minut, jaką karawan ma na dotarcie do budynku, zanim pojawią się ikony problemu **oczekiwania na karawan**.\n" +
@@ -121,6 +96,13 @@ namespace MagicHearse
                     "- Sprawdź raport Status na dole, aby zobaczyć liczbę spóźnionych przypadków.\n" +
                     "- Już widoczne ikony nie zostaną ukryte po pierwszym zwiększeniu tego czasu; daj systemowi chwilę na ustabilizowanie się, gdy wcześniejsze zlecenia dobiegną końca.\n" +
                     "- Pozwól obecnym zleceniom zakończyć się naturalnie albo użyj jednorazowo pola <Magiczne czyszczenie [x]>, aby szybko zacząć od nowa z nowymi harmonogramami."
+                },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.ProcScalar)), "Przetwarzanie krematorium" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.ProcScalar)),
+                    "**Szybkość przetwarzania krematorium.**\n" +
+                    "Wyższe wartości szybciej kremują ciała i wcześniej zwalniają miejsce w obiekcie.\n" +
+                    "**100%** = domyślna wartość gry."
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StorageScalar)), "Pojemność cmentarza" },
@@ -146,6 +128,24 @@ namespace MagicHearse
                     "Jeśli cmentarze nadal zapełniają się zbyt często przy 500%,\n" +
                     "włącz zamiast tego **[Zresetuj pełny cmentarz]**.\n" +
                     "**100%** = domyślne tempo ponownego wykorzystania grobów w grze."
+                },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.FleetScalar)), "Łączna liczba karawanów" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.FleetScalar)),
+                    "**Maksymalna liczba karawanów** na obiekt.\n" +
+                    "**100%** = domyślna wartość gry.\n" +
+                    "**[Uwaga]** Zbyt wiele karawanów może wpływać na ruch w zależności od liczby zgonów."
+                },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.HearseSpeedScalar)), "Prędkość karawanu" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.HearseSpeedScalar)),
+                    "**Zwiększa maksymalną dozwoloną prędkość jazdy karawanu**.\n" +
+                    "**100%** = domyślna wartość gry.\n" +
+                    "<Ograniczenia prędkości na drogach nadal obowiązują>.\n" +
+                    "\n" +
+                    "Skaluje też przyspieszanie/hamowanie (łagodnie), aby nowa prędkość maksymalna nie powodowała gwałtownych startów i zatrzymań.\n" +
+                    "Uwaga: nawet po zwiększeniu prędkości maksymalnej karawanu jego rzeczywista prędkość zależy od:\n" +
+                    "maksymalnej prędkości pojazdu, ograniczenia drogi, bezpiecznej prędkości AI gry (zakręty, uszkodzenia drogi) i ruchu."
                 },
 
                 // Workers compatibility toggle

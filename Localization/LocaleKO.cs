@@ -86,31 +86,6 @@ namespace MagicHearse
                     "선택 사항: **작업자 수도 증가**합니다."
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.ProcScalar)), "화장장 처리" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.ProcScalar)),
-                    "**화장장 처리 속도입니다.**\n" +
-                    "값이 높을수록 시신을 더 빨리 화장하고 시설 저장 공간을 더 빨리 확보합니다.\n" +
-                    "**100%** = 게임 기본값."
-                },
-
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.FleetScalar)), "총 운구차" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.FleetScalar)),
-                    "시설당 **최대 운구차 수**입니다.\n" +
-                    "**100%** = 게임 기본값.\n" +
-                    "**[참고]** 운구차가 너무 많으면 사망률에 따라 교통에 영향을 줄 수 있습니다."
-                },
-
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.HearseSpeedScalar)), "운구차 속도" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.HearseSpeedScalar)),
-                    "**운구차의 허용 최대 주행 속도를 높입니다**.\n" +
-                    "**100%** = 게임 기본값.\n" +
-                    "<도로 제한 속도는 계속 적용됩니다>.\n" +
-                    "\n" +
-                    "새 최고 속도에서 극단적인 출발/정지가 생기지 않도록 가속/제동도 부드럽게 조정합니다.\n" +
-                    "참고: 운구차의 최고 속도를 높여도 실제 주행 속도는 다음의 영향을 받습니다:\n" +
-                    "차량 허용 최고 속도, 도로 제한 속도, 게임 AI의 안전 속도(커브, 도로 손상), 교통 상황."
-                },
-
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.HearseWarningMinutes)), "사망 아이콘 지연" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.HearseWarningMinutes)),
                     "운구차가 건물에 도착하기까지 주어지는 총 시간(분)입니다. 이 시간이 지나면 **운구차 대기** 문제 아이콘이 나타납니다.\n" +
@@ -121,6 +96,13 @@ namespace MagicHearse
                     "- 아래 상태 보고서에서 기한 초과 건수를 확인하세요.\n" +
                     "- 이 시간을 처음 늘려도 이미 표시된 아이콘은 숨겨지지 않습니다. 기존 출동이 끝나는 동안 잠시 기다려 안정되도록 두세요.\n" +
                     "- 현재 출동을 자연스럽게 끝내거나 <매직 클린 [x]> 체크박스를 한 번 사용해 새 시간 설정으로 빠르게 다시 시작하세요."
+                },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.ProcScalar)), "화장장 처리" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.ProcScalar)),
+                    "**화장장 처리 속도입니다.**\n" +
+                    "값이 높을수록 시신을 더 빨리 화장하고 시설 저장 공간을 더 빨리 확보합니다.\n" +
+                    "**100%** = 게임 기본값."
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StorageScalar)), "묘지 저장 공간" },
@@ -146,6 +128,24 @@ namespace MagicHearse
                     "500%에서도 묘지가 너무 자주 가득 찬다면,\n" +
                     "대신 **[가득 찬 묘지 초기화]**를 활성화하세요.\n" +
                     "**100%** = 게임의 기본 무덤 재사용 속도입니다."
+                },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.FleetScalar)), "총 운구차" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.FleetScalar)),
+                    "시설당 **최대 운구차 수**입니다.\n" +
+                    "**100%** = 게임 기본값.\n" +
+                    "**[참고]** 운구차가 너무 많으면 사망률에 따라 교통에 영향을 줄 수 있습니다."
+                },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.HearseSpeedScalar)), "운구차 속도" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.HearseSpeedScalar)),
+                    "**운구차의 허용 최대 주행 속도를 높입니다**.\n" +
+                    "**100%** = 게임 기본값.\n" +
+                    "<도로 제한 속도는 계속 적용됩니다>.\n" +
+                    "\n" +
+                    "새 최고 속도에서 극단적인 출발/정지가 생기지 않도록 가속/제동도 부드럽게 조정합니다.\n" +
+                    "참고: 운구차의 최고 속도를 높여도 실제 주행 속도는 다음의 영향을 받습니다:\n" +
+                    "차량 허용 최고 속도, 도로 제한 속도, 게임 AI의 안전 속도(커브, 도로 손상), 교통 상황."
                 },
 
                 // Workers compatibility toggle

@@ -59,7 +59,7 @@ Adjust Buildings:
 - StarQ: tech advisory
 - Obelix, Toud, Necko1996: testing, screenshots
 
-### 16 Languages
+### 16 Languages (google translate)
 Hello, Bonjour, Hallo, Hola, Ciao, こんにちは, 안녕하세요, 你好, Cześć, Olá, Merhaba, Привіт, Xin chào, สวัสดี
 
 ## How it works
@@ -74,8 +74,9 @@ Hello, Bonjour, Hallo, Hola, Ciao, こんにちは, 안녕하세요, 你好, Cze
 <!--Thumbnail-->
 <Thumbnail Value="Properties/Thumbnail-MH-dog-thing03.jpg" />
 <!--Screenshot, can be set multiple times-->
+<Screenshot Value="Properties/10image-Options.jpg" />
+<Screenshot Value="Properties/15image-Before.jpg" />
 <Screenshot Value="Properties/20image-OptionsFD.jpg" />
-<Screenshot Value="Properties/25image-Before.jpg" />
 <Screenshot Value="Properties/30image-Status.jpg" />
 <Screenshot Value="Properties/60image-Languages.jpg" />
 <!--Tag, can be set multiple times-->

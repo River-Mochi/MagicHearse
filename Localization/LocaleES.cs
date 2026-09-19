@@ -86,31 +86,6 @@ namespace MagicHearse
                     "Opcional: **aumentar también los trabajadores**."
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.ProcScalar)), "Procesamiento del crematorio" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.ProcScalar)),
-                    "**Velocidad de procesamiento del crematorio.**\n" +
-                    "Los valores más altos incineran los cuerpos y liberan antes el almacenamiento de la instalación.\n" +
-                    "**100%** = valor vanilla del juego."
-                },
-
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.FleetScalar)), "Total de coches fúnebres" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.FleetScalar)),
-                    "**Máximo de coches fúnebres** por instalación.\n" +
-                    "**100%** = valor vanilla del juego.\n" +
-                    "**[Nota]** Demasiados coches fúnebres pueden afectar al tráfico según la tasa de muertes."
-                },
-
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.HearseSpeedScalar)), "Velocidad del coche fúnebre" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.HearseSpeedScalar)),
-                    "**Aumenta la velocidad máxima permitida del coche fúnebre**.\n" +
-                    "**100%** = valor vanilla del juego.\n" +
-                    "<Los límites de velocidad de la carretera siguen aplicándose>.\n" +
-                    "\n" +
-                    "También ajusta la aceleración/frenado (suave) para que la nueva velocidad máxima no provoque salidas o paradas extremas.\n" +
-                    "Nota: aunque se aumente la velocidad máxima del coche fúnebre, su velocidad real está influida por:\n" +
-                    "máximo permitido del vehículo, límite de la carretera, velocidad segura de la IA del juego (curvas, daños en la carretera) y tráfico."
-                },
-
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.HearseWarningMinutes)), "Retraso del icono de muerte" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.HearseWarningMinutes)),
                     "Este es el total de minutos que tiene un coche fúnebre para llegar a un edificio antes de que aparezcan los iconos de problema de **espera de coche fúnebre**.\n" +
@@ -121,6 +96,13 @@ namespace MagicHearse
                     "- Consulta el informe de Estado de abajo para ver cuántos casos están vencidos.\n" +
                     "- Los iconos ya visibles no se ocultan al aumentar este tiempo por primera vez; deja que el sistema se estabilice mientras terminan los servicios anteriores.\n" +
                     "- Deja que los envíos actuales terminen de forma natural o usa una vez la casilla <Limpieza mágica [x]> para empezar de nuevo rápidamente con los nuevos horarios."
+                },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.ProcScalar)), "Procesamiento del crematorio" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.ProcScalar)),
+                    "**Velocidad de procesamiento del crematorio.**\n" +
+                    "Los valores más altos incineran los cuerpos y liberan antes el almacenamiento de la instalación.\n" +
+                    "**100%** = valor vanilla del juego."
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StorageScalar)), "Almacenamiento del cementerio" },
@@ -146,6 +128,24 @@ namespace MagicHearse
                     "Si los cementerios siguen llenándose demasiado a menudo al 500%,\n" +
                     "activa **[Restablecer cementerio lleno]** en su lugar.\n" +
                     "**100%** = ritmo predeterminado del juego para reutilizar tumbas."
+                },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.FleetScalar)), "Total de coches fúnebres" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.FleetScalar)),
+                    "**Máximo de coches fúnebres** por instalación.\n" +
+                    "**100%** = valor vanilla del juego.\n" +
+                    "**[Nota]** Demasiados coches fúnebres pueden afectar al tráfico según la tasa de muertes."
+                },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.HearseSpeedScalar)), "Velocidad del coche fúnebre" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.HearseSpeedScalar)),
+                    "**Aumenta la velocidad máxima permitida del coche fúnebre**.\n" +
+                    "**100%** = valor vanilla del juego.\n" +
+                    "<Los límites de velocidad de la carretera siguen aplicándose>.\n" +
+                    "\n" +
+                    "También ajusta la aceleración/frenado (suave) para que la nueva velocidad máxima no provoque salidas o paradas extremas.\n" +
+                    "Nota: aunque se aumente la velocidad máxima del coche fúnebre, su velocidad real está influida por:\n" +
+                    "máximo permitido del vehículo, límite de la carretera, velocidad segura de la IA del juego (curvas, daños en la carretera) y tráfico."
                 },
 
                 // Workers compatibility toggle

@@ -86,31 +86,6 @@ namespace MagicHearse
                     "任意：**労働者数も増やします**。"
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.ProcScalar)), "火葬場の処理速度" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.ProcScalar)),
-                    "**火葬場の処理速度。**\n" +
-                    "値を上げると遺体をより早く火葬し、施設の保管容量を早く空けます。\n" +
-                    "**100%** = バニラのゲーム既定値。"
-                },
-
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.FleetScalar)), "霊柩車の総数" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.FleetScalar)),
-                    "施設ごとの**霊柩車の最大数**。\n" +
-                    "**100%** = バニラのゲーム既定値。\n" +
-                    "**[注意]** 霊柩車が多すぎると、死亡率によっては交通に影響する場合があります。"
-                },
-
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.HearseSpeedScalar)), "霊柩車の速度" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.HearseSpeedScalar)),
-                    "**霊柩車に許可される最高走行速度を上げます**。\n" +
-                    "**100%** = バニラのゲーム既定値。\n" +
-                    "<道路の制限速度は引き続き適用されます>。\n" +
-                    "\n" +
-                    "加速/減速（穏やか）もスケールし、新しい最高速度で極端な発進/停止が起きないようにします。\n" +
-                    "注：霊柩車の最高速度を上げても、実際の走行速度は次の影響を受けます：\n" +
-                    "車両に許可された最高速度、道路の制限速度、ゲームAIの安全速度（カーブ、道路損傷）、交通状況。"
-                },
-
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.HearseWarningMinutes)), "死亡アイコンの遅延" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.HearseWarningMinutes)),
                     "霊柩車が建物に到着するまでに使える合計分数です。この時間を過ぎると、**霊柩車待ち**の問題アイコンが表示されます。\n" +
@@ -121,6 +96,13 @@ namespace MagicHearse
                     "- 下部のステータスレポートで期限超過の件数を確認できます。\n" +
                     "- この時間を初めて増やしても、すでに表示中のアイコンは非表示になりません。以前の出動が完了するまで、少し時間をおいて落ち着くのを待ってください。\n" +
                     "- 現在の出動を自然に完了させるか、<魔法クリーン [x]> を一度だけ使って、新しい時間設定で素早くリスタートしてください。"
+                },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.ProcScalar)), "火葬場の処理速度" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.ProcScalar)),
+                    "**火葬場の処理速度。**\n" +
+                    "値を上げると遺体をより早く火葬し、施設の保管容量を早く空けます。\n" +
+                    "**100%** = バニラのゲーム既定値。"
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StorageScalar)), "墓地の収容" },
@@ -146,6 +128,24 @@ namespace MagicHearse
                     "500%でも墓地が頻繁に満杯になる場合は、\n" +
                     "代わりに **[満杯の墓地をリセット]** を有効にしてください。\n" +
                     "**100%** = ゲーム既定の墓区画再利用速度。"
+                },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.FleetScalar)), "霊柩車の総数" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.FleetScalar)),
+                    "施設ごとの**霊柩車の最大数**。\n" +
+                    "**100%** = バニラのゲーム既定値。\n" +
+                    "**[注意]** 霊柩車が多すぎると、死亡率によっては交通に影響する場合があります。"
+                },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.HearseSpeedScalar)), "霊柩車の速度" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.HearseSpeedScalar)),
+                    "**霊柩車に許可される最高走行速度を上げます**。\n" +
+                    "**100%** = バニラのゲーム既定値。\n" +
+                    "<道路の制限速度は引き続き適用されます>。\n" +
+                    "\n" +
+                    "加速/減速（穏やか）もスケールし、新しい最高速度で極端な発進/停止が起きないようにします。\n" +
+                    "注：霊柩車の最高速度を上げても、実際の走行速度は次の影響を受けます：\n" +
+                    "車両に許可された最高速度、道路の制限速度、ゲームAIの安全速度（カーブ、道路損傷）、交通状況。"
                 },
 
                 // Workers compatibility toggle

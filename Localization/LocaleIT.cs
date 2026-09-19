@@ -86,31 +86,6 @@ namespace MagicHearse
                     "Opzionale: **aumenta anche i lavoratori**."
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.ProcScalar)), "Trattamento del crematorio" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.ProcScalar)),
-                    "**Velocità di trattamento del crematorio.**\n" +
-                    "Valori più alti cremano i corpi e liberano prima lo spazio della struttura.\n" +
-                    "**100%** = valore vanilla del gioco."
-                },
-
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.FleetScalar)), "Totale carri funebri" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.FleetScalar)),
-                    "**Numero massimo di carri funebri** per struttura.\n" +
-                    "**100%** = valore vanilla del gioco.\n" +
-                    "**[Nota]** Troppi carri funebri possono influire sul traffico a seconda del tasso di mortalità."
-                },
-
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.HearseSpeedScalar)), "Velocità del carro funebre" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.HearseSpeedScalar)),
-                    "**Aumenta la velocità di guida massima consentita del carro funebre**.\n" +
-                    "**100%** = valore vanilla del gioco.\n" +
-                    "<I limiti di velocità della strada si applicano ancora>.\n" +
-                    "\n" +
-                    "Scala anche accelerazione/frenata (dolce) così la nuova velocità massima non crea partenze o arresti estremi.\n" +
-                    "Nota: anche se aumenta la velocità massima del carro funebre, la velocità effettiva è influenzata da:\n" +
-                    "massimo consentito del veicolo, limite stradale, velocità sicura dell’IA del gioco (curve, danni stradali) e traffico."
-                },
-
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.HearseWarningMinutes)), "Ritardo icona di decesso" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.HearseWarningMinutes)),
                     "È il numero totale di minuti che un carro funebre ha per raggiungere un edificio prima che compaiano le icone di problema **in attesa del carro funebre**.\n" +
@@ -121,6 +96,13 @@ namespace MagicHearse
                     "- Controlla il rapporto Stato in basso per vedere quanti casi sono scaduti.\n" +
                     "- Le icone già visibili non vengono nascoste quando aumenti questo tempo per la prima volta; lascia al sistema un po’ di tempo per stabilizzarsi mentre gli interventi precedenti terminano.\n" +
                     "- Lascia che le spedizioni attuali finiscano normalmente oppure usa una volta la casella <Pulizia magica [x]> per ripartire rapidamente con i nuovi tempi."
+                },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.ProcScalar)), "Trattamento del crematorio" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.ProcScalar)),
+                    "**Velocità di trattamento del crematorio.**\n" +
+                    "Valori più alti cremano i corpi e liberano prima lo spazio della struttura.\n" +
+                    "**100%** = valore vanilla del gioco."
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StorageScalar)), "Stoccaggio del cimitero" },
@@ -146,6 +128,24 @@ namespace MagicHearse
                     "Se i cimiteri si riempiono ancora troppo spesso al 500%,\n" +
                     "attiva invece **[Reimposta cimitero pieno]**.\n" +
                     "**100%** = velocità predefinita del gioco per il riutilizzo delle tombe."
+                },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.FleetScalar)), "Totale carri funebri" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.FleetScalar)),
+                    "**Numero massimo di carri funebri** per struttura.\n" +
+                    "**100%** = valore vanilla del gioco.\n" +
+                    "**[Nota]** Troppi carri funebri possono influire sul traffico a seconda del tasso di mortalità."
+                },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.HearseSpeedScalar)), "Velocità del carro funebre" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.HearseSpeedScalar)),
+                    "**Aumenta la velocità di guida massima consentita del carro funebre**.\n" +
+                    "**100%** = valore vanilla del gioco.\n" +
+                    "<I limiti di velocità della strada si applicano ancora>.\n" +
+                    "\n" +
+                    "Scala anche accelerazione/frenata (dolce) così la nuova velocità massima non crea partenze o arresti estremi.\n" +
+                    "Nota: anche se aumenta la velocità massima del carro funebre, la velocità effettiva è influenzata da:\n" +
+                    "massimo consentito del veicolo, limite stradale, velocità sicura dell’IA del gioco (curve, danni stradali) e traffico."
                 },
 
                 // Workers compatibility toggle
