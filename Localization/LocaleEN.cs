@@ -74,7 +74,7 @@ namespace MagicHearse
                     "Magic Clean removes most corpses before burial — this still clears any cemetery that's **already full**.\n" +
                     "<[ ] Default OFF>.\n" +
                     "Enable this only if cemeteries are already full.\n" +
-                    "This option helps when cleaning up old cities, but should not to stay enabled if Magic Clean is enabled.\n" +
+                    "This option helps when cleaning up old cities, but should not need to stay enabled if Magic Clean is enabled.\n" +
                     "A new cemetery will normally never fill up if Magic Clean is ON."
                 },
 
