@@ -73,8 +73,9 @@ namespace MagicHearse
                     "**Opróżnia pełny cmentarz**, aby nie był zablokowany ikoną PEŁNY.\n" +
                     "Magiczne czyszczenie usuwa większość ciał przed pochówkiem — ta opcja nadal opróżni każdy cmentarz, który **jest już pełny**.\n" +
                     "<[ ] Domyślnie WYŁ.>.\n" +
-                    "Włącz tę opcję tylko wtedy, gdy tryb Magicznego czyszczenia ma również opróżniać już pełne cmentarze.\n" +
-                    "Po opróżnieniu zwykle nie trzeba pozostawiać tej opcji włączonej, jeśli Magiczne czyszczenie pozostaje aktywne."
+                    "Włącz tę opcję tylko wtedy, gdy cmentarze są już pełne.\n" +
+                    "Ta opcja pomaga uporządkować starsze miasta, ale przy włączonym Magicznym czyszczeniu zwykle nie trzeba pozostawiać jej aktywnej.\n" +
+                    "Nowy cmentarz zwykle nigdy się nie zapełni, jeśli Magiczne czyszczenie jest WŁ."
                 },
 
                 // Self Manage (FD)
@@ -130,7 +131,7 @@ namespace MagicHearse
                     "**100%** = domyślna wartość gry."
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.AutoResetCemetery)), "Automatycznie resetuj cmentarz" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.AutoResetCemetery)), "Zresetuj pełny cmentarz" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.AutoResetCemetery)),
                     "**Opróżnia pełny cmentarz**, aby nie był zablokowany ikoną PEŁNY nad budynkiem.\n" +
                     "Nie trzeba już usuwać i odbudowywać pełnych cmentarzy.\n" +
@@ -143,7 +144,7 @@ namespace MagicHearse
                     "**Stopniowo zwalnia zajęte miejsca na cmentarzu.**\n" +
                     "Wyższe wartości sprawiają, że miejsca stają się ponownie dostępne szybciej niż w podstawowej grze.\n" +
                     "Jeśli cmentarze nadal zapełniają się zbyt często przy 500%,\n" +
-                    "włącz zamiast tego **[Automatycznie resetuj cmentarz]**.\n" +
+                    "włącz zamiast tego **[Zresetuj pełny cmentarz]**.\n" +
                     "**100%** = domyślne tempo ponownego wykorzystania grobów w grze."
                 },
 

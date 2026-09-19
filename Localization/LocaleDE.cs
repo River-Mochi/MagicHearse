@@ -73,8 +73,9 @@ namespace MagicHearse
                     "**Leert einen vollen Friedhof**, damit er nicht durch ein VOLL-Symbol blockiert wird.\n" +
                     "Magische Reinigung entfernt die meisten Verstorbenen vor der Beerdigung — diese Option leert dennoch jeden Friedhof, der **bereits voll** ist.\n" +
                     "<[ ] Standardmäßig AUS>.\n" +
-                    "Aktiviere diese Option nur, wenn die magische Reinigung auch bereits volle Friedhöfe leeren soll.\n" +
-                    "Nach dem Leeren muss diese Option normalerweise nicht aktiviert bleiben, solange die magische Reinigung aktiviert bleibt."
+                    "Aktiviere diese Option nur, wenn Friedhöfe bereits voll sind.\n" +
+                    "Diese Option hilft beim Aufräumen älterer Städte, sollte aber nicht dauerhaft aktiviert bleiben müssen, wenn die magische Reinigung aktiviert ist.\n" +
+                    "Ein neuer Friedhof wird sich normalerweise nie füllen, wenn die magische Reinigung EIN ist."
                 },
 
                 // Self Manage (FD)
@@ -130,7 +131,7 @@ namespace MagicHearse
                     "**100%** = Vanilla-Standard des Spiels."
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.AutoResetCemetery)), "Friedhof automatisch zurücksetzen" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.AutoResetCemetery)), "Vollen Friedhof zurücksetzen" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.AutoResetCemetery)),
                     "**Leert einen vollen Friedhof**, damit er nicht durch ein VOLL-Symbol über dem Gebäude blockiert wird.\n" +
                     "Volle Friedhöfe müssen nicht mehr abgerissen und neu gebaut werden.\n" +
@@ -143,7 +144,7 @@ namespace MagicHearse
                     "**Gibt belegte Grabplätze nach und nach wieder frei.**\n" +
                     "Höhere Werte machen Grabplätze schneller als im Vanilla-Spiel wieder verfügbar.\n" +
                     "Wenn Friedhöfe sich selbst bei 500% noch zu oft füllen,\n" +
-                    "aktiviere stattdessen **[Friedhof automatisch zurücksetzen]**.\n" +
+                    "aktiviere stattdessen **[Vollen Friedhof zurücksetzen]**.\n" +
                     "**100%** = Standardrate des Spiels für die Wiederverwendung von Gräbern."
                 },
 

@@ -73,8 +73,9 @@ namespace MagicHearse
                     "**Dolu bir mezarlığı boşaltır**, böylece DOLU simgesi nedeniyle engellenmez.\n" +
                     "Sihirli Temizleme çoğu bedeni gömülmeden önce kaldırır — bu seçenek **zaten dolu** olan mezarlıkları da boşaltır.\n" +
                     "<[ ] Varsayılan KAPALI>.\n" +
-                    "Bu seçeneği yalnızca Sihirli Temizleme modunun zaten dolu mezarlıkları da boşaltmasını istiyorsanız etkinleştirin.\n" +
-                    "Boşaltıldıktan sonra, Sihirli Temizleme açık kaldığı sürece genellikle bu seçeneği açık tutmaya gerek yoktur."
+                    "Bu seçeneği yalnızca zaten dolu mezarlıklar varsa etkinleştirin.\n" +
+                    "Bu seçenek eski şehirleri temizlemeye yardımcı olur, ancak Sihirli Temizleme etkinse açık kalması gerekmez.\n" +
+                    "Sihirli Temizleme AÇIK ise yeni bir mezarlık normalde asla dolmaz."
                 },
 
                 // Self Manage (FD)
@@ -130,7 +131,7 @@ namespace MagicHearse
                     "**100%** = oyunun varsayılan değeri."
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.AutoResetCemetery)), "Mezarlığı otomatik sıfırla" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.AutoResetCemetery)), "Dolu mezarlığı sıfırla" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.AutoResetCemetery)),
                     "**Dolu bir mezarlığı boşaltır**, böylece binanın üzerindeki DOLU simgesi nedeniyle engellenmez.\n" +
                     "Artık dolu mezarlıkları silip yeniden inşa etmeye gerek yok.\n" +
@@ -143,7 +144,7 @@ namespace MagicHearse
                     "**Dolu mezar yerlerini kademeli olarak yeniden kullanılabilir hâle getirir.**\n" +
                     "Daha yüksek değerler mezar yerlerini temel oyuna göre daha hızlı kullanılabilir hâle getirir.\n" +
                     "Mezarlıklar 500% değerinde bile çok sık doluyorsa,\n" +
-                    "bunun yerine **[Mezarlığı otomatik sıfırla]** seçeneğini etkinleştirin.\n" +
+                    "bunun yerine **[Dolu mezarlığı sıfırla]** seçeneğini etkinleştirin.\n" +
                     "**100%** = oyunun mezarları yeniden kullanma için varsayılan hızı."
                 },
 

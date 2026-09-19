@@ -73,8 +73,9 @@ namespace MagicHearse
                     "**Svuota un cimitero pieno** affinché non resti bloccato con l’icona PIENO.\n" +
                     "Pulizia magica rimuove la maggior parte dei corpi prima della sepoltura — questa opzione svuota comunque qualsiasi cimitero **già pieno**.\n" +
                     "<[ ] Disattivato per impostazione predefinita>.\n" +
-                    "Attiva questa opzione solo se la modalità Pulizia magica deve svuotare anche i cimiteri già pieni.\n" +
-                    "Una volta svuotato, normalmente non è necessario lasciare attiva questa opzione finché Pulizia magica resta attiva."
+                    "Attiva questa opzione solo se ci sono già cimiteri pieni.\n" +
+                    "Questa opzione aiuta a ripulire le vecchie città, ma non dovrebbe essere necessario lasciarla attiva se Pulizia magica è attiva.\n" +
+                    "Un nuovo cimitero normalmente non si riempirà mai se Pulizia magica è ATTIVA."
                 },
 
                 // Self Manage (FD)
@@ -130,7 +131,7 @@ namespace MagicHearse
                     "**100%** = valore vanilla del gioco."
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.AutoResetCemetery)), "Ripristino automatico cimitero" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.AutoResetCemetery)), "Reimposta cimitero pieno" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.AutoResetCemetery)),
                     "**Svuota un cimitero pieno** così non resta bloccato dall’icona PIENO sopra l’edificio.\n" +
                     "Non serve più eliminare e ricostruire i cimiteri pieni.\n" +
@@ -143,7 +144,7 @@ namespace MagicHearse
                     "**Libera gradualmente le tombe occupate del cimitero.**\n" +
                     "Valori più alti rendono di nuovo disponibili i posti più rapidamente rispetto al vanilla.\n" +
                     "Se i cimiteri si riempiono ancora troppo spesso al 500%,\n" +
-                    "attiva invece **[Ripristino automatico cimitero]**.\n" +
+                    "attiva invece **[Reimposta cimitero pieno]**.\n" +
                     "**100%** = velocità predefinita del gioco per il riutilizzo delle tombe."
                 },
 

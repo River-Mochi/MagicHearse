@@ -73,8 +73,9 @@ namespace MagicHearse
                     "**Esvazia um cemitério lotado** para que ele não fique bloqueado com o ícone LOTADO.\n" +
                     "A Limpeza Mágica remove a maioria dos corpos antes do enterro — esta opção ainda esvazia qualquer cemitério que **já esteja lotado**.\n" +
                     "<[ ] DESATIVADO por padrão>.\n" +
-                    "Ative esta opção somente se o modo Limpeza Mágica também deve esvaziar cemitérios que já estejam lotados.\n" +
-                    "Depois de esvaziado, normalmente não é preciso manter esta opção ativada enquanto a Limpeza Mágica continuar ativa."
+                    "Ative esta opção somente se já houver cemitérios lotados.\n" +
+                    "Esta opção ajuda a limpar cidades antigas, mas não deve ser necessário mantê-la ativada se a Limpeza Mágica estiver ativa.\n" +
+                    "Um cemitério novo normalmente nunca ficará lotado se a Limpeza Mágica estiver ATIVADA."
                 },
 
                 // Self Manage (FD)
@@ -130,7 +131,7 @@ namespace MagicHearse
                     "**100%** = padrão do jogo."
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.AutoResetCemetery)), "Redefinir cemitério automaticamente" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.AutoResetCemetery)), "Redefinir cemitério lotado" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.AutoResetCemetery)),
                     "**Esvazia um cemitério lotado** para que ele não fique bloqueado pelo ícone LOTADO acima do prédio.\n" +
                     "Não é mais preciso apagar e reconstruir cemitérios lotados.\n" +
@@ -143,7 +144,7 @@ namespace MagicHearse
                     "**Libera gradualmente os túmulos ocupados do cemitério.**\n" +
                     "Valores maiores tornam os espaços disponíveis novamente mais rápido que no jogo padrão.\n" +
                     "Se os cemitérios ainda lotarem com muita frequência em 500%,\n" +
-                    "ative **[Redefinir cemitério automaticamente]** em vez disso.\n" +
+                    "ative **[Redefinir cemitério lotado]** em vez disso.\n" +
                     "**100%** = taxa padrão do jogo para reutilização dos túmulos."
                 },
 

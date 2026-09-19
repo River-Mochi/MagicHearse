@@ -73,8 +73,9 @@ namespace MagicHearse
                     "**Làm trống nghĩa trang đầy** để không bị chặn bởi biểu tượng ĐẦY.\n" +
                     "Dọn Ma Thuật loại bỏ phần lớn thi thể trước khi chôn — tùy chọn này vẫn làm trống mọi nghĩa trang **đã đầy**.\n" +
                     "<[ ] Mặc định TẮT>.\n" +
-                    "Chỉ bật tùy chọn này nếu chế độ Dọn Ma Thuật cũng cần làm trống những nghĩa trang đã đầy.\n" +
-                    "Sau khi đã làm trống, thường không cần để tùy chọn này bật nếu Dọn Ma Thuật vẫn được bật."
+                    "Chỉ bật tùy chọn này nếu đã có nghĩa trang đầy.\n" +
+                    "Tùy chọn này hữu ích khi dọn các thành phố cũ, nhưng không cần bật liên tục nếu Dọn Ma Thuật đang bật.\n" +
+                    "Một nghĩa trang mới thường sẽ không bao giờ đầy nếu Dọn Ma Thuật đang BẬT."
                 },
 
                 // Self Manage (FD)
@@ -130,7 +131,7 @@ namespace MagicHearse
                     "**100%** = giá trị mặc định của trò chơi."
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.AutoResetCemetery)), "Tự động đặt lại nghĩa trang" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.AutoResetCemetery)), "Đặt lại nghĩa trang đầy" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.AutoResetCemetery)),
                     "**Làm trống nghĩa trang đầy** để không bị chặn bởi biểu tượng ĐẦY phía trên tòa nhà.\n" +
                     "Không còn cần xóa và xây lại nghĩa trang đầy.\n" +
@@ -143,7 +144,7 @@ namespace MagicHearse
                     "**Dần giải phóng các ngôi mộ đang được sử dụng.**\n" +
                     "Giá trị cao hơn giúp chỗ mộ có thể sử dụng lại nhanh hơn trò chơi gốc.\n" +
                     "Nếu nghĩa trang vẫn đầy quá thường xuyên ở mức 500%,\n" +
-                    "hãy bật **[Tự động đặt lại nghĩa trang]** thay thế.\n" +
+                    "hãy bật **[Đặt lại nghĩa trang đầy]** thay thế.\n" +
                     "**100%** = tốc độ mặc định của trò chơi để tái sử dụng mộ."
                 },
 

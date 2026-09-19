@@ -73,8 +73,9 @@ namespace MagicHearse
                     "**Vacía un cementerio lleno** para que no quede bloqueado con el icono LLENO.\n" +
                     "La limpieza mágica elimina la mayoría de los cadáveres antes del entierro — aun así, esta opción vacía cualquier cementerio que **ya esté lleno**.\n" +
                     "<[ ] Desactivado por defecto>.\n" +
-                    "Activa esta opción solo si el modo de limpieza mágica también debe vaciar los cementerios que ya estén llenos.\n" +
-                    "Una vez vacío, normalmente no hace falta mantener esta opción activada mientras la limpieza mágica siga activada."
+                    "Activa esta opción solo si ya hay cementerios llenos.\n" +
+                    "Esta opción ayuda a limpiar ciudades antiguas, pero no debería ser necesario mantenerla activada si la limpieza mágica está activada.\n" +
+                    "Normalmente, un cementerio nuevo nunca se llenará si la limpieza mágica está ACTIVADA."
                 },
 
                 // Self Manage (FD)
@@ -130,7 +131,7 @@ namespace MagicHearse
                     "**100%** = valor vanilla del juego."
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.AutoResetCemetery)), "Reinicio automático del cementerio" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.AutoResetCemetery)), "Restablecer cementerio lleno" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.AutoResetCemetery)),
                     "**Vacía un cementerio lleno** para que no quede bloqueado con el icono LLENO sobre el edificio.\n" +
                     "Ya no hace falta eliminar y reconstruir los cementerios llenos.\n" +
@@ -143,7 +144,7 @@ namespace MagicHearse
                     "**Libera gradualmente las tumbas ocupadas del cementerio.**\n" +
                     "Los valores más altos vuelven a dejar espacios disponibles más rápido que en vanilla.\n" +
                     "Si los cementerios siguen llenándose demasiado a menudo al 500%,\n" +
-                    "activa **[Reinicio automático del cementerio]** en su lugar.\n" +
+                    "activa **[Restablecer cementerio lleno]** en su lugar.\n" +
                     "**100%** = ritmo predeterminado del juego para reutilizar tumbas."
                 },
 

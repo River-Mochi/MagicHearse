@@ -73,8 +73,9 @@ namespace MagicHearse
                     "**Esvazia um cemitério cheio** para que não fique bloqueado com o ícone CHEIO.\n" +
                     "A Limpeza Mágica remove a maioria dos cadáveres antes do enterro — esta opção continua a esvaziar qualquer cemitério que **já esteja cheio**.\n" +
                     "<[ ] DESATIVADO por predefinição>.\n" +
-                    "Ative esta opção apenas se o modo Limpeza Mágica também deve esvaziar cemitérios que já estejam cheios.\n" +
-                    "Depois de esvaziado, normalmente não é necessário manter esta opção ativa enquanto a Limpeza Mágica permanecer ativa."
+                    "Ative esta opção apenas se já houver cemitérios cheios.\n" +
+                    "Esta opção ajuda a limpar cidades antigas, mas não deverá ser necessário mantê-la ativa se a Limpeza Mágica estiver ativada.\n" +
+                    "Um cemitério novo normalmente nunca ficará cheio se a Limpeza Mágica estiver ATIVADA."
                 },
 
                 // Self Manage (FD)
@@ -130,7 +131,7 @@ namespace MagicHearse
                     "**100%** = valor predefinido do jogo."
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.AutoResetCemetery)), "Repor cemitério automaticamente" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.AutoResetCemetery)), "Repor cemitério cheio" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.AutoResetCemetery)),
                     "**Esvazia um cemitério cheio** para que não fique bloqueado pelo ícone CHEIO acima do edifício.\n" +
                     "Já não é necessário eliminar e reconstruir cemitérios cheios.\n" +
@@ -143,7 +144,7 @@ namespace MagicHearse
                     "**Liberta gradualmente os túmulos ocupados do cemitério.**\n" +
                     "Valores mais altos tornam os espaços novamente disponíveis mais depressa do que no jogo base.\n" +
                     "Se os cemitérios continuarem a encher-se com demasiada frequência a 500%,\n" +
-                    "ative **[Repor cemitério automaticamente]** em alternativa.\n" +
+                    "ative **[Repor cemitério cheio]** em alternativa.\n" +
                     "**100%** = taxa predefinida do jogo para reutilização dos túmulos."
                 },
 

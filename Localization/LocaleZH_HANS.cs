@@ -73,8 +73,9 @@ namespace MagicHearse
                     "**清空已满墓地**，使其不会被“已满”图标阻塞。\n" +
                     "魔法清理会在下葬前移除大多数遗体——此选项仍会清空任何**已经满了**的墓地。\n" +
                     "<[ ] 默认关闭>。\n" +
-                    "仅当你希望魔法清理模式也清空已经满了的墓地时启用此选项。\n" +
-                    "清空后，只要魔法清理保持启用，通常无需继续开启此选项。"
+                    "仅当已有墓地满载时才启用此选项。\n" +
+                    "此选项有助于清理旧城市，但如果魔法清理已启用，通常无需保持开启。\n" +
+                    "如果魔法清理已开启，新墓地通常不会再满。"
                 },
 
                 // Self Manage (FD)
@@ -130,7 +131,7 @@ namespace MagicHearse
                     "**100%** = 游戏原版默认值。"
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.AutoResetCemetery)), "自动重置墓地" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.AutoResetCemetery)), "重置已满墓地" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.AutoResetCemetery)),
                     "**清空已满墓地**，使其不会被建筑上方的“已满”图标阻塞。\n" +
                     "以后无需再删除并重建已满墓地。\n" +
@@ -143,7 +144,7 @@ namespace MagicHearse
                     "**逐步释放已占用的墓位。**\n" +
                     "数值越高，墓位重新可用的速度就越快于原版。\n" +
                     "如果设置为 500% 后墓地仍经常满，\n" +
-                    "请改为启用 **[自动重置墓地]**。\n" +
+                    "请改为启用 **[重置已满墓地]**。\n" +
                     "**100%** = 游戏默认的墓位循环再利用速度。"
                 },
 
