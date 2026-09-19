@@ -85,21 +85,51 @@ namespace MagicHearse
                     "**Giá trị tỷ lệ:** tốc độ, đội xe, lưu trữ.\n" +
                     "Tùy chọn: **tăng cả số nhân công**."
                 },
-
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.HearseWarningMinutes)), "Độ trễ biểu tượng tử vong" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.HearseWarningMinutes)),
+                    "Đây là tổng số phút xe tang có để đến một tòa nhà trước khi biểu tượng vấn đề **đang chờ xe tang** xuất hiện.\n" +
+                    "**3 phút** gần với mặc định của trò chơi là khoảng 2,5 phút mô phỏng.\n" +
+                    "Có thể tăng giá trị này để xe tang có thời gian hợp lý hơn hoàn thành chuyến đi trước khi biểu tượng tử vong xuất hiện.\n" +
+                    "Lưu ý:\n" +
+                    "- <Đề xuất: 10 phút>. Hãy thử cao hơn với thành phố tắc nghẽn nặng.\n" +
+                    "- Xem báo cáo Trạng thái phía dưới để biết có bao nhiêu trường hợp quá hạn.\n" +
+                    "- Các biểu tượng đang hiển thị sẽ không bị ẩn khi tăng thời gian này lần đầu; hãy cho hệ thống một chút thời gian ổn định trong khi các chuyến điều xe cũ hoàn tất.\n" +
+                    "- Để các chuyến điều xe hiện tại hoàn tất tự nhiên hoặc dùng ô <Dọn Ma Thuật [x]> một lần để nhanh chóng bắt đầu lại với lịch thời gian mới."
+                },
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.ProcScalar)), "Xử lý lò hỏa táng" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.ProcScalar)),
                     "**Tốc độ xử lý của lò hỏa táng.**\n" +
                     "Giá trị cao hơn sẽ hỏa táng thi thể nhanh hơn và giải phóng chỗ chứa của cơ sở sớm hơn.\n" +
                     "**100%** = giá trị mặc định của trò chơi."
                 },
-
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StorageScalar)), "Sức chứa nghĩa trang" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StorageScalar)),
+                    "**Sức chứa của nghĩa trang** cho tòa nhà chính.\n" +
+                    "Sức chứa lớn hơn giúp nghĩa trang đầy có thể nhận thi thể trở lại.\n" +
+                    "Không điều thêm xe tang trừ khi thiếu chỗ đang làm cơ sở bị chặn.\n" +
+                    "**100%** = giá trị mặc định của trò chơi."
+                },
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.AutoResetCemetery)), "Đặt lại nghĩa trang đầy" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.AutoResetCemetery)),
+                    "**Làm trống nghĩa trang đầy** để không bị chặn bởi biểu tượng ĐẦY phía trên tòa nhà.\n" +
+                    "Không còn cần xóa và xây lại nghĩa trang đầy.\n" +
+                    "Tắt tùy chọn này để dùng **Tốc độ luân chuyển nghĩa trang** dần dần.\n" +
+                    "<[ ✓ ] Mặc định BẬT>"
+                },
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.CemeteryTurnoverScalar)), "Tốc độ luân chuyển nghĩa trang" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.CemeteryTurnoverScalar)),
+                    "**Dần giải phóng các ngôi mộ đang được sử dụng.**\n" +
+                    "Giá trị cao hơn giúp chỗ mộ có thể sử dụng lại nhanh hơn trò chơi gốc.\n" +
+                    "Nếu nghĩa trang vẫn đầy quá thường xuyên ở mức 500%,\n" +
+                    "hãy bật **[Đặt lại nghĩa trang đầy]** thay thế.\n" +
+                    "**100%** = tốc độ mặc định của trò chơi để tái sử dụng mộ."
+                },
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.FleetScalar)), "Tổng số xe tang" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.FleetScalar)),
                     "**Số xe tang tối đa** cho mỗi cơ sở.\n" +
                     "**100%** = giá trị mặc định của trò chơi.\n" +
                     "**[Lưu ý]** Quá nhiều xe tang có thể ảnh hưởng giao thông tùy theo tỷ lệ tử vong."
                 },
-
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.HearseSpeedScalar)), "Tốc độ xe tang" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.HearseSpeedScalar)),
                     "**Tăng tốc độ lái tối đa được phép của xe tang**.\n" +
@@ -109,43 +139,6 @@ namespace MagicHearse
                     "Đồng thời điều chỉnh tăng tốc/phanh nhẹ nhàng để tốc độ tối đa mới không gây tăng tốc hoặc dừng quá đột ngột.\n" +
                     "Lưu ý: ngay cả khi tăng tốc độ tối đa của xe tang, tốc độ thực tế vẫn bị ảnh hưởng bởi:\n" +
                     "tốc độ tối đa của xe, giới hạn tốc độ đường, tốc độ an toàn của AI trong game (khúc cua, hư hỏng đường) và giao thông."
-                },
-
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.HearseWarningMinutes)), "Độ trễ cảnh báo tử vong (phút)" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.HearseWarningMinutes)),
-                    "Đây là tổng thời gian xe tang có để đến một tòa nhà trước khi biểu tượng vấn đề **đang chờ xe tang** xuất hiện.\n" +
-                    "**3 phút** gần với mặc định của trò chơi là khoảng 2,5 phút mô phỏng.\n" +
-                    "Có thể tăng giá trị này để xe tang có thời gian hợp lý hơn hoàn thành chuyến đi trước khi biểu tượng tử vong xuất hiện.\n" +
-                    "Lưu ý:\n" +
-                    "- <Đề xuất: 10 phút>. Hãy thử cao hơn với thành phố tắc nghẽn nặng.\n" +
-                    "- Xem báo cáo Trạng thái phía dưới để biết có bao nhiêu trường hợp quá hạn.\n" +
-                    "- Các biểu tượng đang hiển thị sẽ không bị ẩn khi tăng giá trị này lần đầu; chúng vẫn còn cho đến khi xe tang xử lý hoặc tòa nhà bị phá.\n" +
-                    "- Để các chuyến điều xe hiện tại hoàn tất tự nhiên hoặc dùng ô <Dọn Ma Thuật [x]> một lần để nhanh chóng bắt đầu lại với lịch thời gian mới."
-                },
-
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StorageScalar)), "Sức chứa nghĩa trang" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StorageScalar)),
-                    "**Sức chứa của nghĩa trang** cho tòa nhà chính.\n" +
-                    "Sức chứa lớn hơn giúp nghĩa trang đầy có thể nhận thi thể trở lại.\n" +
-                    "Không điều thêm xe tang trừ khi thiếu chỗ đang làm cơ sở bị chặn.\n" +
-                    "**100%** = giá trị mặc định của trò chơi."
-                },
-
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.AutoResetCemetery)), "Đặt lại nghĩa trang đầy" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.AutoResetCemetery)),
-                    "**Làm trống nghĩa trang đầy** để không bị chặn bởi biểu tượng ĐẦY phía trên tòa nhà.\n" +
-                    "Không còn cần xóa và xây lại nghĩa trang đầy.\n" +
-                    "Tắt tùy chọn này để dùng **Tốc độ luân chuyển nghĩa trang** dần dần.\n" +
-                    "<[ ✓ ] Mặc định BẬT>"
-                },
-
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.CemeteryTurnoverScalar)), "Tốc độ luân chuyển nghĩa trang" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.CemeteryTurnoverScalar)),
-                    "**Dần giải phóng các ngôi mộ đang được sử dụng.**\n" +
-                    "Giá trị cao hơn giúp chỗ mộ có thể sử dụng lại nhanh hơn trò chơi gốc.\n" +
-                    "Nếu nghĩa trang vẫn đầy quá thường xuyên ở mức 500%,\n" +
-                    "hãy bật **[Đặt lại nghĩa trang đầy]** thay thế.\n" +
-                    "**100%** = tốc độ mặc định của trò chơi để tái sử dụng mộ."
                 },
 
                 // Workers compatibility toggle
@@ -163,7 +156,7 @@ namespace MagicHearse
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.ResetGameDefaults)), "Đặt lại thanh trượt" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.ResetGameDefaults)), "Đặt các thanh trượt phần trăm về **100%** và độ trễ cảnh báo tử vong về **3 phút**." },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.ResetGameDefaults)), "Đặt các thanh trượt phần trăm về **100%** và độ trễ biểu tượng tử vong về **3 phút**." },
 
                 // STATUS fields (SHORT labels; left column is narrow!)
 
@@ -171,7 +164,7 @@ namespace MagicHearse
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StatusSummary1)),
                     "**Đang chờ** = tất cả công dân đã chết vẫn ở bên ngoài và đang chờ được thu gom.\n" +
                     "**Quá hạn** = công dân đang chờ đã hết thời gian trễ thông báo được chọn.\n" +
-                    " - Nếu có nhiều trường hợp quá hạn, hãy cân nhắc tăng Độ trễ cảnh báo tử vong."
+                    " - Nếu có nhiều trường hợp quá hạn, hãy cân nhắc tăng Độ trễ biểu tượng tử vong."
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusSummary2)), "Khối lượng" },

@@ -85,21 +85,51 @@ namespace MagicHearse
                     "**Valores de escala:** taxa, frota, armazenamento.\n" +
                     "Opcional: **aumentar também os trabalhadores**."
                 },
-
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.HearseWarningMinutes)), "Atraso do ícone de morte" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.HearseWarningMinutes)),
+                    "Este é o total de minutos que um carro funerário tem para chegar a um prédio antes de aparecerem os ícones de problema de **espera por carro funerário**.\n" +
+                    "**3 minutos** é próximo do padrão do jogo, de cerca de 2,5 minutos de simulação.\n" +
+                    "Você pode aumentar esse valor para dar aos carros funerários um tempo mais razoável para concluir o trajeto antes que o ícone de morte apareça.\n" +
+                    "Nota:\n" +
+                    "- <Sugerido: 10 minutos>. Tente um valor maior em cidades muito congestionadas.\n" +
+                    "- Confira o relatório de Status na parte inferior para ver quantos casos estão atrasados.\n" +
+                    "- Ícones que já estão visíveis não são ocultados quando esse tempo é aumentado pela primeira vez; dê um tempo para o sistema se estabilizar enquanto os despachos anteriores terminam.\n" +
+                    "- Deixe os despachos atuais terminarem normalmente ou use uma vez a caixa <Limpeza Mágica [x]> para recomeçar rapidamente com os novos horários."
+                },
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.ProcScalar)), "Processamento do crematório" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.ProcScalar)),
                     "**Velocidade de processamento do crematório.**\n" +
                     "Valores maiores cremam os corpos e liberam o armazenamento da instalação mais cedo.\n" +
                     "**100%** = padrão do jogo."
                 },
-
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StorageScalar)), "Armazenamento do cemitério" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StorageScalar)),
+                    "**Capacidade de armazenamento do cemitério** para o prédio principal.\n" +
+                    "Mais capacidade permite que um cemitério lotado volte a aceitar coletas.\n" +
+                    "Isso não envia mais carros funerários, a menos que a falta de espaço estivesse bloqueando a instalação.\n" +
+                    "**100%** = padrão do jogo."
+                },
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.AutoResetCemetery)), "Redefinir cemitério lotado" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.AutoResetCemetery)),
+                    "**Esvazia um cemitério lotado** para que ele não fique bloqueado pelo ícone LOTADO acima do prédio.\n" +
+                    "Não é mais preciso apagar e reconstruir cemitérios lotados.\n" +
+                    "Desative esta opção para usar a **Taxa de renovação do cemitério** gradual.\n" +
+                    "<[ ✓ ] ATIVADO por padrão>"
+                },
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.CemeteryTurnoverScalar)), "Taxa de renovação do cemitério" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.CemeteryTurnoverScalar)),
+                    "**Libera gradualmente os túmulos ocupados do cemitério.**\n" +
+                    "Valores maiores tornam os espaços disponíveis novamente mais rápido que no jogo padrão.\n" +
+                    "Se os cemitérios ainda lotarem com muita frequência em 500%,\n" +
+                    "ative **[Redefinir cemitério lotado]** em vez disso.\n" +
+                    "**100%** = taxa padrão do jogo para reutilização dos túmulos."
+                },
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.FleetScalar)), "Total de carros funerários" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.FleetScalar)),
                     "**Máximo de carros funerários** por instalação.\n" +
                     "**100%** = padrão do jogo.\n" +
                     "**[Nota]** Carros funerários demais podem afetar o trânsito dependendo da taxa de mortes."
                 },
-
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.HearseSpeedScalar)), "Velocidade do carro funerário" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.HearseSpeedScalar)),
                     "**Aumenta a velocidade máxima de condução permitida do carro funerário**.\n" +
@@ -109,43 +139,6 @@ namespace MagicHearse
                     "Também ajusta aceleração/frenagem (suave) para que a nova velocidade máxima não cause arrancadas ou paradas extremas.\n" +
                     "Nota: mesmo que a velocidade máxima do carro funerário seja aumentada, a velocidade real é influenciada por:\n" +
                     "limite máximo do veículo, limite da via, velocidade segura da IA do jogo (curvas, danos na via) e trânsito."
-                },
-
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.HearseWarningMinutes)), "Atraso do aviso de morte (min)" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.HearseWarningMinutes)),
-                    "Este é o tempo total que um carro funerário tem para chegar a um prédio antes de aparecerem os ícones de problema de **espera por carro funerário**.\n" +
-                    "**3 minutos** é próximo do padrão do jogo, de cerca de 2,5 minutos de simulação.\n" +
-                    "Você pode aumentar esse valor para dar aos carros funerários um tempo mais razoável para concluir o trajeto antes que o ícone de morte apareça.\n" +
-                    "Nota:\n" +
-                    "- <Sugerido: 10 minutos>. Tente um valor maior em cidades muito congestionadas.\n" +
-                    "- Confira o relatório de Status na parte inferior para ver quantos casos estão atrasados.\n" +
-                    "- Ícones que já estão visíveis não são ocultados quando esse valor é aumentado pela primeira vez; eles permanecem até serem resolvidos por um carro funerário ou pela demolição do prédio.\n" +
-                    "- Deixe os despachos atuais terminarem normalmente ou use uma vez a caixa <Limpeza Mágica [x]> para recomeçar rapidamente com os novos horários."
-                },
-
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StorageScalar)), "Armazenamento do cemitério" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StorageScalar)),
-                    "**Capacidade de armazenamento do cemitério** para o prédio principal.\n" +
-                    "Mais capacidade permite que um cemitério lotado volte a aceitar coletas.\n" +
-                    "Isso não envia mais carros funerários, a menos que a falta de espaço estivesse bloqueando a instalação.\n" +
-                    "**100%** = padrão do jogo."
-                },
-
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.AutoResetCemetery)), "Redefinir cemitério lotado" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.AutoResetCemetery)),
-                    "**Esvazia um cemitério lotado** para que ele não fique bloqueado pelo ícone LOTADO acima do prédio.\n" +
-                    "Não é mais preciso apagar e reconstruir cemitérios lotados.\n" +
-                    "Desative esta opção para usar a **Taxa de renovação do cemitério** gradual.\n" +
-                    "<[ ✓ ] ATIVADO por padrão>"
-                },
-
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.CemeteryTurnoverScalar)), "Taxa de renovação do cemitério" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.CemeteryTurnoverScalar)),
-                    "**Libera gradualmente os túmulos ocupados do cemitério.**\n" +
-                    "Valores maiores tornam os espaços disponíveis novamente mais rápido que no jogo padrão.\n" +
-                    "Se os cemitérios ainda lotarem com muita frequência em 500%,\n" +
-                    "ative **[Redefinir cemitério lotado]** em vez disso.\n" +
-                    "**100%** = taxa padrão do jogo para reutilização dos túmulos."
                 },
 
                 // Workers compatibility toggle
@@ -163,7 +156,7 @@ namespace MagicHearse
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.ResetGameDefaults)), "Redefinir controles" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.ResetGameDefaults)), "Define os controles de porcentagem em **100%** e o atraso do aviso de morte em **3 minutos**." },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.ResetGameDefaults)), "Define os controles de porcentagem em **100%** e o atraso do ícone de morte em **3 minutos**." },
 
                 // STATUS fields (SHORT labels; left column is narrow!)
 
@@ -171,7 +164,7 @@ namespace MagicHearse
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StatusSummary1)),
                     "**Aguardando** = todos os cidadãos mortos que ainda estão do lado de fora aguardando coleta.\n" +
                     "**Atrasados** = cidadãos aguardando cujo atraso de notificação selecionado expirou.\n" +
-                    " - Se houver muitos atrasados, considere aumentar o tempo em Atraso do aviso de morte."
+                    " - Se houver muitos atrasados, considere aumentar o Atraso do ícone de morte."
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusSummary2)), "Volume" },

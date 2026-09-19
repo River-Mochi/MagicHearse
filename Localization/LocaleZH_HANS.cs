@@ -85,21 +85,51 @@ namespace MagicHearse
                     "**缩放数值：** 处理率、车辆数、存储量。\n" +
                     "可选：**同时增加员工数量**。"
                 },
-
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.HearseWarningMinutes)), "死亡图标延迟" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.HearseWarningMinutes)),
+                    "这是灵车到达建筑前可用的总分钟数；超时后会出现**等待灵车**问题图标。\n" +
+                    "**3 分钟**接近游戏默认的约 2.5 个模拟分钟。\n" +
+                    "可以提高此数值，让灵车有更合理的时间完成行程，再显示死亡图标。\n" +
+                    "注意：\n" +
+                    "- <建议：10 分钟>。严重拥堵的城市可尝试更高值。\n" +
+                    "- 查看底部的状态报告，了解有多少案例已经超时。\n" +
+                    "- 第一次提高此时间时，已经显示的图标不会被隐藏；请在旧任务完成期间给系统一些时间稳定下来。\n" +
+                    "- 可以让当前派车自然完成，或一次性使用 <魔法清理 [x]> 复选框，以新时间安排快速重新开始。"
+                },
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.ProcScalar)), "火葬场处理" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.ProcScalar)),
                     "**火葬场处理速度。**\n" +
                     "数值越高，遗体火化越快，也能更早释放设施存储空间。\n" +
                     "**100%** = 游戏原版默认值。"
                 },
-
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StorageScalar)), "墓地存储" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StorageScalar)),
+                    "主建筑的**墓地存储容量**。\n" +
+                    "更大容量可以让已满墓地重新接受遗体接收。\n" +
+                    "除非空间不足正在阻塞设施，否则不会因此派出更多灵车。\n" +
+                    "**100%** = 游戏原版默认值。"
+                },
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.AutoResetCemetery)), "重置已满墓地" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.AutoResetCemetery)),
+                    "**清空已满墓地**，使其不会被建筑上方的“已满”图标阻塞。\n" +
+                    "以后无需再删除并重建已满墓地。\n" +
+                    "关闭此选项可改用逐渐进行的**墓地周转速度**。\n" +
+                    "<[ ✓ ] 默认开启>"
+                },
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.CemeteryTurnoverScalar)), "墓地周转速度" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.CemeteryTurnoverScalar)),
+                    "**逐步释放已占用的墓位。**\n" +
+                    "数值越高，墓位重新可用的速度就越快于原版。\n" +
+                    "如果设置为 500% 后墓地仍经常满，\n" +
+                    "请改为启用 **[重置已满墓地]**。\n" +
+                    "**100%** = 游戏默认的墓位循环再利用速度。"
+                },
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.FleetScalar)), "灵车总数" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.FleetScalar)),
                     "每个设施的**最大灵车数量**。\n" +
                     "**100%** = 游戏原版默认值。\n" +
                     "**[注意]** 灵车过多可能会根据死亡率影响交通。"
                 },
-
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.HearseSpeedScalar)), "灵车速度" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.HearseSpeedScalar)),
                     "**提高灵车允许的最高行驶速度**。\n" +
@@ -109,43 +139,6 @@ namespace MagicHearse
                     "同时温和调整加速/制动，避免新的最高速度造成过激的起步或停车行为。\n" +
                     "注意：即使提高灵车最高速度，实际行驶速度仍会受到以下因素影响：\n" +
                     "车辆允许的最高速度、道路限速、游戏 AI 的安全速度（弯道、道路损坏）以及交通状况。"
-                },
-
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.HearseWarningMinutes)), "死亡通知延迟（分钟）" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.HearseWarningMinutes)),
-                    "这是灵车到达建筑前可用的总时间；超时后会出现**等待灵车**问题图标。\n" +
-                    "**3 分钟**接近游戏默认的约 2.5 个模拟分钟。\n" +
-                    "可以提高此数值，让灵车有更合理的时间完成行程，再显示死亡图标。\n" +
-                    "注意：\n" +
-                    "- <建议：10 分钟>。严重拥堵的城市可尝试更高值。\n" +
-                    "- 查看底部的状态报告，了解有多少案例已经超时。\n" +
-                    "- 第一次提高此数值时，已经显示的图标不会被隐藏；它们会一直保留，直到灵车处理完毕或建筑被拆除。\n" +
-                    "- 可以让当前派车自然完成，或一次性使用 <魔法清理 [x]> 复选框，以新时间安排快速重新开始。"
-                },
-
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StorageScalar)), "墓地存储" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StorageScalar)),
-                    "主建筑的**墓地存储容量**。\n" +
-                    "更大容量可以让已满墓地重新接受遗体接收。\n" +
-                    "除非空间不足正在阻塞设施，否则不会因此派出更多灵车。\n" +
-                    "**100%** = 游戏原版默认值。"
-                },
-
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.AutoResetCemetery)), "重置已满墓地" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.AutoResetCemetery)),
-                    "**清空已满墓地**，使其不会被建筑上方的“已满”图标阻塞。\n" +
-                    "以后无需再删除并重建已满墓地。\n" +
-                    "关闭此选项可改用逐渐进行的**墓地周转速度**。\n" +
-                    "<[ ✓ ] 默认开启>"
-                },
-
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.CemeteryTurnoverScalar)), "墓地周转速度" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.CemeteryTurnoverScalar)),
-                    "**逐步释放已占用的墓位。**\n" +
-                    "数值越高，墓位重新可用的速度就越快于原版。\n" +
-                    "如果设置为 500% 后墓地仍经常满，\n" +
-                    "请改为启用 **[重置已满墓地]**。\n" +
-                    "**100%** = 游戏默认的墓位循环再利用速度。"
                 },
 
                 // Workers compatibility toggle
@@ -163,7 +156,7 @@ namespace MagicHearse
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.ResetGameDefaults)), "重置滑块" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.ResetGameDefaults)), "将百分比滑块设为 **100%**，并将死亡通知延迟设为 **3 分钟**。" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.ResetGameDefaults)), "将百分比滑块设为 **100%**，并将死亡图标延迟设为 **3 分钟**。" },
 
                 // STATUS fields (SHORT labels; left column is narrow!)
 
@@ -171,7 +164,7 @@ namespace MagicHearse
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StatusSummary1)),
                     "**等待中** = 所有仍在室外等待接走的死亡市民。\n" +
                     "**已超时** = 所选通知延迟已经到期的等待市民。\n" +
-                    " - 如果超时数量很多，请考虑提高“死亡通知延迟”的时间。"
+                    " - 如果超时数量很多，请考虑提高“死亡图标延迟”。"
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusSummary2)), "处理量" },

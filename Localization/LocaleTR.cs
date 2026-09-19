@@ -85,21 +85,51 @@ namespace MagicHearse
                     "**Ölçek değerleri:** hız, filo, depolama.\n" +
                     "İsteğe bağlı: **çalışan sayısını da artırın**."
                 },
-
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.HearseWarningMinutes)), "Ölüm simgesi gecikmesi" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.HearseWarningMinutes)),
+                    "Bu, **cenaze aracı bekleniyor** sorun simgeleri görünmeden önce cenaze aracının bir binaya ulaşması için sahip olduğu toplam dakika sayısıdır.\n" +
+                    "**3 dakika**, oyunun varsayılan yaklaşık 2,5 simülasyon dakikasına yakındır.\n" +
+                    "Ölüm simgesi görünmeden önce cenaze araçlarına yolculuğu tamamlamaları için daha makul bir süre vermek üzere bu değeri artırabilirsiniz.\n" +
+                    "Not:\n" +
+                    "- <Önerilen: 10 dakika>. Çok yoğun şehirlerde daha yüksek bir değer deneyin.\n" +
+                    "- Kaç vakanın geciktiğini görmek için alttaki Durum raporuna bakın.\n" +
+                    "- Bu süre ilk kez artırıldığında zaten görünen simgeler gizlenmez; eski sevkler tamamlanırken sistemin oturması için biraz zaman tanıyın.\n" +
+                    "- Mevcut sevklerin doğal şekilde bitmesini bekleyin veya yeni zamanlamalarla hızlı bir başlangıç için <Sihirli Temizleme [x]> kutusunu bir kez kullanın."
+                },
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.ProcScalar)), "Krematoryum işlemesi" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.ProcScalar)),
                     "**Krematoryum işleme hızı.**\n" +
                     "Daha yüksek değerler bedenleri daha hızlı kremasyon eder ve tesis depolamasını daha erken boşaltır.\n" +
                     "**100%** = oyunun varsayılan değeri."
                 },
-
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StorageScalar)), "Mezarlık depolaması" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StorageScalar)),
+                    "Ana bina için **mezarlık depolama kapasitesi**.\n" +
+                    "Daha fazla kapasite, dolu bir mezarlığın yeniden teslim almaya başlamasını sağlar.\n" +
+                    "Alan eksikliği tesisi engellemiyorsa daha fazla cenaze aracı göndermez.\n" +
+                    "**100%** = oyunun varsayılan değeri."
+                },
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.AutoResetCemetery)), "Dolu mezarlığı sıfırla" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.AutoResetCemetery)),
+                    "**Dolu bir mezarlığı boşaltır**, böylece binanın üzerindeki DOLU simgesi nedeniyle engellenmez.\n" +
+                    "Artık dolu mezarlıkları silip yeniden inşa etmeye gerek yok.\n" +
+                    "Bunun yerine kademeli **Mezarlık devir hızını** kullanmak için bu seçeneği KAPATIN.\n" +
+                    "<[ ✓ ] Varsayılan AÇIK>"
+                },
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.CemeteryTurnoverScalar)), "Mezarlık devir hızı" },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.CemeteryTurnoverScalar)),
+                    "**Dolu mezar yerlerini kademeli olarak yeniden kullanılabilir hâle getirir.**\n" +
+                    "Daha yüksek değerler mezar yerlerini temel oyuna göre daha hızlı kullanılabilir hâle getirir.\n" +
+                    "Mezarlıklar 500% değerinde bile çok sık doluyorsa,\n" +
+                    "bunun yerine **[Dolu mezarlığı sıfırla]** seçeneğini etkinleştirin.\n" +
+                    "**100%** = oyunun mezarları yeniden kullanma için varsayılan hızı."
+                },
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.FleetScalar)), "Toplam cenaze aracı" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.FleetScalar)),
                     "Tesis başına **maksimum cenaze aracı**.\n" +
                     "**100%** = oyunun varsayılan değeri.\n" +
                     "**[Not]** Çok fazla cenaze aracı, ölüm oranına bağlı olarak trafiği etkileyebilir."
                 },
-
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.HearseSpeedScalar)), "Cenaze aracı hızı" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.HearseSpeedScalar)),
                     "**Cenaze aracının izin verilen maksimum sürüş hızını artırır**.\n" +
@@ -109,43 +139,6 @@ namespace MagicHearse
                     "Yeni azami hızın aşırı kalkış/duruş davranışı oluşturmaması için hızlanma/frenlemeyi de yumuşak şekilde ölçekler.\n" +
                     "Not: Cenaze aracının azami hızı artırılsa bile gerçek sürüş hızı şunlardan etkilenir:\n" +
                     "araç için izin verilen azami hız, yol hız sınırı, oyunun yapay zekâ güvenli hızı (virajlar, yol hasarı) ve trafik."
-                },
-
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.HearseWarningMinutes)), "Ölüm bildirimi gecikmesi (dk)" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.HearseWarningMinutes)),
-                    "Bu, **cenaze aracı bekleniyor** sorun simgeleri görünmeden önce cenaze aracının bir binaya ulaşması için sahip olduğu toplam süredir.\n" +
-                    "**3 dakika**, oyunun varsayılan yaklaşık 2,5 simülasyon dakikasına yakındır.\n" +
-                    "Ölüm simgesi görünmeden önce cenaze araçlarına yolculuğu tamamlamaları için daha makul bir süre vermek üzere bu değeri artırabilirsiniz.\n" +
-                    "Not:\n" +
-                    "- <Önerilen: 10 dakika>. Çok yoğun şehirlerde daha yüksek bir değer deneyin.\n" +
-                    "- Kaç vakanın geciktiğini görmek için alttaki Durum raporuna bakın.\n" +
-                    "- Bu değer ilk kez artırıldığında zaten görünen simgeler gizlenmez; bir cenaze aracı çözüme ulaştırana veya bina yıkılana kadar kalırlar.\n" +
-                    "- Mevcut sevklerin doğal şekilde bitmesini bekleyin veya yeni zamanlamalarla hızlı bir başlangıç için <Sihirli Temizleme [x]> kutusunu bir kez kullanın."
-                },
-
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StorageScalar)), "Mezarlık depolaması" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StorageScalar)),
-                    "Ana bina için **mezarlık depolama kapasitesi**.\n" +
-                    "Daha fazla kapasite, dolu bir mezarlığın yeniden teslim almaya başlamasını sağlar.\n" +
-                    "Alan eksikliği tesisi engellemiyorsa daha fazla cenaze aracı göndermez.\n" +
-                    "**100%** = oyunun varsayılan değeri."
-                },
-
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.AutoResetCemetery)), "Dolu mezarlığı sıfırla" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.AutoResetCemetery)),
-                    "**Dolu bir mezarlığı boşaltır**, böylece binanın üzerindeki DOLU simgesi nedeniyle engellenmez.\n" +
-                    "Artık dolu mezarlıkları silip yeniden inşa etmeye gerek yok.\n" +
-                    "Bunun yerine kademeli **Mezarlık devir hızını** kullanmak için bu seçeneği KAPATIN.\n" +
-                    "<[ ✓ ] Varsayılan AÇIK>"
-                },
-
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.CemeteryTurnoverScalar)), "Mezarlık devir hızı" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.CemeteryTurnoverScalar)),
-                    "**Dolu mezar yerlerini kademeli olarak yeniden kullanılabilir hâle getirir.**\n" +
-                    "Daha yüksek değerler mezar yerlerini temel oyuna göre daha hızlı kullanılabilir hâle getirir.\n" +
-                    "Mezarlıklar 500% değerinde bile çok sık doluyorsa,\n" +
-                    "bunun yerine **[Dolu mezarlığı sıfırla]** seçeneğini etkinleştirin.\n" +
-                    "**100%** = oyunun mezarları yeniden kullanma için varsayılan hızı."
                 },
 
                 // Workers compatibility toggle
@@ -163,7 +156,7 @@ namespace MagicHearse
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.ResetGameDefaults)), "Kaydırıcıları sıfırla" },
-                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.ResetGameDefaults)), "Yüzde kaydırıcılarını **100%**, ölüm bildirimi gecikmesini **3 dakika** olarak ayarlar." },
+                { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.ResetGameDefaults)), "Yüzde kaydırıcılarını **100%**, ölüm simgesi gecikmesini **3 dakika** olarak ayarlar." },
 
                 // STATUS fields (SHORT labels; left column is narrow!)
 
@@ -171,7 +164,7 @@ namespace MagicHearse
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StatusSummary1)),
                     "**Bekliyor** = hâlâ dışarıda olan ve alınmayı bekleyen tüm ölü vatandaşlar.\n" +
                     "**Gecikmiş** = seçilen bildirim gecikmesi sona ermiş bekleyen vatandaşlar.\n" +
-                    " - Çok sayıda gecikmiş vaka varsa Ölüm bildirimi gecikmesi süresini artırmayı düşünün."
+                    " - Çok sayıda gecikmiş vaka varsa Ölüm simgesi gecikmesini artırmayı düşünün."
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusSummary2)), "Hacim" },
