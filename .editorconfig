@@ -1,13 +1,13 @@
-# File: .editorconfig version 0.7.2
+﻿# File: .editorconfig version 0.7.3
 # Purpose:
-#   - MIT variant of the River-Mochi .editorconfig.
+#   - GPL variant
 #   - Consistent whitespace + LF line endings across normal repo files.
 #   - CRLF for classic Visual Studio .sln files.
 #   - LF for XML .slnx files through the global default.
 #   - C# style preferences: explicit types and CO-style naming.
-#   - Support Visual Studio, Rider/ReSharper, Git Bash, PowerShell
+#   - Support Visual Studio, Rider/ReSharper, Git Bash, PowerShell.
 #   - Allow flat namespaces that do NOT have to match folder structure.
-#   - Add Copyright check
+#   - Require the shared River-Mochi GPLv3 source header for C# files.
 
 root = true
 
@@ -42,6 +42,7 @@ indent_size = 4
 end_of_line = crlf
 indent_size = 4
 
+
 # =========================
 # Web/UI/config assets
 # LF comes from global default.
@@ -50,12 +51,14 @@ indent_size = 4
 [*.{ts,tsx,js,jsx,mjs,css,scss,html,json,jsonc,yml,yaml}]
 indent_size = 2
 
+
 # =========================
 # Markdown
 # Keep trailing whitespace because Markdown sometimes uses it intentionally.
 # =========================
 [*.md]
 trim_trailing_whitespace = false
+
 
 # =========================
 # C# files
@@ -72,8 +75,9 @@ dotnet_separate_import_directive_groups = false
 dotnet_diagnostic.IDE0005.severity = suggestion
 dotnet_diagnostic.IDE0073.severity = warning
 
-# Do not use backslash for header template, this needs normal quotes.
-file_header_template = <copyright file="{fileName}" company="River-Mochi">\nCopyright (c) 2026 River-Mochi. All rights reserved.\nLicensed under the MIT License. You may not use this file except in compliance with this License.\nSee LICENSE file in the project root for full license information.\nThis notice and the MIT License notice must be kept with\nall copies or substantial portions of this code.\n================= </copyright> ======================
+# Shared GPL-3.0-or-later header for River-Mochi CS2 mods.
+# LICENSE-EXCEPTION is the Cities: Skylines II linking exception.
+file_header_template = <copyright file="{fileName}" company="River-Mochi">\nCopyright (c) 2026 River-Mochi. All rights reserved.\nLicensed under the GNU General Public License v3.0 or later,\nwith the Cities: Skylines II Linking Exception.\nSee LICENSE and LICENSE-EXCEPTION in the project root.\nThis notice MUST be kept with copies or substantial portions of this code.\n================= </copyright> ======================
 indent_size = 4
 
 # ---- Namespace policy: flat namespace allowed ----
@@ -209,20 +213,3 @@ dotnet_naming_rule.public_const_fields_pascal.severity = suggestion
 dotnet_naming_rule.non_public_const_fields_k_prefix.symbols = non_public_const_fields
 dotnet_naming_rule.non_public_const_fields_k_prefix.style = k_prefix_pascal
 dotnet_naming_rule.non_public_const_fields_k_prefix.severity = suggestion
-
-# =========================
-# Shared utility sources
-# Preserve their existing license headers exactly as-is.
-# MIT header rules do not apply anywhere under Utils/.
-# All other C# formatting and naming rules still apply.
-# =========================
-
-# Utils/ directly under the repo root.
-[Utils/**.cs]
-file_header_template = unset
-dotnet_diagnostic.IDE0073.severity = none
-
-# Utils/ nested inside a project/subfolder.
-[**/Utils/**.cs]
-file_header_template = unset
-dotnet_diagnostic.IDE0073.severity = none
