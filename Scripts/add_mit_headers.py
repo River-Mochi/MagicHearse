@@ -6,7 +6,7 @@
 # all copies or substantial portions of this code.
 # ================= </copyright> ======================
 
-# River-Mochi shared lib version 0.5.2
+# River-Mochi shared lib version 0.5.3
 """
 Add standard MIT file headers to source files.
 
@@ -39,8 +39,9 @@ Not supported on purpose:
   bundled into COHTML/UI output where extra comments are not always helpful.
 
 Scan behavior:
-  Uses git ls-files when available, so ignored folders such as bin, obj,
-  node_modules, .git, and .vs are not scanned.
+  Uses git ls-files when available. Generated/build folders are skipped.
+  Any directory named Utils is also skipped on purpose so shared utility
+  files keep their existing license headers and are never rewritten.
 
 Repo-root behavior:
   The script finds the repo root by walking upward from its own location.
@@ -74,6 +75,7 @@ SKIP_DIRS = {
     "generated",
     "node_modules",
     "packages",
+    "utils",  # Shared utilities may use a different license; never rewrite them.
 }
 
 SUPPORTED_SUFFIXES = {
@@ -127,7 +129,7 @@ def find_repo_root(script_path: Path) -> Path:
 
 
 def should_skip(path: Path) -> bool:
-    """Return true for generated/build files that should not be edited."""
+    """Return true for generated/build/shared utility files that should not be edited."""
     if path.name.endswith(".g.cs"):
         return True
 
