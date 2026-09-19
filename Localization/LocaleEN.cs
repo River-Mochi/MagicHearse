@@ -111,15 +111,16 @@ namespace MagicHearse
 
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.HearseWarningMinutes)), "Death notification delay (min)" },
+
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.HearseWarningMinutes)), "Death alert icon delay" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.HearseWarningMinutes)),
-                    "This is the total time a hearse has to get to a building before **waiting-for-hearse** problem icons appear.\n" +
+                    "This is the total minutes a hearse has to get to a building before **waiting-for-hearse** problem icons appear.\n" +
                     "**3 minutes** is close to the game default of ~2.5 simulation minutes.\n" +
                     "This can be increased to give hearses a more reasonable time to complete the trip before the death icon appears.\n" +
                     "Note:\n"+
                     "- <Suggested: 10 minutes>. Try higher for heavily congested cities.\n"+
                     "- Check the Status report at the bottom for how many are past due.\n" +
-                    "- existing visible icons are not hidden when this time value is first increased so they stay up until cleared by a hearse/building demolition.\n" +
+                    "- existing visible icons are not hidden when the time value is first increased, give it time to settle in while old jobs finish.\n" +
                     "- allow current dispatches to finish naturally or use <Magic Clean [x]> checkbox one time for a quick fresh start with new time schedules."
                 },
 
@@ -164,7 +165,7 @@ namespace MagicHearse
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.ResetGameDefaults)), "Reset sliders" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.ResetGameDefaults)),
-                    "Sets percentage sliders to **100%** and the hearse warning delay to **3 minutes**." },
+                    "Sets percentage sliders to **100%** and the death alert icon delay to **3 minutes**."
 
                 // STATUS fields (SHORT labels; left column is narrow!)
 
@@ -172,7 +173,7 @@ namespace MagicHearse
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.StatusSummary1)),
                     "**Waiting** = all dead citizens still outside and awaiting pickup.\n" +
                     "**Past due** = waiting citizens whose selected notification delay has expired.\n" +
-                    " - if you have a lot past due, consider increasing the time on Death notification delay."
+                    " - if you have a lot past due, consider increasing the Death alert icon delay."
                 },
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.StatusSummary2)), "Volume" },

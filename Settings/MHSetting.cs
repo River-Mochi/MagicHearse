@@ -133,16 +133,6 @@ namespace MagicHearse
             set => m_FuneralDirector = value;
         }
 
-        // Instant reset and gradual turnover are exclusive in the UI; storage works with either.
-        [SettingsUISection(kActionsTab, kSelfManageGrp)]
-        [SettingsUIHideByCondition(typeof(MHSetting), nameof(FuneralDirector), true)]
-        [SettingsUISetter(typeof(MHSetting), nameof(SetAutoResetCemetery))]
-        public bool AutoResetCemetery
-        {
-            get => m_AutoResetCemetery;
-            set => m_AutoResetCemetery = value;
-        }
-
         [SettingsUISlider(min = kHearseWarningMinutesMin, max = kHearseWarningMinutesMax, step = kHearseWarningMinutesStep, scalarMultiplier = 1, unit = Unit.kInteger)]
         [SettingsUISection(kActionsTab, kSelfManageGrp)]
         [SettingsUIHideByCondition(typeof(MHSetting), nameof(FuneralDirector), true)]
@@ -161,23 +151,33 @@ namespace MagicHearse
         [SettingsUISetter(typeof(MHSetting), nameof(SetFleetScalar))]
         public int FleetScalar { get; set; } = kDefaultPercent;
 
-        [SettingsUISlider(min = kHearseSpeedMin, max = kHearseSpeedMax, step = kHearseSpeedStep, scalarMultiplier = 1, unit = Unit.kPercentage)]
-        [SettingsUISection(kActionsTab, kSelfManageGrp)]
-        [SettingsUIHideByCondition(typeof(MHSetting), nameof(FuneralDirector), true)]
-        [SettingsUISetter(typeof(MHSetting), nameof(SetHearseSpeedScalar))]
-        public int HearseSpeedScalar { get; set; } = kDefaultPercent;
-
         [SettingsUISlider(min = kStorageMin, max = kStorageMax, step = kStorageStep, scalarMultiplier = 1, unit = Unit.kPercentage)]
         [SettingsUISection(kActionsTab, kSelfManageGrp)]
         [SettingsUIHideByCondition(typeof(MHSetting), nameof(FuneralDirector), true)]
         [SettingsUISetter(typeof(MHSetting), nameof(SetStorageScalar))]
         public int StorageScalar { get; set; } = kDefaultPercent;
 
+        // Instant reset and gradual turnover are exclusive in the UI; storage works with either.
+        [SettingsUISection(kActionsTab, kSelfManageGrp)]
+        [SettingsUIHideByCondition(typeof(MHSetting), nameof(FuneralDirector), true)]
+        [SettingsUISetter(typeof(MHSetting), nameof(SetAutoResetCemetery))]
+        public bool AutoResetCemetery
+        {
+            get => m_AutoResetCemetery;
+            set => m_AutoResetCemetery = value;
+        }
+
         [SettingsUISlider(min = kProcMin, max = kProcMax, step = kProcStep, scalarMultiplier = 1, unit = Unit.kPercentage)]
         [SettingsUISection(kActionsTab, kSelfManageGrp)]
         [SettingsUIHideByCondition(typeof(MHSetting), nameof(CemeteryTurnoverEnabled), true)]
         [SettingsUISetter(typeof(MHSetting), nameof(SetCemeteryTurnoverScalar))]
         public int CemeteryTurnoverScalar { get; set; } = kDefaultPercent;
+
+        [SettingsUISlider(min = kHearseSpeedMin, max = kHearseSpeedMax, step = kHearseSpeedStep, scalarMultiplier = 1, unit = Unit.kPercentage)]
+        [SettingsUISection(kActionsTab, kSelfManageGrp)]
+        [SettingsUIHideByCondition(typeof(MHSetting), nameof(FuneralDirector), true)]
+        [SettingsUISetter(typeof(MHSetting), nameof(SetHearseSpeedScalar))]
+        public int HearseSpeedScalar { get; set; } = kDefaultPercent;
 
         [SettingsUIButton]
         [SettingsUISection(kActionsTab, kSelfManageGrp)]
