@@ -11,9 +11,9 @@
 **Magic Hearse + Funeral Director** does not turn off deathcare loop; normal vanilla deathcare systems run. See below for details.
 
 - Control Crematoriums and Cemeteries without in-city bloat that reduces performance.
-- Cemetery overflow is handled - no stuck full cemeteries.
-- Choose if you want to self-manage crematorium processing, hearses, cemetery capacity/turnover, and more.
-- or if you prefer auto-clean of death notices.
+- Reset full cemeteries (no cemetery overflow).
+- Choose self-manage: crematorium processing, hearses, cemetery capacity/turnover, and more.
+- or if you prefer: auto-clean of death and notices.
 - Status report can be used with no other functions enabled! It is Worth checking out!
 
 ### Option 1: Funeral Director (Self manage)
@@ -91,12 +91,11 @@ Hello, Bonjour, Hallo, Hola, Ciao, こんにちは, 안녕하세요, 你好, Cze
 <Dependency Id="" />
 <!--Change log for new version. Single line or multi line. Supports minimal markdown subset-->
 <ChangeLog>
-- Update all locales.
 - Updated and tested for 1.6.2 game patch.
-- Cemetery occupancy and empty-grave totals now include corpses waiting for processing.
-- Added to Log-Report: dispatch-ready facility and parked-hearse diagnostics.
+- Improved layout.
+- Cemetery occupancy and empty-grave totals include corpses waiting for processing.
 - Improved diagnostics for repeated dispatch failures when deathcare capacity is available.
-- Updated GPL3 license
+- Updated all locales and GPL3 license.
 </ChangeLog>
 <!--External link. supported types are discord, github, youtube, twitch, x, paypal, patreon-->
 <ExternalLink Type="github" Url="https://github.com/River-Mochi/MagicHearse" />
