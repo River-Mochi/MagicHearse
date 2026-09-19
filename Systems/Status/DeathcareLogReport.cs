@@ -85,7 +85,7 @@ namespace MagicHearse
             report.AppendLine($"  Magic cemetery reset: {OnOff(settings.MagicResetCemetery)}");
             report.AppendLine($"  Funeral Director: {OnOff(settings.FuneralDirector)}");
             report.AppendLine($"  Crematorium processing: {settings.ProcScalar}%");
-            report.AppendLine($"  Fleet size: {settings.FleetScalar}%");
+            report.AppendLine($"  Total Hearses: {settings.FleetScalar}%");
             report.AppendLine($"  Cemetery storage: {settings.StorageScalar}%");
             report.AppendLine(
                 $"  Cemetery turnover: {settings.CemeteryTurnoverScalar}% " +
@@ -94,7 +94,7 @@ namespace MagicHearse
                     : "(active)"));
             report.AppendLine($"  Hearse speed: {settings.HearseSpeedScalar}%");
             report.AppendLine(
-                $"  Death notification delay: {settings.HearseWarningMinutes} simulation minutes");
+                $"  Death alert icon delay time: {settings.HearseWarningMinutes} simulation minutes");
             report.AppendLine($"  Funeral Director cemetery reset: {OnOff(settings.AutoResetCemetery)}");
             report.AppendLine($"  Control workers: {OnOff(settings.ControlWorkers)}");
             report.AppendLine($"  Max workers: {settings.WorkersScalar}%");
