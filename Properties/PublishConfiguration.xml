@@ -83,13 +83,14 @@ Hello, Bonjour, Hallo, Hola, Ciao, こんにちは, 안녕하세요, 你好, Cze
 <!--Link to the forum post where the mod can be discussed-->
 <ForumLink Value="" />
 <!--Version of the mod-->
-<ModVersion Value="1.9.1" />
+<ModVersion Value="1.9.2" />
 <!--Recommended version of the base game to use the mod-->
 <GameVersion Value="1.6.*" />
 <!--Dependency for the mod, can be set multiple times-->
 <Dependency Id="" />
 <!--Change log for new version. Single line or multi line. Supports minimal markdown subset-->
 <ChangeLog>
+- Update all locales.
 - Updated and tested for 1.6.2 game patch.
 - Cemetery occupancy and empty-grave totals now include corpses waiting for processing.
 - Added to Log-Report: dispatch-ready facility and parked-hearse diagnostics.

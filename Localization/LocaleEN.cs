@@ -73,8 +73,9 @@ namespace MagicHearse
                     "**Empties a full cemetery** so it's not blocked with a FULL icon.\n" +
                     "Magic Clean removes most corpses before burial — this still clears any cemetery that's **already full**.\n" +
                     "<[ ] Default OFF>.\n" +
-                    "Enable this only if Magic clean mode should also empty cemeteries that are already full.\n" +
-                    "Once empty, there is normally no need to keep this enabled as long as magic clean is left enabled."
+                    "Enable this only if cemeteries are already full.\n" +
+                    "This option helps when cleaning up old cities, but should not to stay enabled if Magic Clean is enabled.\n" +
+                    "A new cemetery will normally never fill up if Magic Clean is ON."
                 },
 
                 // Self Manage (FD)
@@ -130,7 +131,7 @@ namespace MagicHearse
                     "**100%** = vanilla game default."
                 },
 
-                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.AutoResetCemetery)), "Auto reset cemetery" },
+                { m_Setting.GetOptionLabelLocaleID(nameof(MHSetting.AutoResetCemetery)), "Reset full cemetery" },
                 { m_Setting.GetOptionDescLocaleID(nameof(MHSetting.AutoResetCemetery)),
                     "**Empties a full cemetery** so it's not blocked with a FULL icon above the building.\n" +
                     "No need to delete and rebuild full cemeteries anymore.\n" +
@@ -143,7 +144,7 @@ namespace MagicHearse
                     "**Gradually frees occupied cemetery graves.**\n" +
                     "Higher values make grave spaces available again faster than vanilla.\n" +
                     "If cemeteries still fill too often at 500%,\n" +
-                    "enable **[Auto reset cemetery]** instead.\n" +
+                    "enable **[Reset full cemetery]** instead.\n" +
                     "**100%** = game default rate of recycling for graves."
                 },
 
