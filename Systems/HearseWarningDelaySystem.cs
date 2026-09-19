@@ -11,7 +11,7 @@
 
 namespace MagicHearse
 {
-    using CS2Shared.RiverMochi; // LogUtils
+    using CS2Shared.RiverMochi;  // LogUtils
     using Game;                  // GameSystemBase
     using Game.Citizens;         // HealthProblem, HealthProblemFlags
     using Game.Common;           // Deleted

@@ -16,7 +16,6 @@ namespace MagicHearse
     using Game.Areas;          // ServiceDistrict
     using Game.Buildings;      // DeathcareFacility, DeathcareFacilityFlags, Efficiency, Patient
     using Game.Citizens;      // HealthProblem, CurrentBuilding/Transport, TravelPurpose
-    using Game.Companies;      // ServiceDispatch
     using Game.Creatures;     // CurrentVehicle
     using Game.Pathfind;      // PathInformation
     using Game.Simulation;    // HealthcareRequest, ServiceRequest, Dispatched, UpdateFrame

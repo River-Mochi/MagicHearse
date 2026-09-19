@@ -138,7 +138,7 @@ namespace MagicHearse
             int facilitiesWithZeroDispatchCapacity = 0;
 
             using NativeHashSet<Entity> dispatchReadyFacilityEntities =
-                new NativeHashSet<Entity>(
+                new(
                     Math.Max(1, m_DeathcarePlacedQuery.CalculateEntityCount()),
                     Allocator.Temp);
 
